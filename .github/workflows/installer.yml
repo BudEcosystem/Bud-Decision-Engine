@@ -1,0 +1,34 @@
+# Tests the one-step engine install (installer/engine.py) on macOS, Windows and Linux whenever it changes: the
+# regression tests, then a real first-run install on the processor into a folder whose name has a space, like the
+# app's data folder on macOS (~/Library/Application Support/ai.bud.decisionstudio).
+name: installer
+
+on:
+  push:
+    branches: [main]
+    paths: ["installer/**", "requirements*.txt", "tests/test_installer.py", ".github/workflows/installer.yml"]
+  pull_request:
+    paths: ["installer/**", "requirements*.txt", "tests/test_installer.py", ".github/workflows/installer.yml"]
+  workflow_dispatch:
+
+jobs:
+  install:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, windows-latest, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Regression tests
+        run: uv run --no-project --python 3.12 --with pytest pytest tests/test_installer.py -q
+
+      - name: First-run install into a folder with a space
+        shell: bash
+        run: |
+          dir="$RUNNER_TEMP/Application Support/ai.bud.decisionstudio"
+          uv run --no-project --python 3.12 installer/engine.py install --device cpu --venv "$dir/engine-env" --data "$dir/data" > install.log || true
+          grep -E '"type": "(step|error|done)"' install.log
+          grep -q '"type": "done"' install.log || { echo "--- last lines of the install log"; tail -40 install.log; exit 1; }

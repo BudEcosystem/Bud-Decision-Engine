@@ -23,6 +23,7 @@ import json
 import os
 import platform
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -40,12 +41,23 @@ PY = "3.12"
 # ------------------------------------------------------------------------------------------------------------------
 # small helpers
 
-def run(cmd: list[str], timeout: float = 20) -> tuple[int, str]:
+def run(cmd: list[str], timeout: float = 20, stdout_only: bool = False) -> tuple[int, str]:
+    """Run a command and return (exit code, output). Output is stdout plus stderr, or only stdout when a caller
+    parses it: libraries such as PyTorch print warnings to stderr, and those must never be read as data."""
     try:
         p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, **NO_WINDOW)
-        return p.returncode, (p.stdout or "") + (p.stderr or "")
+        return p.returncode, (p.stdout or "") + ("" if stdout_only else (p.stderr or ""))
     except (OSError, subprocess.TimeoutExpired) as e:
         return 127, str(e)
+
+
+def torch_version(py: Path) -> str:
+    """The installed PyTorch version (e.g. 2.11.0+cu130), or "" when PyTorch is missing."""
+    if not py.exists():
+        return ""
+    code, out = run([str(py), "-c", "import torch; print(torch.__version__)"], timeout=180, stdout_only=True)
+    found = [l.strip() for l in out.splitlines() if re.fullmatch(r"\d+\.\d+(\.\d+)?[\w.+-]*", l.strip())]
+    return found[-1] if code == 0 and found else ""
 
 
 def os_name() -> str:
@@ -273,7 +285,7 @@ def emit(**kw) -> None:
 
 def stream(cmd: list[str], env: dict | None = None) -> int:
     """Run a command, relaying its output as log events."""
-    emit(type="log", line="$ " + " ".join(cmd))
+    emit(type="log", line="$ " + (subprocess.list2cmdline(cmd) if os.name == "nt" else shlex.join(cmd)))
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, env=env, bufsize=1, **NO_WINDOW)
     assert p.stdout
     for line in p.stdout:
@@ -325,8 +337,7 @@ def install(device: str, venv: Path, data: Path, uv: str) -> dict:
     # "torch==2.11.0" is satisfied by any build of 2.11.0 (+cpu, +cu130, ...), so when setup runs again for a different
     # device the installed build must be replaced explicitly.
     want = "+" + p["torch_index"].rstrip("/").rsplit("/", 1)[-1] if p["torch_index"] else ""
-    code, have = run([str(py), "-c", "import torch; print(torch.__version__)"], timeout=120)
-    have = have.strip().splitlines()[-1] if code == 0 and have.strip() else ""
+    have = torch_version(py)
     if have and (not have.endswith(want) if want else "+" in have):
         emit(type="log", line=f"Replacing PyTorch {have} with the build for {p['device_name']}.")
         pins += ["--reinstall-package", "torch", "--reinstall-package", "torchvision"]
@@ -340,14 +351,13 @@ def install(device: str, venv: Path, data: Path, uv: str) -> dict:
     reqs = ["-r", str(PROJECT / "requirements.txt")]
     for extra in p["extra_requirements"]:
         reqs += ["-r", str(PROJECT / extra)]
-    # Keep the PyTorch build chosen above: pin it for the rest of the install.
-    code, torch_v = run([str(py), "-c", "import torch; print(torch.__version__)"], timeout=120)
-    cons = venv / "constraints.txt"
-    cons.write_text(f"torch=={torch_v.strip()}\n" if code == 0 else "")
-    if stream(uvpip + ["-c", str(cons)] + reqs + idx, env) != 0:
+    # Keep the PyTorch build chosen above by naming it in the same install. (Not with a constraints file: uv splits
+    # --constraint paths at spaces, and the app's data folder is "Application Support" on macOS.)
+    keep = [f"torch=={v}" for v in [torch_version(py)] if v]
+    if stream(uvpip + keep + reqs + idx, env) != 0:
         if p["extra_requirements"]:
             emit(type="log", line="The optional fast kernels could not be installed; continuing without them.")
-            if stream(uvpip + ["-c", str(cons), "-r", str(PROJECT / "requirements.txt")] + idx, env) != 0:
+            if stream(uvpip + keep + ["-r", str(PROJECT / "requirements.txt")] + idx, env) != 0:
                 raise RuntimeError("The model libraries could not be installed.")
         else:
             raise RuntimeError("The model libraries could not be installed.")
@@ -385,12 +395,15 @@ print(json.dumps({"ok": bool(ok), "torch": torch.__version__, "transformers": tr
 
 
 def verify(py: Path, device: str) -> tuple[bool, str]:
-    code, out = run([str(py), "-c", CHECK, device], timeout=600)
-    try:
-        res = json.loads(out.strip().splitlines()[-1])
-        return res["ok"], res["torch"] if res["ok"] else f"PyTorch {res['torch']} cannot see the device"
-    except (ValueError, IndexError, KeyError):
-        return False, out.strip()[-300:] or f"exit code {code}"
+    code, out = run([str(py), "-c", CHECK, device], timeout=600, stdout_only=True)
+    for line in reversed(out.strip().splitlines()):
+        try:
+            res = json.loads(line)
+            return res["ok"], res["torch"] if res["ok"] else f"PyTorch {res['torch']} cannot see the device"
+        except (ValueError, KeyError, TypeError):
+            continue
+    _, full = run([str(py), "-c", CHECK, device], timeout=600)   # the error text, for the details log
+    return False, full.strip()[-300:] or f"exit code {code}"
 
 
 def write_config(data: Path, cfg: dict) -> None:

@@ -214,7 +214,8 @@ function install() {
   foot(S.error
     ? { back: () => go('device'), next: () => runInstall(), nextLabel: 'Try again', note: `<button class="btn" id="copylog">${icon('copy')}Copy details</button>` }
     : { note: 'Keep the app open until setup finishes.' });
-  $('#copylog')?.addEventListener('click', () => navigator.clipboard?.writeText(S.log.join('\n') + '\n' + S.error));
+  // The log already ends with the error when the installer reported it; add it only when it came from elsewhere.
+  $('#copylog')?.addEventListener('click', () => navigator.clipboard?.writeText([...S.log, ...(S.log.at(-1) === S.error ? [] : [S.error])].join('\n')));
   paintInstall();
 }
 

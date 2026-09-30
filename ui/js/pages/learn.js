@@ -36,7 +36,7 @@ export function mount(el) {
     <section class="l-hero">
       <div>
         <h1>Models that decide instead of write.</h1>
-        <p class="lede">A ${term('decision_model', 'decision model')} reads a situation and returns the probability of every answer you allow. No text to parse, nothing made up, and it answers in milliseconds on this machine's GPU.</p>
+        <p class="lede">A ${term('decision_model', 'decision model')} reads a situation and returns the probability of every answer you allow. No text to parse, nothing made up, and it answers in milliseconds on this computer's GPU (in about a second on the processor).</p>
         <div class="cta"><a class="btn btn-primary lg" href="#/playground">${icon('flask')}Try it now</a><a class="btn lg" href="#/models">${icon('squares-four')}Choose a model</a></div>
         <ol class="read-legend" aria-label="How to read a figure">
           <li><span><b>The answer</b> in large type, with how likely the model thinks it is.</span></li>

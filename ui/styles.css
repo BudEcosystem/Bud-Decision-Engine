@@ -455,7 +455,7 @@ dialog::backdrop { background: rgba(10, 8, 20, .28); }
 /* ------------------------------------------------------------------ playground */
 .play { display: grid; grid-template-columns: minmax(360px, 440px) minmax(0, 1fr) auto; height: 100%; min-height: 0; }
 .spec { display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--line-2); background: var(--ground); }
-.spec-scroll { overflow-y: auto; padding: 14px 14px 18px; display: grid; gap: 14px; align-content: start; flex: 1; min-height: 0; }
+.spec-scroll { overflow-y: auto; padding: 14px 14px 18px; display: grid; gap: 14px; align-content: start; flex: 1 1 auto; min-height: 0; }
 .model-chip { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 10px; border: 0; border-radius: 12px; background: var(--surface); box-shadow: var(--shadow-card); cursor: pointer; text-align: left; color: var(--text); }
 .model-chip:hover { box-shadow: var(--shadow-card), 0 0 0 1px var(--accent-tint-2); }
 .model-chip .logo { width: 32px; height: 32px; border-radius: 8px; box-shadow: none; background: transparent; }
@@ -542,7 +542,7 @@ dialog::backdrop { background: rgba(10, 8, 20, .28); }
 .decide-bar .btn-primary { flex: 1; height: 38px; font-size: 14px; border-radius: 10px; }
 .results { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
 .results-head { display: flex; align-items: center; gap: 12px; padding: 9px 12px 9px 16px; min-height: 48px; border-bottom: 1px solid var(--line-2); flex-wrap: nowrap; }
-.results-body { overflow-y: auto; padding: 16px; flex: 1; min-height: 0; }
+.results-body { overflow-y: auto; padding: 16px; flex: 1 1 auto; min-height: 0; }
 .run-stamp { display: flex; gap: 6px 12px; flex-wrap: nowrap; align-items: center; font-size: 12.5px; color: var(--text-2); min-width: 0; overflow: hidden; white-space: nowrap; }
 .run-stamp b { color: var(--text); font-weight: 600; }
 .run-stamp .num { color: var(--text); font-weight: 600; }
@@ -823,6 +823,7 @@ dialog::backdrop { background: rgba(10, 8, 20, .28); }
   .content { grid-row: 3; }
   .play, .panes, .act-view, .models-view, .eval-view { display: flex; flex-direction: column; height: auto; overflow: visible; }
   .view, .pane, .spec, .results, .results-body, .spec-scroll { height: auto; overflow: visible; }
+  .spec-scroll, .results-body { flex: none; }   /* no fixed height here, so size to content (Safari/WebKit would collapse a 0 basis) */
   .content { overflow-y: auto; }
   .inspector { position: static; width: auto; border-left: 0; border-top: 1px solid var(--line-2); }
   .spec { border-right: 0; border-bottom: 1px solid var(--line-2); }
@@ -919,7 +920,7 @@ dialog.chooser[open] { display: flex; }
 .ch-head p { font-size: 13px; color: var(--text-2); max-width: 68ch; }
 .ch-presets { margin-top: 2px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .ch-presets .muted { margin-right: 4px; }
-.ch-list { overflow-y: auto; padding: 6px 10px; flex: 1; min-height: 0; }
+.ch-list { overflow-y: auto; padding: 6px 10px; flex: 1 1 auto; min-height: 0; }   /* auto basis: Safari/WebKit collapses a 0% basis when the sheet has no fixed height */
 .ch-row { display: grid; grid-template-columns: 18px 32px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 10px; border-radius: 9px; cursor: pointer; }
 .ch-row:hover { background: var(--fill); }
 .ch-row:has(input:checked:not(:disabled)) { background: var(--accent-tint); }

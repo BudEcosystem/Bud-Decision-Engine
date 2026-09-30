@@ -39,3 +39,6 @@ desktop/installer/assets/
 .idea/
 .vscode/
 *.swp
+
+# Bug reports and screenshots shared locally
+bugs/

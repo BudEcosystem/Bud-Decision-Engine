@@ -1,0 +1,40 @@
+# Checks the interface in real Safari on macOS (the engine the macOS app uses): the first-run model chooser, every
+# page and the dialogs. Screenshots are kept as a build artifact for review.
+name: safari
+
+on:
+  push:
+    branches: [main]
+    paths: ["ui/**", "scripts/safari-check.py", ".github/workflows/safari.yml"]
+  workflow_dispatch:
+
+jobs:
+  safari:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, macos-15]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Studio server (interface only; no PyTorch or models)
+        run: |
+          uv venv --python 3.12 .venv
+          uv pip install --python .venv/bin/python fastapi "uvicorn[standard]" httpx psutil pydantic python-multipart huggingface_hub selenium
+          export BASAL_DATA="$RUNNER_TEMP/Application Support/studio" HF_HOME="$RUNNER_TEMP/hf"
+          nohup .venv/bin/python -m basal.server --port 8420 > "$RUNNER_TEMP/server.log" 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:8420/api/config >/dev/null && break; sleep 1; done
+          curl -sf http://127.0.0.1:8420/api/config
+
+      - name: Safari
+        run: |
+          sudo safaridriver --enable
+          .venv/bin/python scripts/safari-check.py --url http://127.0.0.1:8420 --out safari-shots
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: safari-${{ matrix.os }}
+          path: safari-shots

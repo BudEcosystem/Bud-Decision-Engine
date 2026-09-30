@@ -1,6 +1,6 @@
 [package]
 name = "bud-decision-studio"
-version = "0.2.0"
+version = "0.2.1"
 description = "Bud Decision Studio: run open decision models on your own computer"
 authors = ["Bud Ecosystem"]
 edition = "2021"

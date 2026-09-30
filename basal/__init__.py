@@ -4,4 +4,4 @@ Named after the basal ganglia, the part of the brain that makes fast, automatic
 choices between competing options — which is exactly what these models do.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"

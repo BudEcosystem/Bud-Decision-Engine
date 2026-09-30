@@ -19,6 +19,7 @@ from . import template_store as TS
 from . import templates as T
 from .catalog import BY_ID, CATALOG
 from .errors import ApiError
+from .studio_docs import openapi_extra
 
 router = APIRouter()
 
@@ -31,7 +32,7 @@ def route(method: str, path: str, op: str, summary: str = ""):
     """Register a handler; template routes are registered again for starter templates (ids like builtin/support)."""
     def deco(fn):
         router.add_api_route(path, fn, methods=[method], operation_id=f"studio.{op}", summary=summary or None,
-                             name=f"studio.{op}")
+                             name=f"studio.{op}", openapi_extra=openapi_extra(op, path))
         if "{tid}" in path:
             router.add_api_route(path.replace("{tid}", "builtin/{bname}"), fn, methods=[method], include_in_schema=False,
                                  name=f"studio.{op}.builtin")

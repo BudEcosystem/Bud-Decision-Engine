@@ -3,6 +3,7 @@
 // estimate a number are studio extensions built from those three, so every model can answer all six.
 
 import { TYPE_META, unitFor } from './figures.js';
+import { guideFor } from './model-guides.js';
 import { $, $$, askText, esc, icon, popMenu } from './util.js';
 
 export const TYPES = ['choice', 'score', 'noul', 'multi', 'rank', 'number'];
@@ -205,7 +206,7 @@ export function rowHTML(q, { index, editing, strict, spec, types = TYPES, single
   return `<div class="q" data-uid="${q.uid}">
     <div class="q-top">
       <button class="q-type" data-act="type" aria-haspopup="menu" aria-label="Question type: ${meta.name}. Change type">${icon(meta.icon)}${meta.name}${icon('caret-down')}</button>
-      <textarea class="q-text" rows="1" data-f="text" placeholder="${esc(PLACEHOLDER[q.type])}" aria-label="Question ${index + 1}">${esc(q.text)}</textarea>
+      <textarea class="q-text" rows="1" data-f="text" placeholder="${esc(guideFor(spec?.id)?.q?.[q.type] || PLACEHOLDER[q.type])}" aria-label="Question ${index + 1}">${esc(q.text)}</textarea>
       ${single ? '' : `<button class="icon-btn" data-act="more" aria-haspopup="menu" aria-label="More for question ${index + 1}">${icon('dots-three')}</button>`}
     </div>
     <div class="q-body">

@@ -968,3 +968,18 @@ dialog.chooser[open] { display: flex; }
 .toast-act { margin-left: auto; border: 0; background: none; color: var(--accent-text); font: inherit; font-weight: 600; cursor: pointer; padding: 2px 4px; border-radius: 6px; }
 .toast-act:hover { background: var(--accent-tint); }
 .toast.error .toast-act { color: #fff; }
+
+/* ---------------------------------------------------------------- what each model is made for (model-guides.js) */
+.model-card { width: 100%; display: grid; gap: 8px; padding: 14px; border-radius: 12px; background: var(--surface); box-shadow: var(--shadow-card); }
+.model-card p { margin: 0; line-height: 1.5; }
+.model-card-ex { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.model-card-ex .btn { height: auto; min-height: 30px; padding: 5px 11px; white-space: normal; text-align: left; }
+.try-it { display: grid; gap: 6px; margin: 4px 0 14px; }
+.try-it h3 { font-size: 12.5px; color: var(--text-2); font-weight: 600; }
+.try-it > p { margin: 0; }
+.try-list { display: grid; gap: 6px; margin-top: 4px; }
+.try { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 10px; align-items: start; padding: 9px 11px; border-radius: 10px; background: var(--accent-tint); color: var(--text); text-decoration: none; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent); }
+.try:hover { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 55%, transparent); }
+.try .i { color: var(--accent-text); width: 16px; height: 16px; margin-top: 2px; }
+.try b { display: block; font-weight: 600; font-size: 13px; }
+.try span span { display: block; font-size: 12px; color: var(--text-2); }

@@ -180,4 +180,113 @@ export const EXAMPLES = [
       best_month_recent: { type: 'noul', instructions: 'Is the highest value in the most recent month shown?' },
     },
   },
+  {
+id: 'agent-browser', group: 'AI agents', title: 'Choose a web agent\'s next action',
+    blurb: 'What a browsing agent should do next on the page it sees. Made for CLM 8B.',
+    state: {
+      goal: 'Book a table for 2 people tomorrow at 19:30 at Trattoria Sole',
+      done_so_far: ['Opened the restaurant website', 'Clicked "Reservations" in the top menu'],
+      page: 'Trattoria Sole: Reservations',
+      visible: ['[1] Date picker, showing today', '[2] Time dropdown, showing 18:00', '[3] Party size: 2', '[4] "Find a table" button', '[5] "View menu" link'],
+    },
+    questions: {
+      next_action: { type: 'choice', instructions: 'Which action should the agent take next?', criteria: { set_date: 'open the date picker [1] and choose tomorrow', set_time: 'choose 19:30 in the time dropdown [2]', search: 'click "Find a table" [4]', view_menu: 'open the menu [5]', stop: 'the booking is done' } },
+      if_full: { type: 'choice', instructions: 'If 19:30 turns out to be fully booked, what should the agent do?', criteria: { ask_user: 'ask the user which other time works', book_nearest: 'book the nearest free time without asking', other_restaurant: 'book a different restaurant', give_up: 'stop and report failure' } },
+    },
+  },
+  {
+    id: 'tool-call', group: 'AI agents', title: 'Turn a request into the right action',
+    blurb: 'Pick an assistant\'s first action from six candidates. Made for CLM 8B.',
+    state: 'User: Move my 3 pm meeting with Priya today to Thursday, same time, and let her know. (Priya prefers Slack for quick updates.)',
+    questions: {
+      first: { type: 'choice', instructions: 'What should the assistant do first?', criteria: { 'Reschedule the existing meeting to Thursday': null, 'Create a new calendar event': null, 'Delete the meeting': null, 'Send Priya an email': null, 'Send Priya a Slack message': null, 'Set a reminder': null } },
+    },
+  },
+  {
+    id: 'text-game', group: 'AI agents', title: 'Choose a move in a text game',
+    blurb: 'An agent playing a game picks its move. Made for CLM 8B.',
+    state: 'You are in a small cellar lit by a lantern. The only exit is a locked wooden door to the north. A rusty iron key lies on the table next to you. Goal: get out of the cellar.',
+    questions: {
+      move: { type: 'choice', instructions: 'What should the player do next?', criteria: { 'Take the key from the table': null, 'Open the north door': null, 'Go south': null, 'Light the lantern': null, 'Read the note': null, 'Wait': null } },
+      then: { type: 'choice', instructions: 'Once the player holds the key, what should they do?', criteria: { 'Unlock the north door with the key': null, 'Drop the key': null, 'Go south': null, 'Wait': null } },
+    },
+  },
+
+  {
+    id: 'banking77', group: 'Customer operations', title: 'Pick the intent from 77 options',
+    blurb: 'One question, 77 banking intents. Made for Lev, Kev 4B and Kev 0.5B.',
+    state: 'I took out cash from an ATM in Spain yesterday and there is a fee on my statement. Why was I charged for that?',
+    questions: {
+      intent: { type: 'choice', instructions: 'Which banking intent does the customer have?', criteria: { activate_my_card: null, age_limit: null, apple_pay_or_google_pay: null, atm_support: null, automatic_top_up: null, balance_not_updated_after_bank_transfer: null, balance_not_updated_after_cheque_or_cash_deposit: null, beneficiary_not_allowed: null, cancel_transfer: null, card_about_to_expire: null, card_acceptance: null, card_arrival: null, card_delivery_estimate: null, card_linking: null, card_not_working: null, card_payment_fee_charged: null, card_payment_not_recognised: null, card_payment_wrong_exchange_rate: null, card_swallowed: null, cash_withdrawal_charge: null, cash_withdrawal_not_recognised: null, change_pin: null, compromised_card: null, contactless_not_working: null, country_support: null, declined_card_payment: null, declined_cash_withdrawal: null, declined_transfer: null, direct_debit_payment_not_recognised: null, disposable_card_limits: null, edit_personal_details: null, exchange_charge: null, exchange_rate: null, exchange_via_app: null, extra_charge_on_statement: null, failed_transfer: null, fiat_currency_support: null, get_disposable_virtual_card: null, get_physical_card: null, getting_spare_card: null, getting_virtual_card: null, lost_or_stolen_card: null, lost_or_stolen_phone: null, order_physical_card: null, passcode_forgotten: null, pending_card_payment: null, pending_cash_withdrawal: null, pending_top_up: null, pending_transfer: null, pin_blocked: null, receiving_money: null, refund_not_showing_up: null, request_refund: null, reverted_card_payment: null, supported_cards_and_currencies: null, terminate_account: null, top_up_by_bank_transfer_charge: null, top_up_by_card_charge: null, top_up_by_cash_or_cheque: null, top_up_failed: null, top_up_limits: null, top_up_reverted: null, topping_up_by_card: null, transaction_charged_twice: null, transfer_fee_charged: null, transfer_into_account: null, transfer_not_received_by_recipient: null, transfer_timing: null, unable_to_verify_identity: null, verify_my_identity: null, verify_source_of_funds: null, verify_top_up: null, virtual_card_not_working: null, visa_or_mastercard: null, why_verify_identity: null, wrong_amount_of_cash_received: null, wrong_exchange_rate_for_cash_withdrawal: null } },
+      upset: { type: 'noul', instructions: 'Is the customer upset or complaining?' },
+    },
+  },
+  {
+    id: 'policy-refund', group: 'Documents', title: 'Apply a refund policy with exceptions',
+    blurb: 'Several rules and an exception to weigh. Made for Kev 4B.',
+    state: {
+      policy: '1. Full refund within 30 days of purchase if the item is unused. 2. Opened software and digital downloads are not refundable, except when the product is defective and our support team cannot fix it within 14 days. 3. Items bought in a sale can be exchanged but not refunded. 4. Any refund over $1,000 needs a manager\'s approval. 5. Refunds go back to the original payment method within 10 business days.',
+      request: { item: 'Photo-editing software licence (digital download)', price_usd: 1250, purchased: '41 days ago', opened: true, bought_in_sale: false, issue: 'Crashes on start-up since the first day; support ticket open for 20 days without a fix' },
+    },
+    questions: {
+      eligible: { type: 'noul', instructions: 'Is the customer entitled to a refund under this policy?' },
+      rule: { type: 'choice', instructions: 'Which rule decides whether a refund is allowed?', criteria: { rule_1: 'unused items within 30 days', rule_2: 'opened or digital software, with the defect exception', rule_3: 'items bought in a sale', rule_4: 'refunds over $1,000 need a manager', rule_5: 'how refunds are paid' } },
+      manager: { type: 'noul', instructions: 'Does this refund need a manager\'s approval?' },
+    },
+  },
+  {
+    id: "agent-trace", group: "AI agents", title: "Check what an AI agent did",
+    blurb: "Review an agent run against its rules. Made for Laya Typed-Decisions.",
+    state: {"agent": {"autonomy": "autonomous", "model": "internal-agent-v1"}, "constraints": ["Never delete or modify production data", "Do not exceed a $50 spend on cloud resources"], "task": "Remove unused test databases from the staging cluster.", "trace_summary": {"constraint_violations": 1, "duration_s": 48.2, "irreversible_actions": 2, "steps": 9, "tool_errors": 0, "last_action": "DROP DATABASE orders_prod on the production cluster"}},
+    questions: {"outcome": {"criteria": {"failure": "The agent did not accomplish the task.", "harmful": "The agent took an action that caused damage or violated a constraint.", "partial": "The agent made progress but did not fully complete the task.", "success": "The agent completed the task correctly."}, "instructions": "How did this agent run turn out?", "type": "choice"}, "action": {"criteria": {"continue": "Let the agent proceed without interruption.", "human_review": "Queue this trace for a human to review.", "observe": "Keep running, but flag the trace for later sampling.", "stop": "Halt the agent now."}, "instructions": "What should the observability system do with this trace?", "type": "choice"}, "needs_review": {"criteria": {"false": "No human attention is warranted.", "true": "A human should inspect this run."}, "instructions": "This trace requires human review.", "type": "noul"}, "risk": {"criteria": ["Benign: read-only or clearly safe actions.", "Low: routine writes within scope.", "Moderate: irreversible or out-of-scope actions.", "High: destructive, security-relevant, or policy-violating actions."], "instructions": "How risky was the agent's behaviour in this trace?", "type": "score"}},
+  },
+  {
+    id: "invoice-match", group: "Documents", title: "Approve or hold a vendor invoice",
+    blurb: "Billed for 45, but 25 were ordered and delivered. A case from the model's own test set (LocalLLaMA/typed-decisions, Apache-2.0). Made for Laya Typed-Decisions.",
+    state: {"delivery": {"condition": "accepted", "date": "2026-03-13", "received_qty": 25}, "invoice": {"currency": "USD", "id": "INV-2026-1916", "lines": [{"qty": 45, "sku": "SKU-941", "total_usd": 3365.55, "unit_usd": 74.79}], "total_usd": 3365.55, "vendor": "Acme Fabrication"}, "payment": {"days_until_due": 27, "discount_expires_in_days": 6, "early_payment_discount_pct": 2.0, "status": "scheduled", "terms": "net 30"}, "purchase_order": {"freight_terms": "freight prepaid by vendor, not separately billable", "id": "PO-1525", "lines": [{"qty": 25, "unit_usd": 74.79}], "total_usd": 1869.75}, "vendor_history": {"disputes_12m": 0, "invoices_12m": 5, "prior_invoice_ids": ["INV-2026-6155", "INV-2026-4483"]}},
+    questions: {"disposition": {"criteria": {"approve": "Matches the order and delivery; approve for payment.", "hold": "Something needs confirming before payment; hold pending clarification.", "manual_review": "A human in finance must review the discrepancy.", "reject": "Should not be paid: duplicate, unauthorised or materially wrong."}, "instructions": "How should this vendor invoice be dispositioned?", "type": "choice"}, "duplicate": {"instructions": "This invoice appears to duplicate an invoice already submitted.", "type": "noul"}, "matches_order": {"criteria": {"false": "There is a discrepancy against the order or the delivery.", "true": "Line items, quantities and amounts reconcile."}, "instructions": "The invoice reconciles with the purchase order and the recorded delivery.", "type": "noul"}, "discrepancy_severity": {"criteria": ["None: everything reconciles.", "Trivial: rounding or a cosmetic difference.", "Moderate: a real difference worth confirming.", "Material: a large or unexplained difference."], "instructions": "How material is any discrepancy between the invoice, the order and the delivery?", "type": "score"}},
+  },
+  {
+    id: "security-alert", group: "Engineering", title: "Triage an impossible-travel alert",
+    blurb: "Real attack or false alarm, and what to do now. Made for Laya Typed-Decisions.",
+    state: {"alert": {"rule": "impossible_travel", "description": "sign-ins from two distant countries too close together", "evidence": "At 2026-09-30 03:12 UTC user fin-admin-02 signed in from Lagos, Nigeria, 38 minutes after a sign-in from Berlin, Germany, on a device never seen before. MFA was satisfied by a push approval. Within 5 minutes the session exported the vendor payment list."}, "context": {"asset_criticality": "high", "change_window_active": false, "source_on_allowlist": false}, "history": {"credential_rotation_days_ago": 190, "distinct_countries_30d": 1, "logins_30d": 42, "prior_alerts_90d": 0}, "principal": {"mfa_enrolled": true, "name": "fin-admin-02", "privileges": ["payments:approve", "vendors:export"], "type": "user"}},
+    questions: {"disposition": {"criteria": {"close_benign": "Expected, explainable activity; close without analyst time.", "contain": "Contain the host or account immediately; do not wait for triage.", "investigate": "Warrants an analyst opening an investigation.", "monitor": "Not clearly malicious, but worth watching for recurrence."}, "instructions": "How should this security alert be dispositioned?", "type": "choice"}, "true_positive": {"criteria": {"false": "Benign activity, a misconfiguration, or a known false positive.", "true": "The underlying behaviour is malicious or unauthorised."}, "instructions": "This alert reflects genuinely malicious or unauthorised activity.", "type": "noul"}, "credential_compromise": {"instructions": "The evidence indicates a credential or account has been compromised.", "type": "noul"}, "severity": {"criteria": ["Negligible: no access to anything sensitive.", "Low: limited access, easily reversed.", "Moderate: access to internal systems or non-public data.", "High: access to production, secrets or customer data.", "Critical: active compromise of crown-jewel systems."], "instructions": "How severe is the potential impact if this alert is real?", "type": "score"}},
+  },
+  {
+    id: 'log-line', group: 'Engineering', title: 'Label a log line',
+    blurb: 'Severity, component and whether someone must act. Made for GLiNER2.5 Decide.',
+    state: '2026-09-30T03:14:07Z ERROR payment-gateway: timeout after 30000 ms calling api.stripe.com (attempt 3 of 3); order #88213 left in PENDING',
+    questions: {
+      severity: { type: 'choice', instructions: 'What severity is this log line?', criteria: { debug: null, info: null, warning: null, error: null, critical: null } },
+      component: { type: 'choice', instructions: 'Which part of the system does it come from?', criteria: { payments: 'checkout, card payments, gateways', auth: 'login, sessions', search: null, notifications: 'email, SMS, push', database: null } },
+      act: { type: 'noul', instructions: 'Does this need someone to act?' },
+    },
+  },
+  {
+    id: 'de-routing', group: 'Languages', title: 'Route a message in German',
+    blurb: 'Team, mood and urgency from a German message. Made for Julia 1.',
+    state: 'Hallo, ich komme nicht mehr in mein Konto: Ich habe mein Passwort vergessen und die E-Mail zum Zurücksetzen kommt nicht an. Ich bin wirklich genervt, wir haben morgen früh eine Präsentation.',
+    questions: {
+      team: { type: 'choice', instructions: 'Which team should handle this message?', criteria: { billing: 'invoices, payments, refunds', technical: 'bugs, crashes, errors', account: 'login, passwords, access', sales: 'plans, pricing' } },
+      mood: { type: 'choice', instructions: 'How does the customer feel?', criteria: { calm: null, confused: null, frustrated: null, angry: null } },
+      urgent: { type: 'noul', instructions: 'Does the customer need this fixed today?' },
+    },
+  },
+  {
+    id: 'ja-support', group: 'Languages', title: 'A message in Japanese',
+    blurb: 'A non-Latin script, routed and prioritised. Made for Laya Multilingual.',
+    state: '先週注文したノートパソコンがまだ届きません。追跡番号も更新されていません。明日の出張で必要なので、至急対応してください。',
+    questions: {
+      department: { type: 'choice', instructions: 'Which department should handle this?', criteria: { billing: 'invoices, payments, refunds', delivery: 'an order that has not arrived', technical: 'bugs, crashes, errors', account: 'login, access' } },
+      urgent: { type: 'noul', instructions: 'Is the customer asking for urgent help?' },
+    },
+  },
+  {
+    id: 'news-topic', group: 'Start here', title: 'Sort a news headline',
+    blurb: 'A classic first task for a decision model. Made for Kev 0.5B.',
+    state: 'Real Madrid beat Bayern Munich 2-1 in extra time to reach the Champions League final in London.',
+    questions: {
+      topic: { type: 'choice', instructions: 'Which section of the news does this headline belong to?', criteria: { world: null, sports: null, business: null, science_and_technology: null } },
+    },
+  },
 ];

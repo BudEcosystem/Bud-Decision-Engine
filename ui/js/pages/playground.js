@@ -3,6 +3,7 @@
 
 import { addGridHTML, buildQuestions, createBuilder, fromQuestion } from '../builder.js';
 import { EXAMPLES } from '../examples.js';
+import { guideFor } from '../model-guides.js';
 import { animate, decisionOf, figures, mini, odo } from '../figures.js';
 import { codeBlock, jsonTree } from '../format.js';
 import { openLoader } from '../loader.js';
@@ -18,6 +19,7 @@ let tab = 'answers';
 let busy = false;
 let root, builder, keyHandler, reg;
 let pendingModel = null;   // a model named in the URL before the first state poll has arrived
+let exampleForPending = false;   // ...and whether to show that model's own example once it is applied
 let lang = 'python', format = 'typesafe';
 let inspOpen = null;
 let hint = null;   // the last "what's missing" message, cleared as soon as the person fixes it
@@ -71,6 +73,43 @@ export function loadRequest(req, modelId) {
   try { localStorage.setItem(KEY, JSON.stringify(draft)); } catch { /* ignore */ }
 }
 
+const statePlaceholder = () => (draft.stateMode === 'json' ? '{ "ticket": "..." }' : guideFor(draft.model)?.state || 'Paste an email, a support ticket, a review, a log line...');
+
+// An example exactly as shipped (not edited), so it can be swapped for one that suits the chosen model.
+function pristineExample() {
+  const ex = EXAMPLES.find((e) => e.id === draft.example);
+  if (!ex) return false;
+  const p = fromExample(ex, {});
+  return draft.stateText === p.stateText && draft.questions.length === p.questions.length
+    && draft.questions.every((q, i) => q.text === p.questions[i].text && q.type === p.questions[i].type);
+}
+
+function loadExample(ex) {
+  draft = fromExample(ex); last = null; saveDraft();
+  if (ex.needsMedia && !model(draft.model)?.modalities.includes(ex.needsMedia)) {
+    const alt = (store.state?.models || []).find((m) => m.modalities.includes(ex.needsMedia) && (m.worker || m.downloaded));
+    if (alt) { draft.model = alt.id; toast(`Switched to ${alt.name}: it can read images.`); }
+  }
+  render();
+  if (ex.sample) attachSample(ex.sample);
+}
+
+// Choosing a model while an untouched example is showing swaps in an example made for that model, so what the
+// model is good at is visible straight away (CLM opens on an agent's next action, not a support ticket).
+function showModelExample({ quiet = false } = {}) {
+  const g = guideFor(draft.model);
+  if (!g || !pristineExample() || g.examples.includes(draft.example)) return;
+  const ex = EXAMPLES.find((e) => e.id === g.examples[0]);
+  if (!ex) return;
+  const before = { draft: JSON.parse(JSON.stringify(draft)), last };
+  const keepModel = draft.model;
+  draft = fromExample(ex); draft.model = keepModel; last = null; saveDraft();
+  if (root?.isConnected) { render(); if (ex.sample) attachSample(ex.sample); }
+  const m = model(keepModel);
+  if (quiet) return;
+  toast(`Showing an example made for ${m?.name || 'this model'}.`, '', { action: 'Undo', onAction: () => { draft = before.draft; last = before.last; saveDraft(); if (root?.isConnected) render(); } });
+}
+
 // ------------------------------------------------------------------ page lifecycle
 export async function mount(el, params = {}) {
   root = el;
@@ -88,6 +127,7 @@ export async function mount(el, params = {}) {
     }
   }
   pendingModel = params.model || null;
+  exampleForPending = !params.example && !!params.model;
   applyPendingModel();
   pickDefaultModel();
   if (inspOpen === null) inspOpen = false;
@@ -105,6 +145,7 @@ function applyPendingModel() {
   if (!pendingModel || !store.state) return false;
   if (model(pendingModel)) { draft.model = pendingModel; saveDraft(); }
   pendingModel = null;
+  if (exampleForPending) { exampleForPending = false; showModelExample(); }
   return true;
 }
 
@@ -131,14 +172,16 @@ function pickDefaultModel() {
   const cur = ms.find((m) => m.id === draft.model);
   if (cur && (cur.downloaded || cur.worker)) return;
   const pick = readyModels()[0] || ms.find((m) => m.worker) || ms.find((m) => m.badge === 'Start here' && m.downloaded) || ms.find((m) => m.id === 'laya' && m.downloaded) || ms.find((m) => m.downloaded);
-  if (pick && pick.id !== draft.model) { draft.model = pick.id; saveDraft(); }
+  if (pick && pick.id !== draft.model) { draft.model = pick.id; saveDraft(); showModelExample({ quiet: true }); }
 }
 
 async function pickModel() {
   const id = await openLoader({ current: draft.model });
   if (!id || !root?.isConnected) return;
   draft.model = id; setPref('lastModel', id); saveDraft();
+  if (pristineExample() && !guideFor(id)?.examples.includes(draft.example)) { showModelExample(); return; }
   renderModelChip(); renderMedia(); renderStateMeta(); builder.render();
+  const st = $('#state', root); if (st) st.placeholder = statePlaceholder();
   if (!last) renderOut();
 }
 
@@ -156,7 +199,7 @@ function render() {
           <div class="spec-title"><h2>${term('state', 'State')}</h2><span class="muted small">the situation to judge</span>
             <span class="right"><span class="seg" role="group" aria-label="State format"><button data-mode="text" aria-pressed="${draft.stateMode === 'text'}">Text</button><button data-mode="json" aria-pressed="${draft.stateMode === 'json'}">JSON</button></span></span></div>
           <textarea class="textarea state-box ${draft.stateMode === 'json' ? 'code' : ''}" id="state" spellcheck="${draft.stateMode === 'text'}" aria-label="State"
-            placeholder="${draft.stateMode === 'json' ? '{ "ticket": "..." }' : 'Paste an email, a support ticket, a review, a log line...'}">${esc(draft.stateText)}</textarea>
+            placeholder="${esc(statePlaceholder())}">${esc(draft.stateText)}</textarea>
           <div class="state-meta" id="statemeta"></div>
           <div id="media"></div>
         </div>
@@ -257,17 +300,14 @@ function renderModelChip() {
 function examplesMenu(anchor) {
   const groups = [...new Set(EXAMPLES.map((e) => e.group))];
   const blank = `<div class="menu-group">Start</div><button class="menu-item" role="menuitem" data-pick="__blank">${icon('plus')}<span><b>Blank decision</b><span>Your own situation and questions, from scratch.</span></span></button>`;
-  popMenu(anchor, blank + groups.map((g) => `<div class="menu-group">${esc(g)}</div>${EXAMPLES.filter((e) => e.group === g).map((e) => `<button class="menu-item" role="menuitem" data-pick="${e.id}">${icon(e.needsMedia ? 'image' : 'sparkle')}<span><b>${esc(e.title)}</b><span>${esc(e.blurb)}</span></span></button>`).join('')}`).join(''), {
+  const m = model(draft.model), g = guideFor(draft.model);
+  const mine = (g?.examples || []).map((id) => EXAMPLES.find((e) => e.id === id)).filter(Boolean);
+  const item = (e) => `<button class="menu-item" role="menuitem" data-pick="${e.id}">${icon(e.needsMedia ? 'image' : 'sparkle')}<span><b>${esc(e.title)}</b><span>${esc(e.blurb)}</span></span></button>`;
+  const made = mine.length ? `<div class="menu-group">Made for ${esc(m?.name || 'this model')}</div>${mine.map(item).join('')}` : '';
+  popMenu(anchor, made + blank + groups.map((gr) => [gr, EXAMPLES.filter((e) => e.group === gr && !mine.includes(e))]).filter(([, list]) => list.length).map(([gr, list]) => `<div class="menu-group">${esc(gr)}</div>${list.map((e) => item(e)).join('')}`).join(''), {
     onPick: (id) => {
       if (id === '__blank') { newDecision(); return; }
-      const ex = EXAMPLES.find((e) => e.id === id);
-      draft = fromExample(ex); last = null; saveDraft();
-      if (ex.needsMedia && !model(draft.model)?.modalities.includes(ex.needsMedia)) {
-        const alt = (store.state?.models || []).find((m) => m.modalities.includes(ex.needsMedia) && (m.worker || m.downloaded));
-        if (alt) { draft.model = alt.id; toast(`Switched to ${alt.name}: it can read images.`); }
-      }
-      render();
-      if (ex.sample) attachSample(ex.sample);
+      loadExample(EXAMPLES.find((e) => e.id === id));
     },
   });
 }
@@ -484,6 +524,7 @@ function ghost(busyNow = false) {
       <div class="fig-answer"><span style="display:block;width:40%;height:22px;border-radius:6px;background:var(--fill)"></span></div>
       <div class="hplot">${[0, 0, 0].map(() => '<div class="row"><span class="lab"><span style="display:block;width:70%;height:9px;border-radius:4px;background:var(--fill)"></span></span><span class="track"></span><span class="val"></span></div>').join('')}</div>
     </figure>`).join('')}</div>
+    ${!busyNow && guideFor(m?.id)?.tip ? `<p class="note" style="margin-top:16px;max-width:64ch">${icon('lightbulb')}<span><b>Tip for ${esc(m.name)}:</b> ${esc(guideFor(m.id).tip)}</span></p>` : ''}
     ${!busyNow && m ? `<p class="muted" style="margin-top:16px;max-width:64ch">Press <b>Decide</b>. ${esc(m.name)} reads the situation once and ${n === 1 ? 'answers the question' : `answers all ${n} questions together`}. Each answer appears here with every option's probability on a 0 to 100% scale.</p>` : ''}`;
 }
 
@@ -509,12 +550,23 @@ function guide(m) {
   return `<div class="guide">
     <h2>${hasState || hasQ ? 'Finish your decision' : 'Start a decision'}</h2>
     <ol class="guide-steps">
-      ${step(hasState, 1, 'Describe the situation', 'Type or paste it under <b>State</b>: an email, a support ticket, a review, a log line or some JSON.', 'state')}
+      ${step(hasState, 1, 'Describe the situation', guideFor(m?.id) ? `Under <b>State</b>. ${esc(guideFor(m.id).state)}` : 'Type or paste it under <b>State</b>: an email, a support ticket, a review, a log line or some JSON.', 'state')}
       ${step(hasQ, 2, 'Add a question', 'Under <b>Create new Decision</b>, pick the kind of answer you want, then write the question and its options.', 'questions')}
       ${step(false, 3, 'Press Decide', `${esc(m?.name || 'The model')} reads the situation once and answers every question here, each as a chart.`, '')}
     </ol>
-    <button class="btn btn-plain" data-go="examples">${icon('sparkle')}Or start from an example</button>
+    ${modelCard(m)}
+    <button class="btn btn-plain" data-go="examples">${icon('sparkle')}More examples</button>
   </div>`;
+}
+
+// What the chosen model is made for, with its own examples to try in one click.
+function modelCard(m) {
+  const g = guideFor(m?.id);
+  if (!g) return '';
+  const mine = g.examples.map((id) => EXAMPLES.find((e) => e.id === id)).filter(Boolean);
+  return `<div class="model-card"><span class="small muted">What ${esc(m.name)} is made for</span><p>${esc(g.madeFor)}</p>
+    ${g.tip ? `<p class="small muted">${esc(g.tip)}</p>` : ''}
+    <div class="model-card-ex">${mine.map((e) => `<button class="btn" data-ex="${e.id}">${icon(e.needsMedia ? 'image' : 'play')}${esc(e.title)}</button>`).join('')}</div></div>`;
 }
 
 function showCreatePanel() {
@@ -549,6 +601,7 @@ function renderOut({ instant = false } = {}) {
       if (b.dataset.go === 'questions') showCreatePanel();
       if (b.dataset.go === 'examples') examplesMenu(b);
     }));
+    $$('[data-ex]', out).forEach((b) => b.addEventListener('click', () => loadExample(EXAMPLES.find((e) => e.id === b.dataset.ex))));
     return;
   }
   if (last.kind === 'error') { stamp(''); out.innerHTML = errorView(); return; }

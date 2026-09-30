@@ -2,6 +2,8 @@
 // Overview, a comparison with Jev, and Load settings. #/models/<id> selects a model.
 
 import { openChooser } from '../chooser.js';
+import { EXAMPLES } from '../examples.js';
+import { guideFor } from '../model-guides.js';
 import { setSub } from '../shell.js';
 import { api, cancelDownload, download, downloadPct, ejectModel, loadModel, phaseOf, phaseTrack, refresh, registry, setPref, store } from '../store.js';
 import { $, $$, confirmDialog, esc, fmtBytes, fmtDuration, fmtGB, icon, term, toast } from '../util.js';
@@ -265,7 +267,12 @@ function overview(m, r) {
     ['Download', fmtBytes(m.download_bytes)],
     ['License', esc(m.license)],
   ];
+  const g = guideFor(m.id);
+  const tries = (g?.examples || []).map((id) => EXAMPLES.find((e) => e.id === id)).filter(Boolean);
+  const tryIt = g ? `<div class="try-it"><h3>Made for</h3><p>${esc(g.madeFor)}</p>
+      <div class="try-list">${tries.map((e) => `<a class="try" href="#/playground?model=${esc(m.id)}&example=${esc(e.id)}">${icon(e.needsMedia ? 'image' : 'play')}<span><b>${esc(e.title)}</b><span>${esc(e.blurb.replace(/\s*Made for [^.]*\.$/, ''))}</span></span></a>`).join('')}</div></div>` : '';
   return `<p class="lede">${esc(clean(m.summary))}</p>
+    ${tryIt}
     <div class="group">${facts.map(([k, v]) => `<div class="grow"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('')}</div>
     <div class="gw">
       <div class="good"><h3>Good for</h3><ul>${m.good_for.map((x) => `<li>${icon('check-circle')}<span>${esc(clean(x))}</span></li>`).join('')}</ul></div>

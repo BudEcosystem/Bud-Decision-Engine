@@ -274,4 +274,13 @@ CATALOG: list[ModelSpec] = [
     ),
 ]
 
+# A deterministic stand-in for tests and CI (basal/adapters/fake_adapter.py): never shown otherwise.
+if __import__("os").environ.get("BASAL_FAKE_MODEL") == "1":
+    CATALOG.append(ModelSpec(
+        id="fake-decider", name="Fake Decider", maker="Bud Decision Studio tests", adapter="fake",
+        repo=Repo("basal-tests/fake-decider"), params="0", memory_gb=0.0, speed="instant",
+        tagline="Deterministic answers for tests.", summary="Probabilities come from a hash of the input; loads instantly.",
+        languages="Any", modalities=("text", "image", "audio", "video"), max_options=1000, max_questions=256,
+        context_tokens=100000, license="Apache-2.0"))
+
 BY_ID = {m.id: m for m in CATALOG}

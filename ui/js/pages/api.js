@@ -1,10 +1,10 @@
-// API: a developer page after LM Studio's. The server, the endpoints for each published format, one quick-start
-// example, and the reference folded into rows. Request history lives on the Activity page.
+// API: a developer page after LM Studio's. The server, the endpoints for each published format and for the studio API
+// (templates and history), one quick-start example, and the reference folded into rows. History has its own page.
 
 import { EXAMPLES } from '../examples.js';
 import { codeBlock, jsonTree } from '../format.js';
 import { setSub } from '../shell.js';
-import { FORMATS, LANGS, base, snippet } from '../snippets.js';
+import { FORMATS, LANGS, base, snippet, studioSnippet } from '../snippets.js';
 import { markLearned, readyModels } from '../store.js';
 import { $, $$, copy, esc, icon, term } from '../util.js';
 
@@ -14,7 +14,17 @@ const ENDPOINTS = {
   typesafe: [['POST', '/v1/systemone', 'Make a decision. The official TypeSafe SDKs call this.'], ['GET', '/v1/models', 'The models you can name in "model".']],
   openrouter: [['POST', '/api/alpha/decisions', 'OpenRouter\'s Decisions API. Adds id, provider and usage.cost.'], ['POST', '/api/v1/systemone', 'OpenRouter\'s System One route, the same shape.']],
   vercel: [['POST', '/typesafe/v1/systemone', 'Vercel AI Gateway\'s TypeSafe route. Adds provider_metadata.'], ['GET', '/typesafe/v1/models', 'The model list on the Vercel route.'], ['POST', '/v1/evaluate', 'Vercel\'s evaluation API, with boolean questions and camelCase usage.']],
+  studio: [['POST', '/v1/studio/decisions', 'Make a decision, with a template ("template": "support-triage@2", "variables") or without. Saved to History.'],
+    ['GET', '/v1/studio/decisions', 'History: filter by template, version, model, answer, time, feedback; paginate with after.'],
+    ['GET', '/v1/studio/decisions/{id}', 'One decision: its input, answers, settings and where each setting came from.'],
+    ['POST', '/v1/studio/decisions/{id}/feedback', 'Label the right answers. Labels give accuracy per template version.'],
+    ['PUT', '/v1/studio/templates/{id}', 'Create or update a template. Every change is a new version.'],
+    ['GET', '/v1/studio/templates/{id}/compare', 'Compare two versions on real traffic, including the same inputs.'],
+    ['GET', '/v1/studio/templates/{id}/stats', 'Act rate, answers, accuracy and latency, by version.'],
+    ['POST', '/v1/studio/templates/{id}/examples', 'Test examples: inputs with the right answers.'],
+    ['GET, PATCH', '/v1/studio/settings', 'What History keeps, and for how long.']],
 };
+const STUDIO_NOTE = 'The studio\'s own API, beside the TypeSafe-compatible one: reusable templates, and a history of every decision. The full reference is in docs/studio-api.md and under /docs.';
 const STRICT = {
   model: 'laya',
   answers: {
@@ -46,7 +56,7 @@ export function mount(el) {
       <div style="display:grid;gap:18px">
         <section class="card card-pad" style="display:grid;gap:12px">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="font-size:15px">Endpoints</h2>
-            <span class="seg" role="group" aria-label="API format" style="margin-left:auto">${Object.entries(FORMATS).map(([k, f]) => `<button data-fmt="${k}" aria-pressed="${k === format}">${esc(f.name.replace(' Jev API', '').replace(' Decisions API', '').replace(' AI Gateway', ''))}</button>`).join('')}</span></div>
+            <span class="seg" role="group" aria-label="API format" style="margin-left:auto">${Object.entries(FORMATS).map(([k, f]) => `<button data-fmt="${k}" aria-pressed="${k === format}">${esc(f.name.replace(' Jev API', '').replace(' Decisions API', '').replace(' AI Gateway', ''))}</button>`).join('')}<button data-fmt="studio" aria-pressed="${format === 'studio'}">Studio API</button></span></div>
           <p class="help" id="fmtnote"></p>
           <div id="eps" style="display:grid;gap:12px"></div>
         </section>
@@ -65,6 +75,15 @@ export function mount(el) {
         <details class="disclose"><summary>Studio extensions${icon('caret-right', 'chev')}</summary><div class="body">
           <p class="help">Three more question types, <code>multi</code>, <code>rank</code> and <code>number</code>, plus <code>media</code> for images, audio and video, and <code>settings.temperature</code> for a ${term('temperature', 'calibration temperature')}. Send <code>X-Basal-Extensions: 1</code> to also receive <code>decision</code>, <code>top_probability</code> and <code>latency_ms</code>. Official SDKs skip what they do not know.</p>
           ${jsonTree({ answers: EXTENDED }, { file: 'Extension answers', openDepth: 2 })}</div></details>
+        <details class="disclose"><summary>History and opting out${icon('caret-right', 'chev')}</summary><div class="body">
+          <p class="help">Every decision is saved to History on this computer, from any endpoint, for 30 days by default: the situation, the questions, the answers, the model and the timing. Responses say what was kept in <code>x-basal-stored</code> and give the id in <code>x-basal-decision-id</code>. To keep less:</p>
+          <div class="group">
+            <div class="grow stack"><span class="k"><code>"store": false</code> in the body</span><span class="v small">Nothing is saved for this call. <code>"answers_only"</code> keeps the answers but not the situation. TypeSafe's own servers ignore the field, so the same code runs against both.</span></div>
+            <div class="grow stack"><span class="k"><code>X-Basal-Store: 0</code> header</span><span class="v small">The same, for clients that cannot change the body. The more private of the two wins.</span></div>
+            <div class="grow stack"><span class="k">A template's <b>storage</b></span><span class="v small">A ceiling for every decision made with it.</span></div>
+            <div class="grow stack"><span class="k">History settings</span><span class="v small">What the studio keeps, and for how long, on the History page or <code>PATCH /v1/studio/settings</code>.</span></div>
+          </div>
+          <p class="help">Variables marked <code>sensitive</code> are used for the decision but never written to disk. Send <code>Idempotency-Key</code> to make retries safe.</p></div></details>
         <details class="disclose"><summary>Errors${icon('caret-right', 'chev')}</summary><div class="body"><div class="group">
           <div class="grow stack"><span class="k"><b>422</b> The request is invalid</span><span class="v small"><code>{"detail": [{"type", "loc", "msg", "input"}]}</code>. OpenRouter and Vercel formats answer 400 in their own shape.</span></div>
           <div class="grow stack"><span class="k"><b>403</b> No API key, when one is required</span><span class="v small"><code>{"detail": {"error_type": "authentication_error", "message"}}</code></span></div>
@@ -94,13 +113,18 @@ function renderReady() {
 }
 
 function renderEndpoints() {
-  $('#fmtnote', root).textContent = FORMATS[format].note;
-  $('#eps', root).innerHTML = ENDPOINTS[format].map(([m, p, d]) => `<div class="ep"><span class="m ${m === 'POST' ? 'post' : ''}">${m}</span><code>${esc(p)}</code><span class="d">${esc(d)}</span></div>`).join('');
+  $('#fmtnote', root).textContent = format === 'studio' ? STUDIO_NOTE : FORMATS[format].note;
+  $('#eps', root).innerHTML = ENDPOINTS[format].map(([m, p, d]) => `<div class="ep"><span class="m ${['POST', 'PUT'].includes(m) ? 'post' : ''}">${m}</span><code>${esc(p)}</code><span class="d">${esc(d)}</span></div>`).join('');
 }
 
 function renderSnippet() {
   const ex = EXAMPLES.find((e) => e.id === 'support');
   const req = { model: readyModels()[0]?.id || 'laya', state: ex.state, questions: ex.questions };
   const L = LANGS[lang];
+  if (format === 'studio') {
+    const l = lang.startsWith('js') || lang === 'javascript' ? 'javascript' : lang === 'curl' ? 'curl' : 'python';
+    $('#snip', root).innerHTML = codeBlock(studioSnippet(l, { template: 'builtin/support', model: req.model, state: ex.state }), { lang: l === 'curl' ? 'bash' : l, file: l === 'curl' ? 'decide.sh' : l === 'python' ? 'decide.py' : 'decide.mjs', maxHeight: 420 });
+    return;
+  }
   $('#snip', root).innerHTML = codeBlock(snippet(lang, req, { format: L.sdk ? 'typesafe' : format }), { lang: L.lang, file: L.file, maxHeight: 420 });
 }

@@ -85,15 +85,44 @@ A **decision model** does not write text. You give it a **situation** (an email,
 </tr>
 <tr>
 <td><img src="docs/media/evaluate.png" alt="Evaluate"><br><b>Evaluate.</b> Run one question over many labelled examples on several models: a leaderboard, calibration and threshold charts, and a recommendation.</td>
-<td><img src="docs/media/activity.png" alt="Activity"><br><b>Activity.</b> Every request any program sent the studio, live: a timeline, breakdowns by model and client, and each request's answers.</td>
+<td><img src="docs/media/history.png" alt="History"><br><b>History.</b> Every decision, from the Playground or any program, kept on this computer: filter by template, model, answer or time, see what needs a human, label the right answers, rerun on another model.</td>
 </tr>
 <tr>
+<td><img src="docs/media/templates.png" alt="Templates"><br><b>Templates.</b> Reusable decisions with variables, a default model and settings. Every save is a version; compare two versions on real traffic before you switch.</td>
 <td><img src="docs/media/api.png" alt="API"><br><b>API.</b> The server address and ready-to-run examples in curl, Python, JavaScript and the official TypeSafe SDKs.</td>
-<td><img src="docs/media/choose-models.png" alt="Choose models to download"><br><b>Choose models.</b> On first run, and whenever you want more: tick the models you want and they download in the background.</td>
 </tr>
 </table>
 
 A short video of the whole flow: [`docs/media/demo.mp4`](docs/media/demo.mp4).
+
+### Templates and history
+
+A **template** is a decision you reuse: its questions, the **variables** that fill in the situation (a message, a plan tier, a screenshot), a default model and settings. It runs on any model. Every save is a new **version**, so code can pin `support-triage@3`, follow `support-triage@production`, or take the latest. Starter templates for every Playground scenario are included.
+
+**History** keeps every decision on this computer, whichever way it came in: the situation, the questions, the answers, the model, the version and the timing. From there you can label the right answers, turn a decision into a test example, rerun it on another model, or see how version 3 answers compared with version 2 on the same inputs.
+
+```bash
+# Once: a template with two variables (PUT again with changes and it becomes version 2)
+curl -s -X PUT http://127.0.0.1:8420/v1/studio/templates/support-triage -H 'content-type: application/json' -d '{
+  "name": "Support triage",
+  "variables": {"customer_message": {"type": "string"},
+                "account_tier": {"type": "string", "enum": ["free", "pro", "enterprise"], "default": "free"}},
+  "state": {"tier": "{{account_tier}}", "message": "{{customer_message}}"},
+  "questions": {"department": {"type": "choice", "instructions": "Which department should handle this?",
+                               "criteria": ["billing", "technical", "sales"]},
+                "urgent": {"type": "noul", "instructions": "Does it need an answer today?"}},
+  "model": "laya", "settings": {"act_threshold": 0.85}
+}'
+
+# Every time: fill in the variables
+curl -s http://127.0.0.1:8420/v1/studio/decisions -H 'content-type: application/json' -d '{
+  "template": "support-triage",
+  "variables": {"customer_message": "We were billed twice. Refund it today.", "account_tier": "pro"}
+}'
+# -> {"id": "dec_...", "act": false, "needs_review": ["urgent"], "answers": {...}, "template": {"id": "support-triage", "version": 1}, ...}
+```
+
+Each answer says whether it is sure enough to **act** on (its certainty against the template's threshold), so your code can act automatically or ask a person. The full reference, with every field, rule and error: [`docs/studio-api.md`](docs/studio-api.md).
 
 ## The eleven models
 
@@ -147,17 +176,21 @@ print(res.answers["billing"].noul)   # probability of yes
 | `POST /api/alpha/decisions`, `POST /api/v1/systemone` | OpenRouter's Decisions API |
 | `POST /typesafe/v1/systemone`, `GET /typesafe/v1/models` | Vercel AI Gateway's TypeSafe route |
 | `POST /v1/evaluate` | Vercel AI Gateway's evaluation API |
+| `/v1/studio/...` | The studio's own API: templates, decisions with history, feedback, test examples, settings ([reference](docs/studio-api.md)) |
 
 **Extensions**, accepted on every endpoint: the `multi`, `rank` and `number` question types; `"media"` for images, audio and video; `"settings": {"temperature": 2.0}` for calibration; and the header `X-Basal-Extensions: 1` to also receive `decision`, `top_probability`, `probabilities` and `latency_ms`. Without the header, responses are exactly TypeSafe's shape. Interactive API docs are at `/docs`.
 
-**Safe by default.** The studio listens on this computer only; other websites cannot call it, and changes (load, download, delete) need the header `X-Basal-Client: 1`. To serve other machines, start it with `--host 0.0.0.0` and set `BASAL_API_KEY`; clients then send `Authorization: Bearer <key>`.
+**Decisions are kept in History**, from every endpoint, for 30 days by default (change it on the History page). Responses name the stored decision in the `x-basal-decision-id` header. To keep nothing for a call, send `"store": false` in the body (TypeSafe's own servers ignore it, so the same code runs against both) or the header `X-Basal-Store: 0`; `"answers_only"` keeps the answers without the situation. Variables marked `sensitive` are used for the decision and never written to disk.
+
+**Safe by default.** The studio listens on this computer only; other websites open in your browser cannot send it requests, and changes (load, download, delete) need the header `X-Basal-Client: 1`. To serve other machines, start it with `--host 0.0.0.0` and set `BASAL_API_KEY`; clients then send `Authorization: Bearer <key>`.
 
 ## Tested
 
 | What | How | Result |
 |---|---|---|
 | API conformance | `tests/test_conformance.py`: TypeSafe's published OpenAPI schema, both official SDKs, OpenRouter's schema | 14 of 14 pass |
-| Every model, end to end through the interface | `scripts/e2e.py` drives the app in a browser: all six question types on all eleven models, images on the two that read them, Evaluate, Activity, the API page's example, download, and switching between GPU and processor | 21 of 21 pass ([details and timings](docs/testing.md)) |
+| Templates, history and the studio API | `tests/test_studio_api.py` (a live studio with a deterministic test model), `tests/test_templates.py`, `tests/test_history_store.py`, `tests/test_contract.py` | 89 of 89 pass |
+| Every model, end to end through the interface | `scripts/e2e.py` drives the app in a browser: all six question types on all eleven models, images on the two that read them, Evaluate, History, the API page's example, download, and switching between GPU and processor | 21 of 21 pass ([details and timings](docs/testing.md)) |
 | Desktop app | first-run setup (hardware check, install, device check), the launcher entry, starting and stopping the engine, recovery after a force quit | Linux ARM64 on an NVIDIA GB10 |
 
 ## Run from source

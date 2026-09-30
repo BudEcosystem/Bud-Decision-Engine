@@ -1,5 +1,22 @@
 # Test results
 
+## 0.2.0: templates, history and the studio API
+
+Run on 2026-10-01, NVIDIA GB10 (DGX Spark), Ubuntu 24.04.
+
+| What | How | Result |
+|---|---|---|
+| Template logic | `tests/test_templates.py`: every variable type and save error, the substitution rules (typed whole values, dropped keys, single pass, escaping), sensitive values, options variables, extensions, the settings ladder and its sources, hashing, version comparability and change classes, the JSON Schema export, the starter templates in sync | 49 of 49 pass |
+| Answer contract | `tests/test_contract.py`: per-question temperature (including pick-any options), raw probabilities, certainty and the act gate for every type | 9 of 9 pass |
+| History store | `tests/test_history_store.py`: storage levels, immutable versions and outputs, answer projections, filters and cursors under inserts, retry folding, feedback and statistics, retention exemptions, erasure by a sensitive value, redaction, search, and migration safety (activity import, backups, changed-checksum refusal, read-only when newer) | 11 of 11 pass |
+| The studio API, live | `tests/test_studio_api.py` against a studio with the deterministic test model: the five calls of the design end to end, the wire routes' bodies unchanged with and without storage, lenient `store` and `metadata`, `X-Basal-Template`, idempotency, SDK retries, the cross-site guard, safe file serving, storage levels, background decisions, the template lifecycle, starter templates, preview, settings, and the error envelope | 20 of 20 pass |
+| API conformance | `tests/test_conformance.py` against the test model and against Laya | 14 of 14 pass on each |
+| Through the interface | `scripts/e2e.py --models laya --skip-download`: Playground (six question types, a decision from scratch), Evaluate, **History** (listed and inspectable), **Templates** (Save as template, Decide in template mode, found in the template's history), the API page's curl example, switching to the processor and back, no JavaScript errors on any page | 10 of 10 pass |
+
+The first four also run on macOS, Windows and Linux in CI (`.github/workflows/studio.yml`), with no model libraries installed.
+
+## 0.1.x: every model
+
 Run on 2026-09-30 21:13, NVIDIA GB10 (DGX Spark), Ubuntu 24.04, while other programs shared its memory. 21 of 21 end-to-end checks passed. API conformance: 14 of 14 checks pass (TypeSafe's OpenAPI schema, the official Python and JavaScript SDKs, OpenRouter's schema).
 
 How to run them yourself:

@@ -236,10 +236,10 @@ const MINI = {
   number: '<i class="range"><b></b><em></em></i>',
 };
 
-export function addGridHTML() {
+export function addGridHTML({ title = 'Create new Decision', text = 'Choose the kind of answer you want. Add as many as you need; the model answers them all at once.' } = {}) {
   return `<div class="create-dec" role="group" aria-labelledby="createdec">
-    <div class="create-dec-head"><h3 id="createdec">Create new Decision</h3>
-      <p>Choose the kind of answer you want. Add as many as you need; the model answers them all at once.</p></div>
+    <div class="create-dec-head"><h3 id="createdec">${esc(title)}</h3>
+      <p>${esc(text)}</p></div>
     <div class="add-q">${TYPES.map((t) => `<button data-add-type="${t}"><span class="mini mini-${t}" aria-hidden="true">${MINI[t]}</span><b>${TYPE_META[t].name}</b><span class="d">${TILE_HELP[t]}</span></button>`).join('')}</div>
   </div>`;
 }

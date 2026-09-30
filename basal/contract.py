@@ -21,7 +21,7 @@ from __future__ import annotations
 import json
 import math
 from dataclasses import dataclass, field
-from typing import Any, Literal, Union
+from typing import Annotated, Any, Literal, Mapping, Union
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
@@ -140,6 +140,7 @@ class Number(BaseModel):
 
 
 Question = Union[Noul, Choice, Score, Multi, Rank, Number]
+AnswerQuestion = Annotated[Question, Field(discriminator="type")]   # errors name the question's own type
 PRIMITIVE_TYPES = ("choice", "score", "noul")
 EXTENSION_TYPES = ("multi", "rank", "number")
 
@@ -156,9 +157,22 @@ class Media(BaseModel):
         return self
 
 
+class QuestionSettings(BaseModel):
+    """Per-question values (studio API). Keyed by the client's question id."""
+    temperature: float | None = Field(default=None, gt=0, le=20)
+    act_threshold: float | None = Field(default=None, gt=0, le=1)
+    multi_threshold: float | None = Field(default=None, gt=0, lt=1)
+    model_config = {"extra": "ignore"}
+
+
 class Settings(BaseModel):
     temperature: float | None = Field(default=None, gt=0, le=20,
                                       description="Calibration temperature applied on top of the model's own. >1 softens, <1 sharpens.")
+    act_threshold: float | None = Field(default=None, gt=0, le=1,
+                                        description="An answer acts when its certainty is at least this value (studio API).")
+    questions: dict[str, QuestionSettings] = Field(default_factory=dict,
+                                                   description="Per-question temperature, act threshold and multi threshold.")
+    model_config = {"extra": "ignore"}
 
 
 class SystemOneRequest(BaseModel):
@@ -224,6 +238,7 @@ def normalise(req: SystemOneRequest) -> list[Q]:
     recomposed by build_answers."""
     out = []
     n_child = 0
+    per_q = req.settings.questions if req.settings else {}
     for qid, q in req.questions.items():
         raw = q.model_dump()
         instr = render(q.instructions).strip() or DEFAULT_INSTRUCTIONS[q.type]
@@ -231,13 +246,14 @@ def normalise(req: SystemOneRequest) -> list[Q]:
             raw["instructions"] = instr
             q = q.model_copy(update={"instructions": instr})
         if q.type == "multi":
+            cut = (per_q.get(qid).multi_threshold if per_q.get(qid) else None) or q.threshold
             for name, desc in q.criteria.items():
                 d = render(desc) or None
                 child_instr = f'{instr}\nDoes "{name}" apply?' + (f" ({d})" if d else "")
                 cid = f"__m{n_child}"; n_child += 1
                 out.append(Q(cid, "noul", child_instr, ["false", "true"], ["no", "yes"], [None, d],
                              {"type": "noul", "instructions": child_instr}, parent=qid, role="multi",
-                             meta={"option": name, "threshold": q.threshold}))
+                             meta={"option": name, "threshold": cut}))
             continue
         if q.type == "rank":
             keys = list(q.criteria)
@@ -335,10 +351,13 @@ def _central_range(values: list[float], p: list[float], mass: float = 0.8) -> li
     return [lo, hi]
 
 
-def build_answers(qs: list[Q], probs: list[list[float]], temperature: float | None = None) -> dict[str, Any]:
+def build_answers(qs: list[Q], probs: list[list[float]], temperature: float | None = None,
+                  per_question: Mapping[str, float] | None = None) -> dict[str, Any]:
+    """Answers for every client question. `per_question` maps a client question id to its own temperature (multi
+    children use their parent's); questions without one use `temperature`."""
     if len(probs) != len(qs):
         raise ValueError(f"model returned {len(probs)} answers for {len(qs)} questions")
-    prim = _primitive_answers(qs, probs, temperature)
+    prim = _primitive_answers(qs, probs, temperature, per_question or {})
     out: dict[str, Any] = {}
     for q in qs:
         a = prim[q.id]
@@ -371,12 +390,13 @@ def build_answers(qs: list[Q], probs: list[list[float]], temperature: float | No
     return out
 
 
-def _primitive_answers(qs: list[Q], probs: list[list[float]], temperature: float | None) -> dict[str, Any]:
+def _primitive_answers(qs: list[Q], probs: list[list[float]], temperature: float | None,
+                       per_question: Mapping[str, float]) -> dict[str, Any]:
     out = {}
     for q, p in zip(qs, probs):
         if len(p) != len(q.keys):
             raise ValueError(f"question '{q.display_id}': model returned {len(p)} probabilities for {len(q.keys)} options")
-        p = apply_temperature(_normalise_probs(p), temperature)
+        p = apply_temperature(_normalise_probs(p), per_question.get(q.display_id, temperature))
         top = max(range(len(p)), key=p.__getitem__)
         dist = {k: r4(v) for k, v in zip(q.keys, p)}
         if q.type == "noul":
@@ -391,6 +411,47 @@ def _primitive_answers(qs: list[Q], probs: list[list[float]], temperature: float
                  "decision": q.keys[top], "top_probability": r4(p[top])}
         out[q.id] = a
     return out
+
+
+def raw_probabilities(qs: list[Q], probs: list[list[float]]) -> dict[str, dict[str, float]]:
+    """Normalised probabilities before any calibration temperature, keyed like each answer's `probabilities` (for
+    multi: P(applies) per option). Six decimals, so temperatures can be fitted later without loss."""
+    out: dict[str, dict[str, float]] = {}
+    for q, p in zip(qs, probs):
+        p = _normalise_probs(p)
+        if q.role == "multi":
+            out.setdefault(q.parent, {})[q.meta["option"]] = round(p[1], 6)
+        elif q.role == "number":
+            out[q.parent] = {_fmt_num(v): round(x, 6) for v, x in zip(q.meta["values"], p)}
+        else:
+            out[q.display_id] = {k: round(x, 6) for k, x in zip(q.keys, p)}
+    return out
+
+
+def certainty(answer: dict) -> float:
+    """How sure an answer is, for the act gate: the top probability, or for pick-all-that-apply the least certain
+    option's max(p, 1 - p)."""
+    probs = answer.get("probabilities") or {}
+    if answer.get("type") == "multi":
+        return r4(min((max(p, 1 - p) for p in probs.values()), default=1.0))
+    top = answer.get("top_probability")
+    return r4(top if top is not None else max(probs.values(), default=0.0))
+
+
+def gate(answer: dict, threshold: float) -> bool:
+    return certainty(answer) >= threshold
+
+
+def recalibrate(answer_type: str, raw: dict[str, float], temperature: float | None) -> dict[str, float]:
+    """Stored raw probabilities -> probabilities at another temperature (for what-if statistics)."""
+    if answer_type == "multi":
+        out = {}
+        for k, py in raw.items():
+            a, b = apply_temperature([1 - py, py], temperature)
+            out[k] = b
+        return out
+    keys = list(raw)
+    return dict(zip(keys, apply_temperature(_normalise_probs([raw[k] for k in keys]), temperature)))
 
 
 def approx_tokens(req: SystemOneRequest) -> int:

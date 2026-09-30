@@ -4,7 +4,8 @@ Drives a headless browser against a running studio, the way a person would:
   * Playground: every downloaded model answers all six question types ("Every question type at once"), and the models
     that read images answer the receipt-photo example; each answer must render as figures with no page errors.
   * Evaluate: a leaderboard over the sample examples with two models.
-  * Activity: the requests just made appear in the log, and the inspector opens.
+  * History: the decisions just made are listed, and the inspector opens.
+  * Templates: a Playground decision saved as a template, run in template mode, and found in the template's history.
   * API: the quick-start curl command shown on the page runs and returns answers.
   * Models: a small model's files are deleted and downloaded again from the page.
   * System: switch to the processor, answer on it, switch back.
@@ -96,7 +97,7 @@ async def main():
     ap.add_argument("--report", default="")
     ap.add_argument("--browser", default="")
     ap.add_argument("--no-models", action="store_true", help="skip the per-model Playground checks")
-    ap.add_argument("--no-pages", action="store_true", help="skip Evaluate, Activity, API, Models and System")
+    ap.add_argument("--no-pages", action="store_true", help="skip Evaluate, History, Templates, API, Models and System")
     ap.add_argument("--headroom", type=float, default=6.0, help="GB of free memory to keep beyond the model's own")
     a = ap.parse_args()
     run = Run(a.url, a.report)
@@ -155,15 +156,15 @@ async def main():
         for mid in small:
             run.eject(mid)
 
-        # ---- Activity: the requests above are in the log and open in the inspector
-        await pg.goto(run.url + "#/activity")
+        # ---- History: the decisions above are listed and open in the inspector
+        await pg.goto(run.url + "#/history")
         await pg.wait_for_timeout(3000)
         n = await pg.locator("tr[data-req]").count()
         if n:
             await pg.locator("tr[data-req]").first.click()
-            await pg.wait_for_timeout(500)
+            await pg.wait_for_timeout(800)
         insp = await pg.locator("#replay").count()
-        run.record("activity", "requests listed and inspectable", n > 0 and insp > 0, f"{n} requests shown")
+        run.record("history", "decisions listed and inspectable", n > 0 and insp > 0, f"{n} decisions shown")
 
         # ---- Playground from scratch: New, a situation, one question typed in, Decide
         await pg.goto(run.url + "#/playground?model=laya")
@@ -183,6 +184,23 @@ async def main():
         await pg.click("#decide")
         ok, detail = await wait_answers(pg, 1, 300)
         run.record("playground", "new decision from scratch", blank and ok, detail if not ok else "blank start, 1 question typed in, answered", round(time.time() - t0, 1))
+
+        # ---- Templates: save that decision as a template, decide with it, find it in the template's history
+        tid = f"e2e-triage-{int(time.time())}"
+        await pg.click("#savetpl")
+        await pg.wait_for_timeout(400)
+        await pg.fill("dialog [name=name]", "E2E triage")
+        await pg.fill("dialog [name=id]", tid)
+        await pg.click("#dosave")
+        await pg.wait_for_timeout(1500)
+        mode = await pg.locator("#tplbtn.on").count()
+        t0 = time.time()
+        await pg.click("#decide")
+        ok, detail = await wait_answers(pg, 1, 300)
+        hist = run.api.get(f"/v1/studio/templates/{tid}/decisions").json().get("data", [])
+        run.record("templates", "save as template, decide, template history", bool(mode and ok and hist),
+                   detail if not ok else f"template mode, answered, {len(hist)} in its history", round(time.time() - t0, 1))
+        run.api.delete(f"/v1/studio/templates/{tid}", params={"confirm": tid, "history": "delete"})
 
         # ---- API page: run the curl quick start exactly as shown
         await pg.goto(run.url + "#/api")

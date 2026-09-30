@@ -3,27 +3,29 @@
 
 import { openChooser } from './chooser.js';
 import { GLOSSARY } from './glossary.js';
-import * as activity from './pages/activity.js';
 import * as apiPage from './pages/api.js';
 import * as evaluate from './pages/evaluate.js';
+import * as historyPage from './pages/history.js';
 import * as learn from './pages/learn.js';
 import * as models from './pages/models.js';
 import * as playground from './pages/playground.js';
 import * as system from './pages/system.js';
+import * as templates from './pages/templates.js';
 import { shell } from './shell.js';
 import { cancelDownload, downloadPct, ejectModel, setPref, startPolling, store, subscribe } from './store.js';
 import { $, $$, esc, fmtBytes, fmtDuration, fmtGB, icon, initTips, popMenu } from './util.js';
 
 const ROUTES = {
   playground: { page: playground, label: 'Playground', icon: 'flask', sec: '' },
+  templates: { page: templates, label: 'Templates', icon: 'stack', sec: '' },
   models: { page: models, label: 'Models', icon: 'squares-four', sec: '' },
   evaluate: { page: evaluate, label: 'Evaluate', icon: 'list-checks', sec: '' },
-  activity: { page: activity, label: 'Activity', icon: 'pulse', sec: 'Developer' },
+  history: { page: historyPage, label: 'History', icon: 'clock-counter-clockwise', sec: 'Developer' },
   api: { page: apiPage, label: 'API', icon: 'terminal-window', sec: 'Developer' },
   learn: { page: learn, label: 'Learn', icon: 'book-open', sec: 'Help' },
   system: { page: system, label: 'System', icon: 'cpu', sec: 'Help' },
 };
-const ALIASES = { try: 'playground', batch: 'evaluate', code: 'api', history: 'activity' };
+const ALIASES = { try: 'playground', batch: 'evaluate', code: 'api', activity: 'history' };
 
 let current = null;
 

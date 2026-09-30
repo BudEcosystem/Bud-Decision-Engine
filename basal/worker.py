@@ -30,7 +30,7 @@ from fastapi.responses import JSONResponse
 from . import adapters
 from .adapters.base import DecideInput
 from .catalog import BY_ID
-from .contract import SystemOneRequest, build_answers, normalise, render, approx_tokens
+from .contract import SystemOneRequest, approx_tokens, build_answers, normalise, raw_probabilities, render
 
 
 class State:
@@ -176,10 +176,12 @@ def decide(body: dict):
         ms = (time.perf_counter() - t) * 1000
     S.requests += 1
     S.busy_ms += ms
-    answers = build_answers(qs, out.probs, req.settings.temperature)
+    temps = {q: s.temperature for q, s in req.settings.questions.items() if s.temperature}
+    answers = build_answers(qs, out.probs, req.settings.temperature, temps)
     for qid, extra in out.extras.items():
         if qid in answers and answers[qid].get("type") in ("choice", "score", "noul"): answers[qid]["model_extras"] = extra
-    return {"model": ARGS.model, "answers": answers,
+    # raw_probabilities sits beside the answers, never inside them, so no wire format can pass it on by accident
+    return {"model": ARGS.model, "answers": answers, "raw_probabilities": raw_probabilities(qs, out.probs),
             "usage": {"input_tokens": out.input_tokens or approx_tokens(req), "output_tokens": 0},
             "latency_ms": round(ms, 1), "passes": out.passes, "notes": out.notes + ([S.warning] if S.warning else [])}
 

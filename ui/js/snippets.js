@@ -124,3 +124,33 @@ ${qs}
 
 console.log(requestId, data.answers);`;
 }
+
+// A decision through the studio API (/v1/studio/decisions): templates, variables and history. For template mode.
+export function studioSnippet(langKey, body) {
+  const url = `${base()}/v1/studio/decisions`;
+  const json = JSON.stringify(body, null, 2);
+  if (langKey === 'curl') {
+    return `curl -s ${url} \\
+  -H "Content-Type: application/json" \\
+  -d '${json.replace(/'/g, "'\\''")}'`;
+  }
+  if (langKey === 'javascript' || langKey === 'js-sdk') {
+    return `const res = await fetch("${url}", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(${json.replace(/\n/g, '\n  ')}),
+});
+const d = await res.json();
+if (!res.ok) throw new Error(d.error.message);
+console.log(d.act ? "act on it" : \`ask a human about \${d.needs_review}\`, d.answers);`;
+  }
+  return `import httpx
+
+studio = httpx.Client(base_url="${base()}/v1/studio", timeout=120)
+d = studio.post("/decisions", json=${py(body)}).raise_for_status().json()
+
+if d["act"]:
+    ...  # every answer is sure enough to act on
+else:
+    print("Ask a human about", d["needs_review"], "decision", d["id"])`;
+}

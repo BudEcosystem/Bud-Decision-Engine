@@ -32,14 +32,21 @@ export function errorText(data) {
   return JSON.stringify(d);
 }
 
-// A decision through the public TypeSafe-compatible endpoint, with the studio's extra answer fields switched on.
-export async function decide(request) {
+// The studio API (/v1/studio): templates, history, feedback, examples, settings.
+export const studio = (path, opts) => api(`/v1/studio${path}`, opts);
+
+// One decision through the studio API, recorded in History. `surface` says where it came from (playground, eval,
+// order_test); eval and order-test runs are kept out of the default History list. The response is the full decision
+// object; latency_ms and wall_ms are added for the figures and the run stamp.
+export async function decide(request, { surface = 'playground' } = {}) {
   const t = performance.now();
-  const r = await api('/v1/systemone', { method: 'POST', body: request, raw: true, headers: { 'x-basal-extensions': '1' } });
+  const r = await api('/v1/studio/decisions', { method: 'POST', body: request, raw: true, headers: { 'x-basal-surface': surface } });
   const text = await r.text();
   let data; try { data = JSON.parse(text); } catch { data = { detail: text }; }
-  const meta = { status: r.status, requestId: r.headers.get('x-typesafe-request-id'), roundtrip: performance.now() - t };
+  const meta = { status: r.status, requestId: r.headers.get('x-request-id') || r.headers.get('x-typesafe-request-id'),
+    decisionId: r.headers.get('x-basal-decision-id'), stored: r.headers.get('x-basal-stored'), roundtrip: performance.now() - t };
   if (!r.ok) { const e = new Error(errorText(data)); e.status = r.status; e.data = data; e.meta = meta; throw e; }
+  data.latency_ms = data.timing?.model_ms; data.wall_ms = data.timing?.total_ms;
   return { data, meta };
 }
 

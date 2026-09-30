@@ -38,15 +38,18 @@ export function animate(root, { instant = false } = {}) {
 }
 
 // ------------------------------------------------------------------ gate: act automatically or ask a human
-function gateOf(a, threshold) {
-  let top = a.top_probability;
+// Decisions made through the studio API carry their own verdict (certainty and act, gated at each question's
+// threshold when the decision was made). A threshold passed here instead previews "what if" at that value.
+function gateOf(a, threshold, server = false) {
+  if (server && a.act != null && a.certainty != null) return { top: a.certainty, act: a.act };
+  let top = a.certainty ?? a.top_probability;
   if (a.type === 'multi') top = Math.min(...Object.values(a.probabilities || {}).map((p) => Math.max(p, 1 - p)));
   if (top == null) top = Math.max(...Object.values(a.probabilities || { x: 0 }));
   return { top, act: top >= threshold };
 }
 const gateHTML = (g, threshold) => (g.act
   ? `<span class="gate act">${icon('act')}Act automatically</span>`
-  : `<span class="gate ask">${icon('ask')}Ask a human</span><span class="faint">below your ${pct(threshold)}% threshold</span>`);
+  : `<span class="gate ask">${icon('ask')}Ask a human</span><span class="faint">below ${pct(threshold)}%, the act threshold</span>`);
 
 function extrasHTML(a) {
   const x = a.model_extras;
@@ -158,9 +161,9 @@ const yScale = `<span class="yaxis" aria-hidden="true">${[100, 75, 50, 25, 0].ma
 const RENDER = { choice: choiceFig, rank: rankFig, multi: multiFig, noul: noulFig, score: scoreFig, number: numberFig };
 
 // ------------------------------------------------------------------ one figure
-export function figure(key, a, q, { no = '1a', threshold = 0.9 } = {}) {
+export function figure(key, a, q, { no = '1a', threshold = 0.9, server = false } = {}) {
   const r = (RENDER[a.type] || choiceFig)(a, q);
-  const g = gateOf(a, threshold);
+  const g = gateOf(a, threshold, server);
   const c = certainty(g.top);
   const title = q?.instructions || key;
   const conf = a.confidence != null ? `<span><span class="term" data-term="confidence" tabindex="0">Confidence</span> <span class="num">${fmtNum(a.confidence, 2)}</span></span>` : '';
@@ -174,10 +177,15 @@ export function figure(key, a, q, { no = '1a', threshold = 0.9 } = {}) {
 }
 
 // All figures of one response, lettered in question order.
-export function figures(response, request, { run = 1, threshold = 0.9 } = {}) {
+// threshold: a "what if" act threshold for every question; leave it out to show the verdict the decision was made
+// with (each question at its own threshold, from response.settings).
+export function figures(response, request, { run = 1, threshold } = {}) {
   const qs = request?.questions || {};
   const keys = Object.keys(response.answers || {});
-  return `<div class="figs">${keys.map((k, i) => figure(k, response.answers[k], qs[k], { no: `${run}${String.fromCharCode(97 + (i % 26))}`, threshold })).join('')}</div>`;
+  const st = response.settings || {};
+  const server = threshold == null;
+  const thr = (k) => (server ? st.questions?.[k]?.act_threshold ?? st.act_threshold ?? 0.9 : threshold);
+  return `<div class="figs">${keys.map((k, i) => figure(k, response.answers[k], qs[k], { no: `${run}${String.fromCharCode(97 + (i % 26))}`, threshold: thr(k), server })).join('')}</div>`;
 }
 
 // "Show all N" buttons inside long plots.

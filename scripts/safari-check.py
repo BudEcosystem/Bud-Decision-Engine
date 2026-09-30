@@ -20,7 +20,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 OLD_RULE = ".ch-list { flex: 1 1 0% !important; }"      # the rule shipped in 0.1.0 and 0.1.1
-PAGES = ["playground", "models", "evaluate", "activity", "api", "learn", "system"]
+PAGES = ["playground", "templates", "models", "evaluate", "history", "api", "learn", "system"]
 COLLECT = "window.__errs = window.__errs || []; if (!window.__hooked) { window.__hooked = 1; " \
           "window.addEventListener('error', e => window.__errs.push(String(e.message))); " \
           "window.addEventListener('unhandledrejection', e => window.__errs.push('rejection: ' + String(e.reason))); }"

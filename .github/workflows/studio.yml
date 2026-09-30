@@ -1,0 +1,34 @@
+# Tests the studio API, templates and history on macOS, Windows and Linux: the template logic, the history store
+# (a real SQLite database per test), and a live studio with the deterministic test model (BASAL_FAKE_MODEL=1), so no
+# model has to be downloaded. Runs whenever the studio's code or these tests change.
+name: studio
+
+on:
+  push:
+    branches: [main]
+    paths: ["basal/**", "ui/js/examples.js", "ui/js/model-guides.js", "scripts/export-builtins.mjs", "tests/**", ".github/workflows/studio.yml"]
+  pull_request:
+    paths: ["basal/**", "ui/js/examples.js", "ui/js/model-guides.js", "scripts/export-builtins.mjs", "tests/**", ".github/workflows/studio.yml"]
+  workflow_dispatch:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, windows-latest, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Templates, history and the studio API
+        shell: bash
+        run: >
+          uv run --no-project --python 3.12
+          --with fastapi --with 'uvicorn[standard]' --with httpx --with psutil --with 'pydantic>=2.12'
+          --with python-multipart --with 'huggingface_hub>=1.0' --with jsonschema --with pytest
+          pytest tests/test_templates.py tests/test_contract.py tests/test_history_store.py tests/test_studio_api.py -q

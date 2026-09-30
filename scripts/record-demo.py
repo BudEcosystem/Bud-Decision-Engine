@@ -4,7 +4,7 @@
 
 Needs a running studio with the model downloaded, Playwright, and ffmpeg. The walkthrough: open the Playground,
 choose an example, press Decide and watch the answers arrive, look at the question types, then the Models and
-Activity pages.
+History pages.
 """
 import argparse
 import asyncio
@@ -56,7 +56,7 @@ async def record(url: str, model: str, browser: str | None) -> Path:
         await pg.wait_for_timeout(1500)
         await pg.click('[data-tab="jev"]')
         await pg.wait_for_timeout(2600)
-        await pg.goto(f"{url}#/activity")
+        await pg.goto(f"{url}#/history")
         await pg.wait_for_timeout(3500)
         video = await pg.video.path()
         await ctx.close()

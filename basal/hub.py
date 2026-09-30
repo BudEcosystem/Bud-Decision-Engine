@@ -165,6 +165,8 @@ def remove_stale_partials(repo_id: str) -> int:
 
 
 def model_status(spec: ModelSpec) -> dict:
+    if spec.adapter == "fake":   # the test model has no files
+        return {"complete": True, "have": 0, "partial": 0, "total": 0, "remaining": 0, "parts": {}}
     parts = {r.id: repo_status(r) for r in spec.repos()}
     total = sum(p["total"] for p in parts.values())
     have = sum(p["have"] for p in parts.values())

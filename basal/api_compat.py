@@ -22,7 +22,7 @@ from typing import Annotated, Any, Literal, Union
 
 from pydantic import BaseModel, Field, ValidationError
 
-from .contract import JSON, Choice, Media, Multi, Noul, Number, Rank, Score, Settings
+from .contract import JSON, Choice, Media, Multi, Noul, Number, Rank, Score
 
 EXT_HEADER = "x-basal-extensions"
 PROVIDER = "Bud Decision Studio"
@@ -43,12 +43,19 @@ AnyQuestion = Annotated[Union[Noul, Choice, Score, Multi, Rank, Number], Field(d
 EvalQuestion = Annotated[Union[Boolean, Choice, Score, Multi, Rank, Number], Field(discriminator="type")]
 
 
+class WireSettings(BaseModel):
+    """Only the temperature: the wire routes validate exactly as they always have. Studio-only settings such as
+    act_threshold are read leniently elsewhere (decisions.wire_extensions) and never cause a 422."""
+    temperature: float | None = Field(default=None, gt=0, le=20)
+    model_config = {"extra": "ignore"}
+
+
 class WireRequest(BaseModel):
     state: Union[str, dict, list]
     model: str
     questions: dict[str, AnyQuestion] = Field(min_length=1)
     media: list[Media] = Field(default_factory=list)
-    settings: Settings = Field(default_factory=Settings)
+    settings: WireSettings = Field(default_factory=WireSettings)
     model_config = {"extra": "ignore"}
 
 
@@ -81,10 +88,14 @@ def parse(body: Any, fmt: str) -> tuple[dict | None, list[dict] | None]:
 
 
 def error_body(fmt: str, status: int, message: str | list) -> dict:
+    """Each route's own error shape. Also used for the studio's added failure modes on these routes (403
+    cross_site_request, 409 idempotency conflicts, 503 store_failed), so clients see nothing unfamiliar."""
     if fmt in ("openrouter",):
         return {"error": {"code": status, "message": _as_text(message)}}
     if fmt in ("vercel", "evaluate"):
-        return {"message": _as_text(message), "error_type": "invalid_request" if status in (400, 422) else "provider_error"}
+        kind = "invalid_request" if status in (400, 422) else "forbidden" if status == 403 else \
+            "conflict" if status == 409 else "provider_error"
+        return {"message": _as_text(message), "error_type": kind}
     return {"detail": message}
 
 

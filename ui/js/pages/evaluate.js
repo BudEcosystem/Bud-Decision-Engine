@@ -178,7 +178,7 @@ async function runModel(mid) {
   run.results[mid] = { items: out };
   for (const r of run.rows) {
     try {
-      const { data: res } = await decide({ model: mid, state: r.text, questions: { q: run.question } });
+      const { data: res } = await decide({ model: mid, state: r.text, questions: { q: run.question } }, { surface: 'eval' });
       const a = res.answers.q;
       const probs = run.keys.map((k) => a.probabilities[k] ?? 0);
       const pi = probs.indexOf(Math.max(...probs));

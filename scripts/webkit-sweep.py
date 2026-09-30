@@ -13,7 +13,7 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright
 
-PAGES = ["playground", "models", "evaluate", "activity", "api", "learn", "system"]
+PAGES = ["playground", "templates", "models", "evaluate", "history", "api", "learn", "system"]
 
 
 async def main():

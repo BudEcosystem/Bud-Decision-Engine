@@ -685,7 +685,16 @@ def index():
     return FileResponse(UI / "index.html", headers={"cache-control": "no-cache"})
 
 
-app.mount("/ui", StaticFiles(directory=UI), name="ui")
+class _UIFiles(StaticFiles):
+    """The interface's scripts and styles: always checked for a newer version (a quick 304 when unchanged), so an
+    updated app or studio never runs yesterday's cached interface."""
+    async def get_response(self, path, scope):
+        resp = await super().get_response(path, scope)
+        resp.headers["cache-control"] = "no-cache"
+        return resp
+
+
+app.mount("/ui", _UIFiles(directory=UI), name="ui")
 
 
 def main():

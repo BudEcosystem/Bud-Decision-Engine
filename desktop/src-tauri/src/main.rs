@@ -210,11 +210,17 @@ fn port_free(port: u16) -> bool {
     TcpListener::bind(("127.0.0.1", port)).is_ok()
 }
 
-fn free_port() -> u16 {
-    if port_free(PREFERRED_PORT) {
-        return PREFERRED_PORT;
-    }
-    TcpListener::bind(("127.0.0.1", 0)).and_then(|l| l.local_addr()).map(|a| a.port()).unwrap_or(PREFERRED_PORT + 1)
+/// The studio's port. The window's saved state (the draft, the theme, choices already made) belongs to the page's
+/// address, so the port must stay the same from one launch to the next: the port used last time if it is free, else
+/// 8420, else the first free one in 8421-8440, remembered for next time.
+fn studio_port(app: &AppHandle) -> u16 {
+    let file = data_root(app).join("studio-port");
+    let last = std::fs::read_to_string(&file).ok().and_then(|s| s.trim().parse::<u16>().ok());
+    let port = [last, Some(PREFERRED_PORT)].into_iter().flatten().chain(8421..=8440).find(|p| port_free(*p))
+        .or_else(|| TcpListener::bind(("127.0.0.1", 0)).and_then(|l| l.local_addr()).map(|a| a.port()).ok())
+        .unwrap_or(PREFERRED_PORT + 1);
+    let _ = std::fs::create_dir_all(data_root(app)).and_then(|_| std::fs::write(&file, port.to_string()));
+    port
 }
 
 /// True once the studio answers GET /api/config with 200.
@@ -269,7 +275,7 @@ async fn start_studio(app: AppHandle, state: State<'_, Studio>) -> Result<String
             if !py.exists() {
                 return Err("The engine is not installed yet.".into());
             }
-            let port = free_port();
+            let port = studio_port(&app);
             let logs = data_root(&app).join("logs");
             std::fs::create_dir_all(&logs).map_err(|e| e.to_string())?;
             let log_path = logs.join("studio.log");

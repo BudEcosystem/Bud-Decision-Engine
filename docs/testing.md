@@ -43,4 +43,4 @@ python scripts/e2e.py --report e2e.json      # every model and page, through the
 | desktop | adds itself to the applications menu with its icon (entry validated with desktop-file-validate) | pass | | |
 | desktop | closing or force-quitting the app stops the engine and ejects every model | pass | | |
 | desktop | setup screens: every step, error and recovery state, light and dark, previewed with simulated Mac, Intel and CPU-only computers | pass | | |
-| desktop | macOS and Windows builds (GitHub Actions); their platform-only code is type-checked for both targets | pending | | |
+| desktop | macOS and Windows builds (GitHub Actions); their platform-only code is type-checked for both targets | built in CI (all four platforms) | | |

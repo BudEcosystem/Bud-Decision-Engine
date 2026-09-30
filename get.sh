@@ -62,7 +62,8 @@ fi
 [ "$os" = Linux ] || die "unsupported system: $os (on Windows, use get.ps1)"
 debarch=$([ "$arch" = x86_64 ] && echo amd64 || echo arm64)
 
-can_sudo() { [ "$(id -u)" = 0 ] || { command -v sudo >/dev/null 2>&1 && { sudo -n true 2>/dev/null || [ -r /dev/tty ]; }; }; }
+has_tty() { (exec </dev/tty) 2>/dev/null; }   # a terminal to ask for the password on, even when piped from curl
+can_sudo() { [ "$(id -u)" = 0 ] || { command -v sudo >/dev/null 2>&1 && { sudo -n true 2>/dev/null || has_tty; }; }; }
 as_root() { if [ "$(id -u)" = 0 ]; then "$@"; else sudo "$@" </dev/tty; fi; }
 
 if [ "$APPIMAGE_ONLY" = 0 ] && command -v apt-get >/dev/null 2>&1 && can_sudo; then
@@ -70,9 +71,11 @@ if [ "$APPIMAGE_ONLY" = 0 ] && command -v apt-get >/dev/null 2>&1 && can_sudo; t
   if [ -n "$url" ]; then
     fetch "$url" app.deb
     say "Installing the package (your password may be asked once)"
-    as_root apt-get install -y "$tmp/app.deb"
-    say "Done. Open $NAME from your applications menu, or run: bud-decision-studio"
-    exit 0
+    if as_root apt-get install -y "$tmp/app.deb"; then
+      say "Done. Open $NAME from your applications menu, or run: bud-decision-studio"
+      exit 0
+    fi
+    say "The package could not be installed; installing the AppImage for your user instead"
   fi
 fi
 if [ "$APPIMAGE_ONLY" = 0 ] && { command -v dnf >/dev/null 2>&1 || command -v zypper >/dev/null 2>&1; } && can_sudo; then
@@ -80,9 +83,12 @@ if [ "$APPIMAGE_ONLY" = 0 ] && { command -v dnf >/dev/null 2>&1 || command -v zy
   if [ -n "$url" ]; then
     fetch "$url" app.rpm
     say "Installing the package (your password may be asked once)"
-    if command -v dnf >/dev/null 2>&1; then as_root dnf install -y "$tmp/app.rpm"; else as_root zypper --non-interactive install --allow-unsigned-rpm "$tmp/app.rpm"; fi
-    say "Done. Open $NAME from your applications menu, or run: bud-decision-studio"
-    exit 0
+    if { command -v dnf >/dev/null 2>&1 && as_root dnf install -y "$tmp/app.rpm"; } || \
+       { command -v zypper >/dev/null 2>&1 && as_root zypper --non-interactive install --allow-unsigned-rpm "$tmp/app.rpm"; }; then
+      say "Done. Open $NAME from your applications menu, or run: bud-decision-studio"
+      exit 0
+    fi
+    say "The package could not be installed; installing the AppImage for your user instead"
   fi
 fi
 

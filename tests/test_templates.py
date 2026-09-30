@@ -314,5 +314,5 @@ def test_schema_export(support):
 def test_builtins_file_in_sync():
     r = subprocess.run(["node", "scripts/export-builtins.mjs", "--check"], cwd=ROOT, capture_output=True, text=True)
     assert r.returncode == 0, r.stderr
-    for it in json.loads((ROOT / "basal" / "builtin_templates.json").read_text()):
+    for it in json.loads((ROOT / "basal" / "builtin_templates.json").read_text(encoding="utf-8")):
         T.check_definition({"questions": it["questions"]})

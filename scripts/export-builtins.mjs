@@ -28,7 +28,8 @@ if (process.argv.includes('--check')) {
   const { readFileSync } = await import('node:fs');
   let cur = '';
   try { cur = readFileSync(file, 'utf8'); } catch { /* missing */ }
-  if (cur !== text) { console.error('basal/builtin_templates.json is out of date: run node scripts/export-builtins.mjs'); process.exit(1); }
+  // Windows checkouts may use CRLF line endings; compare the content only.
+  if (cur.replace(/\r\n/g, '\n') !== text) { console.error('basal/builtin_templates.json is out of date: run node scripts/export-builtins.mjs'); process.exit(1); }
   console.log('builtin_templates.json is in sync');
 } else {
   writeFileSync(file, text);

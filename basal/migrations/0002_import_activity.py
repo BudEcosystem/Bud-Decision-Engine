@@ -13,7 +13,7 @@ def run(c, database):
     if not src.exists():
         return
     n = 0
-    for line in src.read_text(errors="replace").splitlines():
+    for line in src.read_text(encoding="utf-8", errors="replace").splitlines():
         try:
             e = json.loads(line)
             req = e.get("request") or {}

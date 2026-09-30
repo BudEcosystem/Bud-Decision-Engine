@@ -135,7 +135,7 @@ class Database:
         pending = []
         for p in files:
             v = int(p.name[:4])
-            checksum = hashlib.sha256(p.read_bytes()).hexdigest()
+            checksum = hashlib.sha256(p.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
             if v in done:
                 if done[v]["checksum"] != checksum:
                     raise RuntimeError(f"Migration {p.name} changed after it was applied to {self.path}. "
@@ -148,7 +148,7 @@ class Database:
             w.execute("BEGIN IMMEDIATE")
             try:
                 if p.suffix == ".sql":
-                    for stmt in _statements(p.read_text()):
+                    for stmt in _statements(p.read_text(encoding="utf-8")):
                         w.execute(stmt)
                 else:
                     spec = importlib.util.spec_from_file_location(f"basal_migration_{v}", p)

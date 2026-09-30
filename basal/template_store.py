@@ -818,7 +818,7 @@ def seed_builtins() -> int:
     """Create or update the read-only builtin/<scenario> templates. A changed scenario adds a version. -> changes made."""
     if not BUILTINS_FILE.exists() or not db.available() or db.get().read_only:
         return 0
-    items = json.loads(BUILTINS_FILE.read_text())
+    items = json.loads(BUILTINS_FILE.read_text(encoding="utf-8"))
     changed = 0
     for it in items:
         tid = f"builtin/{it['id']}"

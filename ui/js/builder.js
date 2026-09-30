@@ -139,7 +139,7 @@ export function buildQuestions(list, spec) {
     if (q.type === 'number') { out.criteria = [...q.values].sort((a, b) => a - b); if (q.unit.trim()) out.unit = q.unit.trim(); }
     questions[key] = out;
   }
-  if (!Object.keys(questions).length) return { error: 'Add at least one question.' };
+  if (!Object.keys(questions).length) return { error: 'Add at least one question: choose a kind of answer under Create new Decision.', field: 'questions' };
   if (spec?.max_questions && Object.keys(questions).length > spec.max_questions) return { error: `${spec.name} accepts up to ${spec.max_questions} questions per request.` };
   return { questions };
 }

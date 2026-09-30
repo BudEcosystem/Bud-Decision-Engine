@@ -946,3 +946,25 @@ dialog.chooser[open] { display: flex; }
   .ch-foot { flex-wrap: wrap; }
   .ch-foot #chsum { flex-basis: 100%; }
 }
+
+/* ---------------------------------------------------------------- Playground: starting a decision from scratch */
+.guide { display: grid; gap: 14px; justify-items: start; max-width: 520px; margin: 28px auto 0; padding: 0 8px; }
+.guide h2 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+.guide-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; width: 100%; }
+.guide-steps li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 12px; align-items: start; padding: 10px 12px; border-radius: 10px; }
+.guide-steps li:first-child:not(.done), .guide-steps li.done + li:not(.done) { background: var(--accent-tint); }   /* the next thing to do */
+.guide-steps .n { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 12.5px; font-weight: 600; background: var(--surface); color: var(--text-2); box-shadow: inset 0 0 0 1.5px var(--line); font-variant-numeric: tabular-nums; }
+.guide-steps li.done .n { background: var(--green); color: #fff; box-shadow: none; }
+.guide-steps li.done .n .i { width: 14px; height: 14px; }
+.guide-steps .step-title { display: block; border: 0; background: none; padding: 0; font: inherit; font-weight: 600; color: var(--text); text-align: left; cursor: pointer; margin: 2px 0 2px; }
+.guide-steps .step-title:disabled { cursor: default; }
+.guide-steps .step-title:not(:disabled):hover { color: var(--accent-text); }
+.guide-steps li.done .step-title { color: var(--text-2); text-decoration: line-through; text-decoration-color: var(--text-3); }
+.guide-steps .small { display: block; line-height: 1.45; }
+.guide-steps b { color: var(--text); font-weight: 600; }
+.create-dec.pulse { animation: create-pulse 1.4s var(--ease) 1; }
+@keyframes create-pulse { 0%, 100% { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent); } 30% { box-shadow: inset 0 0 0 2px var(--accent), 0 0 0 4px var(--accent-tint-2); } }
+.toast { display: flex; align-items: center; gap: 12px; }
+.toast-act { margin-left: auto; border: 0; background: none; color: var(--accent-text); font: inherit; font-weight: 600; cursor: pointer; padding: 2px 4px; border-radius: 6px; }
+.toast-act:hover { background: var(--accent-tint); }
+.toast.error .toast-act { color: #fff; }

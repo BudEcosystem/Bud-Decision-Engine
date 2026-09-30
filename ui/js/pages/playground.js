@@ -20,6 +20,8 @@ let root, builder, keyHandler, reg;
 let pendingModel = null;   // a model named in the URL before the first state poll has arrived
 let lang = 'python', format = 'typesafe';
 let inspOpen = null;
+let hint = null;   // the last "what's missing" message, cleared as soon as the person fixes it
+const clearHint = () => { hint?.remove(); hint = null; };
 
 // ------------------------------------------------------------------ draft
 function fromExample(ex, keep = draft) {
@@ -146,6 +148,7 @@ function render() {
     <section class="spec" id="spec" aria-label="Decision">
       <div class="spec-top">
         <button class="model-chip" id="mchip" aria-haspopup="dialog" aria-label="Choose a model"></button>
+        <button class="btn" id="newdec" data-tip="Start a blank decision: your own situation and questions">${icon('plus')}New</button>
         <button class="btn" id="examples" aria-haspopup="menu">${icon('sparkle')}Examples</button>
       </div>
       <div class="spec-scroll">
@@ -182,7 +185,7 @@ function render() {
     list: () => draft.questions,
     spec: () => model(draft.model),
     onChange: () => { saveDraft(); renderCount(); if (tab === 'code') renderOut(); },
-    onStructure: () => renderCount(),
+    onStructure: () => { renderCount(); clearHint(); if (!last && !busy) renderOut(); },
   });
   builder.render();
   renderModelChip(); renderStateMeta(); renderMedia(); renderCount(); renderInspector(); renderOut();
@@ -191,7 +194,11 @@ function render() {
 
 function bind() {
   const st = $('#state', root);
-  st.addEventListener('input', () => { draft.stateText = st.value; saveDraft(); renderStateMeta(); });
+  st.addEventListener('input', () => {
+    const had = !!draft.stateText.trim();
+    draft.stateText = st.value; saveDraft(); renderStateMeta(); clearHint();
+    if (had !== !!st.value.trim() && !last && !busy) renderOut();
+  });
   $$('[data-mode]', root).forEach((b) => b.addEventListener('click', () => {
     const mode = b.dataset.mode;
     if (mode === draft.stateMode) return;
@@ -202,6 +209,7 @@ function bind() {
   $$('[data-add-type]', root).forEach((b) => b.addEventListener('click', () => builder.add(b.dataset.addType)));
   $('#mchip', root).addEventListener('click', pickModel);
   $('#examples', root).addEventListener('click', (e) => examplesMenu(e.currentTarget));
+  $('#newdec', root).addEventListener('click', newDecision);
   $('#decide', root).addEventListener('click', run);
   $('#tabs', root).addEventListener('click', (e) => { const b = e.target.closest('[data-tab]'); if (b) { tab = b.dataset.tab; $$('[data-tab]', root).forEach((x) => { x.setAttribute('aria-pressed', x === b); x.setAttribute('aria-selected', x === b); }); renderOut({ instant: true }); } });
   $('#insptoggle', root).addEventListener('click', (e) => { inspOpen = !inspOpen; e.currentTarget.setAttribute('aria-pressed', inspOpen); $('#insp', root).hidden = !inspOpen; });
@@ -210,7 +218,7 @@ function bind() {
 function renderCount() {
   const m = model(draft.model);
   const el = $('#qcount', root);
-  if (el) el.textContent = `${draft.questions.length}${m?.max_questions ? ` of up to ${m.max_questions}` : ''}, answered in one pass`;
+  if (el) el.textContent = draft.questions.length ? `${draft.questions.length}${m?.max_questions ? ` of up to ${m.max_questions}` : ''}, answered in one pass` : 'None yet';
 }
 
 function renderStateMeta() {
@@ -248,8 +256,10 @@ function renderModelChip() {
 
 function examplesMenu(anchor) {
   const groups = [...new Set(EXAMPLES.map((e) => e.group))];
-  popMenu(anchor, groups.map((g) => `<div class="menu-group">${esc(g)}</div>${EXAMPLES.filter((e) => e.group === g).map((e) => `<button class="menu-item" role="menuitem" data-pick="${e.id}">${icon(e.needsMedia ? 'image' : 'sparkle')}<span><b>${esc(e.title)}</b><span>${esc(e.blurb)}</span></span></button>`).join('')}`).join(''), {
+  const blank = `<div class="menu-group">Start</div><button class="menu-item" role="menuitem" data-pick="__blank">${icon('plus')}<span><b>Blank decision</b><span>Your own situation and questions, from scratch.</span></span></button>`;
+  popMenu(anchor, blank + groups.map((g) => `<div class="menu-group">${esc(g)}</div>${EXAMPLES.filter((e) => e.group === g).map((e) => `<button class="menu-item" role="menuitem" data-pick="${e.id}">${icon(e.needsMedia ? 'image' : 'sparkle')}<span><b>${esc(e.title)}</b><span>${esc(e.blurb)}</span></span></button>`).join('')}`).join(''), {
     onPick: (id) => {
+      if (id === '__blank') { newDecision(); return; }
       const ex = EXAMPLES.find((e) => e.id === id);
       draft = fromExample(ex); last = null; saveDraft();
       if (ex.needsMedia && !model(draft.model)?.modalities.includes(ex.needsMedia)) {
@@ -345,9 +355,11 @@ async function attachSample(name, add = false) {
 function validated() {
   const built = buildRequest();
   if (built.error) {
-    toast(built.error, 'error');
+    clearHint();
+    hint = toast(built.error, 'error');
     if (built.uid) { builder.setStrict(true); builder.focus(built.uid); }
     if (built.field === 'state') $('#state', root)?.focus();
+    if (built.field === 'questions') showCreatePanel();
     return null;
   }
   return built.request;
@@ -472,7 +484,7 @@ function ghost(busyNow = false) {
       <div class="fig-answer"><span style="display:block;width:40%;height:22px;border-radius:6px;background:var(--fill)"></span></div>
       <div class="hplot">${[0, 0, 0].map(() => '<div class="row"><span class="lab"><span style="display:block;width:70%;height:9px;border-radius:4px;background:var(--fill)"></span></span><span class="track"></span><span class="val"></span></div>').join('')}</div>
     </figure>`).join('')}</div>
-    ${!busyNow && m ? `<p class="muted" style="margin-top:16px;max-width:64ch">Press <b>Decide</b>. ${esc(m.name)} reads the situation once and answers ${n === 1 ? 'the question' : `all ${n} questions`} together. Each answer appears here with every option's probability on a 0 to 100% scale.</p>` : ''}`;
+    ${!busyNow && m ? `<p class="muted" style="margin-top:16px;max-width:64ch">Press <b>Decide</b>. ${esc(m.name)} reads the situation once and ${n === 1 ? 'answers the question' : `answers all ${n} questions together`}. Each answer appears here with every option's probability on a 0 to 100% scale.</p>` : ''}`;
 }
 
 function emptyState() {
@@ -486,7 +498,41 @@ function emptyState() {
   }
   const m = model(draft.model);
   stamp(m ? `${phaseTrack(m)}<b>${esc(m.name)}</b><span>${esc(phaseOf(m).word)}</span>` : '');
-  return ghost();
+  return draft.stateText.trim() && draft.questions.length ? ghost() : guide(m);
+}
+
+// A blank or half-written decision: what to do next, ticked off as it is done.
+function guide(m) {
+  const hasState = !!draft.stateText.trim(), hasQ = draft.questions.length > 0;
+  const step = (done, n, title, body, go) => `<li class="${done ? 'done' : ''}"><span class="n">${done ? icon('check') : n}</span>
+    <span><button class="step-title" ${go ? `data-go="${go}"` : 'disabled'}>${title}</button><span class="small muted">${body}</span></span></li>`;
+  return `<div class="guide">
+    <h2>${hasState || hasQ ? 'Finish your decision' : 'Start a decision'}</h2>
+    <ol class="guide-steps">
+      ${step(hasState, 1, 'Describe the situation', 'Type or paste it under <b>State</b>: an email, a support ticket, a review, a log line or some JSON.', 'state')}
+      ${step(hasQ, 2, 'Add a question', 'Under <b>Create new Decision</b>, pick the kind of answer you want, then write the question and its options.', 'questions')}
+      ${step(false, 3, 'Press Decide', `${esc(m?.name || 'The model')} reads the situation once and answers every question here, each as a chart.`, '')}
+    </ol>
+    <button class="btn btn-plain" data-go="examples">${icon('sparkle')}Or start from an example</button>
+  </div>`;
+}
+
+function showCreatePanel() {
+  const panel = $('.create-dec', root);
+  if (!panel) return;
+  panel.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  panel.classList.remove('pulse'); void panel.offsetWidth; panel.classList.add('pulse');
+  setTimeout(() => $('[data-add-type]', panel)?.focus({ preventScroll: true }), 350);
+}
+
+// Start from scratch: empty situation, no questions, no attachments, no answers. The model and settings stay.
+function newDecision() {
+  const before = { draft: JSON.parse(JSON.stringify(draft)), last };
+  draft = { ...draft, example: null, stateMode: 'text', stateText: '', questions: [], media: [] };
+  last = null; tab = 'answers';
+  saveDraft(); render();
+  $('#state', root)?.focus();
+  toast('Started a new decision.', '', { action: 'Undo', onAction: () => { draft = before.draft; last = before.last; saveDraft(); if (root?.isConnected) render(); } });
 }
 
 function renderOut({ instant = false } = {}) {
@@ -498,6 +544,11 @@ function renderOut({ instant = false } = {}) {
   if (!last) {
     out.innerHTML = emptyState();
     $$('[data-dl]', out).forEach((b) => b.addEventListener('click', () => download(b.dataset.dl)));
+    $$('[data-go]', out).forEach((b) => b.addEventListener('click', () => {
+      if (b.dataset.go === 'state') $('#state', root)?.focus();
+      if (b.dataset.go === 'questions') showCreatePanel();
+      if (b.dataset.go === 'examples') examplesMenu(b);
+    }));
     return;
   }
   if (last.kind === 'error') { stamp(''); out.innerHTML = errorView(); return; }

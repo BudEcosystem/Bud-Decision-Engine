@@ -80,7 +80,7 @@ A **decision model** does not write text. You give it a **situation** (an email,
 
 <table>
 <tr>
-<td width="50%"><img src="docs/media/playground.png" alt="Playground"><br><b>Playground.</b> Write a situation and questions, press Decide, and read each answer as a chart. The model button (Ctrl+L) loads any model; the JSON and Code tabs show the exact request.</td>
+<td width="50%"><img src="docs/media/playground.png" alt="Playground"><br><b>Playground.</b> Write a situation and questions (start blank with <b>New</b>, or from an example), press Decide, and read each answer as a chart. The model button (Ctrl+L) loads any model; the JSON and Code tabs show the exact request.</td>
 <td width="50%"><img src="docs/media/models.png" alt="Models"><br><b>Models.</b> Eleven open models in one table: what each is good at, its size, what it reads and its published results next to Jev. Download, load and eject with one click.</td>
 </tr>
 <tr>

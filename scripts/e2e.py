@@ -165,6 +165,25 @@ async def main():
         insp = await pg.locator("#replay").count()
         run.record("activity", "requests listed and inspectable", n > 0 and insp > 0, f"{n} requests shown")
 
+        # ---- Playground from scratch: New, a situation, one question typed in, Decide
+        await pg.goto(run.url + "#/playground?model=laya")
+        await pg.wait_for_timeout(2500)
+        await pg.click("#newdec")
+        await pg.wait_for_timeout(400)
+        blank = await pg.locator("#state").input_value() == "" and await pg.locator("#qs .q").count() == 0
+        await pg.fill("#state", "Our production database has been down for 20 minutes and customers cannot log in.")
+        await pg.click('[data-add-type="choice"]')
+        await pg.wait_for_timeout(300)
+        await pg.keyboard.type("Which team should handle this?")
+        add = pg.locator("#qs .q").first.locator(".opt-add")
+        for name in ("infrastructure", "billing", "product"):
+            await add.fill(name)
+            await add.press("Enter")
+        t0 = time.time()
+        await pg.click("#decide")
+        ok, detail = await wait_answers(pg, 1, 300)
+        run.record("playground", "new decision from scratch", blank and ok, detail if not ok else "blank start, 1 question typed in, answered", round(time.time() - t0, 1))
+
         # ---- API page: run the curl quick start exactly as shown
         await pg.goto(run.url + "#/api")
         await pg.wait_for_timeout(2000)

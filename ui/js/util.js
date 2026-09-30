@@ -62,14 +62,22 @@ export async function copy(text, label = 'Copied') {
   }
 }
 
-export function toast(msg, kind = '') {
+export function toast(msg, kind = '', { action, onAction } = {}) {
   let box = $('.toasts');
   if (!box) { box = document.createElement('div'); box.className = 'toasts'; box.setAttribute('role', 'status'); document.body.append(box); }
   const t = document.createElement('div');
   t.className = `toast ${kind}`;
   t.textContent = msg;
+  if (action) {   // e.g. Undo: the toast stays longer and closes when the action is used
+    const b = document.createElement('button');
+    b.className = 'toast-act';
+    b.textContent = action;
+    b.addEventListener('click', () => { t.remove(); onAction?.(); });
+    t.append(b);
+  }
   box.append(t);
-  setTimeout(() => t.remove(), kind === 'error' ? 7000 : 3200);
+  setTimeout(() => t.remove(), action ? 8000 : kind === 'error' ? 7000 : 3200);
+  return t;
 }
 
 // ------------------------------------------------------------------ icons (Phosphor, regular weight, vendored)

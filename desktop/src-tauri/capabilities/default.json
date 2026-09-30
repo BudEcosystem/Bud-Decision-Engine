@@ -1,0 +1,16 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "setup",
+  "description": "The bundled setup screens: detect hardware, install the engine, start the studio.",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "allow-app-info",
+    "allow-detect-hardware",
+    "allow-install-engine",
+    "allow-start-studio",
+    "allow-rerun-setup",
+    "allow-open-external",
+    "allow-move-to-applications"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "bud-decision-studio-desktop",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "stage": "node scripts/stage.mjs",
+    "icons": "python3 ../scripts/make-icon.py && tauri icon ../ui/brand/app-icon-full-1024.png",
+    "dev": "tauri dev",
+    "build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}

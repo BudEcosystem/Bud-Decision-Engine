@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bud Decision Studio Setup</title>
+  <link rel="preload" href="assets/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="setup.css">
+</head>
+<body>
+  <div class="splash" id="splash" hidden>
+    <img src="assets/bud-mark.png" alt="" width="56" height="56">
+    <h1>Bud Decision Studio</h1>
+    <p id="splashmsg">Starting</p>
+    <span class="bar indeterminate"><i></i></span>
+    <div id="splasherr" hidden></div>
+  </div>
+
+  <div class="setup" id="setup" hidden>
+    <aside class="rail">
+      <div class="brand"><img src="assets/bud-mark.png" alt="" width="22" height="22"><span><b>Bud</b> Decision Studio</span></div>
+      <ol class="steps" id="steps" aria-label="Setup steps">
+        <li data-step="welcome">Welcome</li>
+        <li data-step="device">Where models run</li>
+        <li data-step="install">Install</li>
+        <li data-step="ready">Ready</li>
+      </ol>
+      <p class="version" id="version"></p>
+    </aside>
+    <main class="page">
+      <div class="page-body" id="body"></div>
+      <footer class="page-foot">
+        <span class="foot-note" id="footnote"></span>
+        <button class="btn" id="back" hidden>Back</button>
+        <button class="btn btn-primary" id="next" disabled>Continue</button>
+      </footer>
+    </main>
+  </div>
+  <script type="module" src="setup.js"></script>
+</body>
+</html>

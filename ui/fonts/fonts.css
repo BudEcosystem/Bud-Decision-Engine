@@ -1,0 +1,3 @@
+/* Self-hosted so the app works offline and inside a Tauri window. Both families are SIL Open Font License 1.1. */
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 100 900; font-display: swap; src: url('/ui/fonts/InterVariable.woff2') format('woff2'); }
+@font-face { font-family: 'Geist Mono'; font-style: normal; font-weight: 100 900; font-display: swap; src: url('/ui/fonts/GeistMono.woff2') format('woff2'); }

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Bud Decision Studio",
+  "version": "0.1.0",
+  "identifier": "ai.bud.decisionstudio",
+  "build": {
+    "frontendDist": "../installer",
+    "beforeBuildCommand": "node scripts/stage.mjs",
+    "beforeDevCommand": "node scripts/stage.mjs"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "DeveloperTool",
+    "shortDescription": "Run open decision models on your own computer",
+    "longDescription": "Bud Decision Studio downloads, loads and runs open System One decision models (Jev-like models) on your GPU or CPU, with a playground, evaluation tools and a TypeSafe-compatible API.",
+    "publisher": "Bud Ecosystem",
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
+    "resources": { "engine/": "engine/" },
+    "externalBin": ["binaries/bud-uv"],
+    "linux": {
+      "deb": { "depends": ["libwebkit2gtk-4.1-0", "libgtk-3-0"] }
+    },
+    "macOS": { "minimumSystemVersion": "12.3" }
+  }
+}

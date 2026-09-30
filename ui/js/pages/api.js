@@ -1,0 +1,106 @@
+// API: a developer page after LM Studio's. The server, the endpoints for each published format, one quick-start
+// example, and the reference folded into rows. Request history lives on the Activity page.
+
+import { EXAMPLES } from '../examples.js';
+import { codeBlock, jsonTree } from '../format.js';
+import { setSub } from '../shell.js';
+import { FORMATS, LANGS, base, snippet } from '../snippets.js';
+import { markLearned, readyModels } from '../store.js';
+import { $, $$, copy, esc, icon, term } from '../util.js';
+
+let root, lang = 'python', format = 'typesafe';
+
+const ENDPOINTS = {
+  typesafe: [['POST', '/v1/systemone', 'Make a decision. The official TypeSafe SDKs call this.'], ['GET', '/v1/models', 'The models you can name in "model".']],
+  openrouter: [['POST', '/api/alpha/decisions', 'OpenRouter\'s Decisions API. Adds id, provider and usage.cost.'], ['POST', '/api/v1/systemone', 'OpenRouter\'s System One route, the same shape.']],
+  vercel: [['POST', '/typesafe/v1/systemone', 'Vercel AI Gateway\'s TypeSafe route. Adds provider_metadata.'], ['GET', '/typesafe/v1/models', 'The model list on the Vercel route.'], ['POST', '/v1/evaluate', 'Vercel\'s evaluation API, with boolean questions and camelCase usage.']],
+};
+const STRICT = {
+  model: 'laya',
+  answers: {
+    team: { type: 'choice', choice: 'billing', probabilities: { billing: 0.8952, technical: 0.0785, sales: 0.0263 }, confidence: 0.8428 },
+    urgency: { type: 'score', score: 1.4468, legend: { 0: 'low', 1: 'medium', 2: 'high' }, probabilities: { 0: 0.0551, 1: 0.443, 2: 0.5019 }, confidence: 0.1702 },
+    refund: { type: 'noul', noul: 0.9486 },
+  },
+  usage: { input_tokens: 456, output_tokens: 0 },
+};
+const EXTENDED = {
+  topics: { type: 'multi', selected: ['billing', 'crash'], probabilities: { billing: 0.9495, crash: 0.9953, shipping: 0.0677 }, threshold: 0.5 },
+  first: { type: 'rank', ranking: ['double charge', 'login crash', 'ui colour'], probabilities: { 'double charge': 0.8964, 'login crash': 0.094, 'ui colour': 0.0096 } },
+  days_left: { type: 'number', estimate: 1.08, most_likely: 0, range: [0, 3], unit: 'days', probabilities: { 0: 0.6731, 1: 0.2108, 3: 0.0717, 7: 0.0295, 30: 0.0149 } },
+};
+
+export function mount(el) {
+  root = el;
+  setSub('TypeSafe Jev API, OpenRouter and Vercel formats');
+  root.innerHTML = `<div class="view scroll"><div class="pad" style="display:grid;gap:18px">
+    <div class="group">
+      <div class="grow"><span class="chip ok">${icon('check-circle')}Running</span><span class="k" style="display:flex;gap:8px;align-items:center">Base URL <code>${esc(base())}</code><button class="icon-btn" id="cpbase" aria-label="Copy base URL" data-tip="Copy">${icon('copy')}</button></span>
+        <span class="v"><a class="btn sm" href="/docs" target="_blank" rel="noopener">${icon('book-open')}Interactive reference</a></span></div>
+      <div class="grow"><span class="k">Authentication</span><span class="v">None on this machine. Set <code>BASAL_API_KEY</code> to require a key from other machines.</span></div>
+      <div class="grow"><span class="k">Model names</span><span class="v">A studio id such as <code>laya</code>, or <code>jev-latest</code> for the most recently loaded model</span></div>
+      <div class="grow"><span class="k">Ready now</span><span class="v" id="ready"></span></div>
+    </div>
+
+    <div class="two" style="grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr)">
+      <div style="display:grid;gap:18px">
+        <section class="card card-pad" style="display:grid;gap:12px">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="font-size:15px">Endpoints</h2>
+            <span class="seg" role="group" aria-label="API format" style="margin-left:auto">${Object.entries(FORMATS).map(([k, f]) => `<button data-fmt="${k}" aria-pressed="${k === format}">${esc(f.name.replace(' Jev API', '').replace(' Decisions API', '').replace(' AI Gateway', ''))}</button>`).join('')}</span></div>
+          <p class="help" id="fmtnote"></p>
+          <div id="eps" style="display:grid;gap:12px"></div>
+        </section>
+        <section class="card card-pad" style="display:grid;gap:12px">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="font-size:15px">Quick start</h2>
+            <span class="seg" role="group" aria-label="Language" style="margin-left:auto">${Object.entries(LANGS).map(([k, v]) => `<button data-lang="${k}" aria-pressed="${k === lang}">${esc(v.name)}</button>`).join('')}</span></div>
+          <div id="snip"></div>
+          <p class="help">Build your own request in the Playground; its Code tab writes this for any request you make.</p>
+        </section>
+      </div>
+      <section class="card card-pad" style="display:grid;gap:4px;align-content:start">
+        <h2 style="font-size:15px;margin-bottom:8px">Reference</h2>
+        <details class="disclose"><summary>Response format${icon('caret-right', 'chev')}</summary><div class="body">
+          <p class="help">Pick one, scale and yes or no answers carry exactly TypeSafe's fields. The request id travels in the <code>x-typesafe-request-id</code> header.</p>
+          ${jsonTree(STRICT, { file: '200 OK', openDepth: 3 })}</div></details>
+        <details class="disclose"><summary>Studio extensions${icon('caret-right', 'chev')}</summary><div class="body">
+          <p class="help">Three more question types, <code>multi</code>, <code>rank</code> and <code>number</code>, plus <code>media</code> for images, audio and video, and <code>settings.temperature</code> for a ${term('temperature', 'calibration temperature')}. Send <code>X-Basal-Extensions: 1</code> to also receive <code>decision</code>, <code>top_probability</code> and <code>latency_ms</code>. Official SDKs skip what they do not know.</p>
+          ${jsonTree({ answers: EXTENDED }, { file: 'Extension answers', openDepth: 2 })}</div></details>
+        <details class="disclose"><summary>Errors${icon('caret-right', 'chev')}</summary><div class="body"><div class="group">
+          <div class="grow stack"><span class="k"><b>422</b> The request is invalid</span><span class="v small"><code>{"detail": [{"type", "loc", "msg", "input"}]}</code>. OpenRouter and Vercel formats answer 400 in their own shape.</span></div>
+          <div class="grow stack"><span class="k"><b>403</b> No API key, when one is required</span><span class="v small"><code>{"detail": {"error_type": "authentication_error", "message"}}</code></span></div>
+          <div class="grow stack"><span class="k"><b>401</b> Wrong API key</span><span class="v small">The same shape as 403.</span></div>
+          <div class="grow stack"><span class="k"><b>404</b> Unknown model or path</span><span class="v small"><code>{"detail": "Not Found"}</code> or a message naming the model.</span></div>
+          <div class="grow stack"><span class="k"><b>503, 504</b> The model is loading or timed out</span><span class="v small">Retry after a moment.</span></div></div></div></details>
+        <details class="disclose"><summary>Using it from other machines${icon('caret-right', 'chev')}</summary><div class="body">
+          <p class="help">The studio listens on this machine only. Start it with <code>./run.sh --host 0.0.0.0</code> and set <code>BASAL_API_KEY</code>; clients then send <code>Authorization: Bearer &lt;key&gt;</code>. Management calls from web pages need the header <code>X-Basal-Client: 1</code>.</p></div></details>
+        <details class="disclose"><summary>OpenAI Decisions API${icon('caret-right', 'chev')}</summary><div class="body">
+          <p class="help">OpenAI announced a Decisions API on 29 September 2026 as a limited preview, without a public endpoint, schema or SDK. The studio does not guess at it; it will be added when the specification is published. OpenRouter's Decisions API, above, is the closest published format.</p></div></details>
+      </section>
+    </div>
+  </div></div>`;
+  $('#cpbase', root).addEventListener('click', () => copy(base(), 'Base URL copied'));
+  $$('[data-fmt]', root).forEach((b) => b.addEventListener('click', () => { format = b.dataset.fmt; $$('[data-fmt]', root).forEach((x) => x.setAttribute('aria-pressed', x === b)); renderEndpoints(); renderSnippet(); }));
+  $$('[data-lang]', root).forEach((b) => b.addEventListener('click', () => { lang = b.dataset.lang; $$('[data-lang]', root).forEach((x) => x.setAttribute('aria-pressed', x === b)); markLearned('code'); renderSnippet(); }));
+  renderReady(); renderEndpoints(); renderSnippet();
+}
+export function onState() { if (root?.isConnected) renderReady(); }
+
+function renderReady() {
+  const box = $('#ready', root);
+  if (!box) return;
+  const r = readyModels();
+  const html = r.length ? r.map((m) => `<code>${esc(m.id)}</code>`).join(' ') : 'No model loaded. A request that names a downloaded model loads it first.';
+  if (box.dataset.html !== html) { box.dataset.html = html; box.innerHTML = html; }
+}
+
+function renderEndpoints() {
+  $('#fmtnote', root).textContent = FORMATS[format].note;
+  $('#eps', root).innerHTML = ENDPOINTS[format].map(([m, p, d]) => `<div class="ep"><span class="m ${m === 'POST' ? 'post' : ''}">${m}</span><code>${esc(p)}</code><span class="d">${esc(d)}</span></div>`).join('');
+}
+
+function renderSnippet() {
+  const ex = EXAMPLES.find((e) => e.id === 'support');
+  const req = { model: readyModels()[0]?.id || 'laya', state: ex.state, questions: ex.questions };
+  const L = LANGS[lang];
+  $('#snip', root).innerHTML = codeBlock(snippet(lang, req, { format: L.sdk ? 'typesafe' : format }), { lang: L.lang, file: L.file, maxHeight: 420 });
+}

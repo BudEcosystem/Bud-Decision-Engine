@@ -1,0 +1,23 @@
+# Core runtime and model libraries. PyTorch is pinned separately via constraints.txt.
+transformers==5.17.0
+peft==0.21.1
+accelerate
+safetensors
+tokenizers
+huggingface_hub>=1.0
+fastapi
+uvicorn[standard]
+httpx
+psutil
+pydantic>=2.12
+python-multipart
+sentencepiece
+numpy
+# Laya's official runtime
+laya
+# Jev-Omni's media preprocessing (images, audio, video)
+pillow
+opencv-python-headless
+soundfile
+librosa
+einops

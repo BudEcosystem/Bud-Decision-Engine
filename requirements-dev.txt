@@ -1,0 +1,6 @@
+# Tests: tests/test_conformance.py (API conformance) and scripts/smoke.py. Install with:
+#   .venv/bin/python -m pip install -r requirements-dev.txt   (or: uv pip install --python .venv/bin/python -r requirements-dev.txt)
+pytest
+jsonschema
+pyyaml
+typesafe-sdk==0.7.2

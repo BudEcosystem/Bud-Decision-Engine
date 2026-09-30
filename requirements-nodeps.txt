@@ -1,0 +1,8 @@
+# Installed without their declared dependencies, which pin versions that conflict with
+# the rest of the stack (gliner2: transformers<5, contrastive-lm: vllm, kev: torch<2.9).
+# Their code runs fine on the versions above.
+gliner2
+contrastive-lm
+lev @ https://github.com/Abhinavexists/lev/archive/HEAD.tar.gz#subdirectory=packages/lev
+# Archive URLs (not git) so installs work on machines without git.
+kev @ https://github.com/jaredpalmer/kev/archive/HEAD.tar.gz

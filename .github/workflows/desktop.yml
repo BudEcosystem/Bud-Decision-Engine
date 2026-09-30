@@ -1,0 +1,85 @@
+# Builds the Bud Decision Studio desktop app on each platform and publishes the installers to a GitHub Release.
+# Push a tag like v0.1.0 to release; run it by hand (workflow_dispatch) to build without releasing.
+#
+# The app is small: the setup screens, the engine's code and a bundled uv. PyTorch and the models are downloaded on
+# the person's computer during setup, matched to its hardware.
+name: desktop
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-14, target: aarch64-apple-darwin, label: "macOS (Apple Silicon)" }
+          - { os: windows-latest, target: x86_64-pc-windows-msvc, label: "Windows x64" }
+          - { os: ubuntu-22.04, target: x86_64-unknown-linux-gnu, label: "Linux x64" }
+          - { os: ubuntu-22.04-arm, target: aarch64-unknown-linux-gnu, label: "Linux ARM64 (NVIDIA GB10, DGX Spark)" }
+    name: ${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+
+      - uses: dtolnay/rust-toolchain@stable
+        with: { targets: "${{ matrix.target }}" }
+
+      - uses: swatinem/rust-cache@v2
+        with: { workspaces: "desktop/src-tauri -> target" }
+
+      - name: Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev patchelf file
+
+      - name: Install the Tauri CLI
+        working-directory: desktop
+        run: npm install --no-audit --no-fund
+
+      - name: Build and publish
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUD_TARGET: ${{ matrix.target }}
+        with:
+          projectPath: desktop
+          args: --target ${{ matrix.target }}
+          tagName: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+          releaseName: "Bud Decision Studio ${{ github.ref_name }}"
+          releaseBody: "See the assets below. Easiest install: https://github.com/BudEcosystem/Bud-Decision-Engine#install"
+          releaseDraft: true
+          prerelease: false
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bud-decision-studio-${{ matrix.target }}
+          if-no-files-found: ignore
+          path: |
+            desktop/src-tauri/target/${{ matrix.target }}/release/bundle/**/*.dmg
+            desktop/src-tauri/target/${{ matrix.target }}/release/bundle/**/*.msi
+            desktop/src-tauri/target/${{ matrix.target }}/release/bundle/**/*.exe
+            desktop/src-tauri/target/${{ matrix.target }}/release/bundle/**/*.deb
+            desktop/src-tauri/target/${{ matrix.target }}/release/bundle/**/*.rpm
+            desktop/src-tauri/target/${{ matrix.target }}/release/bundle/**/*.AppImage
+
+  publish:
+    # All four builds attach to one draft release; publish it once every platform succeeded.
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish the release
+        env: { GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+        run: gh release edit "${{ github.ref_name }}" --repo "${{ github.repository }}" --draft=false --latest

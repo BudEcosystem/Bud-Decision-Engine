@@ -1,0 +1,41 @@
+# Python environments and caches
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+tests/.cache/
+
+# The studio's own runtime state (logs, uploads, device choice, request log)
+data/
+
+# Reference material kept locally: downloaded third-party docs and SDK sources, cloned model repositories
+docs/external/
+.refs/
+
+# Internal product and design-process notes
+PRODUCT.md
+.impeccable/*
+!.impeccable/design.json
+
+# Local-only files
+initial.png
+bud-lockup-color-white.png
+*.txt.local
+jaredpalmer*.txt
+constraints.txt
+
+# Node
+node_modules/
+
+# Desktop app build outputs (see desktop/.gitignore)
+desktop/src-tauri/target/
+desktop/src-tauri/engine/
+desktop/src-tauri/binaries/
+desktop/src-tauri/gen/
+desktop/installer/assets/
+
+# Editors and OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

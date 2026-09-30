@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-move-to-applications"
+description = "Enables the move_to_applications command without any pre-configured scope."
+commands.allow = ["move_to_applications"]
+
+[[permission]]
+identifier = "deny-move-to-applications"
+description = "Denies the move_to_applications command without any pre-configured scope."
+commands.deny = ["move_to_applications"]

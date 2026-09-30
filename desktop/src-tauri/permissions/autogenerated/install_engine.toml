@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-install-engine"
+description = "Enables the install_engine command without any pre-configured scope."
+commands.allow = ["install_engine"]
+
+[[permission]]
+identifier = "deny-install-engine"
+description = "Denies the install_engine command without any pre-configured scope."
+commands.deny = ["install_engine"]

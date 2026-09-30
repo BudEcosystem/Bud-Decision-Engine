@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-rerun-setup"
+description = "Enables the rerun_setup command without any pre-configured scope."
+commands.allow = ["rerun_setup"]
+
+[[permission]]
+identifier = "deny-rerun-setup"
+description = "Denies the rerun_setup command without any pre-configured scope."
+commands.deny = ["rerun_setup"]

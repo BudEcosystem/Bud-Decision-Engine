@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bud Decision Studio</title>
+  <meta name="description" content="Run open decision models on your own GPU: ask typed questions, get calibrated probabilities, and call them through the TypeSafe Jev API.">
+  <meta name="theme-color" content="#F5F5F7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#151417" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/png" href="/ui/brand/favicon.png">
+  <link rel="preload" href="/ui/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/ui/styles.css">
+  <script>
+    try {
+      const p = JSON.parse(localStorage.getItem('basal.prefs') || '{}');
+      if (p.theme === 'light' || p.theme === 'dark') document.documentElement.dataset.theme = p.theme;
+    } catch {}
+  </script>
+</head>
+<body>
+  <a class="sr" href="#content">Skip to content</a>
+  <div class="app" id="app">
+    <aside class="sidebar" aria-label="Navigation">
+      <a class="brand" href="#/playground" aria-label="Bud Decision Studio home" data-tauri-drag-region>
+        <img src="/ui/brand/bud-mark.png" alt="" width="22" height="22"><b>Bud <span>Decision Studio</span></b>
+      </a>
+      <nav class="nav" id="nav"></nav>
+      <div id="loaded"></div>
+      <div class="side-foot" id="sidefoot"></div>
+    </aside>
+    <header class="titlebar" data-tauri-drag-region>
+      <button class="icon-btn" id="sidetoggle" aria-label="Show or hide the sidebar" data-tip="Sidebar">
+        <svg class="i" viewBox="0 0 256 256" aria-hidden="true"></svg>
+      </button>
+      <h1 id="ptitle" data-tauri-drag-region></h1>
+      <span class="sub" id="psub" data-tauri-drag-region></span>
+      <div class="right">
+        <button class="icon-btn" id="downloads" aria-label="Downloads" data-tip="Downloads"></button>
+        <button class="icon-btn" id="theme" aria-label="Colour theme" data-tip="Light, dark, or follow the system"></button>
+      </div>
+    </header>
+    <main class="content" id="content" tabindex="-1"></main>
+    <footer class="statusbar" id="statusbar"></footer>
+  </div>
+  <div class="toasts" role="status" aria-live="polite"></div>
+  <script type="module" src="/ui/js/app.js"></script>
+</body>
+</html>

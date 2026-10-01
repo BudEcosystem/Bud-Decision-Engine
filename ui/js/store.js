@@ -3,6 +3,10 @@
 import { toast } from './util.js';
 
 const listeners = new Set();
+// The act threshold the app offers everywhere: the Playground's slider, Evaluate's chart and its recommendation.
+export const ACT_MIN = 0.5, ACT_MAX = 0.99;
+const clampAct = (v) => (Number.isFinite(+v) ? Math.min(ACT_MAX, Math.max(ACT_MIN, +v)) : 0.9);
+// (declared before `store`: loadPrefs() runs on the next line and reads them)
 export const store = { state: null, error: null, prefs: loadPrefs() };
 
 export function subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); }
@@ -125,9 +129,14 @@ export async function ensureReady(id, onTick) {
 // ------------------------------------------------------------------ preferences (this browser only)
 function loadPrefs() {
   const d = { threshold: 0.9, theme: 'auto', lastModel: null, learned: {} };
-  try { return { ...d, ...JSON.parse(localStorage.getItem('basal.prefs') || '{}') }; } catch { return d; }
+  try {
+    const p = { ...d, ...JSON.parse(localStorage.getItem('basal.prefs') || '{}') };
+    p.threshold = clampAct(p.threshold);     // a value saved outside the range (an old Evaluate suggestion) is brought in
+    return p;
+  } catch { return d; }
 }
 export function setPref(k, v) {
+  if (k === 'threshold') v = clampAct(v);
   store.prefs[k] = v;
   try { localStorage.setItem('basal.prefs', JSON.stringify(store.prefs)); } catch { /* storage blocked */ }
 }

@@ -12,7 +12,7 @@ import { codeBlock, jsonTree } from '../format.js';
 import { openLoader } from '../loader.js';
 import { setSub } from '../shell.js';
 import { FORMATS, LANGS, snippet, studioSnippet } from '../snippets.js';
-import { api, decide, download, ensureReady, markLearned, model, phaseOf, phaseTrack, readyModels, registry, setPref, store, studio } from '../store.js';
+import { api, decide, download, ensureReady, markLearned, model, phaseOf, phaseTrack, readyModels, refresh, registry, setPref, store, studio } from '../store.js';
 import { addOptionsBody, bindLocked, bindVarForm, initialVars, lockedQuestionsHTML, varFormHTML, varsFromDecision, varValues } from '../template-form.js';
 import { $, $$, askText, copy, debounce, esc, fmtBytes, fmtGB, fmtMs, fmtNum, fmtPct, icon, popMenu, term, toast } from '../util.js';
 
@@ -22,7 +22,7 @@ let draft = loadDraft();
 let last = null;
 let tab = 'answers';
 let busy = false;
-let root, builder, keyHandler, reg;
+let root, builder, keyHandler, reg, autorunTimer;
 let pendingModel = null;   // a model named in the URL before the first state poll has arrived
 let exampleForPending = false;   // ...and whether to show that model's own example once it is applied
 let lang = 'python', format = 'typesafe';
@@ -262,7 +262,12 @@ export async function mount(el, params = {}) {
   document.addEventListener('keydown', keyHandler);
   maybeAutorun();
 }
-export function unmount() { document.removeEventListener('keydown', keyHandler); }
+export function unmount() {
+  document.removeEventListener('keydown', keyHandler);
+  clearTimeout(autorunTimer);     // leaving before the first-visit run fires: there is no Playground to run it in
+}
+// The page shares one container with every other page, so "still here" means the Playground's own markup is in it.
+const mounted = () => !!root?.isConnected && !!$('#play', root);
 
 function applyPendingModel() {
   if (!pendingModel || !store.state) return false;
@@ -277,7 +282,7 @@ function maybeAutorun() {
   if (pendingModel) return;
   if (last || busy || sessionStorage.getItem('bud.autorun') || model(draft.model)?.worker?.status !== 'ready') return;
   sessionStorage.setItem('bud.autorun', '1');
-  setTimeout(run, 350);
+  autorunTimer = setTimeout(run, 350);
 }
 
 export function onState() {
@@ -290,11 +295,17 @@ export function onState() {
   maybeAutorun();
 }
 
-function pickDefaultModel() {
+// The model the Playground decides with: the chosen one while it can be used, otherwise the one it would choose
+// (a ready one first). Undefined when the model list has not arrived or nothing is downloaded.
+function usableModel() {
   const ms = store.state?.models || [];
   const cur = ms.find((m) => m.id === draft.model);
-  if (cur && (cur.downloaded || cur.worker)) return;
-  const pick = readyModels()[0] || ms.find((m) => m.worker) || ms.find((m) => m.badge === 'Start here' && m.downloaded) || ms.find((m) => m.id === 'laya' && m.downloaded) || ms.find((m) => m.downloaded);
+  if (cur && (cur.downloaded || cur.worker)) return cur;
+  return readyModels()[0] || ms.find((m) => m.worker) || ms.find((m) => m.badge === 'Start here' && m.downloaded) || ms.find((m) => m.id === 'laya' && m.downloaded) || ms.find((m) => m.downloaded);
+}
+
+function pickDefaultModel() {
+  const pick = usableModel();
   if (pick && pick.id !== draft.model) { draft.model = pick.id; saveDraft(); showModelExample({ quiet: true }); }
 }
 
@@ -629,11 +640,12 @@ function reading(on) {
 }
 
 async function run() {
-  if (busy || !root?.isConnected) return;
+  if (busy || !mounted()) return;
+  const btn = $('#decide', root);
+  if (!btn) return;
   const sb = validatedStudio();
   if (!sb) return;
   builder.setStrict(false);
-  const btn = $('#decide', root);
   busy = true; btn.disabled = true;
   let stop = () => {};
   let request = sb.body;
@@ -998,16 +1010,21 @@ function leaveTemplate() {
 const slugId = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 64) || 'my-template';
 
 async function saveAsTemplate() {
+  // A fresh window may not have the model list yet: wait for it once, before reading the page, so the template gets
+  // the model named in the dialog. refresh() never throws; with no list, the dialog says there is no default model.
+  if (!store.state) await refresh();
+  if (!mounted()) return;
   const built = buildRequest();
   if (built.error) { showProblem(built); return; }
   const r = built.request;
+  const tm = usableModel();
   const found = [...new Set([...String(draft.stateText).matchAll(/\{\{\s*([a-z_][a-z0-9_]{0,63})\s*\}\}/g)].map((m) => m[1]))];
   const d = document.createElement('dialog');
   const guess = Object.values(r.questions)[0]?.instructions?.replace(/\?$/, '').slice(0, 48) || 'My decision';
   d.innerHTML = `<form method="dialog" style="width:min(520px,92vw)"><div class="dialog-body"><h2 style="font-size:17px">Save as template</h2>
-    <p class="small muted">Its ${Object.keys(r.questions).length} question${Object.keys(r.questions).length === 1 ? '' : 's'}, ${esc(model(draft.model)?.name || 'the model')} as the default model, and the current act threshold${draft.temperature ? ' and temperature' : ''}. Every decision made with it is kept in its history.</p>
+    <p class="small muted">Its ${Object.keys(r.questions).length} question${Object.keys(r.questions).length === 1 ? '' : 's'}, ${tm ? `${esc(tm.name)} as the default model` : 'no default model yet (each decision uses the model that is loaded at the time)'}, and the current act threshold${draft.temperature ? ' and temperature' : ''}. Every decision made with it is kept in its history.</p>
     <label class="field"><span class="label">Name</span><input class="input" name="name" value="${esc(guess)}" required></label>
-    <label class="field"><span class="label">Id, used in code</span><input class="input code" name="id" value="${esc(slugId(guess))}" pattern="[a-z0-9][a-z0-9_-]{0,63}" required></label>
+    <label class="field"><span class="label">Id, used in code</span><input class="input code" name="id" value="${esc(slugId(guess))}" pattern="[a-z0-9][a-z0-9_\\-]{0,63}" title="Lower-case letters, digits, dashes and underscores, starting with a letter or digit; up to 64 characters." required></label>
     <div class="note ${found.length ? 'violet' : ''}">${icon(found.length ? 'brackets-curly' : 'text-t')}<span>${found.length
       ? `The situation has placeholders, so callers fill in ${found.map((x) => `<code>${esc(x)}</code>`).join(', ')} and the rest of the text stays fixed.`
       : 'Callers send the whole situation each time. To give it a fixed shape, write <code>{{name}}</code> placeholders in the situation, such as <code>{{customer_message}}</code>, before saving.'}</span></div>
@@ -1022,7 +1039,7 @@ async function saveAsTemplate() {
   d.querySelector('#dosave').addEventListener('click', async (e) => {
     e.preventDefault();
     if (!d.querySelector('form').reportValidity()) return;
-    const body = { id: id.value.trim(), name: name.value.trim(), note: 'Saved from the Playground', questions: r.questions, model: draft.model,
+    const body = { id: id.value.trim(), name: name.value.trim(), note: 'Saved from the Playground', questions: r.questions, ...(tm ? { model: tm.id } : {}),
       settings: { act_threshold: store.prefs.threshold, ...(draft.temperature ? { temperature: draft.temperature } : {}) },
       modalities: ['text', ...new Set(draft.media.map((m) => m.type))] };
     if (found.length) {

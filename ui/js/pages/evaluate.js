@@ -4,7 +4,7 @@
 
 import { buildQuestions, createBuilder, fromQuestion } from '../builder.js';
 import { setSub } from '../shell.js';
-import { decide, ensureReady, markLearned, readyModels, registry, setPref, store } from '../store.js';
+import { ACT_MIN, ACT_MAX, decide, ensureReady, markLearned, readyModels, registry, setPref, store } from '../store.js';
 import { $, $$, esc, fmtMs, fmtPct, icon, term, toast } from '../util.js';
 import { setTemperature } from './playground.js';
 
@@ -241,8 +241,13 @@ function coverage(items, rows, th) {
   const acc = cov.length ? cov.filter(([it, r]) => it.pred === r.gold).length / cov.length : null;
   return { share: pairs.length ? cov.length / pairs.length : 0, acc, n: cov.length };
 }
+// The lowest act threshold, within the range the app offers (50% to 99%, the Playground's slider and the chart below),
+// that keeps mistakes under the error budget. Whole steps of half a percent, so no rounding drift.
 function safeThreshold(items, rows) {
-  for (let t = 0.3; t <= 0.995; t += 0.005) {
+  // fewer than three examples reach even the lowest threshold: the model is not wrong, it is never sure enough
+  if (coverage(items, rows, ACT_MIN).n < 3) return { unsure: true };
+  for (let i = Math.round(ACT_MIN * 200); i <= Math.round(ACT_MAX * 200); i++) {
+    const t = i / 200;
     const c = coverage(items, rows, t);
     if (c.n >= 3 && c.acc >= 1 - budget) return { t, ...c };
   }
@@ -275,7 +280,7 @@ function renderResults() {
   $$('[data-focus]', box).forEach((r) => r.addEventListener('click', () => { focus = r.dataset.focus; renderResults(); }));
   $$('[data-show]', box).forEach((b) => b.addEventListener('click', () => { show = b.dataset.show; renderResults(); }));
   $('[data-use-t]', box)?.addEventListener('click', (e) => { setTemperature(+e.currentTarget.dataset.useT); toast(`The Playground now applies a calibration temperature of ${e.currentTarget.dataset.useT}.`); });
-  $('[data-use-th]', box)?.addEventListener('click', (e) => { setPref('threshold', +e.currentTarget.dataset.useTh); toast(`Act threshold set to ${fmtPct(+e.currentTarget.dataset.useTh, 1)}.`); });
+  $('[data-use-th]', box)?.addEventListener('click', (e) => { setPref('threshold', +e.currentTarget.dataset.useTh); toast(`Act threshold set to ${fmtPct(store.prefs.threshold, 1)}.`); });
 }
 
 function leaderboard(ids) {
@@ -315,7 +320,9 @@ function detail(id) {
   }
   let thRow = '';
   if (safe !== undefined) {
-    thRow = safe
+    thRow = safe?.unsure
+      ? `<div class="grow stack"><span class="k" style="color:var(--orange-text)"><b style="font-weight:600">Not sure enough to act</b></span><span class="v small">Fewer than three of these examples reach ${fmtPct(ACT_MIN)} certainty, the lowest act threshold, so there is nothing to automate yet. Send these to a person, describe the options more clearly, or try another model.</span></div>`
+      : safe
       ? `<div class="grow rec"><span class="k" style="display:grid;gap:2px"><b style="font-weight:600">Act threshold ${fmtPct(safe.t, 1)}</b><span class="small muted">Keeps mistakes under ${fmtPct(budget)} while automating ${fmtPct(safe.share)} of these examples at ${fmtPct(safe.acc)} accuracy; the rest go to a person.</span></span><span class="v"><button class="btn sm" data-use-th="${safe.t.toFixed(3)}">Use this threshold</button></span></div>`
       : `<div class="grow stack"><span class="k" style="color:var(--orange-text)"><b style="font-weight:600">No safe threshold</b></span><span class="v small">Even the most confident answers are wrong more than ${fmtPct(budget)} of the time. Send these to a person, or try another model.</span></div>`;
   }

@@ -447,7 +447,7 @@ function moreMenu(anchor, d) {
         if (p === 'copy') copy(d.id, 'Decision id copied');
         if (p === 'open-template') location.hash = `#/templates/${d.template.id}`;
         if (p === 'template') {
-          const id = await askText({ title: 'Save as template', label: 'A short id for the template, used in code: lower-case letters, digits and dashes.', value: 'my-template', pattern: '[a-z0-9][a-z0-9_-]{0,63}', confirm: 'Save template' });
+          const id = await askText({ title: 'Save as template', label: 'A short id for the template, used in code: lower-case letters, digits and dashes.', value: 'my-template', pattern: '[a-z0-9][a-z0-9_\\-]{0,63}', confirm: 'Save template' });
           if (!id) return;
           const t = await studio('/templates', { method: 'POST', body: { id, name: id.replace(/[-_]/g, ' ').replace(/^./, (c) => c.toUpperCase()), from: { decision: d.id }, note: 'Saved from History' } });
           toast(`Saved template ${t.id}`); location.hash = `#/templates/${t.id}`;

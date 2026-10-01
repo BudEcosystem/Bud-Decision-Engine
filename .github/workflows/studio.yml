@@ -31,4 +31,4 @@ jobs:
           uv run --no-project --python 3.12
           --with fastapi --with 'uvicorn[standard]' --with httpx --with psutil --with 'pydantic>=2.12'
           --with python-multipart --with 'huggingface_hub>=1.0' --with jsonschema --with pytest
-          pytest tests/test_templates.py tests/test_contract.py tests/test_history_store.py tests/test_studio_api.py -q
+          pytest tests/test_templates.py tests/test_contract.py tests/test_history_store.py tests/test_studio_api.py tests/test_doctor.py -q

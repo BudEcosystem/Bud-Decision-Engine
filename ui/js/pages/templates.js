@@ -179,7 +179,7 @@ function drawDetail() {
 }
 
 async function cloneIt() {
-  const id = await askText({ title: 'Clone to your templates', label: 'An id for your copy: lower-case letters, digits and dashes.', value: cur.id.replace(/^builtin\//, 'my-'), pattern: '[a-z0-9][a-z0-9_-]{0,63}', confirm: 'Clone' });
+  const id = await askText({ title: 'Clone to your templates', label: 'An id for your copy: lower-case letters, digits and dashes.', value: cur.id.replace(/^builtin\//, 'my-'), pattern: '[a-z0-9][a-z0-9_\\-]{0,63}', confirm: 'Clone' });
   if (!id) return;
   try {
     const t = await studio('/templates', { method: 'POST', body: { id, name: `${cur.name} (copy)`, description: cur.description, from: { template: `${cur.id}@${cur.version}` }, note: `Cloned from ${cur.id} v${cur.version}` } });
@@ -507,7 +507,7 @@ async function versionsTab(box) {
     try { cur = await studio(`/templates/${cur.id}/versions/${b.dataset.restore}/restore`, { method: 'POST', body: { note: `Restore version ${b.dataset.restore}` } }); shown = cur; toast(`Saved as version ${cur.version}`); drawDetail(); } catch (e) { toast(e.message, 'error'); }
   }));
   $$('[data-alias]', box).forEach((b) => b.addEventListener('click', async () => {
-    const alias = await askText({ title: `Point an alias at version ${b.dataset.alias}`, label: 'For example production or staging. Code that calls the template with @alias gets this version.', value: 'production', pattern: '[a-z][a-z0-9_-]{0,31}', confirm: 'Set alias' });
+    const alias = await askText({ title: `Point an alias at version ${b.dataset.alias}`, label: 'For example production or staging. Code that calls the template with @alias gets this version.', value: 'production', pattern: '[a-z][a-z0-9_\\-]{0,31}', confirm: 'Set alias' });
     if (!alias) return;
     try { await studio(`/templates/${cur.id}/aliases/${alias}`, { method: 'PUT', body: { version: +b.dataset.alias } }); cur = await studio(`/templates/${cur.id}`); shown = cur; toast(`${alias} now points at version ${b.dataset.alias}`); drawDetail(); } catch (e) { toast(e.message, 'error'); }
   }));

@@ -135,7 +135,7 @@ export function askText({ title, label = '', value = '', pattern, confirm = 'Sav
   return new Promise((resolve) => {
     const d = document.createElement('dialog');
     d.innerHTML = `<form method="dialog"><div class="dialog-body"><h2 style="font-size:17px">${esc(title)}</h2>
-      <label class="field"><span class="help">${esc(label)}</span><input class="input code" name="v" value="${esc(value)}" ${pattern ? `pattern="${esc(pattern)}"` : ''} required></label></div>
+      <label class="field"><span class="help">${esc(label)}</span><input class="input code" name="v" value="${esc(value)}" ${pattern ? `pattern="${esc(pattern)}" title="${esc(label)}"` : ''} required></label></div>
       <div class="dialog-foot"><button class="btn" value="cancel" formnovalidate>Cancel</button><button class="btn btn-primary" value="ok">${esc(confirm)}</button></div></form>`;
     document.body.append(d);
     const inp = d.querySelector('input');

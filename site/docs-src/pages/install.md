@@ -85,15 +85,15 @@ Every release is on the [releases page](https://github.com/BudEcosystem/Bud-Deci
 @@ Windows
 | File | Size |
 |---|---|
-| `Bud.Decision.Studio_0.3.0_x64-setup.exe` | 14.5 MB |
-| `Bud.Decision.Studio_0.3.0_x64_en-US.msi` | 21.3 MB |
+| `Bud.Decision.Studio_0.3.0_x64-setup.exe` | 15.1 MB |
+| `Bud.Decision.Studio_0.3.0_x64_en-US.msi` | 22.0 MB |
 
 Run either one. The app is added to the Start menu. The installers are not signed yet, so Windows SmartScreen may warn you: choose **More info**, then **Run anyway**.
 
 @@ macOS
 | File | Size |
 |---|---|
-| `Bud.Decision.Studio_0.3.0_aarch64.dmg` | 20.5 MB |
+| `Bud.Decision.Studio_0.3.0_aarch64.dmg` | 21.2 MB |
 
 Open the disk image and drag **Bud Decision Studio** into **Applications**. The app is not notarised yet, so the first time, right-click it and choose **Open**. If you start it from the disk image or your Downloads folder, setup offers to move it to Applications first.
 

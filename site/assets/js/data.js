@@ -3,7 +3,7 @@
  * SCENARIOS are real responses from Intern-Decision 4B served by the studio on an NVIDIA GB10
  * (POST /v1/systemone with X-Basal-Extensions: 1), captured on 2026-09-30. Latency is the model's own figure.
  * MODELS mirror basal/catalog.py (sizes are download sizes including any base model).
- * RELEASE_FALLBACK mirrors the v0.2.1 GitHub release, used when the GitHub API can't be reached. */
+ * RELEASE_FALLBACK mirrors the v0.3.0 GitHub release, used when the GitHub API can't be reached. */
 window.BUD = {
   repo: 'BudEcosystem/Bud-Decision-Engine',
 
@@ -132,17 +132,17 @@ window.BUD = {
   ],
 
   RELEASE_FALLBACK: {
-    tag: 'v0.2.1', date: '2026-09-30',
+    tag: 'v0.3.0', date: '2026-10-01',
     assets: [
-      ['Bud.Decision.Studio_0.2.1_aarch64.dmg', 20456500],
-      ['Bud.Decision.Studio_0.2.1_x64-setup.exe', 14544173],
-      ['Bud.Decision.Studio_0.2.1_x64_en-US.msi', 21262336],
-      ['Bud.Decision.Studio_0.2.1_amd64.deb', 23715346],
-      ['Bud.Decision.Studio-0.2.1-1.x86_64.rpm', 23710404],
-      ['Bud.Decision.Studio_0.2.1_amd64.AppImage', 99822072],
-      ['Bud.Decision.Studio_0.2.1_arm64.deb', 23034778],
-      ['Bud.Decision.Studio-0.2.1-1.aarch64.rpm', 23026233],
-      ['Bud.Decision.Studio_0.2.1_aarch64.AppImage', 97167880],
+      ['Bud.Decision.Studio_0.3.0_aarch64.dmg', 21174834],
+      ['Bud.Decision.Studio_0.3.0_x64-setup.exe', 15142988],
+      ['Bud.Decision.Studio_0.3.0_x64_en-US.msi', 22004993],
+      ['Bud.Decision.Studio_0.3.0_amd64.deb', 24440944],
+      ['Bud.Decision.Studio-0.3.0-1.x86_64.rpm', 24432536],
+      ['Bud.Decision.Studio_0.3.0_amd64.AppImage', 100518392],
+      ['Bud.Decision.Studio_0.3.0_arm64.deb', 23754684],
+      ['Bud.Decision.Studio-0.3.0-1.aarch64.rpm', 23748597],
+      ['Bud.Decision.Studio_0.3.0_aarch64.AppImage', 97872392],
     ],
   },
 

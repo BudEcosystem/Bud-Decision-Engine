@@ -1,0 +1,421 @@
+ticket,team,urgent
+"Hi team, the Harbor dock: the screen flickers and goes black. I found a workaround for now. Appreciate it.",devices,no
+"Hi there, Ledger: a customer was charged twice. The whole team is blocked. Appreciate it.",payments,yes
+"Hello, Keystone MFA: I can't get into anything since my name changed. No rush, whenever you get a chance. Thanks!",identity,no
+"Hi there, Atlas: a chart shows last quarter twice. I found a workaround for now. Best,",data,no
+Since this morning in Tollgate the refund hasn't gone out after ten days. The whole team is blocked. Thanks!,payments,yes
+"Hey, the Atlas dashboard: I need access to the sales dataset. This stops us closing the month today. Thank you.",data,yes
+"Good morning, Tollgate: a vendor says we paid the wrong account. Cheers,",payments,no
+"Hi team, the Atlas dashboard: I need access to the sales dataset. Only happens occasionally. Best,",data,no
+Since this morning in the Keystone portal the two-step code never arrives. Only happens occasionally.,identity,no
+Quick one: My account shows the wrong manager. Thanks!,identity,no
+"Quick one: Since this morning in the Keystone portal I can't get into anything since my name changed. Only happens occasionally. Cheers,",identity,no
+"Hello, In Keystone, I can't get into anything since my name changed. Just flagging it. Best,",identity,no
+"Hello, The card terminal declines every payment. No rush, whenever you get a chance.",payments,no
+"Hey, I can't reach the shared drive from the branch office. I found a workaround for now. Best,",network,no
+"Hello, In Beacon VPN, I can't reach the shared drive from the branch office. It can wait until next week. Best,",network,no
+"Hey, The refund hasn't gone out after ten days. This stops us closing the month today. Thanks!",payments,yes
+"Quick one: Since this morning in Tollgate a vendor says we paid the wrong account. I found a workaround for now. Best,",payments,no
+"Good morning, My address change isn't showing. Nobody on the floor can work.",people,yes
+"Hello, In Beacon VPN, I can't reach the shared drive from the branch office. Only happens occasionally. Thanks!",network,no
+"Hi team, the Harbor dock: the external monitor isn't detected. I found a workaround for now. Thanks!",devices,no
+"Hi team, Tollgate: invoice totals don't match the order. No rush, whenever you get a chance.",payments,no
+"Good morning, Since this morning in the office Wi-Fi nothing loads when I'm at home. Just flagging it. Best,",network,no
+"Hi there, Since this morning in Tollgate a vendor says we paid the wrong account. No rush, whenever you get a chance. Appreciate it.",payments,no
+"The fan is loud and it's very hot. Just flagging it. Cheers,",devices,no
+"Hi there, In Tollgate, a vendor says we paid the wrong account. I found a workaround for now. Thank you.",payments,no
+"Hi team, Tollgate: the refund hasn't gone out after ten days. Thanks!",payments,no
+"Hi team, my Harbor laptop: the external monitor isn't detected. Just flagging it. Thank you.",devices,no
+"Quick one: In the Keystone portal, I'm locked out after the security prompt. We have a client demo in an hour. Cheers,",identity,yes
+"Hi there, In Compass payroll, my bank details didn't save. We have a client demo in an hour. Best,",people,yes
+"Good morning, The fan is loud and it's very hot. We have a client demo in an hour.",devices,yes
+"Hi there, Since this morning in Compass I can't book my holiday dates. Only happens occasionally. Best,",people,no
+"Hello, Since this morning in Ledger the card terminal declines every payment. I found a workaround for now. Thanks!",payments,no
+"Hi there, Keystone MFA: my password reset link expired. It can wait until next week. Thank you.",identity,no
+"Hi there, Since this morning in the Keystone portal I'm locked out after the security prompt. We have a client demo in an hour. Thank you.",identity,yes
+"Hello, Keystone MFA: my account shows the wrong manager. I found a workaround for now. Appreciate it.",identity,no
+"Hello, In Ledger, the card terminal declines every payment. It can wait until next week.",payments,no
+"Hi there, Since this morning in the nightly Atlas export the scheduled report failed overnight. Only happens occasionally. Thanks!",data,no
+"Hi there, Since this morning in the Atlas dashboard the numbers stopped updating yesterday. The whole team is blocked. Thanks!",data,yes
+"Hello, The guest network asks for a code nobody has. Nobody on the floor can work. Best,",network,yes
+Since this morning in the Harbor dock the keyboard stopped typing some letters. Just flagging it. Thank you.,devices,no
+"Hi team, In the office Wi-Fi, I can't reach the shared drive from the branch office. We have a client demo in an hour. Thank you.",network,yes
+"Hey, Compass payroll: I can't book my holiday dates. Customers are affected right now. Thank you.",people,yes
+"Hello, I can't reach the shared drive from the branch office. We have a client demo in an hour. Best,",network,yes
+"Hey, In the Ledger invoice screen, a vendor says we paid the wrong account. This stops us closing the month today. Thanks!",payments,yes
+Compass payroll: my bank details didn't save. Just flagging it. Appreciate it.,people,no
+"Hi there, Harbor: the battery dies in under an hour. No rush, whenever you get a chance. Thank you.",devices,no
+"Good morning, The fan is loud and it's very hot. Just flagging it. Thank you.",devices,no
+"Hello, In the Atlas dashboard, a query that used to take seconds now times out.",data,no
+"Hey, In the Keystone portal, my password reset link expired. The whole team is blocked. Thanks!",identity,yes
+I can't reach the shared drive from the branch office. This stops us closing the month today. Thank you.,network,yes
+"Hey, In Keystone, my password reset link expired. It can wait until next week. Best,",identity,no
+"Hi there, the Harbor dock: the keyboard stopped typing some letters. Just flagging it. Thanks!",devices,no
+"Good morning, Harbor: the external monitor isn't detected. Customers are affected right now. Thanks!",devices,yes
+"Hello, the Compass HR portal: my bank details didn't save. Thank you.",people,no
+"Hello, The fan is loud and it's very hot. It's hitting every order since 9am.",devices,yes
+"Quick one: The screen flickers and goes black. No rush, whenever you get a chance. Best,",devices,no
+"Hello, the Harbor dock: the fan is loud and it's very hot. I found a workaround for now. Best,",devices,no
+"Harbor: the laptop won't turn on after the update. This stops us closing the month today. Cheers,",devices,yes
+"Hello, The refund hasn't gone out after ten days. This stops us closing the month today. Thanks!",payments,yes
+"Hi team, Since this morning in Harbor the external monitor isn't detected. No rush, whenever you get a chance. Cheers,",devices,no
+"Hi team, Since this morning in the Keystone portal my account shows the wrong manager. Customers are affected right now. Appreciate it.",identity,yes
+"Hello, Since this morning in the Atlas dashboard a query that used to take seconds now times out. Only happens occasionally. Cheers,",data,no
+"Hi there, Since this morning in the Compass HR portal my address change isn't showing. Appreciate it.",people,no
+"Hi there, A vendor says we paid the wrong account. No rush, whenever you get a chance. Best,",payments,no
+"Hello, In the nightly Atlas export, a query that used to take seconds now times out. No rush, whenever you get a chance. Best,",data,no
+"In the Harbor dock, the keyboard stopped typing some letters. Best,",devices,no
+"In Tollgate, a customer was charged twice. Thanks!",payments,no
+"Quick one: In the Compass HR portal, my payslip shows the wrong hours. It can wait until next week. Best,",people,no
+Quick one: Since this morning in Beacon VPN I can't reach the shared drive from the branch office. Thank you.,network,no
+"Hello, Since this morning in the Keystone portal sign-in loops back to the start. I found a workaround for now. Thanks!",identity,no
+"Hey, Since this morning in Beacon VPN downloads crawl since this morning. We have a client demo in an hour. Best,",network,yes
+"Hi team, In the nightly Atlas export, the numbers stopped updating yesterday. We have a client demo in an hour. Cheers,",data,yes
+"In the office Wi-Fi, I can't reach the shared drive from the branch office. The whole team is blocked. Thanks!",network,yes
+"Hi team, Since this morning in Tollgate invoice totals don't match the order. Just flagging it. Best,",payments,no
+"Hi team, The keyboard stopped typing some letters. We have a client demo in an hour. Thank you.",devices,yes
+"Good morning, Keystone MFA: my account shows the wrong manager. Just flagging it. Cheers,",identity,no
+"Quick one: Since this morning in Keystone the two-step code never arrives. No rush, whenever you get a chance. Cheers,",identity,no
+"Hey, my Harbor laptop: the external monitor isn't detected. No rush, whenever you get a chance. Thanks!",devices,no
+"Hello, Since this morning in the Keystone portal I'm locked out after the security prompt. Just flagging it. Cheers,",identity,no
+Downloads crawl since this morning. Only happens occasionally. Appreciate it.,network,no
+"Hi there, In the Ledger invoice screen, the monthly payout report is empty. Cheers,",payments,no
+"Good morning, Nothing loads when I'm at home. Customers are affected right now.",network,yes
+"Hey, Since this morning in my Harbor laptop the fan is loud and it's very hot. Customers are affected right now.",devices,yes
+Since this morning in Atlas a query that used to take seconds now times out. Only happens occasionally. Thank you.,data,no
+"Hello, I can't reach the shared drive from the branch office. Only happens occasionally. Appreciate it.",network,no
+"Hi there, the Ledger invoice screen: a vendor says we paid the wrong account. This stops us closing the month today. Appreciate it.",payments,yes
+"Good morning, Since this morning in Tollgate the card terminal declines every payment. It can wait until next week. Cheers,",payments,no
+Quick one: Since this morning in the Harbor dock the external monitor isn't detected. I found a workaround for now. Thank you.,devices,no
+"Hello, the Keystone portal: my account shows the wrong manager. The whole team is blocked. Thanks!",identity,yes
+"Good morning, I can't reach the shared drive from the branch office. I found a workaround for now. Thanks!",network,no
+"Good morning, I can't get into anything since my name changed. Only happens occasionally. Thank you.",identity,no
+"Hi team, Since this morning in Keystone MFA sign-in loops back to the start. We have a client demo in an hour. Appreciate it.",identity,yes
+"Quick one: Keystone MFA: I can't get into anything since my name changed. Customers are affected right now. Cheers,",identity,yes
+"Hello, Since this morning in the Atlas dashboard the numbers stopped updating yesterday. I found a workaround for now.",data,no
+Quick one: my Harbor laptop: the screen flickers and goes black. This stops us closing the month today. Thank you.,devices,yes
+"Hi team, Beacon: the connection drops every few minutes. No rush, whenever you get a chance. Thank you.",network,no
+"Hello, Beacon VPN: the connection drops every few minutes. Just flagging it.",network,no
+"Quick one: In Keystone MFA, the two-step code never arrives. Just flagging it. Appreciate it.",identity,no
+"Hello, The two-step code never arrives. Customers are affected right now.",identity,yes
+"Good morning, A customer was charged twice. Nobody on the floor can work. Appreciate it.",payments,yes
+"Hello, Tollgate: the monthly payout report is empty. No rush, whenever you get a chance. Thanks!",payments,no
+Quick one: Since this morning in the Atlas dashboard the numbers stopped updating yesterday. This stops us closing the month today. Thanks!,data,yes
+"Hey, Keystone MFA: I'm locked out after the security prompt. No rush, whenever you get a chance. Best,",identity,no
+"Hey, In the Compass HR portal, a new starter has no contract in the system. No rush, whenever you get a chance. Thanks!",people,no
+"Good morning, The external monitor isn't detected. It can wait until next week. Cheers,",devices,no
+"Good morning, my Harbor laptop: the screen flickers and goes black. I found a workaround for now. Thank you.",devices,no
+"Good morning, The screen flickers and goes black. Thank you.",devices,no
+Quick one: Compass: my payslip shows the wrong hours. It can wait until next week. Thanks!,people,no
+"Hey, Since this morning in the nightly Atlas export the export is missing half the rows. It's hitting every order since 9am. Cheers,",data,yes
+"Hi team, The fan is loud and it's very hot. The whole team is blocked. Thank you.",devices,yes
+"Good morning, My account shows the wrong manager. Just flagging it.",identity,no
+"Hey, Since this morning in Ledger the monthly payout report is empty. It can wait until next week. Cheers,",payments,no
+"Hello, The connection drops every few minutes. I found a workaround for now.",network,no
+"Good morning, Tollgate: a customer was charged twice. Customers are affected right now. Thanks!",payments,yes
+"Hello, the Keystone portal: my password reset link expired. Customers are affected right now. Thank you.",identity,yes
+"Nothing loads when I'm at home. Best,",network,no
+"Hey, the Keystone portal: the two-step code never arrives. Thank you.",identity,no
+"Good morning, Beacon: nothing loads when I'm at home. The whole team is blocked. Cheers,",network,yes
+"Good morning, In Tollgate, a customer was charged twice. No rush, whenever you get a chance. Thank you.",payments,no
+"Hi there, In Beacon VPN, video calls freeze constantly. I found a workaround for now. Appreciate it.",network,no
+"Hi team, Since this morning in the Ledger invoice screen the refund hasn't gone out after ten days. No rush, whenever you get a chance. Best,",payments,no
+"Hey, In the Atlas dashboard, the numbers stopped updating yesterday. It can wait until next week. Thanks!",data,no
+"Good morning, The numbers stopped updating yesterday. Just flagging it. Best,",data,no
+"Good morning, my Harbor laptop: the battery dies in under an hour. The whole team is blocked. Thanks!",devices,yes
+"Hey, Beacon: the guest network asks for a code nobody has.",network,no
+"Good morning, the Harbor dock: the screen flickers and goes black. Only happens occasionally. Thanks!",devices,no
+"Hi team, In Harbor, the keyboard stopped typing some letters. Only happens occasionally. Thanks!",devices,no
+Quick one: Since this morning in Beacon VPN nothing loads when I'm at home. It can wait until next week.,network,no
+"Hello, Sign-in loops back to the start. I found a workaround for now. Thank you.",identity,no
+"Hello, In Harbor, the screen flickers and goes black. This stops us closing the month today. Thanks!",devices,yes
+"Hi there, Since this morning in Beacon downloads crawl since this morning. It's hitting every order since 9am. Thank you.",network,yes
+"Hello, In Compass payroll, my bank details didn't save. I found a workaround for now. Thanks!",people,no
+"Hi team, Since this morning in Beacon VPN video calls freeze constantly. It can wait until next week. Appreciate it.",network,no
+My payslip shows the wrong hours. We have a client demo in an hour.,people,yes
+"Hey, A query that used to take seconds now times out. Only happens occasionally. Appreciate it.",data,no
+"In Tollgate, the card terminal declines every payment. No rush, whenever you get a chance.",payments,no
+"Hi there, I can't reach the shared drive from the branch office. Customers are affected right now.",network,yes
+Quick one: Since this morning in the office Wi-Fi I can't reach the shared drive from the branch office. Nobody on the floor can work. Thanks!,network,yes
+"Hi there, In the Keystone portal, sign-in loops back to the start. No rush, whenever you get a chance. Appreciate it.",identity,no
+"The connection drops every few minutes. No rush, whenever you get a chance. Best,",network,no
+"Hi team, Since this morning in Compass payroll my bank details didn't save. It can wait until next week. Cheers,",people,no
+"Good morning, the Atlas dashboard: the export is missing half the rows. I found a workaround for now. Thank you.",data,no
+"Hello, In the Atlas dashboard, the scheduled report failed overnight. We have a client demo in an hour. Best,",data,yes
+"Hi team, The battery dies in under an hour. Just flagging it. Appreciate it.",devices,no
+"Hey, Since this morning in Keystone MFA my account shows the wrong manager. No rush, whenever you get a chance. Appreciate it.",identity,no
+"Hey, Since this morning in the Compass HR portal a new starter has no contract in the system. It can wait until next week. Cheers,",people,no
+Quick one: the Keystone portal: sign-in loops back to the start. Just flagging it. Appreciate it.,identity,no
+Quick one: Compass: my address change isn't showing. I found a workaround for now.,people,no
+"Hello, Nothing loads when I'm at home. Only happens occasionally. Appreciate it.",network,no
+Since this morning in Compass the benefits enrolment form won't submit. This stops us closing the month today. Thank you.,people,yes
+"Hi team, In the office Wi-Fi, nothing loads when I'm at home. It can wait until next week. Thank you.",network,no
+"Hi team, Compass payroll: my address change isn't showing. This stops us closing the month today. Thanks!",people,yes
+The benefits enrolment form won't submit.,people,no
+"Hi team, In Atlas, a chart shows last quarter twice. I found a workaround for now.",data,no
+"Hello, Since this morning in Tollgate a customer was charged twice. Customers are affected right now.",payments,yes
+"Hey, In Tollgate, the monthly payout report is empty. I found a workaround for now. Thanks!",payments,no
+Quick one: The fan is loud and it's very hot. Only happens occasionally. Appreciate it.,devices,no
+"Hello, Keystone MFA: my account shows the wrong manager. It can wait until next week. Thanks!",identity,no
+"Hey, Since this morning in my Harbor laptop the laptop won't turn on after the update. The whole team is blocked. Best,",devices,yes
+"In the Atlas dashboard, the export is missing half the rows. No rush, whenever you get a chance. Thanks!",data,no
+"Good morning, Ledger: the monthly payout report is empty. Customers are affected right now. Cheers,",payments,yes
+Quick one: A query that used to take seconds now times out. It's hitting every order since 9am. Appreciate it.,data,yes
+"Hey, In Beacon VPN, the connection drops every few minutes. I found a workaround for now. Thank you.",network,no
+"In Beacon VPN, nothing loads when I'm at home. No rush, whenever you get a chance. Thank you.",network,no
+"Hi team, Since this morning in the Harbor dock the screen flickers and goes black. Best,",devices,no
+"Hi there, Since this morning in Keystone MFA I can't get into anything since my name changed. No rush, whenever you get a chance. Best,",identity,no
+"Quick one: In Beacon VPN, the connection drops every few minutes. It's hitting every order since 9am. Cheers,",network,yes
+"Hey, the office Wi-Fi: downloads crawl since this morning. We have a client demo in an hour. Thanks!",network,yes
+"Hi there, Since this morning in the Harbor dock the fan is loud and it's very hot. We have a client demo in an hour. Cheers,",devices,yes
+The numbers stopped updating yesterday. Only happens occasionally. Thanks!,data,no
+"Hello, Since this morning in Harbor the external monitor isn't detected. Just flagging it.",devices,no
+"Quick one: In Keystone, my password reset link expired. Only happens occasionally. Thank you.",identity,no
+The guest network asks for a code nobody has. Just flagging it. Thank you.,network,no
+"Hello, The battery dies in under an hour. Only happens occasionally. Thanks!",devices,no
+"Hi team, Compass: my address change isn't showing. Just flagging it.",people,no
+"Hey, In Beacon, I can't reach the shared drive from the branch office. Just flagging it.",network,no
+"Hi there, Since this morning in Atlas a query that used to take seconds now times out. I found a workaround for now. Best,",data,no
+"Quick one: Since this morning in the Atlas dashboard the scheduled report failed overnight. I found a workaround for now. Cheers,",data,no
+"Quick one: Ledger: invoice totals don't match the order. Only happens occasionally. Best,",payments,no
+"Quick one: In Tollgate, the monthly payout report is empty. It can wait until next week. Cheers,",payments,no
+"Quick one: In Atlas, the scheduled report failed overnight. It can wait until next week. Thanks!",data,no
+"Hey, Invoice totals don't match the order.",payments,no
+"Hi team, Harbor: the screen flickers and goes black. The whole team is blocked.",devices,yes
+"In the office Wi-Fi, downloads crawl since this morning. Just flagging it. Best,",network,no
+"Good morning, Since this morning in Beacon I can't reach the shared drive from the branch office. It's hitting every order since 9am. Thank you.",network,yes
+My address change isn't showing. Thank you.,people,no
+"Good morning, Since this morning in Compass payroll my bank details didn't save. The whole team is blocked. Thank you.",people,yes
+"Hi there, In the office Wi-Fi, video calls freeze constantly. I found a workaround for now.",network,no
+"Hey, A chart shows last quarter twice. Thanks!",data,no
+"Hey, The connection drops every few minutes. No rush, whenever you get a chance. Appreciate it.",network,no
+"Hey, The refund hasn't gone out after ten days. Nobody on the floor can work. Thanks!",payments,yes
+"Hey, Atlas: I need access to the sales dataset. I found a workaround for now.",data,no
+"In Compass, my address change isn't showing. Cheers,",people,no
+"Quick one: Compass: my bank details didn't save. We have a client demo in an hour. Best,",people,yes
+"Hi there, Since this morning in the Compass HR portal I can't book my holiday dates. It can wait until next week.",people,no
+Quick one: Since this morning in the office Wi-Fi the connection drops every few minutes. Nobody on the floor can work. Thank you.,network,yes
+"Hi there, Since this morning in Tollgate the card terminal declines every payment. It can wait until next week.",payments,no
+"Hello, the Harbor dock: the fan is loud and it's very hot.",devices,no
+"Quick one: The two-step code never arrives. It can wait until next week. Cheers,",identity,no
+"Hi there, In Harbor, the fan is loud and it's very hot. Just flagging it.",devices,no
+"Hi team, Since this morning in the Keystone portal the two-step code never arrives. Nobody on the floor can work. Best,",identity,yes
+"Hi there, Since this morning in Keystone the two-step code never arrives. Customers are affected right now. Thank you.",identity,yes
+"Quick one: In Ledger, the refund hasn't gone out after ten days. I found a workaround for now. Appreciate it.",payments,no
+"Hello, Sign-in loops back to the start. Just flagging it.",identity,no
+"Good morning, In Compass payroll, my bank details didn't save. This stops us closing the month today. Thank you.",people,yes
+"Good morning, Ledger: the card terminal declines every payment. It can wait until next week. Thank you.",payments,no
+"Quick one: Since this morning in the nightly Atlas export a chart shows last quarter twice. Only happens occasionally. Cheers,",data,no
+Quick one: Beacon VPN: downloads crawl since this morning. Thanks!,network,no
+"Hi team, Keystone MFA: the two-step code never arrives. It can wait until next week. Thank you.",identity,no
+the Compass HR portal: my payslip shows the wrong hours. I found a workaround for now. Thank you.,people,no
+"Good morning, my Harbor laptop: the external monitor isn't detected. Only happens occasionally. Cheers,",devices,no
+Quick one: The scheduled report failed overnight. It can wait until next week.,data,no
+"Good morning, In Keystone, the two-step code never arrives. The whole team is blocked. Best,",identity,yes
+"Hello, In the Atlas dashboard, the numbers stopped updating yesterday. No rush, whenever you get a chance.",data,no
+"Quick one: Since this morning in the Atlas dashboard the export is missing half the rows. It can wait until next week. Best,",data,no
+"Hi team, My payslip shows the wrong hours. It can wait until next week. Best,",people,no
+"Hello, My payslip shows the wrong hours. Thanks!",people,no
+"Hey, Downloads crawl since this morning. No rush, whenever you get a chance. Thank you.",network,no
+"Good morning, my Harbor laptop: the laptop won't turn on after the update. No rush, whenever you get a chance. Appreciate it.",devices,no
+My bank details didn't save. I found a workaround for now. Thanks!,people,no
+"Good morning, In the Keystone portal, sign-in loops back to the start. Appreciate it.",identity,no
+"Quick one: In the Atlas dashboard, a chart shows last quarter twice. No rush, whenever you get a chance.",data,no
+"Hi there, Since this morning in Tollgate the card terminal declines every payment. No rush, whenever you get a chance. Thanks!",payments,no
+"Quick one: In the Ledger invoice screen, a customer was charged twice. Only happens occasionally. Best,",payments,no
+"Hey, Since this morning in Ledger the monthly payout report is empty. No rush, whenever you get a chance. Best,",payments,no
+"Hi team, In Atlas, the scheduled report failed overnight. No rush, whenever you get a chance. Best,",data,no
+"In the Compass HR portal, a new starter has no contract in the system. Only happens occasionally. Thanks!",people,no
+"Hey, In my Harbor laptop, the keyboard stopped typing some letters. No rush, whenever you get a chance. Best,",devices,no
+"Hey, the Ledger invoice screen: the card terminal declines every payment. Just flagging it. Thanks!",payments,no
+"In the Atlas dashboard, the export is missing half the rows. It can wait until next week. Cheers,",data,no
+Quick one: I need access to the sales dataset. Only happens occasionally.,data,no
+"Hey, the nightly Atlas export: I need access to the sales dataset. Just flagging it.",data,no
+"Hi there, A customer was charged twice. Just flagging it. Thank you.",payments,no
+"Hi there, The export is missing half the rows. It's hitting every order since 9am.",data,yes
+"In my Harbor laptop, the keyboard stopped typing some letters. Just flagging it. Thanks!",devices,no
+"Hi team, Compass: a new starter has no contract in the system. I found a workaround for now. Appreciate it.",people,no
+my Harbor laptop: the external monitor isn't detected. Only happens occasionally. Appreciate it.,devices,no
+"Hey, Since this morning in the Ledger invoice screen the refund hasn't gone out after ten days. Nobody on the floor can work.",payments,yes
+"Hi there, Since this morning in the Atlas dashboard I need access to the sales dataset. Only happens occasionally. Thanks!",data,no
+"Hello, In Tollgate, invoice totals don't match the order. The whole team is blocked. Appreciate it.",payments,yes
+"Hello, Since this morning in the office Wi-Fi video calls freeze constantly. I found a workaround for now. Cheers,",network,no
+"Hi team, My account shows the wrong manager. The whole team is blocked. Thanks!",identity,yes
+"Hi there, My account shows the wrong manager. Only happens occasionally. Thanks!",identity,no
+"Hey, A query that used to take seconds now times out. No rush, whenever you get a chance. Cheers,",data,no
+"Hey, the Atlas dashboard: a query that used to take seconds now times out. Customers are affected right now. Thank you.",data,yes
+"Hey, In the Compass HR portal, a new starter has no contract in the system. The whole team is blocked. Appreciate it.",people,yes
+"Hi team, My bank details didn't save. No rush, whenever you get a chance. Thank you.",people,no
+"Hey, The fan is loud and it's very hot. Appreciate it.",devices,no
+"Hey, the Atlas dashboard: I need access to the sales dataset. No rush, whenever you get a chance.",data,no
+"Hi there, Since this morning in the office Wi-Fi nothing loads when I'm at home. Customers are affected right now. Thanks!",network,yes
+"Good morning, Tollgate: a vendor says we paid the wrong account. No rush, whenever you get a chance. Thanks!",payments,no
+"Good morning, A new starter has no contract in the system. Customers are affected right now. Thanks!",people,yes
+"Hello, Compass: my address change isn't showing. I found a workaround for now.",people,no
+"Hi there, the Ledger invoice screen: the refund hasn't gone out after ten days. This stops us closing the month today. Thank you.",payments,yes
+"Hi there, In Harbor, the keyboard stopped typing some letters. Best,",devices,no
+"Hi there, A customer was charged twice. Just flagging it. Thank you.",payments,no
+"Hello, Harbor: the battery dies in under an hour. Only happens occasionally. Thanks!",devices,no
+"Hello, the Compass HR portal: my address change isn't showing. I found a workaround for now.",people,no
+"Hey, The two-step code never arrives. It can wait until next week.",identity,no
+Quick one: Since this morning in Keystone I can't get into anything since my name changed. It can wait until next week. Thank you.,identity,no
+"Good morning, A vendor says we paid the wrong account. Cheers,",payments,no
+"Hi team, Ledger: the monthly payout report is empty. Customers are affected right now. Thanks!",payments,yes
+"Hi there, Compass payroll: my address change isn't showing. Just flagging it. Best,",people,no
+"In Beacon VPN, I can't reach the shared drive from the branch office. Customers are affected right now. Cheers,",network,yes
+"Hi team, the Keystone portal: I can't get into anything since my name changed. Nobody on the floor can work. Thanks!",identity,yes
+"Hi there, The laptop won't turn on after the update.",devices,no
+"Since this morning in the Atlas dashboard the numbers stopped updating yesterday. No rush, whenever you get a chance. Appreciate it.",data,no
+"Hello, The refund hasn't gone out after ten days. Nobody on the floor can work. Thank you.",payments,yes
+"Hey, Since this morning in Keystone MFA my password reset link expired. Customers are affected right now. Thanks!",identity,yes
+"Quick one: the Atlas dashboard: a chart shows last quarter twice. No rush, whenever you get a chance. Thank you.",data,no
+"Good morning, In Keystone MFA, I can't get into anything since my name changed. The whole team is blocked. Thank you.",identity,yes
+A chart shows last quarter twice.,data,no
+"Good morning, My payslip shows the wrong hours. Best,",people,no
+"Hello, Beacon VPN: the connection drops every few minutes. Only happens occasionally. Cheers,",network,no
+"Hi there, A new starter has no contract in the system. Only happens occasionally. Appreciate it.",people,no
+"Hi team, Since this morning in the Keystone portal sign-in loops back to the start. It's hitting every order since 9am. Cheers,",identity,yes
+"Hello, In Keystone, my account shows the wrong manager. It can wait until next week.",identity,no
+"Hi there, Downloads crawl since this morning. No rush, whenever you get a chance. Thanks!",network,no
+"Since this morning in Keystone MFA sign-in loops back to the start. No rush, whenever you get a chance. Thanks!",identity,no
+Quick one: my Harbor laptop: the battery dies in under an hour. This stops us closing the month today. Thank you.,devices,yes
+"Hi team, I can't get into anything since my name changed. This stops us closing the month today.",identity,yes
+"Hey, Atlas: the numbers stopped updating yesterday. I found a workaround for now. Cheers,",data,no
+Quick one: Since this morning in Tollgate invoice totals don't match the order. It can wait until next week.,payments,no
+"Hi team, Tollgate: a vendor says we paid the wrong account. Just flagging it. Thank you.",payments,no
+"Hi there, my Harbor laptop: the keyboard stopped typing some letters. Customers are affected right now. Thank you.",devices,yes
+"In Harbor, the laptop won't turn on after the update. It can wait until next week. Thanks!",devices,no
+"Hi there, the Atlas dashboard: the numbers stopped updating yesterday. Thanks!",data,no
+"Good morning, A query that used to take seconds now times out. Customers are affected right now. Cheers,",data,yes
+"Hi there, In Compass payroll, the benefits enrolment form won't submit. Best,",people,no
+"Good morning, In Beacon, downloads crawl since this morning. The whole team is blocked. Appreciate it.",network,yes
+"Hi team, Since this morning in the Atlas dashboard the export is missing half the rows. Nobody on the floor can work.",data,yes
+Since this morning in the office Wi-Fi video calls freeze constantly. I found a workaround for now.,network,no
+"Good morning, My bank details didn't save. We have a client demo in an hour. Cheers,",people,yes
+"Good morning, The card terminal declines every payment. I found a workaround for now. Appreciate it.",payments,no
+"Hi there, Invoice totals don't match the order. Nobody on the floor can work. Thank you.",payments,yes
+"Hey, Since this morning in my Harbor laptop the screen flickers and goes black. We have a client demo in an hour. Appreciate it.",devices,yes
+"Quick one: The external monitor isn't detected. I found a workaround for now. Best,",devices,no
+"Hi team, In Beacon, the guest network asks for a code nobody has. Appreciate it.",network,no
+"Good morning, In Tollgate, the card terminal declines every payment. Customers are affected right now.",payments,yes
+"Hello, Since this morning in Beacon the guest network asks for a code nobody has. No rush, whenever you get a chance. Cheers,",network,no
+"Quick one: Since this morning in Harbor the laptop won't turn on after the update. Just flagging it. Cheers,",devices,no
+"Hello, In the nightly Atlas export, a chart shows last quarter twice. I found a workaround for now.",data,no
+"Hi team, Since this morning in Tollgate a customer was charged twice. It's hitting every order since 9am. Best,",payments,yes
+"Hi there, Beacon: downloads crawl since this morning. We have a client demo in an hour. Thanks!",network,yes
+the nightly Atlas export: a chart shows last quarter twice. It's hitting every order since 9am. Appreciate it.,data,yes
+"Hi team, Since this morning in Tollgate a customer was charged twice. No rush, whenever you get a chance. Thanks!",payments,no
+Quick one: Since this morning in Keystone my account shows the wrong manager. The whole team is blocked. Appreciate it.,identity,yes
+"Hi there, Since this morning in my Harbor laptop the laptop won't turn on after the update. The whole team is blocked. Appreciate it.",devices,yes
+"Hi there, Keystone: my account shows the wrong manager. Nobody on the floor can work. Thanks!",identity,yes
+"Hi team, In Beacon VPN, nothing loads when I'm at home. This stops us closing the month today.",network,yes
+Quick one: Harbor: the keyboard stopped typing some letters. Appreciate it.,devices,no
+"Hello, In the Ledger invoice screen, the monthly payout report is empty. It can wait until next week. Cheers,",payments,no
+"Video calls freeze constantly. We have a client demo in an hour. Cheers,",network,yes
+Quick one: The two-step code never arrives. We have a client demo in an hour. Thanks!,identity,yes
+"Good morning, I can't get into anything since my name changed. It can wait until next week. Thank you.",identity,no
+"Hello, Beacon: the connection drops every few minutes. Customers are affected right now. Best,",network,yes
+"Hey, In Tollgate, the refund hasn't gone out after ten days. Customers are affected right now. Cheers,",payments,yes
+"Hello, Since this morning in the Ledger invoice screen a vendor says we paid the wrong account. It can wait until next week.",payments,no
+"Hello, the Compass HR portal: a new starter has no contract in the system. Nobody on the floor can work.",people,yes
+Quick one: Since this morning in Atlas the numbers stopped updating yesterday. Just flagging it.,data,no
+"Hello, In Keystone, the two-step code never arrives. Thank you.",identity,no
+"Hey, The screen flickers and goes black. Nobody on the floor can work. Appreciate it.",devices,yes
+"Hey, Since this morning in Harbor the screen flickers and goes black. We have a client demo in an hour. Cheers,",devices,yes
+"Hey, In Beacon, downloads crawl since this morning. No rush, whenever you get a chance. Best,",network,no
+"Quick one: My payslip shows the wrong hours. Best,",people,no
+"Hi team, Video calls freeze constantly. It's hitting every order since 9am. Thank you.",network,yes
+"Quick one: The fan is loud and it's very hot. Customers are affected right now. Best,",devices,yes
+"Hi team, the Keystone portal: my account shows the wrong manager. Appreciate it.",identity,no
+The external monitor isn't detected. It can wait until next week.,devices,no
+"My address change isn't showing. Cheers,",people,no
+"Hi team, Sign-in loops back to the start. This stops us closing the month today. Appreciate it.",identity,yes
+"Hi team, A query that used to take seconds now times out. No rush, whenever you get a chance. Cheers,",data,no
+Tollgate: a customer was charged twice. Thank you.,payments,no
+"Quick one: Since this morning in the Harbor dock the keyboard stopped typing some letters. Best,",devices,no
+"Good morning, Since this morning in Compass payroll my address change isn't showing. It can wait until next week. Thank you.",people,no
+"Hello, I can't get into anything since my name changed. Just flagging it. Appreciate it.",identity,no
+"Hey, In the Ledger invoice screen, a vendor says we paid the wrong account. Just flagging it.",payments,no
+"Hello, Since this morning in the Keystone portal I'm locked out after the security prompt. We have a client demo in an hour. Best,",identity,yes
+Quick one: the Ledger invoice screen: the refund hasn't gone out after ten days. Customers are affected right now. Thank you.,payments,yes
+"Hello, Since this morning in Atlas the numbers stopped updating yesterday. Appreciate it.",data,no
+"Good morning, In Beacon VPN, nothing loads when I'm at home. Just flagging it. Thank you.",network,no
+"Hello, Keystone MFA: I'm locked out after the security prompt. The whole team is blocked. Cheers,",identity,yes
+"Hi there, In Beacon, nothing loads when I'm at home. Only happens occasionally.",network,no
+"Good morning, Since this morning in Keystone sign-in loops back to the start. Only happens occasionally.",identity,no
+"Quick one: Since this morning in the Ledger invoice screen invoice totals don't match the order. I found a workaround for now. Best,",payments,no
+"Hey, Compass: I can't book my holiday dates. Customers are affected right now. Cheers,",people,yes
+"Ledger: the monthly payout report is empty. Cheers,",payments,no
+"Hey, Video calls freeze constantly. Customers are affected right now. Thank you.",network,yes
+"Hi team, The scheduled report failed overnight. It can wait until next week. Thanks!",data,no
+"Good morning, Keystone: sign-in loops back to the start. Only happens occasionally. Best,",identity,no
+"Hello, In Ledger, the monthly payout report is empty. It can wait until next week.",payments,no
+"Hey, In the Compass HR portal, my payslip shows the wrong hours. Thanks!",people,no
+"Hello, I can't get into anything since my name changed. Only happens occasionally. Cheers,",identity,no
+"Hi there, In the Keystone portal, my account shows the wrong manager. Thank you.",identity,no
+"Good morning, Since this morning in the Compass HR portal my bank details didn't save. Customers are affected right now. Thanks!",people,yes
+"Hi team, Since this morning in the Atlas dashboard the export is missing half the rows. Nobody on the floor can work. Thanks!",data,yes
+"Quick one: Compass payroll: a new starter has no contract in the system. Only happens occasionally. Best,",people,no
+"Good morning, Since this morning in Ledger the monthly payout report is empty. It's hitting every order since 9am. Best,",payments,yes
+Since this morning in the Keystone portal I can't get into anything since my name changed. Customers are affected right now.,identity,yes
+"Quick one: In Beacon, nothing loads when I'm at home. This stops us closing the month today. Thanks!",network,yes
+"In Ledger, the card terminal declines every payment. I found a workaround for now. Best,",payments,no
+"Hi there, I can't get into anything since my name changed. No rush, whenever you get a chance.",identity,no
+"Quick one: In Compass payroll, the benefits enrolment form won't submit. It's hitting every order since 9am. Appreciate it.",people,yes
+"Hello, Keystone: I can't get into anything since my name changed. No rush, whenever you get a chance. Cheers,",identity,no
+"Good morning, Since this morning in the nightly Atlas export the scheduled report failed overnight. Customers are affected right now. Cheers,",data,yes
+"Hi there, In Keystone MFA, my password reset link expired. Cheers,",identity,no
+"Hi team, The monthly payout report is empty. Cheers,",payments,no
+"Hey, In the Keystone portal, I can't get into anything since my name changed. Nobody on the floor can work. Thanks!",identity,yes
+"Quick one: The screen flickers and goes black. No rush, whenever you get a chance. Thank you.",devices,no
+"Hi team, In the Harbor dock, the screen flickers and goes black. Only happens occasionally. Thanks!",devices,no
+"Hey, In the Harbor dock, the laptop won't turn on after the update. Nobody on the floor can work. Appreciate it.",devices,yes
+"In Compass, my bank details didn't save. Only happens occasionally.",people,no
+"Hi there, Since this morning in Keystone MFA I'm locked out after the security prompt. Only happens occasionally.",identity,no
+Tollgate: the refund hasn't gone out after ten days. Just flagging it. Thank you.,payments,no
+"Hey, Since this morning in my Harbor laptop the screen flickers and goes black. Only happens occasionally. Appreciate it.",devices,no
+"Hi team, Beacon: the connection drops every few minutes. It can wait until next week. Thank you.",network,no
+"Good morning, In Beacon VPN, downloads crawl since this morning. Just flagging it. Cheers,",network,no
+"Hi team, In Keystone MFA, I can't get into anything since my name changed. Appreciate it.",identity,no
+Quick one: Sign-in loops back to the start. I found a workaround for now. Thanks!,identity,no
+Quick one: The battery dies in under an hour. It can wait until next week. Thanks!,devices,no
+Quick one: the Harbor dock: the laptop won't turn on after the update. I found a workaround for now.,devices,no
+"Hey, In my Harbor laptop, the laptop won't turn on after the update. Customers are affected right now. Thank you.",devices,yes
+"Good morning, The monthly payout report is empty. We have a client demo in an hour.",payments,yes
+"Hey, Beacon VPN: nothing loads when I'm at home. Cheers,",network,no
+"Hello, In Compass, a new starter has no contract in the system. I found a workaround for now. Cheers,",people,no
+"Hello, the nightly Atlas export: a query that used to take seconds now times out. Just flagging it. Cheers,",data,no
+"Hello, The fan is loud and it's very hot. Just flagging it. Best,",devices,no
+"Hello, Since this morning in Keystone MFA I'm locked out after the security prompt. The whole team is blocked. Thank you.",identity,yes
+"Hello, Compass: my payslip shows the wrong hours. It's hitting every order since 9am. Thanks!",people,yes
+"Hey, In Tollgate, a customer was charged twice. This stops us closing the month today. Best,",payments,yes
+"Hi team, Keystone: sign-in loops back to the start. No rush, whenever you get a chance. Best,",identity,no
+"Hey, In the Atlas dashboard, the export is missing half the rows. The whole team is blocked. Appreciate it.",data,yes
+"Hi team, In Compass payroll, the benefits enrolment form won't submit. No rush, whenever you get a chance. Thank you.",people,no
+"Hi there, A customer was charged twice. This stops us closing the month today. Cheers,",payments,yes
+"Hello, Since this morning in Beacon the guest network asks for a code nobody has. This stops us closing the month today. Best,",network,yes
+"Good morning, Since this morning in the nightly Atlas export the numbers stopped updating yesterday. It's hitting every order since 9am. Appreciate it.",data,yes
+"Hi team, Since this morning in Harbor the laptop won't turn on after the update. Only happens occasionally. Best,",devices,no
+"Hi team, In Harbor, the keyboard stopped typing some letters. The whole team is blocked. Appreciate it.",devices,yes
+"Hey, The scheduled report failed overnight. Nobody on the floor can work. Best,",data,yes
+"Hi team, The refund hasn't gone out after ten days. I found a workaround for now. Cheers,",payments,no
+"Quick one: My bank details didn't save. Customers are affected right now. Cheers,",people,yes
+"Hi there, In Beacon VPN, the connection drops every few minutes. No rush, whenever you get a chance. Best,",network,no
+Quick one: the office Wi-Fi: nothing loads when I'm at home. Thank you.,network,no
+"Hi there, In Keystone, my account shows the wrong manager. This stops us closing the month today.",identity,yes
+My bank details didn't save. Customers are affected right now. Thank you.,people,yes
+"Hi there, Video calls freeze constantly. It can wait until next week. Cheers,",network,no
+"Good morning, Since this morning in the Harbor dock the battery dies in under an hour. Nobody on the floor can work. Thank you.",devices,yes
+"Hi team, A query that used to take seconds now times out. This stops us closing the month today.",data,yes
+"Hello, In Tollgate, invoice totals don't match the order. No rush, whenever you get a chance. Cheers,",payments,no
+"Hey, In the Ledger invoice screen, the refund hasn't gone out after ten days. Only happens occasionally. Best,",payments,no
+"Hello, My payslip shows the wrong hours. I found a workaround for now. Thank you.",people,no
+"Hi team, Compass: the benefits enrolment form won't submit. Best,",people,no
+"Hi team, My password reset link expired. The whole team is blocked.",identity,yes
+Since this morning in Ledger the refund hasn't gone out after ten days. Appreciate it.,payments,no
+"Hello, My password reset link expired. Just flagging it. Thank you.",identity,no
+"In the Compass HR portal, my payslip shows the wrong hours. Customers are affected right now. Thanks!",people,yes
+"Hey, Video calls freeze constantly. No rush, whenever you get a chance. Best,",network,no
+"Hey, Since this morning in the Keystone portal I can't get into anything since my name changed.",identity,no
+"Hi team, In the office Wi-Fi, nothing loads when I'm at home. It's hitting every order since 9am. Thank you.",network,yes
+Quick one: A query that used to take seconds now times out. I found a workaround for now.,data,no

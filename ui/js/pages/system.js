@@ -115,9 +115,13 @@ function renderSettings(st) {
         <span class="help">Frees memory for other programs automatically. An ejected model loads again the next time it is used.</span></label>
       <label class="switch"><input type="checkbox" id="autoload" ${st.settings.auto_load ? 'checked' : ''}>Load models on demand</label>
       <span class="help" style="margin-top:-6px">When an API request names a downloaded model that is not loaded, load it and then answer; the request waits. Off: such requests are refused.</span>
+      <h2 style="font-size:15px;margin-top:8px">Training</h2>
+      <label class="switch"><input type="checkbox" id="exptrain" ${st.settings.experimental_training ? 'checked' : ''}>Allow experimental training</label>
+      <span class="help" style="margin-top:-6px">Lets the Train page use GPUs that work but haven't been fully tested for training: Intel Arc and Core Ultra graphics, AMD on Linux, older NVIDIA cards and Apple M1. Training on NVIDIA RTX 30 series or newer and Apple M2 or newer is always on.</span>
     </section>`;
   $('#idle', box).addEventListener('change', (e) => saveSetting({ idle_eject_minutes: +e.target.value }));
   $('#autoload', box).addEventListener('change', (e) => saveSetting({ auto_load: e.target.checked }));
+  $('#exptrain', box).addEventListener('change', (e) => saveSetting({ experimental_training: e.target.checked }));
 }
 
 async function saveSetting(patch) {

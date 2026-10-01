@@ -122,6 +122,7 @@ function headlineRows(rows, max = 6) {
 
 // ------------------------------------------------------------------ small pieces
 function logoFor(m, r, cls = '') {
+  if (m?.base_id && !r?.maker_id) r = reg.models[m.base_id] || r;     // a trained model wears its original's logo
   const maker = reg.makers[r?.maker_id] || {};
   const src = maker.avatar || r?.logo || maker.logo;
   return `<span class="logo ${cls}">${src ? `<img src="/ui/${esc(src)}" alt="" loading="lazy">` : icon('cube')}</span>`;
@@ -193,11 +194,11 @@ function renderTable() {
     const r = reg.models[m.id] || {};
     const s = h2h(r);
     return `<tr data-id="${m.id}" class="${m.id === selected ? 'sel' : ''}" tabindex="0">
-      <td><div class="mname">${logoFor(m, r, 'sm')}<div style="min-width:0"><b>${esc(m.name)}${m.badge === 'Start here' ? ' <span class="chip violet tag">Start here</span>' : ''}</b><span>${esc(clean(m.tagline))}</span></div></div></td>
+      <td><div class="mname">${logoFor(m, r, 'sm')}<div style="min-width:0"><b>${esc(m.name)}${m.badge === 'Start here' ? ' <span class="chip violet tag">Start here</span>' : m.base_id ? ' <span class="chip tag">Fine-tuned</span>' : ''}</b><span>${esc(clean(m.tagline))}</span></div></div></td>
       <td class="num">${esc(m.params)}</td>
       <td class="num">${fmtGB(m.memory_gb)}</td>
       <td><span class="ins">${inputIcons(m)}</span></td>
-      <td><span class="vsj">${winbar(s)}${s.n ? `<span class="num">${s.w} of ${s.n}</span>` : '<span>None yet</span>'}</span></td>
+      <td>${m.base_id ? `<span class="vsj"><span class="num" data-tip="Right on held-out examples before and after training">${esc(String(m.headline_metric || '').replace(/ on held-out examples$/, ''))}</span></span>` : `<span class="vsj">${winbar(s)}${s.n ? `<span class="num">${s.w} of ${s.n}</span>` : '<span>None yet</span>'}</span>`}</td>
       <td><div class="st"><span class="word" title="${esc(statusWord(m).replace(/<[^>]+>/g, ''))}">${phaseTrack(m)}${store.state.downloads?.active?.model_id === m.id ? ` <span class="num">${downloadPct(m)}%</span>` : m.worker && m.worker.status !== 'ready' ? ' Loading' : ''}</span><span class="row-acts">${actions(m, { quiet: true, single: true })}</span></div></td></tr>`;
   }).join('');
   const jevRow = reg.jev?.name ? `<tr data-id="${JEV}" class="ref ${selected === JEV ? 'sel' : ''}" tabindex="0"><td><div class="mname"><span class="logo sm">${reg.makers[reg.jev.maker_id]?.logo ? `<img src="/ui/${esc(reg.makers[reg.jev.maker_id].logo)}" alt="">` : ''}</span><div><b>${esc(reg.jev.name)} <span class="chip tag">Reference</span></b><span>TypeSafe AI's hosted model, for comparison</span></div></div></td>
@@ -258,7 +259,9 @@ function renderTab() {
 }
 
 function overview(m, r) {
+  const base = m.base_id ? store.state?.models.find((x) => x.id === m.base_id) : null;
   const facts = [
+    ...(m.base_id ? [['Trained from', esc(base?.name || m.base_id)], ['Result', esc(m.headline_metric || '')]] : []),
     [term('parameters', 'Parameters'), esc(m.params)],
     ['Memory when loaded', `about ${fmtGB(m.memory_gb)}`],
     ['Reads', esc(inputs(m))],

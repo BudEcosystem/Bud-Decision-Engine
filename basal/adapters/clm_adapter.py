@@ -5,6 +5,15 @@ run the encoder in-process instead with the same recipe (last-token pooling,
 L2-normalised, left-truncated to 2,048 tokens) and hand it to the engine as its
 embedder. Option texts are embedded separately from the state, and cached, so
 long candidate lists stay cheap.
+
+Every text is embedded alone, in its own forward pass, so its embedding depends on nothing but the text. Batching
+made answers depend on the company a text kept: with left padding (the previous behaviour) padding shifts every real
+token's position and changes the attention kernels, and in bf16 that moved the same request's answers by up to
+0.04-0.06 depending on which option texts happened to be cached already (typed-decisions, GB10). Even unpadded
+batches of equal-length texts still differ from one text alone by up to 0.039 (the GPU's matrix kernels depend on the
+batch shape; a CLM fine-tune failed its serving parity check by that much). Each text also sees what it sees in the
+publisher's vLLM embedder: no padding, positions from 0. Training (basal/training/families/clm.py) embeds with this
+same class, so a fine-tune learns exactly what is served.
 """
 from __future__ import annotations
 
@@ -22,7 +31,7 @@ MAX_TOKENS = 2048
 class LocalQwenEmbedder:
     """Drop-in for clm.embedder.Embedder: .embed(texts) -> (L2-normalised [n, 4096] array, tokens spent)."""
 
-    def __init__(self, model_dir: str, device: str, dtype, batch: int = 16, cache_size: int = 50_000):
+    def __init__(self, model_dir: str, device: str, dtype, batch: int = 1, cache_size: int = 50_000):
         import torch
         from transformers import AutoModel, AutoTokenizer
         self.torch = torch
@@ -42,13 +51,23 @@ class LocalQwenEmbedder:
         self.lock = threading.Lock()
 
     def _encode(self, texts: list[str]) -> tuple[np.ndarray, int]:
+        """Embeddings of `texts`, never padded. `batch` > 1 lets texts of exactly equal token length share a forward pass
+        (exact on the CPU; on a GPU the result then depends slightly on the batch, so serving and training use 1)."""
         torch = self.torch
-        enc = self.tok(texts, return_tensors="pt", padding=True, truncation=True, max_length=MAX_TOKENS,
-                       add_special_tokens=False).to(self.device)
+        ids = self.tok(texts, truncation=True, max_length=MAX_TOKENS, add_special_tokens=False)["input_ids"]
+        ids = [x if x else [self.tok.pad_token_id] for x in ids]
+        same: dict[int, list[int]] = {}
+        for i, x in enumerate(ids):
+            same.setdefault(len(x), []).append(i)
+        out = np.empty((len(texts), self.model.config.hidden_size), dtype=np.float32)
         with torch.inference_mode():
-            out = self.model(**enc).last_hidden_state[:, -1].float()   # left padding: last position is the last real token
-        v = torch.nn.functional.normalize(out, dim=-1).cpu().numpy()
-        return v, int(enc["attention_mask"].sum())
+            for idx in same.values():
+                for s in range(0, len(idx), self.batch):
+                    chunk = idx[s:s + self.batch]
+                    inp = torch.tensor([ids[i] for i in chunk], device=self.device)
+                    h = self.model(input_ids=inp, attention_mask=torch.ones_like(inp)).last_hidden_state[:, -1].float()
+                    out[chunk] = torch.nn.functional.normalize(h, dim=-1).cpu().numpy()
+        return out, sum(len(x) for x in ids)
 
     def embed(self, texts: list[str]):
         vecs, todo = {}, []
@@ -59,16 +78,33 @@ class LocalQwenEmbedder:
                 else:
                     todo.append(t)
         tokens = 0
-        for i in range(0, len(todo), self.batch):
-            chunk = todo[i:i + self.batch]
-            got, tk = self._encode(chunk)
-            tokens += tk
+        if todo:
+            got, tokens = self._encode(todo)
             with self.lock:
-                for t, v in zip(chunk, got):
+                for t, v in zip(todo, got):
                     vecs[t] = v; self.cache[t] = v
                 while len(self.cache) > self.cache_size:
                     self.cache.popitem(last=False)
         return np.stack([vecs[t] for t in texts]), tokens
+
+
+HEAD_NAME = "clm-latest"      # clm.engine.DEFAULT_MODEL: the released heads the studio answers with
+
+
+def clm_questions(qs) -> dict:
+    """The TypeSafe questions the CLM engine reads. Shared by serving (decide) and training
+    (basal/training/families/clm.py)."""
+    questions = typesafe_questions(qs)
+    for q in questions.values():
+        q.setdefault("instructions", "")
+    return questions
+
+
+def clm_pairs(request, qs) -> dict:
+    """{question id: (state text, option keys, option texts)}: exactly the texts the engine embeds for a request
+    (clm.schema.build_pairs, which Engine.answer calls on the same arguments)."""
+    from clm.schema import build_pairs  # type: ignore
+    return build_pairs(request.state, clm_questions(qs))
 
 
 class ClmAdapter(Adapter):
@@ -82,10 +118,8 @@ class ClmAdapter(Adapter):
         self.engine = Engine(embedder=embedder, checkpoint=f"{heads}/CLM_v0.1-8B.pt", device=self.device, action_cache="0")
 
     def decide(self, x: DecideInput) -> DecideOutput:
-        questions = typesafe_questions(x.questions)
-        for q in questions.values():
-            q.setdefault("instructions", "")
-        res = self.engine.answer(x.request.state, questions)
+        questions = clm_questions(x.questions)
+        res = self.engine.answer(x.request.state, questions, model=HEAD_NAME)
         probs = []
         for q in x.questions:
             a = res["answers"][q.id]

@@ -11,6 +11,7 @@ import * as models from './pages/models.js';
 import * as playground from './pages/playground.js';
 import * as system from './pages/system.js';
 import * as templates from './pages/templates.js';
+import * as train from './pages/train.js';
 import { shell } from './shell.js';
 import { cancelDownload, downloadPct, ejectModel, setPref, startPolling, store, subscribe } from './store.js';
 import { $, $$, esc, fmtBytes, fmtDuration, fmtGB, icon, initTips, popMenu } from './util.js';
@@ -20,6 +21,7 @@ const ROUTES = {
   templates: { page: templates, label: 'Templates', icon: 'stack', sec: '' },
   models: { page: models, label: 'Models', icon: 'squares-four', sec: '' },
   evaluate: { page: evaluate, label: 'Evaluate', icon: 'list-checks', sec: '' },
+  train: { page: train, label: 'Train', icon: 'magic-wand', sec: '' },
   history: { page: historyPage, label: 'History', icon: 'clock-counter-clockwise', sec: 'Developer' },
   api: { page: apiPage, label: 'API', icon: 'terminal-window', sec: 'Developer' },
   learn: { page: learn, label: 'Learn', icon: 'book-open', sec: 'Help' },

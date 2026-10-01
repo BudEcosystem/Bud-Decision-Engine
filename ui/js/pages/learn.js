@@ -90,6 +90,15 @@ export function mount(el) {
     </section>
 
     <section class="l-sec">
+      <header><h2>Teaching it your own decisions</h2><p>When the model doesn't answer the way your team would.</p></header>
+      <p>Every model here can be taught from examples of the right answer: a spreadsheet with the text in one column and
+      your answer in another. A few hundred rows is usually enough. The studio keeps some examples aside, teaches the model
+      on the rest, and keeps the new version only if it does better on the ones it never saw without forgetting what it
+      already knew. It all runs on this computer and needs a GPU.</p>
+      <p><a class="btn btn-quiet sm" href="#/train">${icon('magic-wand')}Open Train</a></p>
+    </section>
+
+    <section class="l-sec">
       <header><h2>What people build with them</h2><p>Each opens a ready-made example in the Playground.</p></header>
       <div class="uses">${EXAMPLES.map((e) => `<a class="use" href="#/playground?example=${e.id}"><b>${esc(e.title)}</b><span>${esc(e.blurb)}</span></a>`).join('')}</div>
     </section>

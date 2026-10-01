@@ -1,5 +1,32 @@
 # Test results
 
+## Trainer (unreleased)
+
+Run on 2026-10-01, NVIDIA GB10 (DGX Spark), Ubuntu 24.04, while other programs were using the same memory and GPU
+(so the times are pessimistic). Every run, with its settings, is in
+[`docs/trainer/RESULTS.md`](trainer/RESULTS.md); the
+summary script is `training_research/trainer_verification/summarise_runs.py`.
+
+| What | How | Result |
+|---|---|---|
+| Data format, metrics, release gate, device policy, job queue and supervisor | `tests/training/test_dataformat.py`, `test_metrics_and_engine.py`, `test_device_policy.py`, `test_job.py`; no PyTorch needed, also run in CI | 34 of 34 pass |
+| Each model family's contract | `tests/training/test_<family>.py`: a tiny random model with the real tokenizer is trained two steps, saved, attached to a fresh serving adapter, and must answer like the trained model | pass for all eight families |
+| Through the interface | `scripts/e2e_train.py`: the example file, review, training, result, "Use it now", the Playground; then the fine-tune answers through `/v1/systemone` | pass: Julia 1, 52% → 92% on 126 held-out answers, general questions 59% → 59%, saved model identical to the trained one |
+| Julia 1, final recipe | capsotu topics and empathetic emotions, two seeds | 51% → 68%, 33% → 50%, 31% → 49% (all kept; general questions -1.5 points); a task it already knew (91%) correctly left unchanged |
+| Laya | capsotu topics (two seeds); typed decisions | 59% → 80% and 62% → 70%, general questions +0.2 and +0.7; typed decisions 36% → 63%, general questions +12.1 |
+| Laya Multilingual | typed decisions | 34% → 62%, general questions +12.7 |
+| Laya Typed-Decisions | capsotu topics | 61% → 81%, general questions +0.2 |
+| GLiNER2.5 Decide | capsotu topics | 66% → 75%, general questions +0.7; stayed within its 24 GB memory cap (one over-long example left out) |
+| Kev 0.5B | capsotu topics | 65% → 79%, general questions +0.6, peak 3.4 GB |
+| Lev | capsotu topics | 75% → 82%, general questions +2.5, peak 13.5 GB |
+| Jev-Omni | 160 typed-decisions records | 62% → 77%, general questions unchanged, peak 23.5 GB, 2.7 hours |
+| CLM 8B | typed decisions; capsotu topics | 39% → 68% (the publisher reports 68.5%), general questions +11.2, saved model identical after the per-text embedding fix in `clm_adapter.py`, peak 16 GB. On capsotu, 28% → 76% but general questions -2.5 after the gentle retry: not kept (the gate working as designed) |
+| Intern-Decision 4B | empathetic emotions | 61% → 76%, general questions +0.2, peak 11.7 GB, 74 minutes |
+| Kev 4B | capsotu topics | 77% → 82%, general questions +0.2, peak 27 GB, 65 minutes (its first run hung while saving; the save now copies through page-locked memory) |
+
+Every accepted run above passed the serving parity check (largest difference between the saved fine-tune, loaded the
+way the studio serves it, and the trained model: 0 to 5e-5).
+
 ## 0.2.0: templates, history and the studio API
 
 Run on 2026-10-01, NVIDIA GB10 (DGX Spark), Ubuntu 24.04.

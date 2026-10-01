@@ -11,15 +11,26 @@ from ..contract import typesafe_questions
 from .base import Adapter, DecideInput, DecideOutput
 
 
+def lev_questions(questions) -> dict:
+    """The studio's questions -> the question dicts `lev`'s `system_one` reads. Shared by serving (`decide`) and
+    training (basal/training/families/lev.py), which renders them with the same `lev` prompt functions."""
+    return typesafe_questions(questions)
+
+
 class LevAdapter(Adapter):
     def load(self):
         import lev  # type: ignore
+        import torch
         self.stage("Loading Qwen3.5-4B and applying the Lev adapter", 0.3)
         path = self.snapshot(self.spec.repo.id)
-        self.engine = lev.load(path)
+        # lev.load always moves the model to CUDA when there is one. Loading under that device context puts the weights
+        # there directly instead of reading them into host memory first (on unified-memory machines both copies would
+        # exist at once, about 8 GB extra).
+        with torch.device("cuda" if torch.cuda.is_available() else "cpu"):
+            self.engine = lev.load(path)
 
     def decide(self, x: DecideInput) -> DecideOutput:
-        questions = typesafe_questions(x.questions)
+        questions = lev_questions(x.questions)
         res = self.engine.system_one(x.request.state, questions)
         probs = []
         for q in x.questions:

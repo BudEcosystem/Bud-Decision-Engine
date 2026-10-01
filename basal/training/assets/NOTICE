@@ -1,0 +1,8 @@
+general.jsonl is derived from two datasets published under the Apache License 2.0:
+
+- LocalLLaMA/typed-decisions (https://huggingface.co/datasets/LocalLLaMA/typed-decisions)
+- fastino/fast-decisions (https://huggingface.co/datasets/fastino/fast-decisions)
+
+Examples were converted to the studio's training format by scripts/build_training_pack.py and split into "replay"
+examples (mixed into fine-tuning so models keep their existing skills) and "guard" examples (used only to check that a
+fine-tune has not forgotten them).

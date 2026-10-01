@@ -47,6 +47,11 @@ class ModelSpec:
     license: str = "Apache-2.0"
     needs_gpu: bool = False       # too large or GPU-only code; never offered on the CPU
     load_options: tuple[dict, ...] = field(default_factory=tuple)
+    # Fine-tuned models (basal/finetunes.py): the released model this one was trained from, the folder holding the
+    # trained delta, and the calibration temperature per question type fitted by the trainer.
+    base_id: str = ""
+    finetune_dir: str = ""
+    temperature: tuple[tuple[str, float], ...] = ()
 
     def repos(self) -> list[Repo]:
         return [self.repo] + ([self.base] if self.base else [])
@@ -282,5 +287,12 @@ if __import__("os").environ.get("BASAL_FAKE_MODEL") == "1":
         tagline="Deterministic answers for tests.", summary="Probabilities come from a hash of the input; loads instantly.",
         languages="Any", modalities=("text", "image", "audio", "video"), max_options=1000, max_questions=256,
         context_tokens=100000, license="Apache-2.0"))
+
+# Models fine-tuned on this computer (basal/training), listed after the model each was trained from.
+try:
+    from .finetunes import derived_specs as _derived
+    CATALOG.extend(_derived(CATALOG))
+except Exception as _e:  # noqa: BLE001 - a damaged fine-tune folder must never stop the studio from starting
+    print(f"fine-tunes not listed: {_e}")
 
 BY_ID = {m.id: m for m in CATALOG}

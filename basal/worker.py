@@ -102,6 +102,10 @@ def load_model(model_id: str, options: dict) -> None:
         S.adapter = cls(spec, options, set_stage)
         t = time.time()
         S.adapter.load()
+        if spec.finetune_dir:     # a model fine-tuned on this computer: the released model plus its trained delta
+            set_stage("Applying what it learned from your examples", 0.9)
+            from . import finetunes
+            finetunes.attach(S.adapter, spec)
         log(f"loaded in {time.time() - t:.1f}s; memory {gpu_memory()}")
         actual = S.adapter.effective_device()
         if actual == "cpu" and S.adapter.device != "cpu":
@@ -176,6 +180,9 @@ def decide(body: dict):
         ms = (time.perf_counter() - t) * 1000
     S.requests += 1
     S.busy_ms += ms
+    if S.adapter.spec.temperature:   # a fine-tune's own calibration, fitted by the trainer
+        from . import finetunes
+        out.probs = finetunes.calibrate(S.adapter.spec, qs, out.probs)
     temps = {q: s.temperature for q, s in req.settings.questions.items() if s.temperature}
     answers = build_answers(qs, out.probs, req.settings.temperature, temps)
     for qid, extra in out.extras.items():

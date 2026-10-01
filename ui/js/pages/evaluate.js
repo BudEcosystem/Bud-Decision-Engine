@@ -51,6 +51,12 @@ const save = () => { try { localStorage.setItem(KEY, JSON.stringify(saved)); } c
 
 export async function mount(el) {
   root = el;
+  saved = load();               // another page (Train's "Compare on Evaluate") may have prepared a question and examples
+  try {
+    const pre = JSON.parse(sessionStorage.getItem('bud.eval.select') || 'null');
+    sessionStorage.removeItem('bud.eval.select');
+    if (Array.isArray(pre)) selected = new Set(pre);
+  } catch { /* nothing prepared */ }
   reg = await registry();
   setSub('Measure a model on your own labelled examples');
   root.innerHTML = `<div class="view panes eval-view">

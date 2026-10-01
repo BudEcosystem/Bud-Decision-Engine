@@ -95,6 +95,10 @@ A **decision model** does not write text. You give it a **situation** (an email,
 <td><img src="docs/media/templates.png" alt="Templates"><br><b>Templates.</b> Reusable decisions with variables, a default model and settings. Every save is a version; compare two versions on real traffic before you switch.</td>
 <td><img src="docs/media/api.png" alt="API"><br><b>API.</b> The server address and ready-to-run examples in curl, Python, JavaScript and the official TypeSafe SDKs.</td>
 </tr>
+<tr>
+<td><img src="docs/media/train.png" alt="Train"><br><b>Train.</b> Teach a model your own decisions from a spreadsheet of examples, on this computer's GPU. It keeps some examples aside, and the new model is added only if it is better on those without getting worse at general decisions. <a href="docs/trainer/README.md">How it works</a>.</td>
+<td></td>
+</tr>
 </table>
 
 A short video of the whole flow: [`docs/media/demo.mp4`](docs/media/demo.mp4).
@@ -127,6 +131,28 @@ curl -s http://127.0.0.1:8420/v1/studio/decisions -H 'content-type: application/
 ```
 
 Each answer says whether it is sure enough to **act** on (its certainty against the template's threshold), so your code can act automatically or ask a person. The full reference, with every field, rule and error: [`docs/studio-api.md`](docs/studio-api.md).
+
+### Teach a model your own decisions
+
+When a model doesn't decide the way your team would, show it. The **Train** page takes a spreadsheet of past decisions (a column of text, a column per answer), recommends a model, and trains it on this computer's GPU with LoRA, a small file of changes beside the original weights. It keeps the new model only if it is better on examples it never saw, has not got worse at general decisions it never trained on, and answers exactly the same once saved and reloaded. The trained model then appears beside the others in the Playground, Evaluate and your code, and **Export** and **Import a trained model** move it between computers.
+
+Every model, trained by the studio itself on an NVIDIA GB10, measured on examples set aside before training:
+
+| Model | Task | Before → after | General decisions |
+|---|---|---|---|
+| Julia 1 | support tickets (the built-in example file) | 52% → 91% | −0.4 |
+| Laya | policy topics (16 areas) | 59% → 80% | +0.2 |
+| Laya Multilingual | business workflows (typed decisions) | 34% → 62% | +12.7 |
+| Laya Typed-Decisions | policy topics | 61% → 81% | +0.2 |
+| GLiNER2.5 Decide | policy topics | 66% → 75% | +0.7 |
+| Kev 0.5B | policy topics | 65% → 79% | +0.6 |
+| Kev 4B | policy topics | 77% → 82% | +0.2 |
+| Intern-Decision 4B | emotions in conversations (16) | 61% → 76% | +0.2 |
+| Lev | policy topics | 75% → 82% | +2.5 |
+| CLM 8B | business workflows | 39% → 68% | +11.2 |
+| Jev-Omni | business workflows | 62% → 77% | 0.0 |
+
+Training needs an NVIDIA RTX 30 series or newer (including the GB10) or an Apple M2 or newer; Intel Arc and Core Ultra, AMD on Linux and older NVIDIA cards are experimental. How it works, what it checks, and every run: [`docs/trainer/README.md`](docs/trainer/README.md) and [`docs/trainer/RESULTS.md`](docs/trainer/RESULTS.md).
 
 ## The eleven models
 
@@ -195,6 +221,7 @@ print(res.answers["billing"].noul)   # probability of yes
 | API conformance | `tests/test_conformance.py`: TypeSafe's published OpenAPI schema, both official SDKs, OpenRouter's schema | 14 of 14 pass |
 | Templates, history and the studio API | `tests/test_studio_api.py` (a live studio with a deterministic test model), `tests/test_templates.py`, `tests/test_history_store.py`, `tests/test_contract.py` | 89 of 89 pass |
 | Every model, end to end through the interface | `scripts/e2e.py` drives the app in a browser: all six question types on all eleven models, images on the two that read them, Evaluate, History, the API page's example, download, and switching between GPU and processor | 21 of 21 pass ([details and timings](docs/testing.md)) |
+| Teaching models (the trainer) | `tests/training/` (data format, release gate, device policy, job queue; a contract test per model family) and `scripts/e2e_train.py` through the interface; real fine-tunes in `docs/trainer/RESULTS.md` | 34 of 34 core tests pass; Train page end to end passes ([details](docs/testing.md)) |
 | Desktop app | first-run setup (hardware check, install, device check), the launcher entry, starting and stopping the engine, recovery after a force quit | Linux ARM64 on an NVIDIA GB10 |
 
 ## Run from source

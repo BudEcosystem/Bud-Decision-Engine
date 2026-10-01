@@ -69,7 +69,7 @@ def client_of(request: Request) -> str:
             return name
     return "Other"
 SETTINGS_FILE = DATA / "settings.json"
-SETTINGS = {"auto_load": True, "idle_eject_minutes": 0}
+SETTINGS = {"auto_load": True, "idle_eject_minutes": 0, "experimental_training": False}
 try:
     SETTINGS.update({k: v for k, v in json.loads(SETTINGS_FILE.read_text()).items() if k in SETTINGS})
 except Exception:
@@ -419,6 +419,8 @@ def settings(body: dict = Body(...)):
         SETTINGS["auto_load"] = bool(body["auto_load"])
     if "idle_eject_minutes" in body:
         SETTINGS["idle_eject_minutes"] = max(0, int(body["idle_eject_minutes"] or 0))
+    if "experimental_training" in body:
+        SETTINGS["experimental_training"] = bool(body["experimental_training"])
     try:
         SETTINGS_FILE.write_text(json.dumps(SETTINGS))
     except OSError:
@@ -883,6 +885,8 @@ def usage(minutes: int = 1440, bucket: str = "hour"):
 
 
 app.include_router(studio_api.router, prefix="/v1/studio", tags=["Studio API"])
+from .training.api import router as training_router  # noqa: E402  (fine-tuning: basal/training)
+app.include_router(training_router, tags=["Training"])
 
 
 # ------------------------------------------------------------------------------------------------------------------

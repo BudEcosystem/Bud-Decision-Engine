@@ -11,6 +11,20 @@ from ..contract import typesafe_questions
 from .base import NOUL_ALIASES, Adapter, DecideInput, DecideOutput
 
 
+def laya_state(request, state_text: str):
+    """The state as Laya reads it: text, objects and lists pass through (Laya writes objects as JSON), anything else
+    as the rendered text. Shared by serving (decide) and training (basal/training/families/laya.py)."""
+    return request.state if isinstance(request.state, (str, dict, list)) else state_text
+
+
+def laya_questions(qs) -> dict:
+    """Studio questions -> the TypeSafe question dicts Laya reads. Shared by serving and training."""
+    questions = typesafe_questions(qs)
+    for q in questions.values():
+        q.setdefault("instructions", "")
+    return questions
+
+
 class LayaAdapter(Adapter):
     def load(self):
         import laya  # type: ignore
@@ -25,10 +39,8 @@ class LayaAdapter(Adapter):
         return getattr(dev, "type", None)
 
     def decide(self, x: DecideInput) -> DecideOutput:
-        questions = typesafe_questions(x.questions)
-        for q in questions.values():
-            q.setdefault("instructions", "")
-        state = x.request.state if isinstance(x.request.state, (str, dict, list)) else x.state_text
+        questions = laya_questions(x.questions)
+        state = laya_state(x.request, x.state_text)
         try:
             res = self.agent.predict(state, questions, max_len=self.max_len)
         except TypeError:   # older runtimes without max_len

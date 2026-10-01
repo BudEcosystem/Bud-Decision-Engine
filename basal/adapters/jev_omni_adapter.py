@@ -12,6 +12,26 @@ import sys
 from .base import Adapter, DecideInput, DecideOutput
 
 
+def jev_options(q) -> list[str]:
+    """The option strings Jev-Omni reads for one question, in key order: 'No: …' / 'Yes: …' for yes/no, 'name:
+    description' for choice, the level texts for a scale. Shared by serving (decide) and training
+    (basal/training/families/jev_omni.py)."""
+    if q.type == "noul":
+        return [f"No: {q.descriptions[0]}" if q.descriptions[0] else "No",
+                f"Yes: {q.descriptions[1]}" if q.descriptions[1] else "Yes"]
+    return q.option_texts()
+
+
+def jev_question(q) -> str:
+    return q.instructions or "Which option is correct?"
+
+
+def jev_media(media: list[dict]) -> dict:
+    """JevOmni.predict's media arguments for a request: the first file only."""
+    m = media[0] if media else None
+    return {"media": m["path"], "modality": m["type"]} if m else {}
+
+
 class JevOmniAdapter(Adapter):
     def load(self):
         if self.device == "cpu":
@@ -28,18 +48,11 @@ class JevOmniAdapter(Adapter):
         notes = []
         if len(x.media) > 1:
             notes.append(f"Jev-Omni reads one media file per request; used '{media.get('name') or 'the first file'}'.")
+        kw = jev_media(x.media)
         probs = []
         for q in x.questions:
-            if q.type == "noul":
-                options = [f"No: {q.descriptions[0]}" if q.descriptions[0] else "No",
-                           f"Yes: {q.descriptions[1]}" if q.descriptions[1] else "Yes"]
-            else:
-                options = q.option_texts()
-            kw = {}
-            if media:
-                kw = {"media": media["path"], "modality": media["type"]}
-            r = self.clf.predict(state=x.state_text, question=q.instructions or "Which option is correct?",
-                                 options=options, **kw)
+            options = jev_options(q)
+            r = self.clf.predict(state=x.state_text, question=jev_question(q), options=options, **kw)
             probs.append([float(r["probabilities"][o]) for o in options])
         if len(x.questions) > 1:
             notes.append(f"Jev-Omni answers one question per pass: {len(x.questions)} passes for this request.")

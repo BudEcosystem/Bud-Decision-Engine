@@ -14,6 +14,29 @@ import sys
 from .base import Adapter, DecideInput, DecideOutput
 
 
+def julia_state(request, state_text: str):
+    """Julia was trained on structured states written as JSON text; the rendered `key: value` form cost it 17 points
+    on typed-decisions (73.2% -> 56.0%, training_research/models/julia-1). Text states pass through unchanged."""
+    st = request.state
+    if isinstance(st, (dict, list)):
+        return st                                   # julia.data.sequence writes objects and lists as JSON text
+    return state_text
+
+
+def julia_option_texts(q) -> list[str]:
+    if q.type == "noul":
+        return [q.descriptions[0] or "false", q.descriptions[1] or "true"]
+    if q.type == "choice":
+        return [d or l for l, d in zip(q.labels, q.descriptions)]
+    return list(q.labels)
+
+
+def julia_row(q, state, options: list[str] | None = None) -> dict:
+    """One question -> one Julia row. Shared by serving (decide) and training (basal/training/families/julia.py)."""
+    return {"state": state, "question": q.instructions or "Which option fits best?", "type": q.type,
+            "options": options if options is not None else julia_option_texts(q)}
+
+
 class JuliaAdapter(Adapter):
     def load(self):
         path = self.snapshot(self.spec.repo.id)
@@ -27,16 +50,8 @@ class JuliaAdapter(Adapter):
                                         max_length=int(self.options.get("max_length") or 8192), head_length=512)
 
     def decide(self, x: DecideInput) -> DecideOutput:
-        rows = []
-        for q in x.questions:
-            if q.type == "noul":
-                opts = [q.descriptions[0] or "false", q.descriptions[1] or "true"]
-            elif q.type == "choice":
-                opts = [d or l for l, d in zip(q.labels, q.descriptions)]
-            else:
-                opts = list(q.labels)
-            rows.append({"state": x.state_text, "question": q.instructions or "Which option fits best?",
-                         "type": q.type, "options": opts})
+        state = julia_state(x.request, x.state_text)
+        rows = [julia_row(q, state) for q in x.questions]
         logits = self.engine.logits(rows)
         probs = []
         for z in logits:

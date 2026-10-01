@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Add a model · Bud Decision Studio Docs</title>
+  <meta name="description" content="Add a decision model to Bud Decision Studio with a catalog entry and an adapter, show it in the interface, and test it.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Add a model · Bud Decision Studio">
+  <meta property="og:description" content="Add a decision model to Bud Decision Studio with a catalog entry and an adapter, show it in the interface, and test it.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs has-console" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html" aria-current=page>Add a model</a><nav class="side-toc" aria-label="On this page"><a href="#what-a-new-model-needs">What a new model needs</a><a href="#the-catalog-entry">The catalog entry</a><a href="#the-adapter">The adapter</a><a href="#register-it">Register it</a><a href="#show-it-in-the-interface">Show it in the interface</a><a href="#test-it">Test it</a></nav><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>Developers</span></p>
+      <h1>Add a model</h1>
+      <p class="lead">A model joins the studio through two pieces of Python. A catalog entry says what the model is and where its weights are; an adapter says how to run it. Downloads, loading, every API format, history and the interface follow from those two.</p>
+    </header>
+    <section class="dsec"><div class="dsec-text"><h2 id="what-a-new-model-needs">What a new model needs<a class="anchor" href="#what-a-new-model-needs" title="Link to this section">#</a></h2>
+<ul>
+<li><strong>A catalog entry</strong> in <code>basal/catalog.py</code>. Always.</li>
+<li><strong>An adapter</strong> in <code>basal/<wbr>adapters/<wbr>&lt;family&gt;_<wbr>adapter.<wbr>py</code>, registered in <code>basal/<wbr>adapters/__<wbr>init__.<wbr>py</code>, when the model's family has none yet.</li>
+<li><strong>Its library</strong> in <code>requirements.txt</code>, or in <code>requirements-nodeps.txt</code> when its declared dependencies conflict with the rest, when the adapter imports a package the studio does not install yet.</li>
+<li><strong>Details and published results</strong> in <code>ui/registry.json</code>, for the Models page.</li>
+<li><strong>What it is made for, and its examples</strong>, in <code>ui/js/model-guides.js</code> and <code>ui/js/examples.js</code>, for the Playground.</li>
+<li><strong>A line in the environment check</strong>, <code>basal/doctor.py</code>, when it brings a new library.</li>
+</ul>
+<p>A fine-tuned checkpoint of a model the studio already runs needs only the catalog entry and the interface details. Laya, Laya Multilingual and Laya Typed-Decisions, for example, share one adapter.</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="the-catalog-entry">The catalog entry<a class="anchor" href="#the-catalog-entry" title="Link to this section">#</a></h2>
+<p>Each model is one <code>ModelSpec</code> in the <code>CATALOG</code> list. The runtime uses the facts; the interface shows the plain-language text. The entry for Laya:</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>What it holds</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="id" tabindex="0">
+<td><code>id</code></td>
+<td>The stable local id, also the <code>model</code> value in API requests. Never change it once released</td>
+</tr>
+<tr data-param="name" tabindex="0">
+<td><code>name</code>, <code>maker</code></td>
+<td>What the interface shows</td>
+</tr>
+<tr data-param="adapter" tabindex="0">
+<td><code>adapter</code></td>
+<td>The adapter key in <code>basal/<wbr>adapters/__<wbr>init__.<wbr>py</code></td>
+</tr>
+<tr data-param="repo" tabindex="0">
+<td><code>repo</code></td>
+<td>The Hugging Face repository, with optional <code>include</code> and <code>exclude</code> file patterns, and a fallback <code>size_gb</code> and <code>likes</code> for when the Hub is unreachable</td>
+</tr>
+<tr data-param="base" tabindex="0">
+<td><code>base</code></td>
+<td>A second repository downloaded alongside, for adapters trained on a frozen base model (Kev's LoRA adapters on Qwen)</td>
+</tr>
+<tr data-param="params" tabindex="0">
+<td><code>params</code>, <code>memory_gb</code></td>
+<td>Size in parameters, and the memory it needs once loaded. <code>memory_gb</code> decides whether the model fits this computer</td>
+</tr>
+<tr data-param="types" tabindex="0">
+<td><code>types</code></td>
+<td>The question types it answers: <code>choice</code>, <code>score</code>, <code>noul</code> by default</td>
+</tr>
+<tr data-param="modalities" tabindex="0">
+<td><code>modalities</code></td>
+<td>What it reads: <code>text</code>, plus <code>image</code>, <code>audio</code> or <code>video</code></td>
+</tr>
+<tr data-param="max_options" tabindex="0">
+<td><code>max_options</code>, <code>max_questions</code></td>
+<td>Limits checked before the model is called</td>
+</tr>
+<tr data-param="context_tokens" tabindex="0">
+<td><code>context_tokens</code></td>
+<td>The longest input it accepts</td>
+</tr>
+<tr data-param="one_pass" tabindex="0">
+<td><code>one_pass</code></td>
+<td><code>True</code> when it answers every question in one forward pass</td>
+</tr>
+<tr data-param="speed" tabindex="0">
+<td><code>speed</code></td>
+<td><code>instant</code>, <code>fast</code>, <code>moderate</code> or <code>heavy</code></td>
+</tr>
+<tr data-param="needs_gpu" tabindex="0">
+<td><code>needs_gpu</code></td>
+<td><code>True</code> for models that cannot run on the processor; they are never offered there</td>
+</tr>
+<tr data-param="load_options" tabindex="0">
+<td><code>load_options</code></td>
+<td>The settings offered under <strong>Advanced</strong> when loading: <code>DEVICE</code> (Run on), <code>DTYPE</code> (number precision) and <code>_ctx(default, maximum)</code> (max input length)</td>
+</tr>
+<tr data-param="tagline" tabindex="0">
+<td><code>tagline</code>, <code>summary</code>, <code>good_for</code>, <code>watch_out</code>, <code>languages</code>, <code>badge</code>, <code>headline_metric</code>, <code>license</code></td>
+<td>The text on the Models page. Facts come from the model's own card, and numbers are the publisher's</td>
+</tr>
+</tbody>
+</table></div>
+<p>The server reads the Hub's file list, sizes and likes for every catalog repository at startup and caches them in <code>DATA/hub_meta.json</code>, so the new model's download size appears without further work.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">basal/catalog.py</span></div><div class="console-bar"><span class="dc-lang">Python</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c0-p0"><pre class="hl" tabindex="0"><code class="lang-python"><span class="ln"><span class="n">ModelSpec</span><span class="p">(</span></span><span class="ln" style="--i:4">    <span class="nb">id</span><span class="o">=</span><span class="s2">"laya"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Laya"</span><span class="p">,</span> <span class="n">maker</span><span class="o">=</span><span class="s2">"ConvAI Innovations"</span><span class="p">,</span> <span class="n">adapter</span><span class="o">=</span><span class="s2">"laya"</span><span class="p">,</span></span><span class="ln" style="--i:4">    <span class="n">repo</span><span class="o">=</span><span class="n">Repo</span><span class="p">(</span><span class="s2">"convaiinnovations/laya"</span><span class="p">,</span></span><span class="ln" style="--i:14">              <span class="n">exclude</span><span class="o">=</span><span class="p">(</span><span class="s2">"multilingual/*"</span><span class="p">,</span> <span class="s2">"typed-decisions/*"</span><span class="p">,</span> <span class="s2">"assets/*"</span><span class="p">,</span> <span class="s2">"eval/*"</span><span class="p">),</span></span><span class="ln" style="--i:14">              <span class="n">size_gb</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">likes</span><span class="o">=</span><span class="mi">4491</span><span class="p">),</span></span><span class="ln" style="--i:4">    <span class="n">params</span><span class="o">=</span><span class="s2">"421M"</span><span class="p">,</span> <span class="n">memory_gb</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="s2">"instant"</span><span class="p">,</span></span><span class="ln" style="--i:4">    <span class="n">tagline</span><span class="o">=</span><span class="s2">"The most popular open decision model."</span><span class="p">,</span></span><span class="ln" style="--i:4">    <span class="n">summary</span><span class="o">=</span><span class="s2">"The English flagship of the Laya family: a ModernBERT-large encoder "</span></span><span class="ln" style="--i:12">            <span class="s2">"plus a small decision head with an act-or-escalate gate. The most-liked "</span></span><span class="ln" style="--i:12">            <span class="s2">"open alternative to TypeSafe's Jev."</span><span class="p">,</span></span><span class="ln" style="--i:4">    <span class="n">good_for</span><span class="o">=</span><span class="p">(</span><span class="s2">"English email and ticket triage"</span><span class="p">,</span> <span class="s2">"Guardrails and content moderation"</span><span class="p">,</span></span><span class="ln" style="--i:14">              <span class="s2">"Fast yes/no checks"</span><span class="p">),</span></span><span class="ln" style="--i:4">    <span class="n">watch_out</span><span class="o">=</span><span class="p">(</span><span class="s2">"Fails confidently on non-Latin scripts (use Laya Multilingual for those)"</span><span class="p">,</span></span><span class="ln" style="--i:15">               <span class="s2">"Zero-shot accuracy is close to chance on unfamiliar tasks; best after fine-tuning"</span><span class="p">,</span></span><span class="ln" style="--i:15">               <span class="s2">"512-token context: long documents get cut off"</span><span class="p">),</span></span><span class="ln" style="--i:4">    <span class="n">languages</span><span class="o">=</span><span class="s2">"English"</span><span class="p">,</span> <span class="n">max_options</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">context_tokens</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span></span><span class="ln" style="--i:4">    <span class="n">headline_metric</span><span class="o">=</span><span class="s2">"0.86 on English XNLI; 39 ms per question on a T4"</span><span class="p">,</span></span><span class="ln" style="--i:4">    <span class="n">badge</span><span class="o">=</span><span class="s2">"Most liked"</span><span class="p">,</span></span><span class="ln" style="--i:4">    <span class="n">load_options</span><span class="o">=</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">,</span> <span class="n">_ctx</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)),</span></span><span class="ln"><span class="p">),</span></span></code></pre></div></div></div></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="the-adapter">The adapter<a class="anchor" href="#the-adapter" title="Link to this section">#</a></h2>
+<p>An adapter runs inside a worker process and owns exactly one loaded model. It subclasses <code>Adapter</code> from <code>basal/adapters/base.py</code> and implements two methods:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>load()</code></td>
+<td>Load the weights onto <code>self.device</code>. Report progress with <code>self.<wbr>stage("Loading the encoder", 0.<wbr>3)</code>; the text appears in the interface while the model loads</td>
+</tr>
+<tr>
+<td><code>decide(x)</code></td>
+<td>Answer one request. Return a <code>DecideOutput</code> whose <code>probs</code> holds, for each question in <code>x.questions</code>, one probability per option in the question's <code>keys</code> order</td>
+</tr>
+</tbody>
+</table></div>
+<p>Two more have defaults you can override. <code>warmup()</code> runs one tiny request after loading, so the first real request is not slow. <code>effective_device()</code> reports where the model really ended up, when its library can move it; returning <code>"cpu"</code> after a GPU load makes the studio tell the person it is running on the processor.</p>
+<p>The base class gives you helpers: <code>self.snapshot(repo_id)</code> returns the local path of a downloaded repository without touching the network, <code>self.torch_dtype()</code> picks bfloat16, float16 or float32 for the device, and <code>Adapter.<wbr>probs_<wbr>from_<wbr>map(q, mapping, aliases)</code> turns a library's <code>{option: probability}</code> result into the ordered list, accepting <code>yes</code> for <code>true</code> with <code>NOUL_ALIASES</code>.</p>
+<p>The Julia 1 adapter is a complete example, shown here without its comments. Julia's repository ships its own Python package, so the adapter imports it from the downloaded files.</p>
+
+
+<h3 id="what-the-adapter-receives">What the adapter receives<a class="anchor" href="#what-the-adapter-receives" title="Link to this section">#</a></h3>
+<p><code>decide</code> gets a <code>DecideInput</code>. Its questions are already normalised: pick-any, put-in-order and estimate-a-number questions arrive as <code>noul</code>, <code>choice</code> and <code>score</code> questions, and the studio recomposes the answers afterwards. Your adapter only ever sees three types.</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>What it holds</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="x.request" tabindex="0">
+<td><code>x.request</code></td>
+<td>The validated request, including <code>state</code> as the caller sent it (a string, object or list)</td>
+</tr>
+<tr data-param="x.state_text" tabindex="0">
+<td><code>x.state_text</code></td>
+<td>The state rendered as text, for libraries that take a string</td>
+</tr>
+<tr data-param="x.media" tabindex="0">
+<td><code>x.media</code></td>
+<td>Images, audio and video as <code>{"type", "path", "name"}</code>, with an absolute path to the file</td>
+</tr>
+<tr data-param="q.id" tabindex="0">
+<td><code>q.id</code></td>
+<td>The question's key</td>
+</tr>
+<tr data-param="q.type" tabindex="0">
+<td><code>q.type</code></td>
+<td><code>choice</code>, <code>score</code> or <code>noul</code></td>
+</tr>
+<tr data-param="q.instructions" tabindex="0">
+<td><code>q.instructions</code></td>
+<td>The question, always filled in</td>
+</tr>
+<tr data-param="q.keys" tabindex="0">
+<td><code>q.keys</code></td>
+<td>The probability keys, in the order <code>probs</code> must follow: option names, <code>"0"</code> to <code>"n"</code> for levels, or <code>"false"</code>, <code>"true"</code></td>
+</tr>
+<tr data-param="q.labels" tabindex="0">
+<td><code>q.labels</code>, <code>q.descriptions</code></td>
+<td>Short option names and their descriptions, where given</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>DecideOutput</code> also carries <code>input_tokens</code>, <code>passes</code> (forward passes used), <code>notes</code> (sentences shown with the answer, such as "image ignored"), and <code>extras</code> (model-specific signals per question; Laya passes its own act-or-escalate probability there).</p>
+<p>Probabilities do not have to sum to one; the studio normalises them. Do not apply a temperature or compute confidence in the adapter: <code>contract.build_answers</code> does that the same way for every model. If an input cannot be answered, raise <code>ValueError</code> with a sentence a person can act on; the caller receives it as a rejected input, not a crash.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">basal/adapters/julia_adapter.py</span></div><div class="console-bar"><span class="dc-lang">Python</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c1-p0"><pre class="hl" tabindex="0"><code class="lang-python"><span class="ln"><span class="kn">import</span><span class="w"> </span><span class="nn">math</span></span><span class="ln"><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span></span><span class="ln"></span><span class="ln"><span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Adapter</span><span class="p">,</span> <span class="n">DecideInput</span><span class="p">,</span> <span class="n">DecideOutput</span></span><span class="ln"></span><span class="ln"></span><span class="ln"><span class="k">class</span><span class="w"> </span><span class="nc">JuliaAdapter</span><span class="p">(</span><span class="n">Adapter</span><span class="p">):</span></span><span class="ln" style="--i:4">    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></span><span class="ln" style="--i:8">        <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spec</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">id</span><span class="p">)</span></span><span class="ln" style="--i:8">        <span class="k">if</span> <span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span></span><span class="ln" style="--i:12">            <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></span><span class="ln" style="--i:8">        <span class="bp">self</span><span class="o">.</span><span class="n">stage</span><span class="p">(</span><span class="s2">"Loading the encoder and decision head"</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span></span><span class="ln" style="--i:8">        <span class="kn">from</span><span class="w"> </span><span class="nn">julia.inference</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransformerEngine</span>  <span class="c1"># shipped in the repository</span></span><span class="ln" style="--i:8">        <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">TransformerEngine</span><span class="p">(</span></span><span class="ln" style="--i:12">            <span class="n">path</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span></span><span class="ln" style="--i:12">            <span class="n">max_length</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_length"</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">8192</span><span class="p">),</span></span><span class="ln" style="--i:12">            <span class="n">head_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span></span><span class="ln"></span><span class="ln" style="--i:4">    <span class="k">def</span><span class="w"> </span><span class="nf">decide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">DecideInput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DecideOutput</span><span class="p">:</span></span><span class="ln" style="--i:8">        <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span></span><span class="ln" style="--i:8">        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">questions</span><span class="p">:</span></span><span class="ln" style="--i:12">            <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"noul"</span><span class="p">:</span></span><span class="ln" style="--i:16">                <span class="n">opts</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">descriptions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">"false"</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">descriptions</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="s2">"true"</span><span class="p">]</span></span><span class="ln" style="--i:12">            <span class="k">elif</span> <span class="n">q</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"choice"</span><span class="p">:</span></span><span class="ln" style="--i:16">                <span class="n">opts</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="ow">or</span> <span class="n">l</span> <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span> <span class="n">q</span><span class="o">.</span><span class="n">descriptions</span><span class="p">)]</span></span><span class="ln" style="--i:12">            <span class="k">else</span><span class="p">:</span></span><span class="ln" style="--i:16">                <span class="n">opts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span></span><span class="ln" style="--i:12">            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"state"</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">state_text</span><span class="p">,</span></span><span class="ln" style="--i:25">                         <span class="s2">"question"</span><span class="p">:</span> <span class="n">q</span><span class="o">.</span><span class="n">instructions</span> <span class="ow">or</span> <span class="s2">"Which option fits best?"</span><span class="p">,</span></span><span class="ln" style="--i:25">                         <span class="s2">"type"</span><span class="p">:</span> <span class="n">q</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="s2">"options"</span><span class="p">:</span> <span class="n">opts</span><span class="p">})</span></span><span class="ln" style="--i:8">        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">logits</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span></span><span class="ln" style="--i:8">        <span class="n">probs</span> <span class="o">=</span> <span class="p">[]</span></span><span class="ln" style="--i:8">        <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">logits</span><span class="p">:</span></span><span class="ln" style="--i:12">            <span class="n">m</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">z</span><span class="p">)</span></span><span class="ln" style="--i:12">            <span class="n">e</span> <span class="o">=</span> <span class="p">[</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">z</span><span class="p">]</span></span><span class="ln" style="--i:12">            <span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></span><span class="ln" style="--i:12">            <span class="n">probs</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">v</span> <span class="o">/</span> <span class="n">s</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">e</span><span class="p">])</span></span><span class="ln" style="--i:8">        <span class="k">return</span> <span class="n">DecideOutput</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span></span><span class="ln"></span><span class="ln"></span><span class="ln"><span class="n">ADAPTER</span> <span class="o">=</span> <span class="n">JuliaAdapter</span></span></code></pre></div></div></div></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="register-it">Register it<a class="anchor" href="#register-it" title="Link to this section">#</a></h2>
+<p>Add the module to <code>MODULES</code> in <code>basal/<wbr>adapters/__<wbr>init__.<wbr>py</code>, keyed by the name your catalog entry uses in <code>adapter=</code>. Each adapter module ends with <code>ADAPTER = &lt;YourClass&gt;</code>. Modules are imported only when a worker loads a model of that family, so a library one model needs is never imported for the others.</p>
+<p>Put the library in <code>requirements.txt</code>. When its package metadata pins versions that conflict with the rest of the stack (GLiNER2 pins an older transformers, for example), put it in <code>requirements-nodeps.txt</code> instead; it is installed without its declared dependencies. Add a line for it to the list in <code>basal/doctor.py</code>, then run <code>./install.sh</code> again to install it.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">basal/adapters/__init__.py</span></div><div class="console-bar"><span class="dc-lang">Python</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c2-p0"><pre class="hl" tabindex="0"><code class="lang-python"><span class="ln"><span class="n">MODULES</span> <span class="o">=</span> <span class="p">{</span></span><span class="ln" style="--i:4">    <span class="s2">"kev"</span><span class="p">:</span> <span class="s2">"kev_adapter"</span><span class="p">,</span> <span class="s2">"laya"</span><span class="p">:</span> <span class="s2">"laya_adapter"</span><span class="p">,</span> <span class="s2">"julia"</span><span class="p">:</span> <span class="s2">"julia_adapter"</span><span class="p">,</span></span><span class="ln" style="--i:4">    <span class="s2">"gliner"</span><span class="p">:</span> <span class="s2">"gliner_adapter"</span><span class="p">,</span> <span class="s2">"lev"</span><span class="p">:</span> <span class="s2">"lev_adapter"</span><span class="p">,</span> <span class="s2">"intern"</span><span class="p">:</span> <span class="s2">"intern_adapter"</span><span class="p">,</span></span><span class="ln" style="--i:4">    <span class="s2">"jev_omni"</span><span class="p">:</span> <span class="s2">"jev_omni_adapter"</span><span class="p">,</span> <span class="s2">"clm"</span><span class="p">:</span> <span class="s2">"clm_adapter"</span><span class="p">,</span></span><span class="ln" style="--i:4">    <span class="s2">"fake"</span><span class="p">:</span> <span class="s2">"fake_adapter"</span><span class="p">,</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="show-it-in-the-interface">Show it in the interface<a class="anchor" href="#show-it-in-the-interface" title="Link to this section">#</a></h2>
+<p>The Models page reads <code>ui/registry.json</code>: under <code>models.&lt;id&gt;</code>, the maker's logo, links, parameter count, architecture, base model, training, and a list of <code>benchmarks</code>, each with the suite, metric, the model's and Jev's figures, the conditions and the source. Publishers' numbers are labelled as theirs; write what the source says, including its caveats.</p>
+<p>The Playground reads <code>ui/js/model-guides.js</code>: one line on what the model is made for, its own placeholders, and the ids of its signature examples in <code>ui/js/examples.js</code>, best first. Each example exists to show the model at its best, so check that the model answers it correctly before you list it.</p>
+<p>The starter templates record which models each example suits, so regenerate them with <code>node scripts/<wbr>export-<wbr>builtins.<wbr>mjs</code> after changing either file.</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="test-it">Test it<a class="anchor" href="#test-it" title="Link to this section">#</a></h2>
+<div class="steps"><ol>
+<li><strong>Load and ask.</strong> Start the studio, download the model on the Models page, and press Decide in the Playground. The worker's log (<strong>View log</strong>, or <code>DATA/<wbr>logs/<wbr>worker-<wbr>&lt;id&gt;.<wbr>log</code>) shows each loading stage and any error.</li>
+<li><strong>Smoke test it through the API.</strong> <code>scripts/<wbr>smoke.<wbr>py &lt;id&gt;</code> loads the model, asks a support ticket's three questions (pick one, a scale, yes or no) three times, prints the answers, the latency and the memory used, and ejects it. <code>--image &lt;file&gt;</code> asks models that read images about a picture instead; <code>--keep</code> leaves the model loaded.</li>
+<li><strong>Check its examples.</strong> <code>scripts/<wbr>model-<wbr>examples.<wbr>py &lt;id&gt;</code> asks the model its signature examples and checks the key answers.</li>
+<li><strong>Run the conformance suite on it.</strong> <code>BASAL_<wbr>TEST_<wbr>MODEL=&lt;id&gt;</code> runs the TypeSafe, SDK and gateway checks with your model answering.</li>
+<li><strong>Run it through the interface.</strong> <code>scripts/<wbr>e2e.<wbr>py --<wbr>models &lt;id&gt;</code> answers all six question types in a real browser.</li>
+</ol></div>
+
+<p>What each suite covers: <a href="../../docs/dev/testing.html">Testing</a>.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">Terminal</span></div><div class="console-bar"><span class="dc-lang">Shell</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c3-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">./run.sh<span class="w"> </span><span class="p">&amp;</span></span><span class="ln"></span><span class="ln">.venv/bin/python<span class="w"> </span>scripts/smoke.py<span class="w"> </span>my-model</span><span class="ln">.venv/bin/python<span class="w"> </span>scripts/model-examples.py<span class="w"> </span>my-model</span><span class="ln"></span><span class="ln"><span class="nv">BASAL_TEST_MODEL</span><span class="o">=</span>my-model<span class="w"> </span>.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>tests/test_conformance.py<span class="w"> </span>-q</span><span class="ln"></span><span class="ln">.venv/bin/python<span class="w"> </span>scripts/e2e.py<span class="w"> </span>--models<span class="w"> </span>my-model<span class="w"> </span>--skip-download</span></code></pre></div></div></div></div></section>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/dev/source.html"><span class="pg-l">Previous</span><span class="pg-t">Run from source</span></a><a class="pg next" href="../../docs/dev/storage.html"><span class="pg-l">Next</span><span class="pg-t">Data and storage</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

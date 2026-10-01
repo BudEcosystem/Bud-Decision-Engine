@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bud Decision Studio</title>
+  <meta name="description" content="Run open decision models on your own computer. Give a model a situation and a few questions; get a calibrated probability for every answer in about a tenth of a second. For macOS, Windows and Linux.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Bud Decision Studio">
+  <meta property="og:description" content="Decisions, not text. Run eleven open decision models on your own computer, behind one Jev-compatible API.">
+  <meta property="og:image" content="assets/img/playground.webp">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/png" href="assets/brand/favicon.png">
+  <link rel="apple-touch-icon" href="assets/brand/app-icon.png">
+  <link rel="preload" href="assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script>document.documentElement.classList.add('js');setTimeout(function(){var h=document.querySelector('.hero');if(h)h.classList.add('ready')},4500);</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ============================================================ navigation -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="Bud Decision Studio, back to top">
+      <img src="assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#tour">Features</a>
+      <a href="#models">Models</a>
+      <a href="#developers">Developers</a>
+      <a href="docs/index.html">Docs</a>
+      <a href="#faq">Help</a>
+    </nav>
+    <div class="nav-end">
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub">
+        <svg class="ph" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg>
+      </a>
+      <a class="btn btn-sm btn-primary" href="#download" data-dl-nav>Download</a>
+      <button class="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="menu" id="menu" hidden>
+    <a href="#how">How it works</a>
+    <a href="#tour">Features</a>
+    <a href="#models">Models</a>
+    <a href="#developers">Developers</a>
+    <a href="docs/index.html">Docs</a>
+    <a href="#download">Download</a>
+    <a href="#faq">Help</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================================================ hero -->
+<section class="hero" id="top">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <div class="hero-copy">
+    <a class="release-pill" href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases/latest" data-release-pill>
+      <span class="dot"></span><span data-release-text>Version 0.1.3 for macOS, Windows and Linux</span>
+    </a>
+    <h1 class="hero-title" aria-label="Decisions, not text.">
+      <span class="w">Decisions,</span> <span class="w">not</span> <span class="w">text.</span>
+    </h1>
+    <p class="hero-lede">Bud Decision Studio runs open decision models on your own computer. Give a model a situation and a few questions, and it returns a calibrated probability for every answer in about a tenth of a second. No per-call fees, and nothing leaves your machine.</p>
+
+    <div class="hero-cta">
+      <a class="btn btn-lg btn-primary" href="#download" data-dl-primary>
+        <span class="btn-ico" data-dl-icon></span><span data-dl-label>Download Bud Decision Studio</span>
+      </a>
+      <a class="btn btn-lg btn-ghost" href="#demo" data-play-demo>
+        <svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z"/></svg>
+        Watch the demo
+      </a>
+    </div>
+    <p class="hero-meta" data-dl-meta>For macOS, Windows and Linux.</p>
+
+  </div>
+
+  <!-- the live replay of the Playground -->
+  <div class="stage" id="stage">
+    <div class="scenarios" role="tablist" aria-label="Example decisions">
+      <button role="tab" class="scn" data-scn="0" aria-selected="true"><span>Support ticket</span><i></i></button>
+      <button role="tab" class="scn" data-scn="1" aria-selected="false"><span>Server log</span><i></i></button>
+      <button role="tab" class="scn" data-scn="2" aria-selected="false"><span>Supplier invoice</span><i></i></button>
+    </div>
+
+    <div class="mock-wrap">
+      <div class="mock" aria-label="Bud Decision Studio Playground, replaying a real decision">
+        <div class="mock-bar">
+          <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="mock-title"><b>Playground</b> <span>Intern-Decision 4B, ready</span></span>
+          <span class="mock-bar-end" aria-hidden="true">
+            <svg class="ph" viewBox="0 0 256 256" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></svg>
+            <svg class="ph" viewBox="0 0 256 256" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M207.06,72.67A111.24,111.24,0,0,0,128,40h-.4C66.07,40.21,16,91,16,153.13V176a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V152A111.25,111.25,0,0,0,207.06,72.67ZM224,176H119.71l54.76-75.3a8,8,0,0,0-12.94-9.42L99.92,176H32V153.13c0-3.08.15-6.12.43-9.13H56a8,8,0,0,0,0-16H35.27c10.32-38.86,44-68.24,84.73-71.66V80a8,8,0,0,0,16,0V56.33A96.14,96.14,0,0,1,221,128H200a8,8,0,0,0,0,16h23.67c.21,2.65.33,5.31.33,8Z"/></svg>
+          </span>
+        </div>
+        <div class="mock-body">
+          <aside class="m-side" aria-hidden="true">
+            <div class="m-brand"><img src="assets/brand/bud-mark.png" alt="" width="18" height="18"><span><b>Bud</b> Decision Studio</span></div>
+            <ul>
+              <li class="on"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M221.69,199.77,160,96.92V40h8a8,8,0,0,0,0-16H88a8,8,0,0,0,0,16h8V96.92L34.31,199.77A16,16,0,0,0,48,224H208a16,16,0,0,0,13.72-24.23ZM110.86,103.25A7.93,7.93,0,0,0,112,99.14V40h32V99.14a7.93,7.93,0,0,0,1.14,4.11L183.36,167c-12,2.37-29.07,1.37-51.75-10.11-15.91-8.05-31.05-12.32-45.22-12.81ZM48,208l28.54-47.58c14.25-1.74,30.31,1.85,47.82,10.72,19,9.61,35,12.88,48,12.88a69.89,69.89,0,0,0,19.55-2.7L208,208Z"/></svg>Playground</li>
+              <li><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/></svg>Templates</li>
+              <li><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"/></svg>Models<em>11</em></li>
+              <li><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128ZM128,72h88a8,8,0,0,0,0-16H128a8,8,0,0,0,0,16Zm88,112H128a8,8,0,0,0,0,16h88a8,8,0,0,0,0-16ZM82.34,42.34,56,68.69,45.66,58.34A8,8,0,0,0,34.34,69.66l16,16a8,8,0,0,0,11.32,0l32-32A8,8,0,0,0,82.34,42.34Zm0,64L56,132.69,45.66,122.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Zm0,64L56,196.69,45.66,186.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Z"/></svg>Evaluate</li>
+            </ul>
+            <p class="m-sec">Developer</p>
+            <ul>
+              <li><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M136,80v43.47l36.12,21.67a8,8,0,0,1-8.24,13.72l-40-24A8,8,0,0,1,120,128V80a8,8,0,0,1,16,0Zm-8-48A95.44,95.44,0,0,0,60.08,60.15C52.81,67.51,46.35,74.59,40,82V64a8,8,0,0,0-16,0v40a8,8,0,0,0,8,8H72a8,8,0,0,0,0-16H49c7.15-8.42,14.27-16.35,22.39-24.57a80,80,0,1,1,1.66,114.75,8,8,0,1,0-11,11.64A96,96,0,1,0,128,32Z"/></svg>History</li>
+              <li><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M128,128a8,8,0,0,1-3,6.25l-40,32a8,8,0,1,1-10-12.5L107.19,128,75,102.25a8,8,0,1,1,10-12.5l40,32A8,8,0,0,1,128,128Zm48,24H136a8,8,0,0,0,0,16h40a8,8,0,0,0,0-16Zm56-96V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/></svg>API</li>
+            </ul>
+            <p class="m-sec">Loaded</p>
+            <div class="m-loaded"><i></i>Intern-Decision 4B<span>8.8 GB</span></div>
+          </aside>
+
+          <section class="m-build">
+            <div class="m-model">
+              <span class="m-model-ico" aria-hidden="true"><img src="assets/logos/internlm.png" alt="" width="22" height="22"></span>
+              <span class="m-model-txt"><b>Intern-Decision 4B</b><small><i class="dots" aria-hidden="true"></i>Ready, 4B, 10 GB</small></span>
+              <span class="kbd">Ctrl</span><span class="kbd">L</span>
+            </div>
+            <div class="m-label"><b>State</b> the situation to judge</div>
+            <div class="m-state"><span data-state></span><i class="caret" aria-hidden="true"></i></div>
+            <div class="m-label m-label-q"><b>Questions</b> <span data-qcount>3, answered in one pass</span></div>
+            <div class="m-questions" data-questions></div>
+            <div class="m-decide-row">
+              <button class="m-decide" tabindex="-1" aria-hidden="true" data-decide>
+                <svg class="ph" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z"/></svg>
+                <span data-decide-label>Decide</span>
+              </button>
+              <span class="kbd">Ctrl</span><span class="kbd">Enter</span>
+            </div>
+          </section>
+
+          <section class="m-answers">
+            <div class="m-tabs" aria-hidden="true"><span class="on">Answers</span><span>JSON</span><span>Code</span></div>
+            <div class="m-meta" data-meta>&nbsp;</div>
+            <div class="m-figs" data-figs aria-live="polite"></div>
+          </section>
+        </div>
+        <div class="mock-status" aria-hidden="true">
+          <span><svg class="ph" viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M215.79,118.17a8,8,0,0,0-5-5.66L153.18,90.9l14.66-73.33a8,8,0,0,0-13.69-7l-112,120a8,8,0,0,0,3,13l57.63,21.61L88.16,238.43a8,8,0,0,0,13.69,7l112-120A8,8,0,0,0,215.79,118.17ZM109.37,214l10.47-52.38a8,8,0,0,0-5-9.06L62,132.71l84.62-90.66L136.16,94.43a8,8,0,0,0,5,9.06l52.8,19.8Z"/></svg>NVIDIA GB10</span>
+          <span class="mem">Memory <i><b></b></i> 65 GB of 131 GB</span>
+          <span class="api">API <code>127.0.0.1:8420</code></span>
+        </div>
+        <svg class="cursor" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 3l14 8.2-6.3 1.4L9.4 19 5 3Z" fill="#fff" stroke="#15121f" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      </div>
+      <canvas class="fx-canvas" aria-hidden="true"></canvas>
+    </div>
+    <p class="stage-note">Real answers from Intern-Decision 4B on an NVIDIA GB10, replayed. Each request asks three questions in one pass; the timings are the model's own.</p>
+  </div>
+</section>
+
+<!-- ============================================================ makers -->
+<section class="makers" aria-labelledby="makers-h">
+  <p id="makers-h" class="makers-h">Eleven open models from eight makers</p>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" data-marquee></div>
+  </div>
+  <ul class="sr-only" data-makers-list></ul>
+</section>
+
+<!-- ============================================================ why: one figure with notes in the margin -->
+<section class="sec wrap" id="why" aria-labelledby="why-h">
+  <header class="head">
+    <h2 id="why-h">A chat model writes an answer. A decision model weighs every answer.</h2>
+    <p>Your code can't act on a paragraph. A decision model reads a situation and returns the probability of each answer you allowed, so your software gets a number it can act on.</p>
+  </header>
+
+  <div class="why-grid">
+    <figure class="cmp" data-versus>
+      <div class="plate cmp-plate">
+        <div class="cmp-q">
+          <q>Hi, we were billed twice for March on invoice #4411. Please refund the duplicate today or we will cancel our plan.</q>
+          <b>Which department should handle this?</b>
+        </div>
+        <div class="cmp-cols">
+          <div class="cmp-col">
+            <h3>Chat model</h3>
+            <p class="stream" data-stream></p>
+            <p class="cmp-verdict">A paragraph to parse, and no way to tell how sure it was.</p>
+          </div>
+          <div class="cmp-col dec">
+            <h3>Decision model</h3>
+            <div class="vbars" data-vsbars></div>
+            <p class="cmp-verdict"><b><span data-vslat>98</span> ms</b>, one pass. A probability for every option you allowed, and nothing else.</p>
+          </div>
+        </div>
+      </div>
+      <figcaption class="cap"><span class="fig-n">Fig. 1</span>The same support ticket, asked two ways. Billing takes 98% of the decision model's belief; technical is next at 1%.</figcaption>
+    </figure>
+
+    <ul class="notes">
+      <li><h3>Only the answers you allow</h3><p>You list the options. The model can't reply with anything else, so every output is something your code already handles.</p></li>
+      <li><h3>Every question in one pass</h3><p>The situation is read once and every option of every question is scored together, in about 100 ms on a GPU.</p></li>
+      <li><h3>Honest about doubt</h3><p>These models are trained to be calibrated: at 90% they should be right about nine times in ten. Evaluate checks that on your own examples.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================ how it works: a real sequence, pinned figure -->
+<section class="sec wrap" id="how" aria-labelledby="how-h">
+  <header class="head">
+    <h2 id="how-h">From situation to action in four steps</h2>
+    <p>The Playground is where every model starts. Write what happened, ask what you need to know, and read each answer as a chart.</p>
+  </header>
+
+  <div class="how-grid">
+    <div class="how-visual" aria-hidden="true">
+      <div class="hv" data-hv>
+        <div class="hv-state">
+          <span class="hv-k">State</span>
+          <p>Hi, we were billed twice for March on invoice #4411. Please refund the duplicate today or we will cancel our plan.</p>
+          <div class="hv-media"><span>Text</span><span>JSON</span><span>Image</span><span>Audio</span><span>Video</span></div>
+        </div>
+        <div class="hv-qs">
+          <div class="hv-q"><span class="qt">Pick one</span>Which department should handle this?</div>
+          <div class="hv-q"><span class="qt">Rate on a scale</span>How urgent is this request?</div>
+          <div class="hv-q"><span class="qt">Yes or no</span>Does the customer threaten to cancel?</div>
+        </div>
+        <div class="hv-pass"><span class="hv-beam"></span><span class="hv-pass-t">One forward pass, 98 ms</span></div>
+        <div class="hv-out" data-gate>
+          <div class="hv-th"><span>Act threshold</span><output data-th-out>90%</output></div>
+          <div class="hv-rows" data-gate-rows></div>
+          <p class="hv-sum" data-gate-sum></p>
+        </div>
+      </div>
+    </div>
+
+    <ol class="how-steps">
+      <li class="step" data-step="0">
+        <h3>Describe the situation</h3>
+        <p>An email, a support ticket, a log line, a JSON object. Intern-Decision 4B also reads images, and Jev-Omni reads images, audio and video.</p>
+      </li>
+      <li class="step" data-step="1">
+        <h3>Ask typed questions</h3>
+        <p>Choose from six kinds of question and list the answers you'll accept. Several questions can share one situation.</p>
+      </li>
+      <li class="step" data-step="2">
+        <h3>Press Decide</h3>
+        <p>The model reads everything once and scores every option at the same time. There is no text to generate and nothing to parse.</p>
+      </li>
+      <li class="step" data-step="3">
+        <h3>Act, or ask a person</h3>
+        <p id="thresh-help">Pick a threshold. Answers at or above it are safe to act on automatically; the rest go to a human. Drag it to see what changes.</p>
+        <div class="step-slider">
+          <label for="thresh2">Act threshold <output data-th-out>90%</output></label>
+          <input id="thresh2" type="range" min="50" max="99" value="90" data-thresh aria-describedby="thresh-help">
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================================================ question types: small multiples -->
+<section class="sec wrap" id="types" aria-labelledby="types-h">
+  <header class="head">
+    <h2 id="types-h">Six kinds of question</h2>
+    <p>Decision models answer three natively; the studio builds the other three from them. Every answer comes back as a full distribution.</p>
+  </header>
+  <div class="multiples" data-types></div>
+  <p class="fine">Figures 2a to 2f show the shape of each answer with example values.</p>
+</section>
+
+<!-- ============================================================ tour: one frame, one control -->
+<section class="sec wrap" id="tour" aria-labelledby="tour-h">
+  <header class="head">
+    <h2 id="tour-h">Everything between your first decision and production</h2>
+    <p>Try a model, compare it with others, measure it on your own examples, save it as a template and review every decision it makes, without leaving the app.</p>
+  </header>
+  <div class="tour-bar">
+    <div class="seg" role="tablist" aria-label="Pages in the app" data-tour-tabs></div>
+  </div>
+  <figure class="tour-fig" id="demo">
+    <div class="frame">
+      <div class="frame-bar" aria-hidden="true"><span class="lights"><i></i><i></i><i></i></span><span data-shot-title>Bud Decision Studio</span></div>
+      <div class="frame-media" data-shots role="tabpanel">
+        <video data-video poster="assets/video/demo-poster.webp" muted playsinline loop preload="metadata" aria-label="Screen recording: choosing an example, pressing Decide, and opening the model library"><source src="assets/video/demo.mp4" type="video/mp4"><source src="assets/video/demo.webm" type="video/webm"></video>
+        <button class="video-play" data-video-toggle aria-label="Play the demo"><svg class="ph" viewBox="0 0 256 256" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z"/></svg></button>
+      </div>
+    </div>
+    <figcaption class="cap tour-cap" data-tour-cap aria-live="polite"></figcaption>
+  </figure>
+</section>
+
+<!-- ============================================================ private: the machine, drawn -->
+<section class="sec wrap" id="private" aria-labelledby="pv-h">
+  <header class="head">
+    <h2 id="pv-h">Yours, on your machine</h2>
+    <p>The studio is a desktop app with a local server inside. This is the path every request takes, and all of it stays on your computer.</p>
+  </header>
+  <figure class="machine" data-machine>
+    <div class="mframe">
+      <span class="mframe-l"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24h72v16H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16H136V200h72a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40ZM48,56H208a8,8,0,0,1,8,8v80H40V64A8,8,0,0,1,48,56ZM208,184H48a8,8,0,0,1-8-8V160H216v16A8,8,0,0,1,208,184Z"/></svg>Your computer</span>
+      <ol class="pipe">
+        <li class="node">
+          <div class="node-box"><span class="ico"><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"/></svg></span><b>Your code</b><small>Scripts, services, agents</small></div>
+          <div class="node-note"><h3>No per-call fees</h3><p>Call it a thousand times or a million. The cost is the electricity.</p></div>
+        </li>
+        <li class="node">
+          <div class="node-box"><span class="ico"><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M237.66,18.34a8,8,0,0,0-11.32,0l-52.4,52.41-5.37-5.38a32.05,32.05,0,0,0-45.26,0L100,88.69l-6.34-6.35A8,8,0,0,0,82.34,93.66L88.69,100,65.37,123.31a32,32,0,0,0,0,45.26l5.38,5.37-52.41,52.4a8,8,0,0,0,11.32,11.32l52.4-52.41,5.37,5.38a32,32,0,0,0,45.26,0L156,167.31l6.34,6.35a8,8,0,0,0,11.32-11.32L167.31,156l23.32-23.31a32,32,0,0,0,0-45.26l-5.38-5.37,52.41-52.4A8,8,0,0,0,237.66,18.34Zm-116.29,161a16,16,0,0,1-22.62,0L76.69,157.25a16,16,0,0,1,0-22.62L100,111.31,144.69,156Zm57.94-57.94L156,144.69,111.31,100l23.32-23.31a16,16,0,0,1,22.62,0l22.06,22A16,16,0,0,1,179.31,121.37ZM88.57,35A8,8,0,0,1,103.43,29l8,20A8,8,0,0,1,96.57,55ZM24.57,93A8,8,0,0,1,35,88.57l20,8A8,8,0,0,1,49,111.43l-20-8A8,8,0,0,1,24.57,93ZM231.43,163a8,8,0,0,1-10.4,4.46l-20-8A8,8,0,1,1,207,144.57l20,8A8,8,0,0,1,231.43,163Zm-64,58.06A8,8,0,0,1,152.57,227l-8-20A8,8,0,0,1,159.43,201Z"/></svg></span><b>Studio server</b><small><code>127.0.0.1:8420</code></small></div>
+          <div class="node-note"><h3>Private by default</h3><p>It listens on this computer only. Other websites can't call it, and History keeps every decision for you to review.</p></div>
+        </li>
+        <li class="node">
+          <div class="node-box"><span class="ico"><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/></svg></span><b>One process per model</b><small>Laya, Intern-Decision 4B</small></div>
+          <div class="node-note"><h3>Eject returns everything</h3><p>Ejecting a model ends its process and frees every byte. A crash in one model can't take down the studio.</p></div>
+        </li>
+        <li class="node">
+          <div class="node-box"><span class="ico"><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M152,96H104a8,8,0,0,0-8,8v48a8,8,0,0,0,8,8h48a8,8,0,0,0,8-8V104A8,8,0,0,0,152,96Zm-8,48H112V112h32Zm88,0H216V112h16a8,8,0,0,0,0-16H216V56a16,16,0,0,0-16-16H160V24a8,8,0,0,0-16,0V40H112V24a8,8,0,0,0-16,0V40H56A16,16,0,0,0,40,56V96H24a8,8,0,0,0,0,16H40v32H24a8,8,0,0,0,0,16H40v40a16,16,0,0,0,16,16H96v16a8,8,0,0,0,16,0V216h32v16a8,8,0,0,0,16,0V216h40a16,16,0,0,0,16-16V160h16a8,8,0,0,0,0-16Zm-32,56H56V56H200v95.87s0,.09,0,.13,0,.09,0,.13V200Z"/></svg></span><b>GPU or processor</b><small data-machine-gpu>Chosen during setup</small></div>
+          <div class="node-note"><h3>Works offline</h3><p>Once a model is downloaded it needs no connection. Fonts and assets ship inside the app.</p></div>
+        </li>
+      </ol>
+      <span class="packet" aria-hidden="true"></span>
+    </div>
+    <div class="edges">
+      <p class="edge"><svg class="ph" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M248,128a87.34,87.34,0,0,1-17.6,52.81,8,8,0,1,1-12.8-9.62A71.34,71.34,0,0,0,232,128a72,72,0,0,0-144,0,8,8,0,0,1-16,0,88,88,0,0,1,3.29-23.88C74.2,104,73.1,104,72,104a48,48,0,0,0,0,96H96a8,8,0,0,1,0,16H72A64,64,0,1,1,81.29,88.68,88,88,0,0,1,248,128Zm-69.66,42.34L160,188.69V128a8,8,0,0,0-16,0v60.69l-18.34-18.35a8,8,0,0,0-11.32,11.32l32,32a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Z"/></svg><span><b>The only thing that comes in:</b> model downloads from Hugging Face, one at a time, smallest first, into the cache your other tools already share.</span></p>
+      <p class="edge"><svg class="ph" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208,80H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></svg><span><b>What never leaves:</b> your situations, your questions and every answer.</span></p>
+    </div>
+    <figcaption class="cap"><span class="fig-n">Fig. 4</span>A request's path through the studio. Nothing inside the frame talks to the internet.</figcaption>
+  </figure>
+</section>
+
+<!-- ============================================================ models: table and inspector -->
+<section class="sec wrap" id="models" aria-labelledby="models-h">
+  <header class="head">
+    <h2 id="models-h">Eleven open models, one click each</h2>
+    <p>Weights come straight from each maker's Hugging Face repository. Nothing downloads until you choose; on first run, two that suit your computer are ticked for you.</p>
+  </header>
+
+  <div class="mtools">
+    <div class="chips" role="group" aria-label="Filter models" data-model-filters>
+      <button class="chip on" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" data-filter="cpu" aria-pressed="false">Fine on a processor</button>
+      <button class="chip" data-filter="media" aria-pressed="false">Images, audio, video</button>
+      <button class="chip" data-filter="lang" aria-pressed="false">Many languages</button>
+      <button class="chip" data-filter="options" aria-pressed="false">Hundreds of options</button>
+    </div>
+    <div class="fit" role="group" aria-label="Memory your computer can give to models" data-fit>
+      <span class="fit-l">Memory for models</span>
+      <button data-mem="8" aria-pressed="false">8 GB</button>
+      <button data-mem="16" aria-pressed="false">16 GB</button>
+      <button data-mem="32" aria-pressed="false">32 GB</button>
+      <button data-mem="128" aria-pressed="false">128 GB</button>
+    </div>
+  </div>
+
+  <div class="mgrid">
+    <div class="mtable" data-mtable>
+      <div class="mrow mhead" aria-hidden="true"><span>Model</span><span class="num">Size</span><span class="num">Download</span><span>Memory when loaded <em data-cap-label></em></span><span>Reads</span></div>
+      <div role="listbox" aria-label="Models" data-models></div>
+    </div>
+    <aside class="insp" data-insp aria-live="polite"></aside>
+  </div>
+  <p class="fine">Results are each maker's own published numbers, compared with TypeSafe's Jev where the maker reports one. Each model keeps its own license; its page in the app links to it.</p>
+</section>
+
+<!-- ============================================================ hardware: screenshot and a strip -->
+<section class="sec wrap" id="hardware" aria-labelledby="hw-h">
+  <header class="head">
+    <h2 id="hw-h">Runs on the computer you already have</h2>
+    <p>The first time it opens, the studio checks your graphics, processor, memory and free disk, asks where models should run, and installs the matching engine inside its own folder.</p>
+  </header>
+  <figure class="hw-fig">
+    <div class="frame">
+      <div class="frame-bar" aria-hidden="true"><span class="lights"><i></i><i></i><i></i></span><span>First run</span></div>
+      <img src="assets/img/setup.webp" alt="Setup asking whether models should run on the NVIDIA GPU or the processor, with what each choice installs and its size" loading="lazy" width="1920" height="1200">
+    </div>
+    <figcaption class="cap"><span class="fig-n">Fig. 5</span>Setup on an NVIDIA GB10. Each choice says what it installs and how big it is; you can switch later on the System page.</figcaption>
+  </figure>
+  <ul class="hw-strip" data-hw>
+    <li data-hw-kind="nvidia"><h3>NVIDIA GPU</h3><p>GeForce, RTX, GB10 and DGX Spark, data-centre cards</p><span class="run">CUDA 12.6, 12.8 or 13.0, picked from your driver</span></li>
+    <li data-hw-kind="apple"><h3>Apple Silicon</h3><p>M1 or newer, macOS 12.3 or later</p><span class="run">The Apple GPU, through Metal</span></li>
+    <li data-hw-kind="intel"><h3>Intel Core Ultra or Arc</h3><p>Laptops and desktops with Arc graphics</p><span class="run">The Intel GPU (XPU)</span></li>
+    <li data-hw-kind="amd"><h3>AMD GPU on Linux</h3><p>Radeon and Instinct cards</p><span class="run">ROCm, experimental</span></li>
+    <li data-hw-kind="cpu"><h3>Any other computer</h3><p>No GPU needed</p><span class="run">The processor; small models answer in about a second</span></li>
+  </ul>
+</section>
+
+<!-- ============================================================ developers: endpoints and a console -->
+<section class="sec wrap" id="developers" aria-labelledby="dev-h">
+  <div class="dev-grid">
+    <div class="dev-side">
+      <header class="head">
+        <h2 id="dev-h">Already calling Jev? Change the base URL.</h2>
+        <p>While the app is open, the studio serves TypeSafe's Jev API at <code>127.0.0.1:8420</code>. The official SDKs and code written for Jev work unchanged, with any of the eleven models.</p>
+      </header>
+      <dl class="eps">
+        <div><dt>Studio API</dt><dd><code>POST /v1/studio/decisions</code><code>/v1/studio/templates</code><span>Run a saved template with new details. Every decision is kept in History, and templates keep their versions.</span></dd></div>
+        <div><dt>TypeSafe Jev API</dt><dd><code>POST /v1/systemone</code><code>GET /v1/models</code><span>The official <code>typesafe-sdk</code> and <code>@typesafe-ai/sdk</code> work as they are.</span></dd></div>
+        <div><dt>OpenRouter Decisions</dt><dd><code>POST /api/alpha/decisions</code><code>POST /api/v1/systemone</code></dd></div>
+        <div><dt>Vercel AI Gateway</dt><dd><code>POST /typesafe/v1/systemone</code><code>GET /typesafe/v1/models</code><code>POST /v1/evaluate</code></dd></div>
+      </dl>
+      <p class="dev-ext">Every endpoint also takes the pick-any, put-in-order and estimate-a-number questions, images, audio and video in <code>"media"</code>, and a calibration <code>temperature</code>. Send <code>X-Basal-Extensions: 1</code> to get each answer's decision, probabilities and latency too.</p>
+      <p class="dev-links"><a href="docs/api/index.html">API reference</a><a href="docs/guides/from-code.html">Call the studio from your code</a><a href="docs/guides/migrate.html">Move from Jev</a></p>
+      <p class="tested"><svg class="ph" viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M225.86,102.82c-3.77-3.94-7.67-8-9.14-11.57-1.36-3.27-1.44-8.69-1.52-13.94-.15-9.76-.31-20.82-8-28.51s-18.75-7.85-28.51-8c-5.25-.08-10.67-.16-13.94-1.52-3.56-1.47-7.63-5.37-11.57-9.14C146.28,23.51,138.44,16,128,16s-18.27,7.51-25.18,14.14c-3.94,3.77-8,7.67-11.57,9.14C88,40.64,82.56,40.72,77.31,40.8c-9.76.15-20.82.31-28.51,8S41,67.55,40.8,77.31c-.08,5.25-.16,10.67-1.52,13.94-1.47,3.56-5.37,7.63-9.14,11.57C23.51,109.72,16,117.56,16,128s7.51,18.27,14.14,25.18c3.77,3.94,7.67,8,9.14,11.57,1.36,3.27,1.44,8.69,1.52,13.94.15,9.76.31,20.82,8,28.51s18.75,7.85,28.51,8c5.25.08,10.67.16,13.94,1.52,3.56,1.47,7.63,5.37,11.57,9.14C109.72,232.49,117.56,240,128,240s18.27-7.51,25.18-14.14c3.94-3.77,8-7.67,11.57-9.14,3.27-1.36,8.69-1.44,13.94-1.52,9.76-.15,20.82-.31,28.51-8s7.85-18.75,8-28.51c.08-5.25.16-10.67,1.52-13.94,1.47-3.56,5.37-7.63,9.14-11.57C232.49,146.28,240,138.44,240,128S232.49,109.73,225.86,102.82Zm-11.55,39.29c-4.79,5-9.75,10.17-12.38,16.52-2.52,6.1-2.63,13.07-2.73,19.82-.1,7-.21,14.33-3.32,17.43s-10.39,3.22-17.43,3.32c-6.75.1-13.72.21-19.82,2.73-6.35,2.63-11.52,7.59-16.52,12.38S132,224,128,224s-9.15-4.92-14.11-9.69-10.17-9.75-16.52-12.38c-6.1-2.52-13.07-2.63-19.82-2.73-7-.1-14.33-.21-17.43-3.32s-3.22-10.39-3.32-17.43c-.1-6.75-.21-13.72-2.73-19.82-2.63-6.35-7.59-11.52-12.38-16.52S32,132,32,128s4.92-9.15,9.69-14.11,9.75-10.17,12.38-16.52c2.52-6.1,2.63-13.07,2.73-19.82.1-7,.21-14.33,3.32-17.43S70.51,56.9,77.55,56.8c6.75-.1,13.72-.21,19.82-2.73,6.35-2.63,11.52-7.59,16.52-12.38S124,32,128,32s9.15,4.92,14.11,9.69,10.17,9.75,16.52,12.38c6.1,2.52,13.07,2.63,19.82,2.73,7,.1,14.33.21,17.43,3.32s3.22,10.39,3.32,17.43c.1,6.75.21,13.72,2.73,19.82,2.63,6.35,7.59,11.52,12.38,16.52S224,124,224,128,219.08,137.15,214.31,142.11ZM173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34Z"/></svg><span>Tested against TypeSafe's published schema, both official SDKs and OpenRouter's schema: 14 of 14 checks pass. End to end, all six question types on all eleven models: 21 of 21.</span></p>
+    </div>
+
+    <div class="console">
+      <div class="console-bar" role="tablist" aria-label="Request examples" data-code-tabs>
+        <button role="tab" aria-selected="true" data-lang="curl">curl</button>
+        <button role="tab" aria-selected="false" data-lang="python">Python</button>
+        <button role="tab" aria-selected="false" data-lang="js">JavaScript</button>
+        <button class="copy" data-copy-code aria-label="Copy the example"><svg class="ph" viewBox="0 0 256 256" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button>
+      </div>
+      <pre class="code" tabindex="0" aria-label="Request"><code data-code></code></pre>
+      <div class="console-split"><span>Response</span><span>Intern-Decision 4B on an NVIDIA GB10</span></div>
+      <pre class="code resp" tabindex="0" aria-label="Response"><code data-resp></code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ download -->
+<section class="sec wrap" id="download" aria-labelledby="dl-h">
+  <header class="head center">
+    <h2 id="dl-h">Download Bud Decision Studio</h2>
+    <p>The app is small. The engine and the models you choose download on first run, matched to your hardware.</p>
+  </header>
+
+  <div class="dl-card">
+    <div class="dl-you">
+      <span class="dl-os-ico" data-dl-icon-lg aria-hidden="true"><svg class="ph" viewBox="0 0 256 256" width="30" height="30" fill="currentColor" aria-hidden="true"><path d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24h72v16H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16H136V200h72a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40ZM48,56H208a8,8,0,0,1,8,8v80H40V64A8,8,0,0,1,48,56ZM208,184H48a8,8,0,0,1-8-8V160H216v16A8,8,0,0,1,208,184Z"/></svg></span>
+      <div>
+        <h3 data-dl-title>Choose your computer</h3>
+        <p data-dl-detail>Pick a download from the list below.</p>
+      </div>
+    </div>
+    <div class="dl-actions">
+      <a class="btn btn-lg btn-primary" href="#all-downloads" data-dl-main><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></svg><span data-dl-main-label>See all downloads</span></a>
+      <span class="dl-file" data-dl-file></span>
+    </div>
+    <div class="dl-alt" data-dl-alt></div>
+    <div class="oneline">
+      <div class="ol-head">
+        <span>Or install with one command</span>
+        <div class="seg seg-sm" role="tablist" aria-label="Operating system for the install command">
+          <button role="tab" data-ol="unix" aria-selected="true">macOS and Linux</button>
+          <button role="tab" data-ol="win" aria-selected="false">Windows</button>
+        </div>
+      </div>
+      <div class="ol-cmd">
+        <code data-ol-cmd>curl -fsSL https://raw.githubusercontent.com/BudEcosystem/Bud-Decision-Engine/main/get.sh | sh</code>
+        <button class="copy" data-copy-ol aria-label="Copy the install command"><svg class="ph" viewBox="0 0 256 256" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button>
+      </div>
+      <p class="ol-note" data-ol-note>Downloads the right build, installs it and opens the app.</p>
+    </div>
+  </div>
+
+  <div class="dl-matrix" id="all-downloads" data-dl-list></div>
+
+  <div class="dl-after">
+    <div>
+      <h3>After downloading</h3>
+      <ol data-after></ol>
+    </div>
+    <div>
+      <h3>Requirements</h3>
+      <ul class="reqs">
+        <li>macOS 12.3 or later on Apple Silicon. Intel Macs aren't supported by PyTorch.</li>
+        <li>Windows 10 or 11 on x64.</li>
+        <li>Linux on x64 or ARM64 with WebKitGTK 4.1, such as Ubuntu 22.04 or newer.</li>
+        <li>Disk for the models you pick, from 0.6 GB to 24 GB each.</li>
+      </ul>
+      <p class="dl-links"><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases/latest" data-release-notes>Release notes <span data-dl-version></span></a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Earlier versions</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine#run-from-source">Run from source</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FAQ -->
+<section class="sec wrap faq" id="faq" aria-labelledby="faq-h">
+  <div class="faq-grid">
+    <header class="head">
+      <h2 id="faq-h">Questions, answered</h2>
+      <p>Something else? <a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Open an issue on GitHub</a>.</p>
+    </header>
+    <div class="faq-list">
+      <details>
+        <summary>What is a decision model?</summary>
+        <p>A model that returns probabilities instead of text. You give it a situation, such as an email, a log line or a JSON object, and typed questions with the answers you allow. It returns the probability of each answer in one fast pass. TypeSafe's Jev made the idea popular; the studio runs open models built in the same spirit, often called "System One" models.</p>
+      </details>
+      <details>
+        <summary>Do I need a GPU?</summary>
+        <p>No. Every model except Jev-Omni runs on the processor, and the small ones (Julia 1, Laya, GLiNER2.5 Decide) answer in about a second. A GPU makes the 4B and 8B models fast: on an NVIDIA GB10, Intern-Decision 4B answers three questions in about 100 ms.</p>
+      </details>
+      <details>
+        <summary>Does anything leave my computer?</summary>
+        <p>Your situations, questions and answers don't. The internet is used to download the engine during setup and the models you choose, from each maker's Hugging Face repository.</p>
+      </details>
+      <details>
+        <summary>macOS says the app is from an unidentified developer.</summary>
+        <p>Right-click the app and choose Open once. Or install with the one-line command, which avoids the warning.</p>
+      </details>
+      <details>
+        <summary>Windows SmartScreen warns about the installer.</summary>
+        <p>Choose More info, then Run anyway. The one-line PowerShell command avoids the warning.</p>
+      </details>
+      <details>
+        <summary>A model won't load.</summary>
+        <p>It usually needs more memory. Eject other models from the sidebar or the System page. Each model's log is on its Models page, under View log.</p>
+      </details>
+      <details>
+        <summary>Downloads are slow.</summary>
+        <p>Hugging Face limits anonymous downloads. Run <code>hf auth login</code> once and restart the app.</p>
+      </details>
+      <details>
+        <summary>Can other machines on my network use it?</summary>
+        <p>Yes, when you choose to. Start the server with <code>--host 0.0.0.0</code> and set <code>BASAL_API_KEY</code>; clients then send <code>Authorization: Bearer &lt;key&gt;</code>. By default it only listens on the computer it runs on.</p>
+      </details>
+      <details>
+        <summary>Where are the models stored?</summary>
+        <p>In the standard Hugging Face cache, shared with your other tools. A model you already downloaded elsewhere won't be downloaded twice.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ final call -->
+<section class="final" aria-labelledby="final-h">
+  <canvas class="final-canvas" aria-hidden="true"></canvas>
+  <div class="final-in">
+    <h2 id="final-h">Your first decision is a minute away.</h2>
+    <p>Download the app, pick a model, press Decide.</p>
+    <a class="btn btn-lg btn-primary" href="#download" data-dl-final><span class="btn-ico" data-dl-icon></span><span data-dl-label>Download Bud Decision Studio</span></a>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="#how">How it works</a><a href="#tour">Features</a><a href="#models">Models</a><a href="#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="docs/quickstart.html">Quickstart</a><a href="docs/manual/index.html">User manual</a><a href="docs/api/index.html">API reference</a><a href="docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+
+<script src="assets/js/icons.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

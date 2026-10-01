@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Data and storage · Bud Decision Studio Docs</title>
+  <meta name="description" content="Where Bud Decision Studio keeps its files, what studio.db holds, how migrations, backups and retention work, and how to back up or move your data.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Data and storage · Bud Decision Studio">
+  <meta property="og:description" content="Where Bud Decision Studio keeps its files, what studio.db holds, how migrations, backups and retention work, and how to back up or move your data.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs has-console" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/storage.html" aria-current=page>Data and storage</a><nav class="side-toc" aria-label="On this page"><a href="#where-the-data-lives">Where the data lives</a><a href="#what-is-in-the-data-folder">What is in the data folder</a><a href="#the-database">The database</a><a href="#migrations-and-upgrades">Migrations and upgrades</a><a href="#storage-levels">Storage levels</a><a href="#media-files">Media files</a><a href="#retention">Retention</a><a href="#back-up-and-move-your-data">Back up and move your data</a></nav><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>Developers</span></p>
+      <h1>Data and storage</h1>
+      <p class="lead">Everything the studio writes lives in one data folder on your computer, and most of it in one SQLite file. Model weights are kept apart, in the Hugging Face cache. This page lists what is where, how it changes between versions, and how to back it up.</p>
+    </header>
+    <section class="dsec has-code"><div class="dsec-text"><h2 id="where-the-data-lives">Where the data lives<a class="anchor" href="#where-the-data-lives" title="Link to this section">#</a></h2>
+<p>The desktop app keeps everything in its application-data folder: the engine it installed (<code>engine-env/</code>), the studio's data (<code>data/</code>), and the server's log (<code>logs/studio.log</code>). A source checkout uses <code>./data</code> inside the checkout. Either way, <code>BASAL_DATA</code> points the server at another folder.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Install</th>
+<th>Data folder</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Desktop app on Linux</td>
+<td><code>~/.<wbr>local/<wbr>share/<wbr>ai.<wbr>bud.<wbr>decisionstudio/<wbr>data</code></td>
+</tr>
+<tr>
+<td>Desktop app on macOS</td>
+<td><code>~/<wbr>Library/<wbr>Application Support/<wbr>ai.<wbr>bud.<wbr>decisionstudio/<wbr>data</code></td>
+</tr>
+<tr>
+<td>Desktop app on Windows</td>
+<td><code>%APPDATA%\ai.<wbr>bud.<wbr>decisionstudio\data</code></td>
+</tr>
+<tr>
+<td>Source checkout</td>
+<td><code>./data</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Model weights stay in the standard Hugging Face cache, <code>~/.cache/huggingface/hub</code> unless <code>HF_HOME</code> says otherwise, and are shared with every other tool that uses it. Deleting the data folder never deletes a model; deleting a model on the Models page never touches your history.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs data-group="os"><div class="dc-head"><span class="dc-title">Terminal</span></div><div class="console-bar"><div class="dc-tabs" role="tablist" aria-label="Language"><button role="tab" type="button" id="c0-t0" aria-controls="c0-p0" data-tab="Linux" aria-selected="true">Linux</button><button role="tab" type="button" id="c0-t1" aria-controls="c0-p1" data-tab="macOS" aria-selected="false" tabindex=-1>macOS</button><button role="tab" type="button" id="c0-t2" aria-controls="c0-p2" data-tab="Windows" aria-selected="false" tabindex=-1>Windows</button></div><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="tabpanel" id="c0-p0" aria-labelledby=c0-t0><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">ls<span class="w"> </span>~/.local/share/ai.bud.decisionstudio</span><span class="ln">ls<span class="w"> </span>~/.local/share/ai.bud.decisionstudio/data</span></code></pre></div><div class="dc-panel" role="tabpanel" id="c0-p1" aria-labelledby=c0-t1 hidden><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">ls<span class="w"> </span>~/Library/Application<span class="se">\ </span>Support/ai.bud.decisionstudio</span><span class="ln">ls<span class="w"> </span>~/Library/Application<span class="se">\ </span>Support/ai.bud.decisionstudio/data</span></code></pre></div><div class="dc-panel" role="tabpanel" id="c0-p2" aria-labelledby=c0-t2 hidden><pre class="hl" tabindex="0"><code class="lang-powershell"><span class="ln"><span class="nb">dir </span><span class="nv">$env:APPDATA</span><span class="p">\</span><span class="n">ai</span><span class="p">.</span><span class="n">bud</span><span class="p">.</span><span class="n">decisionstudio</span></span><span class="ln"><span class="nb">dir </span><span class="nv">$env:APPDATA</span><span class="p">\</span><span class="n">ai</span><span class="p">.</span><span class="n">bud</span><span class="p">.</span><span class="n">decisionstudio</span><span class="p">\</span><span class="n">data</span></span></code></pre></div><div class="console-split"><span>Output</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-text"><span class="ln">data  engine-env  logs  studio-port  ...</span><span class="ln"></span><span class="ln">activity.jsonl.imported  blobs  config.json  hub_meta.json</span><span class="ln">logs  studio.db  studio.db-shm  studio.db-wal  uploads</span></code></pre></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="what-is-in-the-data-folder">What is in the data folder<a class="anchor" href="#what-is-in-the-data-folder" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>studio.db</code></td>
+<td>History, templates, versions, test examples, feedback and settings. <code>studio.db-wal</code> and <code>studio.db-shm</code> belong to it while the studio runs</td>
+</tr>
+<tr>
+<td><code>backups/</code></td>
+<td>A copy of <code>studio.db</code> taken before each upgrade changes it; the newest three are kept</td>
+</tr>
+<tr>
+<td><code>blobs/sha256/</code></td>
+<td>Images, audio and video attached to decisions and examples, one file per distinct content</td>
+</tr>
+<tr>
+<td><code>secret</code></td>
+<td>A random key, created on first use, for the fingerprints of sensitive variables. Keep it with <code>studio.db</code></td>
+</tr>
+<tr>
+<td><code>config.json</code></td>
+<td>Where models run: the device chosen during setup and the devices found</td>
+</tr>
+<tr>
+<td><code>settings.json</code></td>
+<td>Auto-load and idle eject (the System page)</td>
+</tr>
+<tr>
+<td><code>hub_meta.json</code></td>
+<td>Cached file lists, sizes and likes from Hugging Face, so the studio works offline</td>
+</tr>
+<tr>
+<td><code>download_queue.json</code></td>
+<td>Models waiting to download; a restart picks the queue up again</td>
+</tr>
+<tr>
+<td><code>logs/</code></td>
+<td><code>worker-&lt;model&gt;.log</code> per loaded model, <code>download-<wbr>&lt;model&gt;.<wbr>log</code> per download, <code>conformance.log</code></td>
+</tr>
+<tr>
+<td><code>conformance.json</code></td>
+<td>The result of the last conformance run started with <code>POST /<wbr>api/<wbr>conformance/<wbr>run</code></td>
+</tr>
+<tr>
+<td><code>uploads/</code></td>
+<td>Files from the older upload endpoint; anything older than a day is removed at startup</td>
+</tr>
+<tr>
+<td><code>activity.jsonl.imported</code></td>
+<td>The Activity log of versions before 0.2.0, already imported into history</td>
+</tr>
+</tbody>
+</table></div>
+<p>The desktop app's folder also has <code>engine-env/</code> (Python, PyTorch and the model libraries), <code>logs/studio.log</code> (the server's output) and <code>studio-port</code> (the port used last time, so the window keeps its saved state between launches).</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="the-database">The database<a class="anchor" href="#the-database" title="Link to this section">#</a></h2>
+<p><code>studio.db</code> is SQLite in WAL mode (write-ahead logging, which lets readers keep reading while a write goes on). The server holds one writer connection behind a lock and opens a read-only connection per thread. A decision is written in one transaction of a few milliseconds. Model workers never open the file. On Linux and macOS the file and its companions are readable by your user only.</p>
+<p>Times are stored as Unix milliseconds; the API shows seconds. Every top-level row carries a <code>workspace_id</code>, always <code>ws_local</code> for now.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Table</th>
+<th>What it holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>decisions</code></td>
+<td>One small row per decision for lists and filters: when, which template version and model, where it came from, act, timing, status</td>
+</tr>
+<tr>
+<td><code>decision_bodies</code></td>
+<td>What one decision's page shows: variables, situation, effective settings, answers and raw probabilities. Read only when a decision is opened</td>
+</tr>
+<tr>
+<td><code>decision_answers</code></td>
+<td>One row per answer, for answer filters and statistics</td>
+</tr>
+<tr>
+<td><code>decision_metadata</code>, <code>decision_media</code></td>
+<td>Your metadata keys; which files a decision used</td>
+</tr>
+<tr>
+<td><code>decision_secrets</code></td>
+<td>Fingerprints (HMACs) of sensitive variable values, so a value can be erased by value. Never the values</td>
+</tr>
+<tr>
+<td><code>question_sets</code></td>
+<td>Each distinct set of questions, stored once and shared by the decisions that asked it</td>
+</tr>
+<tr>
+<td><code>templates</code>, <code>template_versions</code></td>
+<td>Template heads (name, storage, retention) and their immutable, numbered versions</td>
+</tr>
+<tr>
+<td><code>template_questions</code>, <code>template_aliases</code></td>
+<td>Per-version question index for comparisons; aliases such as <code>production</code></td>
+</tr>
+<tr>
+<td><code>examples</code>, <code>example_media</code></td>
+<td>Test examples. Editing one writes a new row, so earlier revisions stay reproducible</td>
+</tr>
+<tr>
+<td><code>feedback</code></td>
+<td>Labels: the right answer, a rating and a note per answer</td>
+</tr>
+<tr>
+<td><code>files</code>, <code>blobs</code></td>
+<td>Uploaded files (with random <code>file_...</code> ids) and the stored content they point to</td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td>History and decision settings (<code>/v1/studio/settings</code>)</td>
+</tr>
+<tr>
+<td><code>usage_counters</code></td>
+<td>Content-free request counts per minute, including calls that were not stored</td>
+</tr>
+<tr>
+<td><code>idempotency_keys</code></td>
+<td>Responses kept for 24 hours so a retried request is answered once</td>
+</tr>
+<tr>
+<td><code>audit_events</code></td>
+<td>Template saves, alias moves, deletions, settings changes and sweeps</td>
+</tr>
+<tr>
+<td><code>decision_fts</code></td>
+<td>The full-text search index over stored situations, when SQLite has FTS5</td>
+</tr>
+<tr>
+<td><code>schema_migrations</code></td>
+<td>Which migrations ran, with their checksums</td>
+</tr>
+</tbody>
+</table></div>
+<p>Triggers keep finished decisions and template versions immutable: a version is never edited, and a decision's answers never change after it completes. The tables <code>batches</code>, <code>eval_runs</code>, <code>api_keys</code> and their companions exist for features that are planned but not yet built.</p>
+
+
+<p>Open the file read-only (<code>?mode=ro</code>) when the studio is running, and change it only through the API: the studio relies on its own transactions and triggers.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs data-group="lang"><div class="dc-head"><span class="dc-title">Terminal</span></div><div class="console-bar"><div class="dc-tabs" role="tablist" aria-label="Language"><button role="tab" type="button" id="c1-t0" aria-controls="c1-p0" data-tab="Migrations" aria-selected="true">Migrations</button><button role="tab" type="button" id="c1-t1" aria-controls="c1-p1" data-tab="Decisions" aria-selected="false" tabindex=-1>Decisions</button></div><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="tabpanel" id="c1-p0" aria-labelledby=c1-t0><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">sqlite3<span class="w"> </span>-header<span class="w"> </span>-column<span class="w"> </span><span class="s2">"file:data/studio.db?mode=ro"</span><span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="s2">"SELECT version, name, substr(checksum, 1, 12) AS checksum FROM schema_migrations"</span></span></code></pre></div><div class="dc-panel" role="tabpanel" id="c1-p1" aria-labelledby=c1-t1 hidden><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">sqlite3<span class="w"> </span>-header<span class="w"> </span>-column<span class="w"> </span><span class="s2">"file:data/studio.db?mode=ro"</span><span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="s2">"SELECT id, model, storage, endpoint FROM decisions ORDER BY seq DESC LIMIT 3"</span></span></code></pre></div><div class="console-split"><span>Output</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-text"><span class="ln">version  name                  checksum</span><span class="ln">-------  --------------------  ------------</span><span class="ln">1        0001_init             b2841a6da95a</span><span class="ln">2        0002_import_activity  0db299a886cf</span><span class="ln">3        0003_search           8da38b0a6448</span><span class="ln"></span><span class="ln">id                              model         storage  endpoint</span><span class="ln">------------------------------  ------------  -------  ----------------------</span><span class="ln">dec_01M3TEFSYYAD3VKR5C5GW76YJY  fake-decider  full     /v1/systemone</span><span class="ln">dec_01M3TECGXF3EKF8Y2CN65S9HCD  fake-decider  full     /v1/evaluate</span><span class="ln">dec_01M3TECGSBDV6E6KH6037V43N2  fake-decider  full     /typesafe/v1/systemone</span></code></pre></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="migrations-and-upgrades">Migrations and upgrades<a class="anchor" href="#migrations-and-upgrades" title="Link to this section">#</a></h2>
+<p>The schema changes only through numbered files in <code>basal/migrations/</code>: <code>0001_init.sql</code> creates the tables, <code>0002_import_activity.py</code> imports the Activity log of earlier versions, and <code>0003_search.py</code> adds full-text search when SQLite supports it. At startup the studio applies the ones not yet recorded, in order, each in its own transaction, and records each with a SHA-256 checksum of its file (line endings ignored, so a Windows checkout matches).</p>
+<p>Four rules keep upgrades safe:</p>
+<ul>
+<li><strong>A backup first.</strong> Before applying new migrations to an existing database, the studio writes a copy to <code>backups/<wbr>studio-<wbr>m&lt;version&gt;-<wbr>&lt;time&gt;.<wbr>db</code> and keeps the newest three.</li>
+<li><strong>Released migrations never change.</strong> If a migration file differs from the one that was applied, history refuses to open, with <em>Migration ... changed after it was applied ... Restore the original file; migrations are never edited once released.</em> Decisions keep working, unsaved.</li>
+<li><strong>A newer database opens read-only.</strong> If the database was written by a newer studio, an older one reads it but saves nothing, with <em>This history was written by a newer version of the studio, so it opens read-only. Update the studio to keep saving decisions.</em></li>
+<li><strong>Old SQLite turns history off.</strong> History needs SQLite 3.37 or newer (for strict tables). With an older one the studio says so at startup and keeps answering without saving.</li>
+</ul>
+<p>A new migration is a new file with the next number. Never edit or renumber one that has been released.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="storage-levels">Storage levels<a class="anchor" href="#storage-levels" title="Link to this section">#</a></h2>
+<p>Each decision is stored at one of three levels. The most private of three wins: what the request asks for (<code>"store"</code> or <code>X-Basal-Store</code>), the template's <code>storage</code>, and the studio's <code>history.store</code> setting. When the result is more private than the request asked, the response carries a <code>store_downgraded</code> warning.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Level</th>
+<th>What is written</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>full</code></td>
+<td>Everything: variables, the situation, answers, raw probabilities, settings, media files (unless media storage is off)</td>
+</tr>
+<tr>
+<td><code>answers_only</code></td>
+<td>The decision row, answers, settings and timing. The variables, the situation and the media bytes are not written; media keep only their type, size and fingerprint</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>Nothing but a content-free usage count. An idempotency key, if you send one, is kept in memory instead</td>
+</tr>
+</tbody>
+</table></div>
+<p>Variables marked <code>sensitive</code> are never written at any level. The studio stores an HMAC of each value, keyed with <code>DATA/secret</code>, so you can later delete every decision that used a given email address without the address ever being on disk. How this looks from the app and the API: <a href="../../docs/concepts/history.html">History and privacy</a>.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="media-files">Media files<a class="anchor" href="#media-files" title="Link to this section">#</a></h2>
+<p>Images, audio and video are stored by content: a file's bytes are named after their SHA-256 hash, in <code>blobs/sha256/</code> under a folder named for the hash's first two characters, so the same photo sent a hundred times is stored once. Each upload still gets its own random id (<code>file_...</code>); an id derived from the content would let one caller find out that another holds a given file. Files are limited to 200 MB.</p>
+<p>Media sent with a decision stored at <code>answers_only</code> or <code>none</code>, or with media storage switched off, is written to <code>blobs/tmp/</code> for the model to read and deleted straight after. An uploaded file that no decision or example uses is kept for a day. Deleting a file removes its bytes unless another upload shares them; decisions that used it keep its type, size and fingerprint and show the media as no longer available.</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="retention">Retention<a class="anchor" href="#retention" title="Link to this section">#</a></h2>
+<p>The <strong>retention sweeper</strong> runs 60 seconds after the studio starts, then every hour, and straight after you change <code>retention_days</code>, <code>max_storage_gb</code> or <code>keep_labelled</code>. It deletes decisions older than the retention period, in batches, so new decisions keep saving while it works.</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="history.retention_days" tabindex="0">
+<td><code>history.retention_days</code></td>
+<td><code>30</code></td>
+<td>Delete decisions older than this. <code>0</code> keeps them forever. A template's own <code>retention_days</code> overrides it for that template's decisions</td>
+</tr>
+<tr data-param="history.max_storage_gb" tabindex="0">
+<td><code>history.max_storage_gb</code></td>
+<td><code>20</code></td>
+<td>When the database and media pass this size, the oldest decisions are deleted until it is back under 90%</td>
+</tr>
+<tr data-param="history.keep_labelled" tabindex="0">
+<td><code>history.keep_labelled</code></td>
+<td><code>true</code></td>
+<td>Decisions you labelled are never deleted by age or size</td>
+</tr>
+<tr data-param="history.store_media" tabindex="0">
+<td><code>history.store_media</code></td>
+<td><code>true</code></td>
+<td>Keep images, audio and video with decisions stored at <code>full</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Pinned decisions are never swept, and neither are decisions that belong to an evaluation or a running batch. Each sweep also removes expired upload records and unreferenced media, idempotency keys older than a day, usage counts older than 400 days, question sets no decision uses, and deleted templates whose history is gone, then returns some free space to the disk.</p>
+<p>The History page sets the retention period; every setting can be changed with <code>PATCH /<wbr>v1/<wbr>studio/<wbr>settings</code>.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method patch">PATCH</span><code>/v1/studio/settings</code></div><div class="console-bar"><span class="dc-lang">curl</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c2-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>PATCH<span class="w"> </span>http://127.0.0.1:8420/v1/studio/settings<span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>-H<span class="w"> </span><span class="s1">'content-type: application/json'</span><span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"history": {"retention_days": 90, "max_storage_gb": 50}}'</span></span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status ok">200 OK</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"settings"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"history"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"store"</span><span class="p">:</span><span class="w"> </span><span class="s2">"full"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"retention_days"</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"max_storage_gb"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"store_media"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"keep_labelled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"on_store_error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"serve"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"notice_acknowledged_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"decisions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"default_act_threshold"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"storage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"db_bytes"</span><span class="p">:</span><span class="w"> </span><span class="mi">2531384</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"blob_bytes"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"decisions"</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"oldest_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1790815024</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"last_sweep_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1790815083</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"last_sweep_deleted"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"pending_deletion"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"search_available"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"read_only"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"store_errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">}</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="back-up-and-move-your-data">Back up and move your data<a class="anchor" href="#back-up-and-move-your-data" title="Link to this section">#</a></h2>
+<p>The data folder is self-contained. To back it up or move it to another computer, copy the whole folder with the studio stopped, and keep <code>secret</code> with <code>studio.db</code>: without it, erasing a sensitive value by value no longer finds the decisions that used it. Models do not need to move with it; download them again on the new computer, or copy the Hugging Face cache separately.</p>
+<p>While the studio is running, SQLite can write a consistent copy of the database itself. Copy <code>blobs/</code> and <code>secret</code> alongside it.</p>
+<p>For a portable export of decisions rather than a backup, <code>GET /<wbr>v1/<wbr>studio/<wbr>decisions/<wbr>export</code> writes JSON Lines or CSV with the same filters as the History page (<a href="../../docs/api/history.html">History API</a>).</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs data-group="lang"><div class="dc-head"><span class="dc-title">Terminal</span></div><div class="console-bar"><div class="dc-tabs" role="tablist" aria-label="Language"><button role="tab" type="button" id="c3-t0" aria-controls="c3-p0" data-tab="Stopped" aria-selected="true">Stopped</button><button role="tab" type="button" id="c3-t1" aria-controls="c3-p1" data-tab="Running" aria-selected="false" tabindex=-1>Running</button><button role="tab" type="button" id="c3-t2" aria-controls="c3-p2" data-tab="Restore" aria-selected="false" tabindex=-1>Restore</button></div><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="tabpanel" id="c3-p0" aria-labelledby=c3-t0><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln"><span class="c1"># Quit the app (or stop ./run.sh) first</span></span><span class="ln">cp<span class="w"> </span>-a<span class="w"> </span>~/.local/share/ai.bud.decisionstudio/data<span class="w"> </span>~/studio-backup</span></code></pre></div><div class="dc-panel" role="tabpanel" id="c3-p1" aria-labelledby=c3-t1 hidden><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">mkdir<span class="w"> </span>-p<span class="w"> </span>~/studio-backup</span><span class="ln"><span class="nb">cd</span><span class="w"> </span>~/.local/share/ai.bud.decisionstudio/data</span><span class="ln">sqlite3<span class="w"> </span>studio.db<span class="w"> </span><span class="s2">"VACUUM INTO '</span><span class="nv">$HOME</span><span class="s2">/studio-backup/studio.db'"</span></span><span class="ln">cp<span class="w"> </span>-a<span class="w"> </span>blobs<span class="w"> </span>~/studio-backup/</span><span class="ln">cp<span class="w"> </span>-a<span class="w"> </span>secret<span class="w"> </span>~/studio-backup/<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w">   </span><span class="c1"># exists once a sensitive variable was used</span></span></code></pre></div><div class="dc-panel" role="tabpanel" id="c3-p2" aria-labelledby=c3-t2 hidden><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln"><span class="c1"># With the studio stopped; on a new computer, run the app once first</span></span><span class="ln">cp<span class="w"> </span>-a<span class="w"> </span>~/studio-backup/.<span class="w"> </span>~/.local/share/ai.bud.decisionstudio/data/</span></code></pre></div></div></div></div></section>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/dev/adding-a-model.html"><span class="pg-l">Previous</span><span class="pg-t">Add a model</span></a><a class="pg next" href="../../docs/dev/testing.html"><span class="pg-l">Next</span><span class="pg-t">Testing</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

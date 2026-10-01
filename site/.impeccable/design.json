@@ -1,0 +1,612 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-01T02:12:41+00:00",
+  "title": "Design System: Bud Decision Studio website",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0F0C17",
+        "tonalRamp": [
+          "#0B0911",
+          "#0F0C17",
+          "#140F1E",
+          "#16111F",
+          "#19142A",
+          "#211A34",
+          "#3A2F55",
+          "#4E3F74"
+        ]
+      },
+      "ink-raised": {
+        "role": "neutral",
+        "displayName": "Raised Ink",
+        "canonical": "#140F1E",
+        "tonalRamp": [
+          "#0B0911",
+          "#0F0C17",
+          "#140F1E",
+          "#16111F",
+          "#19142A",
+          "#211A34",
+          "#3A2F55",
+          "#4E3F74"
+        ]
+      },
+      "plate": {
+        "role": "neutral",
+        "displayName": "Plate",
+        "canonical": "#19142A",
+        "tonalRamp": [
+          "#0B0911",
+          "#0F0C17",
+          "#140F1E",
+          "#16111F",
+          "#19142A",
+          "#211A34",
+          "#3A2F55",
+          "#4E3F74"
+        ]
+      },
+      "plate-high": {
+        "role": "neutral",
+        "displayName": "High Plate",
+        "canonical": "#211A34",
+        "tonalRamp": [
+          "#0B0911",
+          "#0F0C17",
+          "#140F1E",
+          "#16111F",
+          "#19142A",
+          "#211A34",
+          "#3A2F55",
+          "#4E3F74"
+        ]
+      },
+      "console": {
+        "role": "neutral",
+        "displayName": "Console Black",
+        "canonical": "#0B0911",
+        "tonalRamp": [
+          "#0B0911",
+          "#0F0C17",
+          "#140F1E",
+          "#16111F",
+          "#19142A",
+          "#211A34",
+          "#3A2F55",
+          "#4E3F74"
+        ]
+      },
+      "overlay-panel": {
+        "role": "neutral",
+        "displayName": "Overlay Panel",
+        "canonical": "#16111F",
+        "tonalRamp": [
+          "#0B0911",
+          "#0F0C17",
+          "#140F1E",
+          "#16111F",
+          "#19142A",
+          "#211A34",
+          "#3A2F55",
+          "#4E3F74"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(230, 218, 255, 0.10)"
+      },
+      "hairline-faint": {
+        "role": "neutral",
+        "displayName": "Faint Hairline",
+        "canonical": "rgba(230, 218, 255, 0.06)"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#F4F1FA",
+        "tonalRamp": [
+          "#0C0A10",
+          "#252329",
+          "#413E45",
+          "#5F5C64",
+          "#7E7C84",
+          "#9F9DA5",
+          "#C5C2CB",
+          "#F0EDF6"
+        ]
+      },
+      "reading-text": {
+        "role": "neutral",
+        "displayName": "Reading Text",
+        "canonical": "#DCD6E8",
+        "tonalRamp": [
+          "#0D0914",
+          "#26212E",
+          "#423D4B",
+          "#605B6A",
+          "#807A8A",
+          "#A19BAC",
+          "#C7C1D2",
+          "#F1EBFD"
+        ]
+      },
+      "mist": {
+        "role": "neutral",
+        "displayName": "Mist",
+        "canonical": "#ADA6C0",
+        "tonalRamp": [
+          "#0D0719",
+          "#262034",
+          "#423C51",
+          "#605971",
+          "#807991",
+          "#A19AB3",
+          "#C7BFDA",
+          "#F0EBFE"
+        ]
+      },
+      "dim": {
+        "role": "neutral",
+        "displayName": "Dim",
+        "canonical": "#8C85A2",
+        "tonalRamp": [
+          "#0D071B",
+          "#261F37",
+          "#423B54",
+          "#605974",
+          "#7F7895",
+          "#A099B7",
+          "#C6BFDE",
+          "#F0EBFE"
+        ]
+      },
+      "violet": {
+        "role": "primary",
+        "displayName": "Bud Violet",
+        "canonical": "#8C33EF",
+        "tonalRamp": [
+          "#110027",
+          "#30025B",
+          "#510E91",
+          "#7703D5",
+          "#9742FC",
+          "#AE83F7",
+          "#CDB6FC",
+          "#F0EBFE"
+        ]
+      },
+      "violet-pressed": {
+        "role": "primary",
+        "displayName": "Pressed Violet",
+        "canonical": "#7D24E2",
+        "tonalRamp": [
+          "#100027",
+          "#2E045B",
+          "#4F1292",
+          "#740DD6",
+          "#9345FD",
+          "#AB85F8",
+          "#CBB7FC",
+          "#F0EBFE"
+        ]
+      },
+      "orchid": {
+        "role": "secondary",
+        "displayName": "Orchid",
+        "canonical": "#B785F4",
+        "tonalRamp": [
+          "#130025",
+          "#320256",
+          "#531B84",
+          "#723EA7",
+          "#9260CB",
+          "#B482F0",
+          "#D2B3FD",
+          "#F2EAFE"
+        ]
+      },
+      "lavender": {
+        "role": "secondary",
+        "displayName": "Lavender",
+        "canonical": "#D9BAF9",
+        "tonalRamp": [
+          "#140023",
+          "#301346",
+          "#4D3165",
+          "#6B4F86",
+          "#8C6EA8",
+          "#AD8FCC",
+          "#D4B5F3",
+          "#F3EAFE"
+        ]
+      },
+      "amber": {
+        "role": "tertiary",
+        "displayName": "Amber",
+        "canonical": "#FFB547",
+        "tonalRamp": [
+          "#130900",
+          "#331F03",
+          "#56390C",
+          "#7E540B",
+          "#A87012",
+          "#D58D01",
+          "#FDB445",
+          "#FEEBD3"
+        ]
+      },
+      "green": {
+        "role": "tertiary",
+        "displayName": "Green",
+        "canonical": "#5BD98A",
+        "tonalRamp": [
+          "#010F05",
+          "#042C15",
+          "#014D26",
+          "#12703D",
+          "#1A9552",
+          "#36BA6D",
+          "#64E192",
+          "#C8FED7"
+        ]
+      },
+      "sky": {
+        "role": "tertiary",
+        "displayName": "Sky",
+        "canonical": "#9ED0FF",
+        "tonalRamp": [
+          "#000C1B",
+          "#002643",
+          "#12426A",
+          "#33618B",
+          "#5282AD",
+          "#73A4D1",
+          "#98CAF8",
+          "#E2F0FE"
+        ]
+      },
+      "coral": {
+        "role": "tertiary",
+        "displayName": "Coral",
+        "canonical": "#FF8A80",
+        "tonalRamp": [
+          "#1F0001",
+          "#4B0105",
+          "#7A0910",
+          "#9F332F",
+          "#C4554E",
+          "#EA776E",
+          "#FBADA4",
+          "#FEE9E6"
+        ]
+      },
+      "app-grey": {
+        "role": "neutral",
+        "displayName": "App Grey",
+        "canonical": "#F5F5F7",
+        "tonalRamp": [
+          "#0B0B0C",
+          "#242425",
+          "#3F3F41",
+          "#5D5D5F",
+          "#7D7D7F",
+          "#9E9EA0",
+          "#C4C4C6",
+          "#EEEEF0"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Product page hero headline only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Product page section headings."
+      },
+      "docs-title": {
+        "displayName": "Docs Title",
+        "purpose": "One H1 per docs page."
+      },
+      "docs-section": {
+        "displayName": "Docs Section",
+        "purpose": "Docs H2; opens a row."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Docs H3 and small headings."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Sentences under a docs title."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Product page body copy."
+      },
+      "body-docs": {
+        "displayName": "Body Docs",
+        "purpose": "Docs reading copy, 576px measure."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Figure captions, table cells, card descriptions."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Tabs, segmented options, outline links, console titles."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Code blocks and consoles (Geist Mono)."
+      },
+      "code-label": {
+        "displayName": "Code Label",
+        "purpose": "HTTP method chips and keys (Geist Mono)."
+      }
+    },
+    "shadows": [
+      {
+        "name": "inset-hairline",
+        "value": "inset 0 0 0 1px rgba(230, 218, 255, .10)",
+        "purpose": "Outline of every plate, table, card, segmented control and console."
+      },
+      {
+        "name": "hairline-hover",
+        "value": "inset 0 0 0 1px rgba(183, 133, 244, .34)",
+        "purpose": "Hovered link cards and pager cards."
+      },
+      {
+        "name": "console-drop",
+        "value": "inset 0 0 0 1px rgba(230, 218, 255, .10), 0 36px 80px -40px rgba(0, 0, 0, .9)",
+        "purpose": "Product page console; docs code blocks use 0 24px 60px -40px."
+      },
+      {
+        "name": "screen-frame",
+        "value": "0 0 0 1px rgba(255, 255, 255, .12), 0 36px 80px -36px rgba(0, 0, 0, .95)",
+        "purpose": "Screenshot frames on app grey."
+      },
+      {
+        "name": "replay-glow",
+        "value": "0 0 0 1px rgba(255, 255, 255, .14), 0 2px 0 1px rgba(255, 255, 255, .05) inset, 0 50px 120px -30px rgba(66, 20, 140, .85), 0 30px 60px -30px rgba(0, 0, 0, .9)",
+        "purpose": "The hero app window only."
+      },
+      {
+        "name": "dialog",
+        "value": "inset 0 0 0 1px rgba(230, 218, 255, .14), 0 40px 100px -30px rgba(0, 0, 0, .95), 0 0 0 1px rgba(0, 0, 0, .5)",
+        "purpose": "Search panel over an 8px-blurred 66% scrim."
+      },
+      {
+        "name": "drawer",
+        "value": "1px 0 0 rgba(230, 218, 255, .10), 30px 0 80px -20px rgba(0, 0, 0, .8)",
+        "purpose": "Phone contents drawer."
+      },
+      {
+        "name": "primary-lift",
+        "value": "inset 0 1px 0 rgba(255, 255, 255, .22), 0 8px 18px -8px rgba(0, 0, 0, .55)",
+        "purpose": "Primary buttons."
+      },
+      {
+        "name": "focus-ring",
+        "value": "outline: 2px solid #D9BAF9; outline-offset: 3px",
+        "purpose": "Every focusable element; offset turns inward inside consoles and table rows."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(.2, .8, .2, 1)",
+        "purpose": "State transitions: buttons, cards, tour frames."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(.16, 1, .3, 1)",
+        "purpose": "Exponential ease-out: console switch, trace, drawer, hero entrance."
+      },
+      {
+        "name": "console-switch",
+        "value": "180ms ease-out, from blur(3px) opacity .35 to sharp",
+        "purpose": "Language tab change; the one authored motion in the docs."
+      },
+      {
+        "name": "trace",
+        "value": "180ms ease-out on opacity and background-color",
+        "purpose": "Parameter trace highlight."
+      },
+      {
+        "name": "hover",
+        "value": "150-200ms on color, background, box-shadow",
+        "purpose": "Links, tabs, rows."
+      },
+      {
+        "name": "drawer",
+        "value": "300ms ease-out translateX",
+        "purpose": "Phone contents drawer."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "Animations and transitions removed; marquee stops."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "docs-rail-narrow",
+        "value": "1240px"
+      },
+      {
+        "name": "rows-stack",
+        "value": "1180px"
+      },
+      {
+        "name": "product-collapse",
+        "value": "1080px"
+      },
+      {
+        "name": "drawer",
+        "value": "900px"
+      },
+      {
+        "name": "product-phone",
+        "value": "760px"
+      },
+      {
+        "name": "docs-phone",
+        "value": "640px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one action to take: download, or a primary call.",
+      "html": "<button class=\"ds-btn-primary\">Download for Linux</button>",
+      "css": ":host{--ink:#0F0C17;--ink-2:#140F1E;--plate:#19142A;--line:rgba(230,218,255,.10);--line-2:rgba(230,218,255,.06);--paper:#F4F1FA;--text:#DCD6E8;--mist:#ADA6C0;--dim:#8C85A2;--lav:#D9BAF9;--orchid:#B785F4;--violet:#8C33EF;--violet-hi:#7D24E2;--amber:#FFB547;--green:#5BD98A;--blue:#9ED0FF;--red:#FF8A80;--font:Inter,-apple-system,system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)} .ds-btn-primary{display:inline-flex;align-items:center;height:54px;padding:0 24px;border:0;border-radius:12px;background:var(--violet);color:#fff;font:600 16.5px var(--font);letter-spacing:-.01em;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 8px 18px -8px rgba(0,0,0,.55);transition:background .2s,transform .2s var(--ease)} .ds-btn-primary:hover{background:var(--violet-hi)} .ds-btn-primary:active{transform:translateY(1px) scale(.99)} .ds-btn-primary:focus-visible{outline:2px solid var(--lav);outline-offset:3px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "The secondary action beside a primary.",
+      "html": "<button class=\"ds-btn-ghost\">Watch the demo</button>",
+      "css": ":host{--ink:#0F0C17;--ink-2:#140F1E;--plate:#19142A;--line:rgba(230,218,255,.10);--line-2:rgba(230,218,255,.06);--paper:#F4F1FA;--text:#DCD6E8;--mist:#ADA6C0;--dim:#8C85A2;--lav:#D9BAF9;--orchid:#B785F4;--violet:#8C33EF;--violet-hi:#7D24E2;--amber:#FFB547;--green:#5BD98A;--blue:#9ED0FF;--red:#FF8A80;--font:Inter,-apple-system,system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)} .ds-btn-ghost{display:inline-flex;align-items:center;height:54px;padding:0 24px;border:0;border-radius:12px;background:rgba(255,255,255,.055);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);color:var(--paper);font:600 16.5px var(--font);cursor:pointer;transition:background .2s} .ds-btn-ghost:hover{background:rgba(255,255,255,.09)} .ds-btn-ghost:focus-visible{outline:2px solid var(--lav);outline-offset:3px}"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "chip",
+      "refersTo": "segmented-control",
+      "description": "Scenario picker, tour control and docs tabs.",
+      "html": "<div class=\"ds-seg\" role=\"tablist\"><button aria-selected=\"true\">curl</button><button>Python</button><button>JavaScript</button></div>",
+      "css": ":host{--ink:#0F0C17;--ink-2:#140F1E;--plate:#19142A;--line:rgba(230,218,255,.10);--line-2:rgba(230,218,255,.06);--paper:#F4F1FA;--text:#DCD6E8;--mist:#ADA6C0;--dim:#8C85A2;--lav:#D9BAF9;--orchid:#B785F4;--violet:#8C33EF;--violet-hi:#7D24E2;--amber:#FFB547;--green:#5BD98A;--blue:#9ED0FF;--red:#FF8A80;--font:Inter,-apple-system,system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)} .ds-seg{display:inline-flex;gap:2px;padding:4px;border-radius:12px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line)} .ds-seg button{border:0;background:transparent;color:var(--mist);font:550 14.5px var(--font);padding:8px 16px;border-radius:8px;cursor:pointer;transition:background .2s,color .2s} .ds-seg button:hover{color:var(--paper)} .ds-seg button[aria-selected=true]{background:rgba(255,255,255,.1);color:var(--paper)} .ds-seg button:focus-visible{outline:2px solid var(--lav);outline-offset:3px}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-field",
+      "description": "Header search trigger with Ctrl K.",
+      "html": "<button class=\"ds-search\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 256 256\" fill=\"currentColor\"><path d=\"M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z\"/></svg><span>Search</span><kbd>Ctrl</kbd><kbd>K</kbd></button>",
+      "css": ":host{--ink:#0F0C17;--ink-2:#140F1E;--plate:#19142A;--line:rgba(230,218,255,.10);--line-2:rgba(230,218,255,.06);--paper:#F4F1FA;--text:#DCD6E8;--mist:#ADA6C0;--dim:#8C85A2;--lav:#D9BAF9;--orchid:#B785F4;--violet:#8C33EF;--violet-hi:#7D24E2;--amber:#FFB547;--green:#5BD98A;--blue:#9ED0FF;--red:#FF8A80;--font:Inter,-apple-system,system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)} .ds-search{display:inline-flex;align-items:center;gap:10px;height:36px;min-width:220px;padding:0 8px 0 12px;border:0;border-radius:10px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px var(--line);color:var(--dim);font:400 14px var(--font);cursor:pointer;transition:background .2s,color .2s} .ds-search span{margin-right:auto} .ds-search:hover{background:rgba(255,255,255,.08);color:var(--mist)} .ds-search:focus-visible{outline:2px solid var(--lav);outline-offset:3px} .ds-search kbd{display:inline-flex;align-items:center;height:22px;padding:0 6px;border-radius:6px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px var(--line),0 1px 0 rgba(0,0,0,.4);font:500 12px/1 var(--mono);color:#CFC8DF} .ds-search kbd+kbd{margin-left:-6px}"
+    },
+    {
+      "name": "Contents Rail",
+      "kind": "nav",
+      "refersTo": "sidebar-link-current",
+      "description": "Docs sidebar with the current page outline.",
+      "html": "<nav class=\"ds-side\"><div class=\"ds-side-h\">API reference</div><a href=\"#\">Overview</a><a href=\"#\" aria-current=\"page\">Decisions</a><div class=\"ds-toc\"><a class=\"on\" href=\"#\">Create a decision</a><a href=\"#\">Retrieve a decision</a></div><a href=\"#\">Templates</a></nav>",
+      "css": ":host{--ink:#0F0C17;--ink-2:#140F1E;--plate:#19142A;--line:rgba(230,218,255,.10);--line-2:rgba(230,218,255,.06);--paper:#F4F1FA;--text:#DCD6E8;--mist:#ADA6C0;--dim:#8C85A2;--lav:#D9BAF9;--orchid:#B785F4;--violet:#8C33EF;--violet-hi:#7D24E2;--amber:#FFB547;--green:#5BD98A;--blue:#9ED0FF;--red:#FF8A80;--font:Inter,-apple-system,system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)} .ds-side{display:grid;gap:2px;width:264px;font-family:var(--font)} .ds-side-h{font-size:13px;font-weight:600;color:var(--paper);padding:0 12px 6px} .ds-side>a{padding:6px 12px;border-radius:8px;color:var(--mist);text-decoration:none;font-size:14.5px;transition:color .15s,background .15s} .ds-side>a:hover{color:var(--paper);background:rgba(255,255,255,.04)} .ds-side>a[aria-current=page]{color:var(--paper);background:rgba(140,51,239,.16);font-weight:550} .ds-side a:focus-visible{outline:2px solid var(--lav);outline-offset:3px} .ds-toc{display:grid;margin:4px 0 8px 18px;border-left:1px solid var(--line)} .ds-toc a{margin-left:-1px;padding:4px 10px 4px 13px;border-left:1px solid transparent;color:var(--dim);text-decoration:none;font-size:13.5px} .ds-toc a:hover{color:var(--paper)} .ds-toc a.on{color:var(--lav);border-left-color:var(--orchid)}"
+    },
+    {
+      "name": "Console",
+      "kind": "custom",
+      "refersTo": "console",
+      "description": "A section's request and response, pinned beside its prose.",
+      "html": "<div class=\"ds-console\"><div class=\"ds-c-head\"><span class=\"ds-method\">POST</span><code>/v1/studio/decisions</code></div><div class=\"ds-c-bar\"><button aria-selected=\"true\">curl</button><button>Python</button><button>JavaScript</button><button class=\"ds-copy\">Copy</button></div><pre class=\"ds-code\">curl -s http://127.0.0.1:8420/v1/studio/decisions \\\n  -d '{<span class=\"k\">\"template\"</span>: <span class=\"s\">\"support-triage\"</span>}'</pre><div class=\"ds-c-split\"><span>Response</span><b>200 OK</b></div><pre class=\"ds-code\">{<span class=\"k\">\"status\"</span>: <span class=\"s\">\"completed\"</span>, <span class=\"k\">\"latency_ms\"</span>: <span class=\"n\">96</span>}</pre></div>",
+      "css": ":host{--ink:#0F0C17;--ink-2:#140F1E;--plate:#19142A;--line:rgba(230,218,255,.10);--line-2:rgba(230,218,255,.06);--paper:#F4F1FA;--text:#DCD6E8;--mist:#ADA6C0;--dim:#8C85A2;--lav:#D9BAF9;--orchid:#B785F4;--violet:#8C33EF;--violet-hi:#7D24E2;--amber:#FFB547;--green:#5BD98A;--blue:#9ED0FF;--red:#FF8A80;--font:Inter,-apple-system,system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)} .ds-console{width:440px;border-radius:16px;background:#0B0911;box-shadow:inset 0 0 0 1px var(--line),0 36px 80px -40px rgba(0,0,0,.9);overflow:hidden;font-family:var(--font)} .ds-c-head{display:flex;align-items:center;gap:10px;min-height:48px;padding:10px 16px;border-bottom:1px solid var(--line-2);background:rgba(255,255,255,.025)} .ds-c-head code{font:500 13.5px var(--mono);color:var(--paper)} .ds-method{display:inline-flex;align-items:center;height:24px;padding:0 9px;border-radius:6px;font:600 12px/1 var(--mono);letter-spacing:.02em;color:#E5CCFF;background:rgba(140,51,239,.22);box-shadow:inset 0 0 0 1px rgba(183,133,244,.4)} .ds-c-bar{display:flex;gap:2px;padding:8px 10px 8px 12px;border-bottom:1px solid var(--line-2)} .ds-c-bar button{border:0;background:transparent;color:var(--mist);font:550 13.5px var(--font);padding:6px 12px;border-radius:8px;cursor:pointer;transition:background .2s,color .2s} .ds-c-bar button:hover{color:var(--paper)} .ds-c-bar button[aria-selected=true]{background:rgba(255,255,255,.08);color:var(--paper);font-weight:600} .ds-c-bar button:focus-visible{outline:2px solid var(--lav);outline-offset:3px} .ds-c-bar .ds-copy{margin-left:auto;background:rgba(255,255,255,.06);font-size:12.5px} .ds-code{margin:0;padding:14px 18px 16px;font:12.8px/1.7 var(--mono);color:#D8D2E6;white-space:pre-wrap} .ds-code .s{color:#F0B3FF} .ds-code .k{color:var(--blue)} .ds-code .n{color:#FFD68A} .ds-c-split{display:flex;justify-content:space-between;padding:9px 18px;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2);background:rgba(255,255,255,.02);font-size:13px} .ds-c-split span{color:var(--paper);font-weight:600} .ds-c-split b{font:500 12px/1 var(--mono);color:var(--green)}"
+    },
+    {
+      "name": "Field Table with Trace",
+      "kind": "custom",
+      "refersTo": "field-table",
+      "description": "Parameters table; a hovered row lights its line in the console.",
+      "html": "<div class=\"ds-table\"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody><tr tabindex=\"0\"><td><code>template</code></td><td>string</td><td>The saved template to run.</td></tr><tr tabindex=\"0\" class=\"on\"><td><code>state</code></td><td>object</td><td>The situation, as JSON.</td></tr></tbody></table></div>",
+      "css": ":host{--ink:#0F0C17;--ink-2:#140F1E;--plate:#19142A;--line:rgba(230,218,255,.10);--line-2:rgba(230,218,255,.06);--paper:#F4F1FA;--text:#DCD6E8;--mist:#ADA6C0;--dim:#8C85A2;--lav:#D9BAF9;--orchid:#B785F4;--violet:#8C33EF;--violet-hi:#7D24E2;--amber:#FFB547;--green:#5BD98A;--blue:#9ED0FF;--red:#FF8A80;--font:Inter,-apple-system,system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)} .ds-table{width:520px;border-radius:14px;background:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line);overflow:hidden;font-family:var(--font)} .ds-table table{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.55;color:var(--text)} .ds-table th{text-align:left;font-size:13px;font-weight:600;color:var(--mist);padding:11px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.02)} .ds-table td{padding:11px 16px;border-bottom:1px solid var(--line-2)} .ds-table tr:last-child td{border-bottom:0} .ds-table td:first-child code{font:.84em var(--mono);padding:2px 6px;border-radius:6px;color:#EAD8FF;background:rgba(183,133,244,.10);box-shadow:inset 0 0 0 1px rgba(183,133,244,.16)} .ds-table tbody tr{transition:background-color .15s} .ds-table tbody tr:hover,.ds-table tbody tr.on{background:rgba(140,51,239,.09)} .ds-table tbody tr:focus-visible{outline:2px solid var(--lav);outline-offset:-2px}"
+    },
+    {
+      "name": "Callout",
+      "kind": "card",
+      "refersTo": "callout-note",
+      "description": "Note, tip, warning and danger asides.",
+      "html": "<div class=\"ds-callout\"><span class=\"ds-ic\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 256 256\" fill=\"currentColor\"><path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z\"/></svg></span><div><p class=\"ds-ct\">The port</p><p>The examples use 8420, the studio's default.</p></div></div>",
+      "css": ":host{--ink:#0F0C17;--ink-2:#140F1E;--plate:#19142A;--line:rgba(230,218,255,.10);--line-2:rgba(230,218,255,.06);--paper:#F4F1FA;--text:#DCD6E8;--mist:#ADA6C0;--dim:#8C85A2;--lav:#D9BAF9;--orchid:#B785F4;--violet:#8C33EF;--violet-hi:#7D24E2;--amber:#FFB547;--green:#5BD98A;--blue:#9ED0FF;--red:#FF8A80;--font:Inter,-apple-system,system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)} .ds-callout{display:grid;grid-template-columns:22px 1fr;gap:12px;width:480px;padding:16px 18px;border-radius:14px;background:rgba(140,51,239,.08);box-shadow:inset 0 0 0 1px rgba(183,133,244,.20);font:400 15.5px/1.65 var(--font);color:var(--text)} .ds-ic{color:var(--lav);padding-top:2px} .ds-callout p{margin:0} .ds-ct{color:var(--paper);font-weight:620;font-size:15px;margin-bottom:4px!important}"
+    },
+    {
+      "name": "Link Card",
+      "kind": "card",
+      "refersTo": "link-card",
+      "description": "A page link with icon, title and one-line description.",
+      "html": "<a class=\"ds-card\" href=\"#\"><span class=\"ds-card-ic\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 256 256\" fill=\"currentColor\"><path d=\"M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z\"/></svg></span><span class=\"ds-card-t\">Quickstart <span class=\"ds-go\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 256 256\" fill=\"currentColor\"><path d=\"M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z\"/></svg></span></span><span class=\"ds-card-d\">Load a model and ask your first question.</span></a>",
+      "css": ":host{--ink:#0F0C17;--ink-2:#140F1E;--plate:#19142A;--line:rgba(230,218,255,.10);--line-2:rgba(230,218,255,.06);--paper:#F4F1FA;--text:#DCD6E8;--mist:#ADA6C0;--dim:#8C85A2;--lav:#D9BAF9;--orchid:#B785F4;--violet:#8C33EF;--violet-hi:#7D24E2;--amber:#FFB547;--green:#5BD98A;--blue:#9ED0FF;--red:#FF8A80;--font:Inter,-apple-system,system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)} .ds-card{display:grid;gap:8px;width:260px;padding:18px 18px 20px;border-radius:14px;background:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line);text-decoration:none;color:var(--text);font-family:var(--font);transition:background .2s,box-shadow .2s,transform .25s var(--ease)} .ds-card:hover{background:var(--plate);box-shadow:inset 0 0 0 1px rgba(183,133,244,.34);transform:translateY(-1px)} .ds-card:focus-visible{outline:2px solid var(--lav);outline-offset:3px} .ds-card-ic{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;color:var(--lav);background:rgba(140,51,239,.16);box-shadow:inset 0 0 0 1px rgba(183,133,244,.22);margin-bottom:6px} .ds-card-t{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:620;color:var(--paper)} .ds-go{color:var(--dim);display:inline-flex;transition:transform .25s var(--ease),color .2s} .ds-card:hover .ds-go{transform:translateX(3px);color:var(--lav)} .ds-card-d{font-size:14.5px;line-height:1.55;color:var(--mist)}"
+    },
+    {
+      "name": "Figure",
+      "kind": "custom",
+      "description": "A screenshot in an app-grey frame with a Fig. n caption.",
+      "html": "<figure class=\"ds-fig\"><div class=\"ds-frame\"></div><figcaption><span class=\"ds-fig-n\">Fig. 1</span>The Models page. The table lists every model.</figcaption></figure>",
+      "css": ":host{--ink:#0F0C17;--ink-2:#140F1E;--plate:#19142A;--line:rgba(230,218,255,.10);--line-2:rgba(230,218,255,.06);--paper:#F4F1FA;--text:#DCD6E8;--mist:#ADA6C0;--dim:#8C85A2;--lav:#D9BAF9;--orchid:#B785F4;--violet:#8C33EF;--violet-hi:#7D24E2;--amber:#FFB547;--green:#5BD98A;--blue:#9ED0FF;--red:#FF8A80;--font:Inter,-apple-system,system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,Menlo,monospace;--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)} .ds-fig{margin:0;width:480px;font-family:var(--font)} .ds-frame{aspect-ratio:16/10;border-radius:12px;background:#F5F5F7;box-shadow:0 0 0 1px rgba(255,255,255,.12),0 36px 80px -36px rgba(0,0,0,.95)} .ds-fig figcaption{margin-top:14px;font-size:14.5px;line-height:1.55;color:var(--mist)} .ds-fig-n{color:var(--dim);font-variant-numeric:tabular-nums;font-weight:500;margin-right:12px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Lit Instrument in a Dark Room",
+    "overview": "**Creative North Star: \"The Lit Instrument in a Dark Room\"**\n\nThe website is a dark room tinted toward Bud violet, and the product sits inside it as a lit object: the hero replay and every screenshot are the app's own light interface on the app's grey, framed and shadowed so they read as a real screen. Everything around them is ink, quiet text in three greys, and plates that are told apart by tone and a one-pixel inset hairline, not by borders or heavy shadow. Violet marks the one thing to press or the thing that is selected; lavender marks what to notice (links, code, emphasis).\n\nThe product page is the louder register: a 140px display headline, particles, a scroll-tilted app window, a different layout per section and every chart captioned \"Fig. n\". The documentation is the same world at reading pace. It is a two-column shell (contents rail, page), and every section with code is a row: prose on the left, that section's console pinned on the right while you read it. Pages with no code collapse to one reading column whose screenshots run wider than the text. In the docs nothing moves on load; the language switch and the parameter trace are the only authored motion.\n\nDensity is generous on the product page (152px between sections) and calm-but-dense in the docs (64px between rows, a 576px reading line, tables at 14.5px). Inter carries all prose and interface; Geist Mono appears only where the reader is looking at something a machine reads.",
+    "keyCharacteristics": [
+      "Ink ground (#0F0C17) with raised plates (#140F1E, #19142A) outlined by inset hairlines, never solid borders.",
+      "Bud's three violets as the only accent family: violet to act, orchid to mark, lavender to emphasise.",
+      "The app shown as itself: light screenshots and replay in grey (#F5F5F7) frames on the dark page.",
+      "Code beside prose: sticky consoles with segmented language tabs and a response pane.",
+      "Figures numbered \"Fig. n\" with a dim tabular numeral before the caption, on both surfaces.",
+      "Phosphor (regular) icons only, inlined as SVG."
+    ],
+    "rules": [
+      {
+        "name": "The Three Violets Rule",
+        "body": "Violet is pressed or selected, orchid is a marker, lavender is emphasis. Don't swap their jobs: a lavender button or a violet link reads as a mistake.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fixed Signal Rule",
+        "body": "Amber always means \"a person decides\" or \"careful\", green always means \"acts on its own\" or \"worked\". They carry the app's meaning onto the page and are never used as decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono For Machines Rule",
+        "body": "Geist Mono is only for code, commands, paths, field names, HTTP methods and keyboard keys. Headings, labels and numbers in prose stay in Inter with `tabular-nums`.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Figures Rule",
+        "body": "Every number that can change or be compared (Fig. numerals, probabilities, memory, versions, step counters, status codes) sets `font-variant-numeric: tabular-nums`.",
+        "section": "typography"
+      },
+      {
+        "name": "The Code Beside Prose Rule",
+        "body": "A request or command the reader will send sits in the console beside the section that explains it, never between its paragraphs. Samples the reader types into the app (a JSON State, a template sentence, rows of test data) may stay inline next to their steps and screenshots.",
+        "section": "layout"
+      },
+      {
+        "name": "The Inset Hairline Rule",
+        "body": "Plates are outlined by an inset 1px hairline, not a CSS border. Solid borders are for dividers between rows, columns and sections, and are always the faint hairline.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Light From Above Rule",
+        "body": "Glows are violet radial light falling from the top of the hero and the closing call. They belong to those two moments, not to cards or buttons.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** outline plates with the inset hairline (`inset 0 0 0 1px rgba(230, 218, 255, .10)`) and step depth by tone: ink, #140F1E, #19142A, and #0B0911 for code.",
+      "**Do** keep violet for the thing to press or the thing selected, and use 16 to 22% violet washes for selection states.",
+      "**Do** put every request and command in a console beside its section, with curl / Python / JavaScript tabs that switch together.",
+      "**Do** show the app as itself: real light-theme captures in app-grey frames, numbered \"Fig. n\" with a caption saying what to notice.",
+      "**Do** set Geist Mono only for code, paths, field names, HTTP methods and keys, and tabular figures for every changing number.",
+      "**Do** hold docs paragraphs to 576px and let figures and tables run wider.",
+      "**Do** use Phosphor (regular) icons, inlined as SVG, at 16 to 20px in lavender, mist or the signal colour.",
+      "**Do** keep the docs still on load; the language switch (180ms blur-to-sharp) and the trace (180ms) are the motion."
+    ],
+    "donts": [
+      "**Don't** use amber or green for anything but their meanings (\"a person decides\" / careful, \"acts on its own\" / worked).",
+      "**Don't** draw plates with solid borders or give resting plates a cast shadow; cast shadows are for the replay, frames, consoles, dialogs and the drawer.",
+      "**Don't** put a request or command block between paragraphs of prose on a page that has consoles.",
+      "**Don't** recolour or redraw the Bud mark; use the lockup as provided.",
+      "**Don't** add hues outside the violets, the four signals and the syntax palette; sky and coral stay inside code, method chips, danger callouts and errors.",
+      "**Don't** set a small label line above a heading; sections open with their heading (the hero's release pill is a link to the release, not a label)."
+    ]
+  }
+}

@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Errors · Bud Decision Studio Docs</title>
+  <meta name="description" content="The studio API&#x27;s error envelope and every error code it returns, with the HTTP status, what causes it and how to fix it.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Errors · Bud Decision Studio">
+  <meta property="og:description" content="The studio API&#x27;s error envelope and every error code it returns, with the HTTP status, what causes it and how to fix it.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs has-console" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html">Docs</a><a href="../../docs/api/index.html" aria-current=page>API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html" aria-current=page>Errors</a><nav class="side-toc" aria-label="On this page"><a href="#the-error-envelope">The error envelope</a><a href="#which-errors-to-retry">Which errors to retry</a><a href="#request-errors-400">Request errors (400)</a><a href="#access-errors-401-403-415">Access errors (401, 403, 415)</a><a href="#not-found-404">Not found (404)</a><a href="#conflicts-409-and-412">Conflicts (409 and 412)</a><a href="#size-413">Size (413)</a><a href="#model-and-storage-failures-500-503-504">Model and storage failures (500, 503, 504)</a><a href="#warnings">Warnings</a></nav></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>API reference</span></p>
+      <h1>Errors</h1>
+      <p class="lead">Every error from the studio API has the same shape and a stable code to branch on. Validation errors list every problem in one response, and messages say what to change, often with the name you probably meant.</p>
+    </header>
+    <section class="dsec"><div class="dsec-text"><p>This page covers <code>/v1/studio</code>. The TypeSafe and gateway routes keep their own error shapes; see <a href="../../docs/api/systemone.html#errors-on-these-routes">Errors on these routes</a>.</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="the-error-envelope">The error envelope<a class="anchor" href="#the-error-envelope" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="type" tabindex="0">
+<td><code>type</code></td>
+<td>The broad kind, from the HTTP status: <code>invalid_request_error</code>, <code>authentication_error</code>, <code>permission_error</code>, <code>not_found_error</code>, <code>conflict_error</code>, <code>rate_limit_error</code>, <code>api_error</code> or <code>model_error</code>.</td>
+</tr>
+<tr data-param="code" tabindex="0">
+<td><code>code</code></td>
+<td>A stable name for the exact problem, such as <code>unknown_variable</code>. Branch on this.</td>
+</tr>
+<tr data-param="message" tabindex="0">
+<td><code>message</code></td>
+<td>A sentence for people: what is wrong and how to fix it. Messages may be reworded between releases; codes are not.</td>
+</tr>
+<tr data-param="param" tabindex="0">
+<td><code>param</code></td>
+<td>The field or parameter at fault, as a path: <code>variables.account_tier</code>, <code>questions.<wbr>urgency.<wbr>criteria</code>, <code>media[0].file_id</code>, or <code>questions["odd key"]</code> for keys with dots or spaces. <code>null</code> when no single field is to blame.</td>
+</tr>
+<tr data-param="details" tabindex="0">
+<td><code>details</code></td>
+<td>Every problem found in the same pass, each <code>{code, param, message}</code>. The top-level fields repeat the first.</td>
+</tr>
+<tr data-param="request_id" tabindex="0">
+<td><code>request_id</code></td>
+<td>The request's id, also in the <code>x-request-id</code> header. Quote it when you report a problem.</td>
+</tr>
+<tr data-param="decision_id" tabindex="0">
+<td><code>decision_id</code></td>
+<td>Set when a failed decision was stored in history, so you can open it.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Some errors carry one more field: <code>current_version</code> on <code>version_conflict</code>, and <code>existing_id</code> on <code>example_exists</code>.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs data-group="lang"><div class="dc-head"><span class="method post">POST</span><code>/v1/studio/decisions</code></div><div class="console-bar"><div class="dc-tabs" role="tablist" aria-label="Language"><button role="tab" type="button" id="c0-t0" aria-controls="c0-p0" data-tab="curl" aria-selected="true">curl</button><button role="tab" type="button" id="c0-t1" aria-controls="c0-p1" data-tab="Python" aria-selected="false" tabindex=-1>Python</button><button role="tab" type="button" id="c0-t2" aria-controls="c0-p2" data-tab="JavaScript" aria-selected="false" tabindex=-1>JavaScript</button></div><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="tabpanel" id="c0-p0" aria-labelledby=c0-t0><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8420/v1/studio/decisions<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span></span><span class="ln" style="--i:2"><span class="s1">  "template": "support-triage",</span></span><span class="ln" style="--i:2"><span class="s1">  "variables": {"customer_mesage": "Refund please", "acount_tier": "pro"}</span></span><span class="ln"><span class="s1">}'</span></span></code></pre></div><div class="dc-panel" role="tabpanel" id="c0-p1" aria-labelledby=c0-t1 hidden><pre class="hl" tabindex="0"><code class="lang-python"><span class="ln"><span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span></span><span class="ln"></span><span class="ln"><span class="n">studio</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s2">"http://127.0.0.1:8420/v1/studio"</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span></span><span class="ln"><span class="n">r</span> <span class="o">=</span> <span class="n">studio</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/decisions"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span></span><span class="ln" style="--i:4">    <span class="s2">"template"</span><span class="p">:</span> <span class="s2">"support-triage"</span><span class="p">,</span></span><span class="ln" style="--i:4">    <span class="s2">"variables"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"customer_mesage"</span><span class="p">:</span> <span class="s2">"Refund please"</span><span class="p">,</span> <span class="s2">"acount_tier"</span><span class="p">:</span> <span class="s2">"pro"</span><span class="p">},</span></span><span class="ln"><span class="p">})</span></span><span class="ln"><span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">is_error</span><span class="p">:</span></span><span class="ln" style="--i:4">    <span class="n">err</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">"error"</span><span class="p">]</span></span><span class="ln" style="--i:4">    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">err</span><span class="p">[</span><span class="s2">"details"</span><span class="p">]:</span></span><span class="ln" style="--i:8">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s2">"param"</span><span class="p">]</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s2">"message"</span><span class="p">]</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span></span></code></pre></div><div class="dc-panel" role="tabpanel" id="c0-p2" aria-labelledby=c0-t2 hidden><pre class="hl" tabindex="0"><code class="lang-js"><span class="ln"><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s2">"http://127.0.0.1:8420/v1/studio/decisions"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s2">"POST"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"Content-Type"</span><span class="o">:</span><span class="w"> </span><span class="s2">"application/json"</span><span class="w"> </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nx">template</span><span class="o">:</span><span class="w"> </span><span class="s2">"support-triage"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nx">variables</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">customer_mesage</span><span class="o">:</span><span class="w"> </span><span class="s2">"Refund please"</span><span class="p">,</span><span class="w"> </span><span class="nx">acount_tier</span><span class="o">:</span><span class="w"> </span><span class="s2">"pro"</span><span class="w"> </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">}),</span></span><span class="ln"><span class="p">});</span></span><span class="ln"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">d</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">error</span><span class="p">.</span><span class="nx">details</span><span class="p">)</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">d</span><span class="p">.</span><span class="nx">param</span><span class="si">}</span><span class="sb">: </span><span class="si">${</span><span class="nx">d</span><span class="p">.</span><span class="nx">message</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span></span><span class="ln"><span class="p">}</span></span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status err">400 Bad Request</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"invalid_request_error"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown_variable"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This template has no variable 'customer_mesage'. Did you mean 'customer_message'?"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"param"</span><span class="p">:</span><span class="w"> </span><span class="s2">"variables.customer_mesage"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span></span><span class="ln" style="--i:6"><span class="w">      </span><span class="p">{</span></span><span class="ln" style="--i:8"><span class="w">        </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown_variable"</span><span class="p">,</span></span><span class="ln" style="--i:8"><span class="w">        </span><span class="nt">"param"</span><span class="p">:</span><span class="w"> </span><span class="s2">"variables.customer_mesage"</span><span class="p">,</span></span><span class="ln" style="--i:8"><span class="w">        </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This template has no variable 'customer_mesage'. Did you mean 'customer_message'?"</span></span><span class="ln" style="--i:6"><span class="w">      </span><span class="p">},</span></span><span class="ln" style="--i:6"><span class="w">      </span><span class="p">{</span></span><span class="ln" style="--i:8"><span class="w">        </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown_variable"</span><span class="p">,</span></span><span class="ln" style="--i:8"><span class="w">        </span><span class="nt">"param"</span><span class="p">:</span><span class="w"> </span><span class="s2">"variables.acount_tier"</span><span class="p">,</span></span><span class="ln" style="--i:8"><span class="w">        </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This template has no variable 'acount_tier'. Did you mean 'account_tier'?"</span></span><span class="ln" style="--i:6"><span class="w">      </span><span class="p">},</span></span><span class="ln" style="--i:6"><span class="w">      </span><span class="p">{</span></span><span class="ln" style="--i:8"><span class="w">        </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"missing_variable"</span><span class="p">,</span></span><span class="ln" style="--i:8"><span class="w">        </span><span class="nt">"param"</span><span class="p">:</span><span class="w"> </span><span class="s2">"variables.customer_message"</span><span class="p">,</span></span><span class="ln" style="--i:8"><span class="w">        </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customer_message is required (a string of up to 8,000 characters)."</span></span><span class="ln" style="--i:6"><span class="w">      </span><span class="p">}</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="p">],</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"request_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"req_0777aa3c4b2c48eaa65850aed9aa314f"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"decision_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">}</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="which-errors-to-retry">Which errors to retry<a class="anchor" href="#which-errors-to-retry" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Retry?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>400</code>, <code>404</code>, <code>412</code>, <code>413</code>, <code>415</code></td>
+<td>No. Change the request first.</td>
+</tr>
+<tr>
+<td><code>401</code>, <code>403</code></td>
+<td>No. Fix the key, the origin or the address.</td>
+</tr>
+<tr>
+<td><code>409</code></td>
+<td>Depends on the code. <code>idempotency_in_progress</code> clears in a moment (<code>retry-after: 1</code>); <code>model_not_loaded</code> clears when the model is loaded; the others need a change.</td>
+</tr>
+<tr>
+<td><code>503</code>, <code>504</code></td>
+<td>Yes, after a pause. These are model and storage failures; a decision that failed this way was usually stored, with its <code>decision_id</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Send the same <code>Idempotency-Key</code> on every retry of one logical call, so a retry after a lost response does not decide twice. See <a href="../../docs/api/index.html#retries-and-idempotency">Retries and idempotency</a>.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="request-errors-400">Request errors (400)<a class="anchor" href="#request-errors-400" title="Link to this section">#</a></h2>
+<p>The body, a parameter or a field is not valid. Fix the request and send it again.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>invalid_json</code></td>
+<td>The body is missing, is not valid JSON, or is not an object.</td>
+<td>Send a JSON object.</td>
+</tr>
+<tr>
+<td><code>invalid_field</code></td>
+<td>A body field has the wrong type or an out-of-range value, such as <code>act_threshold: 1.5</code>, an unknown setting, or <code>"stream": true</code>.</td>
+<td>Read <code>param</code> and <code>message</code>.</td>
+</tr>
+<tr>
+<td><code>missing_field</code></td>
+<td>A required field is absent: <code>questions</code> without a template, the <code>file</code> of an upload, or both <code>expected</code> and <code>rating</code> in feedback.</td>
+<td>Add it.</td>
+</tr>
+<tr>
+<td><code>read_only_field</code></td>
+<td>A patch tried to change something that cannot change, such as a decision's answers or a template's <code>version</code>.</td>
+<td>Leave it out. Decisions accept only <code>metadata</code> and <code>pinned</code>; archive templates with their own endpoint.</td>
+</tr>
+<tr>
+<td><code>invalid_parameter</code></td>
+<td>A query parameter or header is not valid: <code>limit</code> above 100, an unknown <code>group_by</code>, a bad time in <code>created_after</code>, an <code>after</code> cursor that matches nothing, a malformed <code>If-Match</code>, an <code>Idempotency-Key</code> over 255 characters.</td>
+<td>Read <code>param</code>.</td>
+</tr>
+<tr>
+<td><code>invalid_reference</code></td>
+<td><code>template</code> is not a string.</td>
+<td>Send <code>"support-triage"</code>, <code>"support-triage@2"</code> or <code>"support-<wbr>triage@production"</code>.</td>
+</tr>
+<tr>
+<td><code>invalid_metadata</code></td>
+<td><code>metadata</code> is not an object of strings, has more than 16 keys, or a key or value is too long.</td>
+<td>Up to 16 keys of 64 characters, string values of up to 512.</td>
+</tr>
+<tr>
+<td><code>filter_required</code></td>
+<td>A bulk delete or redact had an empty filter.</td>
+<td>Send a filter, or <code>"all": true</code> if you mean every decision.</td>
+</tr>
+<tr>
+<td><code>confirmation_required</code></td>
+<td>A template delete lacked <code>?confirm=&lt;id&gt;</code>.</td>
+<td>Repeat the template id in <code>confirm</code>.</td>
+</tr>
+<tr>
+<td><code>search_unavailable</code></td>
+<td><code>q</code> was used, but this computer's SQLite has no full-text search.</td>
+<td>Filter without <code>q</code>.</td>
+</tr>
+<tr>
+<td><code>too_many_items</code></td>
+<td>An import had more than 5,000 examples.</td>
+<td>Split it.</td>
+</tr>
+<tr>
+<td><code>background_<wbr>requires_<wbr>store</code></td>
+<td><code>background: true</code> with <code>store: false</code>.</td>
+<td>Store at least <code>answers_only</code>.</td>
+</tr>
+<tr>
+<td><code>invalid_expected</code></td>
+<td>A label does not fit its question: an unknown option, a level out of range, a key that is not a question.</td>
+<td>Use one of the options the message lists.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="variables-and-the-situation">Variables and the situation<a class="anchor" href="#variables-and-the-situation" title="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>missing_variable</code></td>
+<td>A required variable was not sent.</td>
+<td>Send it; the message describes what it takes.</td>
+</tr>
+<tr>
+<td><code>unknown_variable</code></td>
+<td>A variable the template does not declare.</td>
+<td>Check the spelling; the message suggests the closest name.</td>
+</tr>
+<tr>
+<td><code>invalid_variable</code></td>
+<td>A value does not fit its variable: wrong type, not in <code>enum</code>, too long, outside <code>minimum</code> and <code>maximum</code>.</td>
+<td>Send a valid value; <a href="../../docs/api/templates.html#variables-as-json-schema">the schema</a> lists the rules.</td>
+</tr>
+<tr>
+<td><code>variables_need_template</code></td>
+<td><code>variables</code> without a template, or for a template that declares none.</td>
+<td>Send the situation as <code>state</code>.</td>
+</tr>
+<tr>
+<td><code>state_required</code></td>
+<td>No <code>state</code> for a decision without a template, or for a template without variables.</td>
+<td>Send the situation.</td>
+</tr>
+<tr>
+<td><code>state_not_allowed</code></td>
+<td><code>state</code> for a template that builds it from variables.</td>
+<td>Send <code>variables</code> instead.</td>
+</tr>
+<tr>
+<td><code>empty_state</code></td>
+<td>The situation is empty.</td>
+<td>Describe the situation, or send at least one text variable.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="questions-and-extensions">Questions and extensions<a class="anchor" href="#questions-and-extensions" title="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>unknown_question</code></td>
+<td><code>skip</code>, <code>add_options</code>, settings or extensions name a question that does not exist.</td>
+<td>Check the key.</td>
+</tr>
+<tr>
+<td><code>question_conflict</code></td>
+<td>An extra question uses the key of a template question.</td>
+<td>Choose another key, or use <code>add_options</code>.</td>
+</tr>
+<tr>
+<td><code>extension_not_allowed</code></td>
+<td>The template does not allow extra questions, or new options for this question.</td>
+<td>Change the template's <code>extensions</code>, or save a new version.</td>
+</tr>
+<tr>
+<td><code>options_not_extensible</code></td>
+<td>Options were added to a <code>score</code> or <code>noul</code> question.</td>
+<td>New levels change what an answer means; save a new version instead.</td>
+</tr>
+<tr>
+<td><code>option_conflict</code></td>
+<td>An added option already exists.</td>
+<td>Leave it out.</td>
+</tr>
+<tr>
+<td><code>skip_not_allowed</code></td>
+<td>The template does not let callers skip this question.</td>
+<td>List it in the template's <code>extensions.skip</code>.</td>
+</tr>
+<tr>
+<td><code>too_many_extra_questions</code></td>
+<td>More extra questions than <code>extensions.max_questions</code>.</td>
+<td>Send fewer, or raise the limit in the template.</td>
+</tr>
+<tr>
+<td><code>no_questions</code></td>
+<td>Skipping left no questions.</td>
+<td>Keep at least one.</td>
+</tr>
+<tr>
+<td><code>requires_template</code></td>
+<td><code>add_options</code> or <code>skip</code> without a template.</td>
+<td>They apply to template questions only.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="models-and-media">Models and media<a class="anchor" href="#models-and-media" title="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model_incompatible</code></td>
+<td>The model cannot run this decision. <code>details</code> say why: <code>type_not_supported</code>, <code>too_many_options</code>, <code>too_many_questions</code> or <code>modality_not_supported</code> (media it cannot read).</td>
+<td>Choose another model; <a href="../../docs/api/templates.html#check-which-models-can-run-a-template">compatibility</a> lists the ones that fit.</td>
+</tr>
+<tr>
+<td><code>modality_not_allowed</code></td>
+<td>Media of a type the template does not accept.</td>
+<td>Add the type to the template's <code>modalities</code>.</td>
+</tr>
+<tr>
+<td><code>model_rejected_input</code></td>
+<td>The model's worker refused the input after it was checked. The failed decision is stored, with its <code>decision_id</code>.</td>
+<td>Read the message; simplify the input.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="saving-a-template">Saving a template<a class="anchor" href="#saving-a-template" title="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>undeclared_variable</code></td>
+<td>The state or a question uses <code>{{name}}</code> with no such variable.</td>
+<td>Declare it, or fix the spelling.</td>
+</tr>
+<tr>
+<td><code>placeholder_not_allowed</code></td>
+<td>A placeholder where values must be fixed: option names, number values, or the options of a question type that cannot take them from a variable.</td>
+<td>Put the variable in an option's description, or use an <code>options</code> variable on a <code>choice</code>, <code>multi</code> or <code>rank</code> question.</td>
+</tr>
+<tr>
+<td><code>media_variable_in_text</code></td>
+<td>An image, audio or video variable appears in text.</td>
+<td>Media is attached to decisions, never written into text; remove the placeholder.</td>
+</tr>
+<tr>
+<td><code>modality_not_declared</code></td>
+<td>A media variable's type is missing from <code>modalities</code>.</td>
+<td>Add it.</td>
+</tr>
+<tr>
+<td><code>untrusted_<wbr>variable_<wbr>in_<wbr>question</code></td>
+<td>Free text from a variable would change a question's wording.</td>
+<td>Mark the variable <code>"trusted": true</code> if only your code sets it, or give it an <code>enum</code>.</td>
+</tr>
+<tr>
+<td><code>invalid_definition</code></td>
+<td>The definition contradicts itself: a <code>state</code> without variables, a sensitive variable in a question, an options variable used as text.</td>
+<td>Read <code>param</code> and <code>message</code>.</td>
+</tr>
+</tbody>
+</table></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="access-errors-401-403-415">Access errors (401, 403, 415)<a class="anchor" href="#access-errors-401-403-415" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Code</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>401</td>
+<td><code>missing_api_key</code></td>
+<td>The studio requires a key and none was sent.</td>
+<td>Send <code>Authorization: Bearer &lt;key&gt;</code>.</td>
+</tr>
+<tr>
+<td>401</td>
+<td><code>invalid_api_key</code></td>
+<td>The key does not match <code>BASAL_API_KEY</code>.</td>
+<td>Check the key.</td>
+</tr>
+<tr>
+<td>403</td>
+<td><code>remote_<wbr>access_<wbr>requires_<wbr>key</code></td>
+<td>A remote caller reached history, templates or settings on a studio started without <code>BASAL_API_KEY</code>.</td>
+<td>Set a key on the studio, or call from its own computer.</td>
+</tr>
+<tr>
+<td>403</td>
+<td><code>cross_site_request</code></td>
+<td>A web page on another site tried to change the studio.</td>
+<td>Call from a server, or list the site's origin in <code>BASAL_CORS_ORIGINS</code>.</td>
+</tr>
+<tr>
+<td>403</td>
+<td><code>template_read_only</code></td>
+<td>A change to a starter template (<code>builtin/...</code>).</td>
+<td>Clone it and change the copy.</td>
+</tr>
+<tr>
+<td>415</td>
+<td><code>unsupported_media_type</code></td>
+<td>A browser sent a write that is not JSON, or an upload is not an image, audio or video file.</td>
+<td>Send <code>Content-<wbr>Type: application/<wbr>json</code>; upload a supported file.</td>
+</tr>
+</tbody>
+</table></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="not-found-404">Not found (404)<a class="anchor" href="#not-found-404" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>decision_not_found</code></td>
+<td>No stored decision has that id. It may have been deleted, removed by retention, or made with <code>store: "none"</code>.</td>
+</tr>
+<tr>
+<td><code>template_not_found</code></td>
+<td>No template has that id, or it was deleted (the message gives the date).</td>
+</tr>
+<tr>
+<td><code>template_<wbr>version_<wbr>not_<wbr>found</code></td>
+<td>The version does not exist; the message lists the versions that do.</td>
+</tr>
+<tr>
+<td><code>alias_not_found</code></td>
+<td>The template has no such alias; the message lists the aliases it has.</td>
+</tr>
+<tr>
+<td><code>example_not_found</code></td>
+<td>The template has no such test example.</td>
+</tr>
+<tr>
+<td><code>feedback_not_found</code></td>
+<td>No feedback has that id.</td>
+</tr>
+<tr>
+<td><code>file_not_found</code></td>
+<td>No file has that id, or its bytes are no longer kept. Uploads no decision uses are removed after a day.</td>
+</tr>
+<tr>
+<td><code>model_not_found</code></td>
+<td>No model has that name; the message lists the model ids.</td>
+</tr>
+<tr>
+<td><code>not_found</code></td>
+<td>No endpoint has that path.</td>
+</tr>
+</tbody>
+</table></div>
+<p>A request with the wrong method for a path answers <code>405</code> with the code <code>method_not_allowed</code>.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="conflicts-409-and-412">Conflicts (409 and 412)<a class="anchor" href="#conflicts-409-and-412" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>template_exists</code></td>
+<td><code>POST /templates</code> with an existing id and a different definition.</td>
+<td>Use <code>PUT</code> or <code>PATCH</code> to save a new version.</td>
+</tr>
+<tr>
+<td><code>template_id_reserved</code></td>
+<td>The id belonged to a deleted template whose decisions are still in history.</td>
+<td>Choose another id, or delete that history.</td>
+</tr>
+<tr>
+<td><code>template_archived</code></td>
+<td>A new version for an archived template.</td>
+<td>Unarchive it first.</td>
+</tr>
+<tr>
+<td><code>example_exists</code></td>
+<td>The input is already a test example; <code>existing_id</code> names it.</td>
+<td>Update that example instead.</td>
+</tr>
+<tr>
+<td><code>model_not_loaded</code></td>
+<td>No model is loaded and none was named, or the named model is not loaded and auto-load is off in the app.</td>
+<td>Load a model in the app, or name one in <code>model</code>.</td>
+</tr>
+<tr>
+<td><code>model_not_downloaded</code></td>
+<td>The named model is not downloaded. The failed decision is stored.</td>
+<td>Download it on the Models page.</td>
+</tr>
+<tr>
+<td><code>decision_finished</code></td>
+<td>Cancelling a decision that has finished or already reached the model, or rendering <code>?format=</code> for a decision without answers.</td>
+<td>Nothing to cancel.</td>
+</tr>
+<tr>
+<td><code>input_unavailable</code></td>
+<td>The decision's input is not kept (answers only, redacted, sensitive values, or media no longer stored), so it cannot be read back, rerun or made an example.</td>
+<td>Send the input again as a new decision.</td>
+</tr>
+<tr>
+<td><code>idempotency_in_progress</code></td>
+<td>A request with the same <code>Idempotency-Key</code> is still running.</td>
+<td>Retry after <code>retry-after</code> seconds.</td>
+</tr>
+<tr>
+<td><code>idempotency_key_reused</code></td>
+<td>The <code>Idempotency-Key</code> was used with a different request.</td>
+<td>Use a new key for each logical call.</td>
+</tr>
+<tr>
+<td><code>version_conflict</code> (412)</td>
+<td><code>If-Match</code> or <code>base_version</code> names an older version than the latest; <code>current_version</code> gives the latest.</td>
+<td>Reload the template, reapply your change and save again.</td>
+</tr>
+</tbody>
+</table></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="size-413">Size (413)<a class="anchor" href="#size-413" title="Link to this section">#</a></h2>
+<p><code>payload_too_large</code>: a file over 200 MB, uploaded or sent inline as a data URL.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="model-and-storage-failures-500-503-504">Model and storage failures (500, 503, 504)<a class="anchor" href="#model-and-storage-failures-500-503-504" title="Link to this section">#</a></h2>
+<p>These happen after a request was accepted. A decision that failed while running is stored with <code>status: "failed"</code>, so the response carries its <code>decision_id</code>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Code</th>
+<th>Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>503</td>
+<td><code>model_load_failed</code></td>
+<td>The model could not load, for example because memory ran out. The app's Models page shows why.</td>
+</tr>
+<tr>
+<td>503</td>
+<td><code>model_ejected</code></td>
+<td>The model was ejected while the request waited for it.</td>
+</tr>
+<tr>
+<td>503</td>
+<td><code>model_crashed</code></td>
+<td>The model's worker process failed while answering.</td>
+</tr>
+<tr>
+<td>503</td>
+<td><code>history_unavailable</code></td>
+<td>History could not be opened, so endpoints that read or write it are off. Decisions still work.</td>
+</tr>
+<tr>
+<td>503</td>
+<td><code>store_failed</code></td>
+<td>The decision could not be saved and <code>on_store_error</code> is set to <code>fail</code>.</td>
+</tr>
+<tr>
+<td>504</td>
+<td><code>model_load_timeout</code></td>
+<td>The model was still loading after 15 minutes.</td>
+</tr>
+<tr>
+<td>504</td>
+<td><code>model_timeout</code></td>
+<td>The model took too long to answer.</td>
+</tr>
+<tr>
+<td>500</td>
+<td><code>internal_error</code></td>
+<td>An unexpected failure in a background decision. Its <code>error.message</code> names it.</td>
+</tr>
+</tbody>
+</table></div>
+<p>A background decision that was queued or running when the studio stopped is marked failed with <code>error.<wbr>code: "interrupted"</code> at the next start.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="warnings">Warnings<a class="anchor" href="#warnings" title="Link to this section">#</a></h2>
+<p>Problems that do not stop a request come back in <code>warnings</code>, each <code>{code, message, param}</code>, on decisions, previews and template saves. On the wire formats, their codes are in the <code>x-basal-warning</code> header instead.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>unknown_field_ignored</code></td>
+<td>The body had a field the endpoint does not know.</td>
+</tr>
+<tr>
+<td><code>store_downgraded</code></td>
+<td>The template or the studio keeps less than the request asked for.</td>
+</tr>
+<tr>
+<td><code>state_may_be_truncated</code></td>
+<td>The input is longer than the model reads; the end may be cut off.</td>
+</tr>
+<tr>
+<td><code>template_archived</code></td>
+<td>The template is archived; it still works.</td>
+</tr>
+<tr>
+<td><code>no_model_loaded</code></td>
+<td>A preview has no model to check against.</td>
+</tr>
+<tr>
+<td><code>per_<wbr>question_<wbr>settings_<wbr>not_<wbr>portable</code></td>
+<td>A preview's <code>systemone_request</code> uses one temperature for every question, because <code>/v1/systemone</code> takes only one.</td>
+</tr>
+<tr>
+<td><code>history_write_failed</code></td>
+<td>The answer is correct, but it could not be saved to history.</td>
+</tr>
+<tr>
+<td><code>variable_unreferenced</code></td>
+<td>A template variable is not used by the state or any question.</td>
+</tr>
+<tr>
+<td><code>default_<wbr>model_<wbr>incompatible</code></td>
+<td>The template's default model cannot run it.</td>
+</tr>
+<tr>
+<td><code>metadata_ignored</code>, <code>store_ignored</code></td>
+<td>On the wire formats: a <code>metadata</code> or <code>store</code> value that could not be used.</td>
+</tr>
+<tr>
+<td><code>template_mismatch</code></td>
+<td>On the wire formats: the questions differ from the <code>X-Basal-Template</code> version, so the call was stored without it.</td>
+</tr>
+</tbody>
+</table></div></div></section>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/api/systemone.html"><span class="pg-l">Previous</span><span class="pg-t">TypeSafe and gateway formats</span></a><a class="pg next" href="../../docs/dev/architecture.html"><span class="pg-l">Next</span><span class="pg-t">Architecture</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

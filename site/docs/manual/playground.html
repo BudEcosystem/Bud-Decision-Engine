@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Playground · Bud Decision Studio Docs</title>
+  <meta name="description" content="Describe a situation, ask typed questions, read every answer with its probabilities, adjust when to act, compare models, and save the decision as a template.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Playground · Bud Decision Studio">
+  <meta property="og:description" content="Describe a situation, ask typed questions, read every answer with its probabilities, adjust when to act, compare models, and save the decision as a template.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html" aria-current=page>Playground</a><nav class="side-toc" aria-label="On this page"><a href="#the-layout">The layout</a><a href="#choose-a-model">Choose a model</a><a href="#describe-the-situation">Describe the situation</a><a href="#ask-questions">Ask questions</a><a href="#decide-and-read-the-answers">Decide and read the answers</a><a href="#the-json-and-code-tabs">The JSON and Code tabs</a><a href="#decision-settings">Decision settings</a><a href="#compare-models">Compare models</a><a href="#test-option-order">Test option order</a><a href="#use-a-template">Use a template</a><a href="#save-a-decision-as-a-template">Save a decision as a template</a></nav><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>User manual</span></p>
+      <h1>Playground</h1>
+      <p class="lead">The Playground is where you try a decision. You describe the situation, write the questions with the answers you allow, press Decide, and read each answer as a chart. When it works, you save it as a template for your code.</p>
+    </header>
+    <h2 id="the-layout">The layout<a class="anchor" href="#the-layout" title="Link to this section">#</a></h2>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/playground.webp" alt="The Playground with an answer. Left: the model, the situation (State) and the Questions. Right: the answers, one figure per question, with the Answers, JSON and Code tabs above the" loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 1</span>The Playground with an answer. Left: the model, the situation (<strong>State</strong>) and the <strong>Questions</strong>. Right: the answers, one figure per question, with the <strong>Answers</strong>, <strong>JSON</strong> and <strong>Code</strong> tabs above them.</figcaption></figure>
+
+<p>The left column is the decision you are building; the right column is what the model answered. The row at the top of the left column has the model button, the <strong>Templates</strong> menu, <strong>New</strong> and <strong>Examples</strong>. <strong>Decide</strong> is pinned to the bottom of the left column, beside <strong>Save as template</strong>. The sliders button at the top right of the answers opens the decision settings.</p>
+<p>The Playground remembers your draft (the situation, the questions and the model) in this window, so it is still there the next time you open the app.</p>
+<h2 id="choose-a-model">Choose a model<a class="anchor" href="#choose-a-model" title="Link to this section">#</a></h2>
+<p>The model button shows the model in use, whether it is loaded, its size and the memory it needs. Choose it, or press <kbd>Ctrl</kbd> <kbd>L</kbd>, to open the model list.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/playground-loader.webp" alt="The model list. Type to filter, sort by Ready first, Size or Name, and press Enter to choose. Each row shows the maker, the size, the memory needed and what the model reads." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 2</span>The model list. Type to filter, sort by <strong>Ready first</strong>, <strong>Size</strong> or <strong>Name</strong>, and press <kbd>Enter</kbd> to choose. Each row shows the maker, the size, the memory needed and what the model reads.</figcaption></figure>
+
+<p>Choosing a model that is not loaded loads it with its default settings. To choose its load settings first (for example, a longer context), turn on <strong>Choose load settings first</strong> at the bottom of the list, or hold <kbd>Alt</kbd> while you choose. Choosing a model you have not downloaded starts its download. Models too large for this computer are marked <strong>Too large here</strong> or <strong>Needs a GPU</strong>.</p>
+<p>If you choose a model while an example is showing unchanged, the Playground switches to an example made for that model, so you see what it is good at straight away. A message offers <strong>Undo</strong>.</p>
+<h2 id="describe-the-situation">Describe the situation<a class="anchor" href="#describe-the-situation" title="Link to this section">#</a></h2>
+<p>Under <strong>State</strong>, type or paste what you want judged: an email, a support ticket, a review, a log line, a policy and a request. Use <strong>Text</strong> for prose and <strong>JSON</strong> for structured data, such as a ticket with its customer's plan:</p>
+<div class="code-block"><div class="code-bar"><span class="code-lang">JSON</span><button class="copy" type="button" data-copy aria-label="Copy code"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><pre class="hl"><code class="lang-json"><span class="ln"><span class="p">{</span><span class="w"> </span><span class="nt">"ticket"</span><span class="p">:</span><span class="w"> </span><span class="s2">"We were billed twice for March."</span><span class="p">,</span><span class="w"> </span><span class="nt">"plan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"enterprise"</span><span class="p">,</span><span class="w"> </span><span class="nt">"open_invoices"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">}</span></span></code></pre></div>
+
+<p>Below the box, the studio estimates the length in <strong>tokens</strong> (about three quarters of a word each) and shows how much the model reads. Laya reads 512 tokens; most larger models read 8,192. In JSON mode it also says whether the JSON is valid.</p>
+<p><strong>Images, audio and video.</strong> With a model that reads them (Intern-Decision 4B reads images; Jev-Omni reads images, audio and video), an <strong>Attach</strong> area appears under the situation. Drop a file on it or choose it, or use one of the image <strong>Samples</strong> (<strong>Shop receipt</strong>, <strong>Revenue chart</strong>). If you switch to a model that cannot read an attached file, a note says so.</p>
+<h2 id="ask-questions">Ask questions<a class="anchor" href="#ask-questions" title="Link to this section">#</a></h2>
+<p>Under <strong>Create new Decision</strong>, choose the kind of answer you want. You can add as many questions as the model allows; it answers them all at once, in one pass.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/create-decision.webp" alt="The six kinds of question." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 3</span>The six kinds of question.</figcaption></figure>
+
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>You write</th>
+<th>You get back</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pick one</strong></td>
+<td>a list of options</td>
+<td>a probability for every option; exactly one is the answer</td>
+</tr>
+<tr>
+<td><strong>Rate on a scale</strong></td>
+<td>2 to 10 ordered levels, lowest first</td>
+<td>a probability for every level, plus an average position that can land between levels</td>
+</tr>
+<tr>
+<td><strong>Yes or no</strong></td>
+<td>a statement</td>
+<td>the probability that it is true</td>
+</tr>
+<tr>
+<td><strong>Pick any</strong></td>
+<td>a list of options and a cut-off</td>
+<td>every option above the cut-off, each judged on its own</td>
+</tr>
+<tr>
+<td><strong>Put in order</strong></td>
+<td>a list of options</td>
+<td>all options, most likely first</td>
+</tr>
+<tr>
+<td><strong>Estimate a number</strong></td>
+<td>the values it could take</td>
+<td>a best estimate and an 80% range</td>
+</tr>
+</tbody>
+</table></div>
+<p>The first three are the types TypeSafe's Jev API defines (<code>choice</code>, <code>score</code> and <code>noul</code>); the studio builds the other three from them, so every model can answer all six. <a href="../../docs/concepts/question-types.html">The six question types</a> explains each one and when to use it.</p>
+<p>Each question is a card:</p>
+<ul>
+<li><strong>The kind</strong> is the menu at the top left; change it at any time.</li>
+<li><strong>The question</strong> is a sentence, such as "Which department should handle this request?" Write it the way you would ask a colleague.</li>
+<li><strong>The options</strong> are chips. Type one in <strong>Add another option</strong> and press <kbd>Enter</kbd>; paste a list to add many at once. Choose an option to give it a short description the model also reads, such as <code>billing</code>: "invoices, payments, refunds". Descriptions help when a name alone could be misread.</li>
+<li><strong>Scales</strong> offer ready-made levels (<strong>Low to high</strong>, <strong>1 to 5 stars</strong>, <strong>Never to always</strong>, <strong>Disagree to agree</strong>, <strong>Trivial to critical</strong>), and numbers offer ready-made values (<strong>0 to 10</strong>, <strong>Days</strong>, <strong>Percent</strong>, <strong>Hours</strong>).</li>
+<li><strong>The ... menu</strong> moves the question up or down, duplicates it, renames the key its answer has in the API response (<strong>Rename its API key</strong>, such as <code>department</code>), or deletes it.</li>
+</ul>
+<p>The count beside <strong>Questions</strong> says how many you have and how many the model takes in one pass.</p>
+<p><strong>Starting points.</strong> <strong>Examples</strong> lists ready-made decisions, grouped by use, with the ones made for the current model first. <strong>New</strong> clears the situation, questions and attachments but keeps the model and settings; a message offers <strong>Undo</strong>.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/playground-examples.webp" alt="The Examples menu. Made for Laya lists the examples checked to work well on the selected model." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 4</span>The <strong>Examples</strong> menu. <strong>Made for Laya</strong> lists the examples checked to work well on the selected model.</figcaption></figure>
+
+<h2 id="decide-and-read-the-answers">Decide and read the answers<a class="anchor" href="#decide-and-read-the-answers" title="Link to this section">#</a></h2>
+<p>Press <strong>Decide</strong> or <kbd>Ctrl</kbd> <kbd>Enter</kbd>. If the model is not loaded, it loads first and the answers area shows its progress. While the model reads, each question card lights up in turn.</p>
+<p>The line above the answers records the run: the model, how many questions it answered and how long it took, the number of tokens it read, the template and version if you used one, and <strong>Saved to History</strong>, which opens the decision in History. <strong>Request id</strong> copies the id of the request, useful for matching logs.</p>
+<p>Every answer is a numbered figure:</p>
+<ul>
+<li><strong>The answer</strong> in large type, with its probability.</li>
+<li><strong>A label</strong> at the top right: <strong>Very sure</strong> (90% or more), <strong>Fairly sure</strong> (75% or more), <strong>Leaning</strong> (55% or more) or <strong>Unsure</strong>.</li>
+<li><strong>The chart</strong>: every option on the same 0 to 100% scale for <strong>Pick one</strong>, <strong>Pick any</strong> and <strong>Put in order</strong>; a column per level for <strong>Rate on a scale</strong>, with a ring at the average position; a single bar from no to yes for <strong>Yes or no</strong>; and a stem per value, with the 80% range shaded, for <strong>Estimate a number</strong>.</li>
+<li><strong>The caption</strong> says it in words, gives the <strong>Confidence</strong> (how far the answer is from a coin toss: 0 means the model cannot tell the options apart, 1 means all its belief is on one answer), and ends with the verdict: <strong>Act automatically</strong>, or <strong>Ask a human</strong> and the threshold it fell below.</li>
+</ul>
+<aside class="callout tip"><div class="callout-ic"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M176,232a8,8,0,0,1-8,8H88a8,8,0,0,1,0-16h80A8,8,0,0,1,176,232Zm40-128a87.55,87.55,0,0,1-33.64,69.21A16.24,16.24,0,0,0,176,186v6a16,16,0,0,1-16,16H96a16,16,0,0,1-16-16v-6a16,16,0,0,0-6.23-12.66A87.59,87.59,0,0,1,40,104.49C39.74,56.83,78.26,17.14,125.88,16A88,88,0,0,1,216,104Zm-16,0a72,72,0,0,0-73.74-72c-39,.92-70.47,33.39-70.26,72.39a71.65,71.65,0,0,0,27.64,56.3A32,32,0,0,1,96,186v6h64v-6a32.15,32.15,0,0,1,12.47-25.35A71.65,71.65,0,0,0,200,104Zm-16.11-9.34a57.6,57.6,0,0,0-46.56-46.55,8,8,0,0,0-2.66,15.78c16.57,2.79,30.63,16.85,33.44,33.45A8,8,0,0,0,176,104a9,9,0,0,0,1.35-.11A8,8,0,0,0,183.89,94.66Z"/></svg></div><div class="callout-body"><p class="callout-t">Probabilities are the product</p><p>The answer alone hides most of what the model knows. "billing 98%, sales 1%" and "billing 51%, sales 47%" have the same answer, but only the first is safe to act on without a person. <a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a> explains how to use them.</p></div></aside>
+
+<h2 id="the-json-and-code-tabs">The JSON and Code tabs<a class="anchor" href="#the-json-and-code-tabs" title="Link to this section">#</a></h2>
+<p><strong>JSON</strong> shows the exact request the Playground sent to <code>POST /<wbr>v1/<wbr>studio/<wbr>decisions</code> and the response it received, as expandable trees. <strong>Code</strong> writes the same decision as a program you can copy:</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/playground-code.webp" alt="The Code tab. Choose a language (curl, Python, the TypeSafe Python SDK, JavaScript or the TypeSafe JavaScript SDK) and an API format. The default format is TypeSafe&#x27;s Jev API," loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 5</span>The <strong>Code</strong> tab. Choose a language (curl, Python, the TypeSafe Python SDK, JavaScript or the TypeSafe JavaScript SDK) and an API format. The default format is TypeSafe's Jev API, which the official SDKs speak.</figcaption></figure>
+
+<p>For a decision without a template, the formats are <strong>TypeSafe Jev API</strong>, <strong>OpenRouter Decisions API</strong> and <strong>Vercel AI Gateway</strong>; the same questions work on each. With a template open, the Code tab shows the studio API call that runs the template, pinned to its version. Attached files are left out of the code; send them as media items.</p>
+<h2 id="decision-settings">Decision settings<a class="anchor" href="#decision-settings" title="Link to this section">#</a></h2>
+<p>The sliders button above the answers opens the decision settings.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/playground-settings.webp" alt="Decision settings: when to act, calibration, History, comparing models and testing option order." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 6</span><strong>Decision settings</strong>: when to act, calibration, History, comparing models and testing option order.</figcaption></figure>
+
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Act threshold</strong></td>
+<td>The rule for trusting an answer: at or above this probability, the verdict is <strong>Act automatically</strong>; below it, <strong>Ask a human</strong>. From 50% to 99%; 90% by default.</td>
+</tr>
+<tr>
+<td><strong>Temperature</strong></td>
+<td>A calibration temperature: one number that makes the model's probabilities less sure (above 1) or more sure (below 1) without changing which answer wins. 1 leaves them as they are. <a href="../../docs/manual/evaluate.html">Evaluate</a> can fit one for you.</td>
+</tr>
+<tr>
+<td><strong>Keep this decision in History</strong></td>
+<td>On by default. Off, nothing about these decisions is saved, the same as <code>"store": false</code> from code.</td>
+</tr>
+<tr>
+<td><strong>Ask every loaded model</strong></td>
+<td>Turns <strong>Decide</strong> into <strong>Compare</strong>: the same request goes to every loaded model at once. Not available with a template open.</td>
+</tr>
+<tr>
+<td><strong>Test option order</strong></td>
+<td>Reruns the decision five times with the options shuffled. Not available with a template open.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Moving the threshold after a decision</strong> previews the result: the figures redraw their verdicts at the new value and a note says "Previewing an act threshold of 80%. The decision was made at 90%". Press <strong>Decide</strong> to make the decision with the new value.</p>
+<p>With a template open, the threshold and temperature start at the template's own values. Changing them applies to this decision only, and the panel offers <strong>Use the template's</strong> to go back.</p>
+<h2 id="compare-models">Compare models<a class="anchor" href="#compare-models" title="Link to this section">#</a></h2>
+<p>Load two or more models, turn on <strong>Ask every loaded model</strong> and press <strong>Compare</strong>. Each model runs in its own process, so they answer in parallel.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/playground-compare.webp" alt="Julia 1 and Laya on a German message. They agree on the team but not on the customer&#x27;s mood or whether it needs fixing today, so the chips say 1 of 2 agree." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 7</span>Julia 1 and Laya on a German message. They agree on the team but not on the customer's mood or whether it needs fixing today, so the chips say <strong>1 of 2 agree</strong>.</figcaption></figure>
+
+<p>Each row is a question; each column is a model with its answer, probability and time. Where models disagree, the input deserves a human look or a bigger model. Each model's decision is kept in History.</p>
+<h2 id="test-option-order">Test option order<a class="anchor" href="#test-option-order" title="Link to this section">#</a></h2>
+<p>Some models favour an option because of where it appears in the list. <strong>Test option order</strong> checks for this on your pick-one and put-in-order questions with three or more options: it runs the decision five times, the first in your order and the rest shuffled. <strong>Stable</strong> means the same answer every time. <strong>Changes with order</strong> means the answer depends on the order: treat it as unsure, reword the options, or try a larger model.</p>
+<h2 id="use-a-template">Use a template<a class="anchor" href="#use-a-template" title="Link to this section">#</a></h2>
+<p>A template is a saved decision your code can call by name. In the Playground, the <strong>Templates</strong> button lists your templates, <strong>All templates</strong> (including the starter templates) and, when no template is open, <strong>Save this decision as a template</strong>.</p>
+<p>Opening a template changes the left column:</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/playground-template-form.webp" alt="The Support triage template open in the Playground. Its Variables form replaces the situation box: here a message, a plan tier, a number of open invoices, an email marked sensitive" loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 8</span>The <strong>Support triage</strong> template open in the Playground. Its <strong>Variables</strong> form replaces the situation box: here a message, a plan tier, a number of open invoices, an email marked <strong>sensitive</strong> and an optional screenshot.</figcaption></figure>
+
+<ul>
+<li><strong>Variables</strong> replace the situation box when the template has them. Fill them in; the template turns them into the situation the model reads. A variable marked <strong>sensitive</strong> is used for the decision but never written to History.</li>
+<li><strong>The template's questions</strong> are listed and locked. Where the template allows it, you can skip a question for this decision (the switch beside it) or add an option to it (<strong>Add an option for this decision</strong>).</li>
+<li><strong>Your questions for this decision</strong>, under the template's, are extra questions asked alongside the template's in this decision only. The template itself does not change.</li>
+</ul>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/playground-template.webp" alt="The template&#x27;s answer. The stamp shows support-triage v2 and the template&#x27;s temperature (T 1.3); the act threshold comes from the template (85%)." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 9</span>The template's answer. The stamp shows <strong>support-triage v2</strong> and the template's temperature (<strong>T 1.3</strong>); the act threshold comes from the template (85%).</figcaption></figure>
+
+<p>To change the template's own questions, choose <strong>Edit questions</strong>. The questions unlock and a note says you are editing. <strong>Decide</strong> tries your changes without saving them (these trial decisions are kept in History as drafts of the version you started from). <strong>Save version</strong> asks what changed and saves the edits as the template's next version; <strong>Discard edits</strong> goes back. If someone saved a new version while you were editing, the studio refuses to overwrite it and offers <strong>Reload</strong>; your edits stay in the Playground until you do.</p>
+<p>Starter templates are read only: open one, then <strong>Clone to edit</strong> it on the Templates page.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/playground-template-menu.webp" alt="The template menu with a template open: Open its page, Edit its questions, Leave the template (keep the questions as a free decision), and your other templates." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 10</span>The template menu with a template open: <strong>Open its page</strong>, <strong>Edit its questions</strong>, <strong>Leave the template</strong> (keep the questions as a free decision), and your other templates.</figcaption></figure>
+
+<h2 id="save-a-decision-as-a-template">Save a decision as a template<a class="anchor" href="#save-a-decision-as-a-template" title="Link to this section">#</a></h2>
+<p>When a decision works, choose <strong>Save as template</strong>. Give it a name; the id your code will use fills in from the name (lower-case letters, digits, dashes and underscores), and you can change it. The template keeps the questions, the current model as its default model, and the current act threshold and temperature.</p>
+<p>To give the situation a fixed shape, write placeholders in it before saving, such as:</p>
+<div class="code-block"><div class="code-bar"><span class="code-lang">Text</span><button class="copy" type="button" data-copy aria-label="Copy code"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><pre class="hl"><code class="lang-text"><span class="ln">Customer on the {{account_tier}} plan wrote: {{customer_message}}</span></code></pre></div>
+
+<p>Each placeholder becomes a variable that callers fill in, and the rest of the text stays fixed. Without placeholders, callers send the whole situation each time. <a href="../../docs/manual/templates.html">Templates</a> covers variables, versions and everything else a template holds.</p>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/manual/index.html"><span class="pg-l">Previous</span><span class="pg-t">The app at a glance</span></a><a class="pg next" href="../../docs/manual/templates.html"><span class="pg-l">Next</span><span class="pg-t">Templates</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

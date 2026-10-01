@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Troubleshooting · Bud Decision Studio Docs</title>
+  <meta name="description" content="Messages you may see in Bud Decision Studio, what causes each one, and how to fix it. Installing, starting, models, the API and history.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Troubleshooting · Bud Decision Studio">
+  <meta property="og:description" content="Messages you may see in Bud Decision Studio, what causes each one, and how to fix it. Installing, starting, models, the API and history.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../assets/brand/favicon.png">
+  <link rel="preload" href="../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/docs.css">
+</head>
+<body class="docs has-console" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../index.html" aria-label="Bud Decision Studio home">
+      <img src="../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../index.html">Product</a><a href="../docs/index.html" aria-current=page>Docs</a><a href="../docs/api/index.html">API</a><a href="../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../docs/index.html">Introduction</a><a href="../docs/install.html">Installation</a><a href="../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../docs/manual/index.html">The app at a glance</a><a href="../docs/manual/playground.html">Playground</a><a href="../docs/manual/templates.html">Templates</a><a href="../docs/manual/history.html">History</a><a href="../docs/manual/models.html">Models</a><a href="../docs/manual/evaluate.html">Evaluate</a><a href="../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../docs/concepts/decision-models.html">Decision models</a><a href="../docs/concepts/question-types.html">The six question types</a><a href="../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../docs/concepts/templates.html">Templates and versions</a><a href="../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../docs/guides/support-triage.html">Build a support-triage template</a><a href="../docs/guides/from-code.html">Call the studio from your code</a><a href="../docs/guides/improve.html">Improve a template safely</a><a href="../docs/guides/agents.html">Let an agent choose its next action</a><a href="../docs/guides/media.html">Decide about images, audio and video</a><a href="../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../docs/api/index.html">Overview</a><a href="../docs/api/decisions.html">Decisions</a><a href="../docs/api/history.html">History, feedback and statistics</a><a href="../docs/api/templates.html">Templates</a><a href="../docs/api/examples.html">Test examples</a><a href="../docs/api/resources.html">Files, models and settings</a><a href="../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../docs/dev/architecture.html">Architecture</a><a href="../docs/dev/source.html">Run from source</a><a href="../docs/dev/adding-a-model.html">Add a model</a><a href="../docs/dev/storage.html">Data and storage</a><a href="../docs/dev/testing.html">Testing</a><a href="../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../docs/troubleshooting.html" aria-current=page>Troubleshooting</a><nav class="side-toc" aria-label="On this page"><a href="#where-to-look-first">Where to look first</a><a href="#installing">Installing</a><a href="#starting-from-source">Starting from source</a><a href="#models">Models</a><a href="#calling-the-api">Calling the API</a><a href="#history">History</a><a href="#still-stuck">Still stuck</a></nav><a href="../docs/faq.html">FAQ</a><a href="../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>Help</span></p>
+      <h1>Troubleshooting</h1>
+      <p class="lead">Each problem below starts with the message the studio shows, word for word, so you can search this page for it. Most come with their own fix in the message; this page adds the cause and what to check when the fix is not enough.</p>
+    </header>
+    <section class="dsec"><div class="dsec-text"><h2 id="where-to-look-first">Where to look first<a class="anchor" href="#where-to-look-first" title="Link to this section">#</a></h2>
+<ul>
+<li><strong>A model's log.</strong> On the Models page, select the model and choose <strong>View log</strong>. The same file is <code>logs/<wbr>worker-<wbr>&lt;model&gt;.<wbr>log</code> in the <a href="../docs/dev/storage.html#where-the-data-lives">data folder</a>.</li>
+<li><strong>The server's log.</strong> The desktop app writes it to <code>logs/studio.log</code> in its application-data folder. From a source checkout, it is the terminal running <code>./run.sh</code>.</li>
+<li><strong>A download's log.</strong> <code>logs/<wbr>download-<wbr>&lt;model&gt;.<wbr>log</code> in the data folder.</li>
+<li><strong>The environment check.</strong> From a source checkout, <code>.<wbr>venv/<wbr>bin/<wbr>python -<wbr>m basal.<wbr>doctor</code> checks that PyTorch sees the GPU and that every model library imports.</li>
+</ul></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="installing">Installing<a class="anchor" href="#installing" title="Link to this section">#</a></h2></div></section>
+<section class="dsec sub has-code"><div class="dsec-text"><h3 id="macos-says-the-app-is-from-an-unidentified-developer">macOS says the app is from an unidentified developer<a class="anchor" href="#macos-says-the-app-is-from-an-unidentified-developer" title="Link to this section">#</a></h3>
+<p>The macOS build is not code-signed yet. Right-click the app and choose <strong>Open</strong> once, or install with the one-line command, which avoids the warning.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">Terminal</span></div><div class="console-bar"><span class="dc-lang">Shell</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c0-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/BudEcosystem/Bud-Decision-Engine/main/get.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh</span></code></pre></div></div></div></div></section>
+<section class="dsec sub has-code"><div class="dsec-text"><h3 id="windows-smartscreen-warns-about-the-installer">Windows SmartScreen warns about the installer<a class="anchor" href="#windows-smartscreen-warns-about-the-installer" title="Link to this section">#</a></h3>
+<p>The Windows build is not code-signed yet. Choose <strong>More info</strong>, then <strong>Run anyway</strong>, or install from PowerShell, which avoids the warning.</p>
+
+
+<h3 id="setup-stops-with-an-error">Setup stops with an error<a class="anchor" href="#setup-stops-with-an-error" title="Link to this section">#</a></h3>
+<p>Setup installs Python, PyTorch and the model libraries into the app's own folder; it changes nothing outside it. When a step fails, setup says which one. Press <strong>Try again</strong>: setup reuses whatever it already installed and continues where it stopped. <strong>Details</strong> shows the full log, and <strong>Copy details</strong> copies it for a bug report.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Cause and fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>PyTorch could not be installed. Check the internet connection and try again.</em></td>
+<td>The PyTorch download (1.5 GB for the processor, up to 4.4 GB for an NVIDIA GPU) failed or timed out. Check the connection and free disk space, then try again</td>
+</tr>
+<tr>
+<td><em>The model libraries could not be installed.</em></td>
+<td>A library download or build failed. The Details log names the package</td>
+</tr>
+<tr>
+<td><em>The model packages could not be installed.</em></td>
+<td>One of the model packages installed from GitHub (Kev, Lev) or PyPI (GLiNER2, CLM) failed to download</td>
+</tr>
+<tr>
+<td><em>NVIDIA GB10 could not be used: ...</em> (your device's name)</td>
+<td>PyTorch installed, but the final check could not run on the chosen device. Update the graphics driver, or run setup again and choose the processor</td>
+</tr>
+</tbody>
+</table></div>
+<p>On 0.1.0 only, macOS setup stopped at "Installing the model libraries" with <em>error: File not found: /Users/&lt;you&gt;/Library/Application</em>. Version 0.1.1 fixed it; install the current version over it and run setup again.</p>
+<h3 id="the-app-window-is-blank-on-linux">The app window is blank on Linux<a class="anchor" href="#the-app-window-is-blank-on-linux" title="Link to this section">#</a></h3>
+<p>WebKitGTK's DMA-BUF renderer draws nothing on many NVIDIA systems. The app turns it off by itself (<code>WEBKIT_<wbr>DISABLE_<wbr>DMABUF_<wbr>RENDERER=1</code>) unless that variable is already set in your environment. If you set it yourself, set it to <code>1</code>.</p>
+<h3 id="the-studio-did-not-start">The studio did not start<a class="anchor" href="#the-studio-did-not-start" title="Link to this section">#</a></h3>
+<p>The desktop app shows this, followed by the last lines of the server's log, when the server exits or does not answer within three minutes. The first start after installing imports PyTorch, which can be slow on a cold disk; open the app again. If it fails again, the log lines name the cause; the most common is a missing library, fixed by running setup again (<strong>System</strong> page, <strong>Run setup again</strong>).</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">PowerShell</span></div><div class="console-bar"><span class="dc-lang">PowerShell</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c1-p0"><pre class="hl" tabindex="0"><code class="lang-powershell"><span class="ln"><span class="nb">irm </span><span class="n">https</span><span class="p">://</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">BudEcosystem</span><span class="p">/</span><span class="n">Bud-Decision-Engine</span><span class="p">/</span><span class="n">main</span><span class="p">/</span><span class="n">get</span><span class="p">.</span><span class="n">ps1</span> <span class="p">|</span> <span class="nb">iex</span></span></code></pre></div></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="starting-from-source">Starting from source<a class="anchor" href="#starting-from-source" title="Link to this section">#</a></h2>
+<h3 id="run-installsh-first">Run ./install.sh first.<a class="anchor" href="#run-installsh-first" title="Link to this section">#</a></h3>
+<p><code>run.sh</code> found no <code>.venv</code> in the checkout. Run <code>./install.sh</code> (or <code>install.ps1</code> on Windows) once.</p></div></section>
+<section class="dsec sub has-code"><div class="dsec-text"><h3 id="address-already-in-use">address already in use<a class="anchor" href="#address-already-in-use" title="Link to this section">#</a></h3>
+
+
+<p>Another program is listening on port 8420, most often another studio: the desktop app or a second <code>./run.sh</code>. Use the one that is running, stop it, or start this one on another port with <code>./run.sh --port 8421</code>. The desktop app avoids this itself by picking a free port from 8421 to 8440.</p>
+<p>To run two studios side by side on purpose, give the second its own data folder and turn its downloads off.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">What the terminal shows</span></div><div class="console-bar"><span class="dc-lang">Text</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c2-p0"><pre class="hl" tabindex="0"><code class="lang-text"><span class="ln">ERROR:    [Errno 98] error while attempting to bind on address ('127.0.0.1', 8420): address already in use</span></code></pre></div></div><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">A second studio on another port</span></div><div class="console-bar"><span class="dc-lang">Shell</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c3-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln"><span class="nv">BASAL_DATA</span><span class="o">=</span>~/studio-b<span class="w"> </span><span class="nv">BASAL_NO_DOWNLOADS</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>./run.sh<span class="w"> </span>--port<span class="w"> </span><span class="m">8421</span></span></code></pre></div></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="models">Models<a class="anchor" href="#models" title="Link to this section">#</a></h2>
+<h3 id="downloads-are-slow">Downloads are slow<a class="anchor" href="#downloads-are-slow" title="Link to this section">#</a></h3>
+<p>Hugging Face limits anonymous downloads. Run <code>hf auth login</code> once in a terminal and restart the studio. Downloads run one at a time, smallest first, so a large model waits behind smaller ones.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Cause and fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>download of &lt;repository&gt; failed (exit 1); see data/logs/download-&lt;model&gt;.log</em></td>
+<td>The download process failed: often the connection or the disk. The log has the reason. Press Download again; files already complete are kept</td>
+</tr>
+<tr>
+<td><em>download finished but some files are still missing; try again</em></td>
+<td>The download ended early. Press Download again</td>
+</tr>
+<tr>
+<td><em>Some model files are missing on disk. Open the Models page and download this model again.</em></td>
+<td>Files in the Hugging Face cache were removed or never finished. Download the model again</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="a-model-does-not-load">A model does not load<a class="anchor" href="#a-model-does-not-load" title="Link to this section">#</a></h3>
+<p>Most load failures are memory. The studio runs each model in its own process and reports why it stopped.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Cause and fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>The GPU ran out of memory. Eject another model to free space, then try again.</em></td>
+<td>Not enough free GPU memory. Eject other models (sidebar, or <strong>Eject all models</strong> on the System page) or close other programs using the GPU</td>
+</tr>
+<tr>
+<td><em>The model process was killed, most likely because the system ran out of memory. Eject other models and try again.</em></td>
+<td>The operating system stopped the model to save the computer. Same fix</td>
+</tr>
+<tr>
+<td><em>A Python package this model needs is not installed (name). Run ./install.sh again.</em></td>
+<td>The model's library is missing. From source, run <code>./install.sh</code>; in the app, <strong>System</strong>, then <strong>Run setup again</strong></td>
+</tr>
+<tr>
+<td><em>The model process stopped unexpectedly (exit code N). Open 'Details' to see its log.</em></td>
+<td>Anything else. The model's log has the full error</td>
+</tr>
+<tr>
+<td><em>Needs a GPU. This computer runs models on the CPU.</em></td>
+<td>Jev-Omni runs only on a GPU. Choose another model, or install for the GPU on a computer that has one</td>
+</tr>
+<tr>
+<td><em>Needs about N GB of memory; your device has M GB.</em></td>
+<td>The Models page's estimate says the model does not fit your device's memory. Choose a smaller model</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="answers-are-slow-and-the-answer-says-it-ran-on-the-processor">Answers are slow, and the answer says it ran on the processor<a class="anchor" href="#answers-are-slow-and-the-answer-says-it-ran-on-the-processor" title="Link to this section">#</a></h3>
+<p><em>Running on the processor, about ten times slower: the GPU did not have enough free memory when this model loaded. Eject other models (or close other GPU programs) and load it again.</em></p>
+<p>The model asked for the GPU, but the GPU was full when it loaded, and its library fell back to the processor. The answers are the same, only slower. Free GPU memory, then eject the model and load it again. Until it is reloaded, the note appears with every answer from that model: in the Playground, in the studio API's <code>notes</code>, and in the wire formats' <code>notes</code> when you send <code>X-Basal-Extensions: 1</code>.</p>
+<h3 id="a-call-says-no-model-is-loaded">A call says no model is loaded<a class="anchor" href="#a-call-says-no-model-is-loaded" title="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Cause and fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>No model is loaded. Load one on the Models page (or POST /api/models/{id}/load), or name a downloaded model in the request's <code>model</code> field.</em></td>
+<td>The request named no model and none is loaded. Name a model in <code>"model"</code>, or load one</td>
+</tr>
+<tr>
+<td><em>Laya isn't loaded. Load it first (auto-load is off).</em></td>
+<td><strong>Load models on demand</strong> is off on the System page. Load the model first, or turn it back on</td>
+</tr>
+<tr>
+<td><em>Laya isn't downloaded. Download it on the Models page first.</em></td>
+<td>The named model is not on disk</td>
+</tr>
+<tr>
+<td><em>Unknown model 'nope'. Use one of: julia-1, laya-multilingual, laya, ...</em></td>
+<td>The <code>model</code> value is not a studio id, a Hub repository or a supported alias. The message lists the valid ids</td>
+</tr>
+<tr>
+<td><em>Laya failed to load: ... Fix the cause, then load it again.</em></td>
+<td>The model failed to load moments ago; the studio does not retry for a minute. The rest of the message is the reason</td>
+</tr>
+<tr>
+<td><em>Laya took longer than 10 minutes to answer. Try a shorter input.</em></td>
+<td>One request ran past ten minutes, usually on the processor with a long input or many questions</td>
+</tr>
+</tbody>
+</table></div>
+<p>In the studio API these come back as <code>409 model_not_loaded</code>, <code>409 model_not_downloaded</code>, <code>404 model_not_found</code>, <code>503 model_load_failed</code> and <code>504 model_timeout</code>; see <a href="../docs/api/errors.html">Errors</a>.</p>
+<h3 id="run-on-the-processor-or-switch-back-to-the-gpu">Run on the processor, or switch back to the GPU<a class="anchor" href="#run-on-the-processor-or-switch-back-to-the-gpu" title="Link to this section">#</a></h3>
+<p><em>This computer cannot run models on 'cuda'. Run setup again to install support for it.</em> The engine was installed for another device. Setup installs one PyTorch build at a time; run it again and choose the device (<strong>System</strong>, then <strong>Run setup again</strong>, or <code>./<wbr>install.<wbr>sh --<wbr>device cuda</code> from source). Everything else is kept.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="calling-the-api">Calling the API<a class="anchor" href="#calling-the-api" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Cause and fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>Management requests need the header 'X-Basal-Client: 1' (it protects the studio from other websites).</em></td>
+<td>A call to a management endpoint under <code>/api/</code> that changes something (load, eject, download, settings) came without the header. Add <code>-H 'X-Basal-Client: 1'</code></td>
+</tr>
+<tr>
+<td><em>Requests from https://example.com may not change this studio. Other websites can't write to it; to allow one, list it in BASAL_CORS_ORIGINS.</em></td>
+<td>A web page on another site tried to send a decision or change something. To allow your own web app, start the studio with <code>BASAL_<wbr>CORS_<wbr>ORIGINS=https://<wbr>your.<wbr>app</code>. Calls from code, curl and the SDKs are not affected</td>
+</tr>
+<tr>
+<td><em>Send JSON (Content-Type: application/json) from a browser.</em></td>
+<td>A browser sent a studio API request without a JSON content type. Set the header</td>
+</tr>
+<tr>
+<td><em>Requests must be addressed to localhost, not 'my-machine.local'.</em></td>
+<td>The studio listens on this computer only and refuses other host names, to block DNS rebinding. Use <code>127.0.0.1</code> or <code>localhost</code>, or start it with <code>--host 0.0.0.0</code> and a key</td>
+</tr>
+<tr>
+<td><em>History, templates and settings are only reachable from this computer unless the studio runs with BASAL_API_KEY set.</em></td>
+<td>Another machine called a studio API endpoint other than making a decision. Start the studio with <code>BASAL_API_KEY</code> and send <code>Authorization: Bearer &lt;key&gt;</code></td>
+</tr>
+<tr>
+<td><em>Must supply an API key! Check your request and try again.</em> (403) or <em>Cannot authenticate with the server. Please check your API key and try again.</em> (401)</td>
+<td>The studio runs with <code>BASAL_API_KEY</code> and the request had no key or a wrong one. These match TypeSafe's own messages</td>
+</tr>
+</tbody>
+</table></div>
+<p>Every studio API error has a code, the parameter at fault and often a suggestion, all listed on <a href="../docs/api/errors.html">Errors</a>.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="history">History<a class="anchor" href="#history" title="Link to this section">#</a></h2>
+<h3 id="history-does-not-save-and-the-servers-log-says-why">History does not save, and the server's log says why<a class="anchor" href="#history-does-not-save-and-the-servers-log-says-why" title="Link to this section">#</a></h3>
+<p>When history cannot open, decisions keep working and nothing is saved, and the history endpoints answer <code>503 history_unavailable</code>. The server prints the reason at startup, in its log.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Cause and fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>This history was written by a newer version of the studio, so it opens read-only. Update the studio to keep saving decisions.</em></td>
+<td>You opened your data with an older studio after using a newer one. Install the newer version again</td>
+</tr>
+<tr>
+<td><em>Migration 0002_import_activity.py changed after it was applied to .../studio.db. Restore the original file; migrations are never edited once released.</em></td>
+<td>A migration file differs from the one that created the database. Released versions never change one, so this means a modified checkout, or a database made by a development build. Restore the released files (reinstall, or <code>git checkout</code> the migration). For a database from a development build, move <code>studio.db</code> aside to start a new one</td>
+</tr>
+<tr>
+<td><em>History needs SQLite 3.37.0 or newer; this Python has 3.31.1. Decisions still work, but nothing is saved.</em> (your versions)</td>
+<td>The Python running the studio has an old SQLite. The app and <code>install.sh</code> install a Python 3.12 that has a recent one; use it</td>
+</tr>
+</tbody>
+</table></div>
+<p>Before applying an upgrade to your database, the studio copies it to <code>backups/</code> in the data folder, keeping the last three, so an upgrade can always be undone by copying one back.</p>
+<h3 id="the-answer-is-correct-but-it-could-not-be-saved-to-history">The answer is correct, but it could not be saved to history.<a class="anchor" href="#the-answer-is-correct-but-it-could-not-be-saved-to-history" title="Link to this section">#</a></h3>
+<p>A decision came back with this warning (<code>history_write_failed</code>) when writing to the database failed, usually a full disk. The answer is unaffected. <code>GET /v1/studio/settings</code> lists recent write errors under <code>storage.store_errors</code>. If you would rather get an error than an unsaved answer, set <code>history.on_store_error</code> to <code>fail</code>; the studio then answers <code>503 store_failed</code>.</p>
+<h3 id="decisions-disappear-from-history">Decisions disappear from History<a class="anchor" href="#decisions-disappear-from-history" title="Link to this section">#</a></h3>
+<p>Decisions are kept for <strong>30 days</strong> by default, and history is capped at <strong>20 GB</strong>, oldest first. Change both on the History page or with <code>PATCH /<wbr>v1/<wbr>studio/<wbr>settings</code>. Pinned decisions and labelled ones (while <strong>keep labelled</strong> is on) are never removed; see <a href="../docs/dev/storage.html#retention">Data and storage</a>.</p>
+<h3 id="a-background-decision-failed-with-interrupted">A background decision failed with <code>interrupted</code><a class="anchor" href="#a-background-decision-failed-with-interrupted" title="Link to this section">#</a></h3>
+<p>The studio stopped while the decision was queued or running. At the next start it is marked failed with <code>error.<wbr>code: "interrupted"</code> rather than run again, so no request ever runs twice. Send it again, or rerun it from History.</p>
+<h3 id="search-says-it-is-unavailable">Search says it is unavailable<a class="anchor" href="#search-says-it-is-unavailable" title="Link to this section">#</a></h3>
+<p><em>Full-text search needs an SQLite build with FTS5, which this one lacks.</em> The <code>q</code> filter needs SQLite's full-text search, which some builds leave out. Every other filter works.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="still-stuck">Still stuck<a class="anchor" href="#still-stuck" title="Link to this section">#</a></h2>
+<p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a> on GitHub with the message, what you did, your operating system and device, and the relevant log: the model's log for a model problem, the server's log for anything else, or setup's <strong>Copy details</strong> for an install.</p></div></section>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../docs/dev/desktop.html"><span class="pg-l">Previous</span><span class="pg-t">Desktop app and releases</span></a><a class="pg next" href="../docs/faq.html"><span class="pg-l">Next</span><span class="pg-t">FAQ</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../index.html#how">How it works</a><a href="../index.html#models">Models</a><a href="../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../docs/quickstart.html">Quickstart</a><a href="../docs/manual/index.html">User manual</a><a href="../docs/api/index.html">API reference</a><a href="../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../docs/index.html";</script>
+<script src="../docs/search-index.js" defer></script>
+<script src="../assets/js/docs.js" defer></script>
+</body>
+</html>

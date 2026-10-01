@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>History and privacy · Bud Decision Studio Docs</title>
+  <meta name="description" content="What Bud Decision Studio records for every decision, the three storage levels, how to opt out, sensitive variables, retention, and how to find, export, redact and erase decisions.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="History and privacy · Bud Decision Studio">
+  <meta property="og:description" content="What Bud Decision Studio records for every decision, the three storage levels, how to opt out, sensitive variables, retention, and how to find, export, redact and erase decisions.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs has-console" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html" aria-current=page>History and privacy</a><nav class="side-toc" aria-label="On this page"><a href="#what-is-recorded">What is recorded</a><a href="#storage-levels">Storage levels</a><a href="#opting-out">Opting out</a><a href="#sensitive-variables">Sensitive variables</a><a href="#retention">Retention</a><a href="#finding-and-exporting">Finding and exporting</a><a href="#redacting-and-erasing">Redacting and erasing</a><a href="#where-it-lives-and-who-can-read-it">Where it lives, and who can read it</a></nav></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>Concepts</span></p>
+      <h1>History and privacy</h1>
+      <p class="lead">Every decision is recorded on your computer, whichever way it arrived, so you can review it, label it and compare versions later. You decide how much of each decision is kept and for how long, and personal data can be kept out entirely.</p>
+    </header>
+    <section class="dsec"><div class="dsec-text"><h2 id="what-is-recorded">What is recorded<a class="anchor" href="#what-is-recorded" title="Link to this section">#</a></h2>
+<p>History is one database on your computer (<code>studio.db</code> in the studio's data folder). It records decisions from every entry point: the Playground, the studio API (<code>/v1/studio</code>), TypeSafe's API (<code>/v1/systemone</code>), the OpenRouter and Vercel formats, Compare and Evaluate. A decision made by your code looks the same in History as one made in the app.</p>
+<p>At the default level, <code>full</code>, a decision keeps:</p>
+<ul>
+<li>the situation: the variables or state, the text the model read, and any attached files;</li>
+<li>the questions as asked, including caller extensions;</li>
+<li>every answer with its probabilities, the probabilities before calibration, certainty and act gate;</li>
+<li>the model, the template version, and every setting with the layer it came from;</li>
+<li>timing, token counts, where the request came from (surface, endpoint, format and client) and its request id;</li>
+<li>your <code>metadata</code>: up to 16 keys of your own, such as a ticket id, for joining History to your systems.</li>
+</ul>
+<p>Nothing stored ever changes an answer. On TypeSafe's routes the response body is byte-for-byte the same whether or not the call is stored; the studio only adds headers such as <code>x-basal-decision-id</code>.</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="storage-levels">Storage levels<a class="anchor" href="#storage-levels" title="Link to this section">#</a></h2>
+<p>Each decision is stored at one of three levels:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Level</th>
+<th>What is kept</th>
+<th>What still works</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>full</code></td>
+<td>Everything above</td>
+<td>Review, labels, statistics, rerun, test examples</td>
+</tr>
+<tr>
+<td><code>answers_only</code></td>
+<td>Everything except the situation: no variables, state, rendered text, file contents or file names (a file's type, size and hash are kept)</td>
+<td>Review of answers, labels, statistics. Rerun and replay do not: <code>409 input_unavailable</code>.</td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>Nothing</td>
+<td>The response still has an <code>id</code> for your logs, with <code>store: "none"</code>; reading it back returns 404</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>metadata</code> is kept at <code>answers_only</code> too, because it is your key for joining decisions to your own records. Put ids in it, not personal data.</p>
+<p>The responses on the right show the three levels for the same template.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs data-group="lang"><div class="dc-head"><span class="dc-title">Storage levels</span></div><div class="console-bar"><div class="dc-tabs" role="tablist" aria-label="Language"><button role="tab" type="button" id="c0-t0" aria-controls="c0-p0" data-tab="full" aria-selected="true">full</button><button role="tab" type="button" id="c0-t1" aria-controls="c0-p1" data-tab="answers_only" aria-selected="false" tabindex=-1>answers_only</button><button role="tab" type="button" id="c0-t2" aria-controls="c0-p2" data-tab="none" aria-selected="false" tabindex=-1>none</button></div><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="tabpanel" id="c0-p0" aria-labelledby=c0-t0><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8420/v1/studio/decisions<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span></span><span class="ln" style="--i:2"><span class="s1">  "template": "refund-request",</span></span><span class="ln" style="--i:2"><span class="s1">  "variables": {"message": "I was charged twice, please refund one payment.",</span></span><span class="ln" style="--i:16"><span class="s1">                "customer_email": "jane@example.com"}</span></span><span class="ln"><span class="s1">}'</span></span><span class="ln"><span class="c1"># x-basal-stored: full</span></span></code></pre></div><div class="dc-panel" role="tabpanel" id="c0-p1" aria-labelledby=c0-t1 hidden><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8420/v1/studio/decisions<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span></span><span class="ln" style="--i:2"><span class="s1">  "template": "refund-request",</span></span><span class="ln" style="--i:2"><span class="s1">  "variables": {"message": "Refund my last invoice.", "customer_email": "sam@example.com"},</span></span><span class="ln" style="--i:2"><span class="s1">  "store": "answers_only"</span></span><span class="ln"><span class="s1">}'</span></span><span class="ln"><span class="c1"># Reading it back: "store": "answers_only", "input": null</span></span><span class="ln"><span class="c1"># Rerunning it: 409 input_unavailable</span></span></code></pre></div><div class="dc-panel" role="tabpanel" id="c0-p2" aria-labelledby=c0-t2 hidden><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8420/v1/studio/decisions<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span></span><span class="ln" style="--i:2"><span class="s1">  "template": "refund-request",</span></span><span class="ln" style="--i:2"><span class="s1">  "variables": {"message": "Refund please.", "customer_email": "kim@example.com"},</span></span><span class="ln" style="--i:2"><span class="s1">  "store": false</span></span><span class="ln"><span class="s1">}'</span></span><span class="ln"><span class="c1"># x-basal-stored: none</span></span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status err">404 Not Found</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"not_found_error"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"decision_not_found"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No stored decision 'dec_01M3TFDV8J4GBWMM1VVR7TTHTM'. It may have been deleted, removed by retention, or made with store: none (never saved)."</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"param"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"request_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"req_…"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"decision_id"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">}</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="opting-out">Opting out<a class="anchor" href="#opting-out" title="Link to this section">#</a></h2>
+<p>Four switches set the level. The most private one always wins: a caller can store less than a template allows, never more.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Switch</th>
+<th>Where</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>store</code> in the request body</td>
+<td>Any decision route</td>
+<td><code>true</code> / <code>"full"</code>, <code>"answers_only"</code>, <code>false</code> / <code>"none"</code></td>
+</tr>
+<tr>
+<td><code>X-Basal-Store</code> header</td>
+<td>Any decision route; for clients that cannot change the body</td>
+<td><code>1</code>, <code>answers_only</code>, <code>0</code></td>
+</tr>
+<tr>
+<td>The template's <code>storage</code></td>
+<td>Every decision made with that template</td>
+<td><code>full</code>, <code>answers_only</code>, <code>none</code></td>
+</tr>
+<tr>
+<td>The studio's <code>history.store</code></td>
+<td>Every decision</td>
+<td><code>full</code>, <code>answers_only</code>, <code>none</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>On TypeSafe's routes, <code>store</code> and <code>metadata</code> are read leniently: a value the studio does not understand is ignored and reported in the <code>x-basal-warning</code> header, never turned into an error. TypeSafe's own servers ignore these fields, so the same code runs against both. With the official Python SDK, pass <code>extra_<wbr>body={"store": False}</code>.</p>
+<p>In the app, the Playground's <strong>Keep in history</strong> switch sends <code>store: false</code>, and the History page's settings set the studio level. A request asking for more than its template allows gets the warning <code>store_downgraded</code>.</p>
+<p>A decision that runs in the background must be stored, so that you can fetch it: <code>background</code> with <code>store: false</code> returns <code>400 background_<wbr>requires_<wbr>store</code>. Use <code>answers_only</code> if you do not want its input kept.</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="sensitive-variables">Sensitive variables<a class="anchor" href="#sensitive-variables" title="Link to this section">#</a></h2>
+<p>Mark a template variable <code>"sensitive": true</code> and its value is used for the decision but never written to disk. History keeps a keyed hash in its place (an HMAC, keyed with a secret created for your installation), shows <code>[redacted:&lt;name&gt;]</code> wherever the value appeared, and leaves it out of search.</p>
+<p>Because the hash is keyed, nobody can read the value back from it, but you can still find every decision that used a given value: send the value itself as a <code>sensitive_hash</code> filter, and the studio computes the hash for you. That is how you erase one person's decisions on request.</p>
+<p>A decision with a sensitive value can be rerun only if you send the value again.</p>
+<p>In 0.2.1 this protection covers text, number and JSON variables. A file sent in a media variable marked <code>sensitive</code> is still stored with the decision; for private files use <code>answers_only</code> or turn off <code>store_media</code>.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method get">GET</span><code>/<wbr>v1/<wbr>studio/<wbr>decisions/<wbr>{id}</code></div><div class="console-bar"><span class="dc-lang">Template</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c1-p0"><pre class="hl" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"variables"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"customer_email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w"> </span><span class="nt">"sensitive"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">}</span></span><span class="ln"><span class="p">},</span></span><span class="ln"><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{customer_email}}"</span><span class="p">,</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{message}}"</span><span class="p">}</span></span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status ok">200 OK</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"input"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"variables"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I was charged twice, please refund one payment."</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"customer_email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:6"><span class="w">      </span><span class="nt">"$redacted"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hmac-sha256:b10e61505dedb232f13958502826ada8625e77a64d1dbc6e513befcfb9685e44"</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="p">}</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[redacted:customer_email]"</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I was charged twice, please refund one payment."</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"rendered_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"from: [redacted:customer_email]\nmessage: I was charged twice, please refund one payment."</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="retention">Retention<a class="anchor" href="#retention" title="Link to this section">#</a></h2>
+<p>Decisions are deleted automatically once they are older than the retention period: 30 days unless you change it. A template's own <code>retention_days</code> overrides the studio's for its decisions, and <code>0</code> means keep forever. Changes apply to decisions already stored, from the next clean-up.</p>
+<p>Some decisions are kept regardless of age:</p>
+<ul>
+<li><strong>pinned</strong> decisions;</li>
+<li>decisions you have <strong>labelled</strong>, while the studio's <code>keep_labelled</code> setting is on (the default), because labels are your evaluation data.</li>
+</ul>
+<p>Test examples are never removed by retention. There is also a size cap, 20 GB by default: past it, the oldest decisions that are not exempt are removed until usage drops to 90% of the cap. With <code>store_media</code> off, file contents are discarded right after each decision, and History shows "file not kept".</p>
+<p>Change the studio settings in the app (History, then the gear button) or with <code>PATCH /<wbr>v1/<wbr>studio/<wbr>settings</code>.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method patch">PATCH</span><code>/v1/studio/settings</code></div><div class="console-bar"><span class="dc-lang">curl</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c2-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>PATCH<span class="w"> </span>http://127.0.0.1:8420/v1/studio/settings<span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"history": {"retention_days": 90}}'</span></span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status ok">200 OK</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"history"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"store"</span><span class="p">:</span><span class="w"> </span><span class="s2">"full"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"retention_days"</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"max_storage_gb"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"store_media"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"keep_labelled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"on_store_error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"serve"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"notice_acknowledged_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="finding-and-exporting">Finding and exporting<a class="anchor" href="#finding-and-exporting" title="Link to this section">#</a></h2>
+<p>History is the decisions list, <code>GET /v1/studio/decisions</code>, with filters. You can combine any of them:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Filter</th>
+<th>Example</th>
+<th>Finds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>template</code></td>
+<td><code>support-triage</code>, <code>support-triage@3</code></td>
+<td>One template, or one version of it</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td><code>laya</code></td>
+<td>One model's decisions</td>
+</tr>
+<tr>
+<td><code>act</code></td>
+<td><code>false</code></td>
+<td>Decisions that needed a person</td>
+</tr>
+<tr>
+<td><code>needs_review</code></td>
+<td><code>urgency</code></td>
+<td>Decisions where that answer did not act</td>
+</tr>
+<tr>
+<td><code>answer.&lt;key&gt;</code></td>
+<td><code>answer.<wbr>department=billing</code></td>
+<td>Decisions with that answer</td>
+</tr>
+<tr>
+<td><code>metadata.&lt;key&gt;</code></td>
+<td><code>metadata.<wbr>ticket_<wbr>id=T-<wbr>5120</code></td>
+<td>Your own ids</td>
+</tr>
+<tr>
+<td><code>labelled</code>, <code>correct</code></td>
+<td><code>true</code></td>
+<td>Labelled decisions, and whether the model was right</td>
+</tr>
+<tr>
+<td><code>created_after</code>, <code>created_before</code></td>
+<td><code>-7d</code>, <code>2026-10-01</code></td>
+<td>A time range, absolute or relative</td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td><code>invoice</code></td>
+<td>Full-text search over the situation</td>
+</tr>
+<tr>
+<td><code>request_id</code></td>
+<td><code>req_…</code></td>
+<td>The decision of one HTTP call</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>GET /<wbr>v1/<wbr>studio/<wbr>decisions/<wbr>export</code> returns every matching decision as JSON Lines (one full decision per line) or CSV (one column per answer, its certainty and its act gate, plus your metadata keys).</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method get">GET</span><code>/<wbr>v1/<wbr>studio/<wbr>decisions/<wbr>export</code></div><div class="console-bar"><span class="dc-lang">curl</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c3-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span><span class="s1">'http://127.0.0.1:8420/v1/studio/decisions/export?template=refund-request&amp;format=csv'</span></span></code></pre></div><div class="console-split"><span>Output</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-text"><span class="ln">id,created_at,template,version,model,status,act,wants_refund,wants_refund.certainty,wants_refund.act</span><span class="ln">dec_01M3TFDSP83JRHV7ENTKKQEP79,1790816216,refund-request,1,laya,completed,false,yes,0.8596,false</span><span class="ln">dec_01M3TFDTNJ8SCW38XVNWE2AM82,1790816217,refund-request,1,laya,completed,false,no,0.5128,false</span></code></pre></div></div></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="redacting-and-erasing">Redacting and erasing<a class="anchor" href="#redacting-and-erasing" title="Link to this section">#</a></h2>
+<p>You can remove parts of a stored decision and keep its answers, or delete decisions outright:</p>
+<ul>
+<li><code>POST /<wbr>v1/<wbr>studio/<wbr>decisions/<wbr>{id}/<wbr>redact</code> with <code>fields</code> such as <code>input.variables.message</code>, <code>input.state</code>, <code>input.media</code> or <code>metadata.&lt;key&gt;</code> removes those parts of one decision. Its answers, labels and statistics stay.</li>
+<li><code>POST /<wbr>v1/<wbr>studio/<wbr>decisions/<wbr>redact</code> and <code>POST /<wbr>v1/<wbr>studio/<wbr>decisions/<wbr>delete</code> do the same for every decision matching a <code>filter</code>. They skip pinned decisions unless you say otherwise, and <code>"dry_run": true</code> reports the count without changing anything.</li>
+<li><code>DELETE /<wbr>v1/<wbr>studio/<wbr>decisions/<wbr>{id}</code> deletes one decision and everything stored with it.</li>
+</ul>
+<p>The request on the right finds every decision made with one customer's email address, a sensitive variable, without the address ever having been stored.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method post">POST</span><code>/<wbr>v1/<wbr>studio/<wbr>decisions/<wbr>delete</code></div><div class="console-bar"><span class="dc-lang">curl</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c4-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8420/v1/studio/decisions/delete<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span></span><span class="ln" style="--i:2"><span class="s1">  "filter": {"sensitive_hash": {"customer_email": "jane@example.com"}},</span></span><span class="ln" style="--i:2"><span class="s1">  "dry_run": true</span></span><span class="ln"><span class="s1">}'</span></span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status ok">200 OK</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"decision.bulk_delete"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"matched"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"deleted"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"skipped_pinned"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"dry_run"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="where-it-lives-and-who-can-read-it">Where it lives, and who can read it<a class="anchor" href="#where-it-lives-and-who-can-read-it" title="Link to this section">#</a></h2>
+<ul>
+<li><strong>On this computer only.</strong> The studio listens on <code>127.0.0.1</code> by default. Other websites open in your browser cannot send it requests or read its history.</li>
+<li><strong>From other machines,</strong> only with a key. When you start the studio with <code>--host 0.0.0.0</code>, set <code>BASAL_API_KEY</code>; clients send <code>Authorization: Bearer &lt;key&gt;</code>. Without a key, remote callers can still make decisions but cannot read History or change anything.</li>
+<li><strong>Files on disk.</strong> The database and the installation's secret are readable only by your user account, and attached files are stored by their content in the <code>blobs</code> folder beside the database. Nothing is encrypted at rest, so protect the data folder as you would any other personal data.</li>
+<li><strong>When a write fails</strong> (a full disk, for example), the answer is still returned, with the header <code>x-basal-stored: failed</code> and the warning <code>history_write_failed</code>. Set <code>on_store_error</code> to <code>fail</code> if an unrecorded decision is unacceptable; the studio then answers 503 instead.</li>
+</ul>
+<p>The first time you open History, the app shows a notice that decisions from your code are now kept, with buttons to change the level and the retention.</p></div></section>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/concepts/templates.html"><span class="pg-l">Previous</span><span class="pg-t">Templates and versions</span></a><a class="pg next" href="../../docs/guides/support-triage.html"><span class="pg-l">Next</span><span class="pg-t">Build a support-triage template</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

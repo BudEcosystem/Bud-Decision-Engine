@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Testing · Bud Decision Studio Docs</title>
+  <meta name="description" content="The test suites of Bud Decision Studio, what each one covers, how to run them, and what runs in CI.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Testing · Bud Decision Studio">
+  <meta property="og:description" content="The test suites of Bud Decision Studio, what each one covers, how to run them, and what runs in CI.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs has-console" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html" aria-current=page>Testing</a><nav class="side-toc" aria-label="On this page"><a href="#the-suites">The suites</a><a href="#run-the-studio-tests">Run the studio tests</a><a href="#api-conformance">API conformance</a><a href="#end-to-end-through-the-interface">End to end, through the interface</a><a href="#other-checks">Other checks</a><a href="#continuous-integration">Continuous integration</a></nav><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>Developers</span></p>
+      <h1>Testing</h1>
+      <p class="lead">Most of the studio can be tested in under half a minute without a GPU or a model, because a deterministic test model stands in for the real ones. The slower checks run real models through the API and through the interface in a browser.</p>
+    </header>
+    <section class="dsec"><div class="dsec-text"><h2 id="the-suites">The suites<a class="anchor" href="#the-suites" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Suite</th>
+<th>What it checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>test_templates.py</code></td>
+<td>49 tests of template logic: variable types, substitution, sensitive values, extensions, the settings ladder, version change classes, the JSON Schema export, starter templates in sync</td>
+</tr>
+<tr>
+<td><code>test_contract.py</code></td>
+<td>9 tests of answers: per-question temperature, raw probabilities, certainty and the act gate for every type</td>
+</tr>
+<tr>
+<td><code>test_history_store.py</code></td>
+<td>11 tests of history in a real SQLite file: storage levels, immutability, filters, feedback, statistics, retention, erasure, redaction, search, migration safety</td>
+</tr>
+<tr>
+<td><code>test_studio_api.py</code></td>
+<td>20 tests against a live studio: the main calls end to end, wire routes unchanged, idempotency, retries, the cross-site guard, background decisions, the error envelope</td>
+</tr>
+<tr>
+<td><code>test_conformance.py</code></td>
+<td>14 checks of the API against TypeSafe's published schema, both official SDKs and OpenRouter's schema. Needs a running studio and a model</td>
+</tr>
+<tr>
+<td><code>test_installer.py</code></td>
+<td>3 regression tests of the engine installer</td>
+</tr>
+<tr>
+<td><code>scripts/e2e.py</code></td>
+<td>Every page through a real browser, with real models</td>
+</tr>
+</tbody>
+</table></div>
+<p>The test files are in <code>tests/</code>. The first four are the <strong>studio tests</strong>. They need only the server's own libraries, not PyTorch: <code>tests/conftest.py</code> gives each run a temporary data folder and turns on <code>BASAL_FAKE_MODEL=1</code>, the deterministic test model described on <a href="../../docs/dev/source.html">Run from source</a>.</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="run-the-studio-tests">Run the studio tests<a class="anchor" href="#run-the-studio-tests" title="Link to this section">#</a></h2>
+<p>The command CI runs works from a clean checkout with nothing installed but uv: it fetches Python 3.12 and the few libraries the tests need. From a checkout set up with <code>install.sh</code>, <code>.venv</code> already has them once you add <code>requirements-dev.txt</code>.</p>
+<p><code>test_studio_api.py</code> starts a studio of its own on a free port with a temporary data folder, so it never touches your history or a studio you have open. <code>test_templates.py</code> also runs <code>node scripts/<wbr>export-<wbr>builtins.<wbr>mjs --<wbr>check</code>, so it needs Node.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs data-group="lang"><div class="dc-head"><span class="dc-title">Terminal</span></div><div class="console-bar"><div class="dc-tabs" role="tablist" aria-label="Language"><button role="tab" type="button" id="c0-t0" aria-controls="c0-p0" data-tab="uv" aria-selected="true">uv</button><button role="tab" type="button" id="c0-t1" aria-controls="c0-p1" data-tab=".venv" aria-selected="false" tabindex=-1>.venv</button></div><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="tabpanel" id="c0-p0" aria-labelledby=c0-t0><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">uv<span class="w"> </span>run<span class="w"> </span>--no-project<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12<span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>--with<span class="w"> </span>fastapi<span class="w"> </span>--with<span class="w"> </span><span class="s1">'uvicorn[standard]'</span><span class="w"> </span>--with<span class="w"> </span>httpx<span class="w"> </span>--with<span class="w"> </span>psutil<span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>--with<span class="w"> </span><span class="s1">'pydantic&gt;=2.12'</span><span class="w"> </span>--with<span class="w"> </span>python-multipart<span class="w"> </span>--with<span class="w"> </span><span class="s1">'huggingface_hub&gt;=1.0'</span><span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>--with<span class="w"> </span>jsonschema<span class="w"> </span>--with<span class="w"> </span>pytest<span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>pytest<span class="w"> </span>tests/test_templates.py<span class="w"> </span>tests/test_contract.py<span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:9"><span class="w">         </span>tests/test_history_store.py<span class="w"> </span>tests/test_studio_api.py<span class="w"> </span>-q</span></code></pre></div><div class="dc-panel" role="tabpanel" id="c0-p1" aria-labelledby=c0-t1 hidden><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>tests/test_templates.py<span class="w"> </span>tests/test_contract.py<span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>tests/test_history_store.py<span class="w"> </span>tests/test_studio_api.py<span class="w"> </span>-q</span></code></pre></div><div class="console-split"><span>Output</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-text"><span class="ln">........................................................................ [ 80%]</span><span class="ln">.................                                                        [100%]</span><span class="ln">89 passed in 19.24s</span></code></pre></div></div></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="api-conformance">API conformance<a class="anchor" href="#api-conformance" title="Link to this section">#</a></h2>
+<p><code>tests/<wbr>test_<wbr>conformance.<wbr>py</code> checks that code written for TypeSafe's Jev works against the studio unchanged. It runs against a live studio, loading the model it is told to use if needed, and compares the studio with the publishers' own sources:</p>
+<ul>
+<li>TypeSafe's OpenAPI file (<code>api.<wbr>typesafe.<wbr>ai/<wbr>openapi.<wbr>json</code>): the response schema exactly, extension fields only when asked for, FastAPI-style 422 validation errors, 404 for unknown paths, the model list and its aliases, extra request fields ignored, and the authentication errors.</li>
+<li>The official SDKs: <code>typesafe-sdk</code> 0.7.2 for Python and <code>@typesafe-ai/sdk</code> 0.6.0 for JavaScript, each making real calls.</li>
+<li>OpenRouter's OpenAPI file, for its two routes, and Vercel AI Gateway's TypeSafe route and evaluation API.</li>
+</ul>
+<p>The publishers' files are downloaded on the first run and cached in <code>tests/.cache/</code>. The JavaScript SDK test needs <code>npm install</code> in <code>tests/js</code>. Choose the studio and the model with <code>BASAL_TEST_URL</code> and <code>BASAL_TEST_MODEL</code>; the default is <code>laya</code> on <code>http://127.0.0.1:8420</code>. The authentication test starts a second studio of its own with <code>BASAL_API_KEY</code> set.</p>
+<p>Without a GPU, run it against the test model, as in the output shown. The same suite can be started from a running studio with <code>POST /<wbr>api/<wbr>conformance/<wbr>run</code>; <code>GET /api/conformance</code> returns the last result.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs data-group="lang"><div class="dc-head"><span class="dc-title">Terminal</span></div><div class="console-bar"><div class="dc-tabs" role="tablist" aria-label="Language"><button role="tab" type="button" id="c1-t0" aria-controls="c1-p0" data-tab="Test model" aria-selected="true">Test model</button><button role="tab" type="button" id="c1-t1" aria-controls="c1-p1" data-tab="Laya" aria-selected="false" tabindex=-1>Laya</button></div><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="tabpanel" id="c1-p0" aria-labelledby=c1-t0><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln"><span class="nv">BASAL_FAKE_MODEL</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">BASAL_DATA</span><span class="o">=</span>/tmp/studio-test<span class="w"> </span>./run.sh<span class="w"> </span>--port<span class="w"> </span><span class="m">8479</span><span class="w"> </span><span class="p">&amp;</span></span><span class="ln"><span class="nv">BASAL_TEST_URL</span><span class="o">=</span>http://127.0.0.1:8479<span class="w"> </span><span class="nv">BASAL_TEST_MODEL</span><span class="o">=</span>fake-decider<span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>tests/test_conformance.py<span class="w"> </span>-q</span></code></pre></div><div class="dc-panel" role="tabpanel" id="c1-p1" aria-labelledby=c1-t1 hidden><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">./run.sh<span class="w"> </span><span class="p">&amp;</span></span><span class="ln">.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>tests/test_conformance.py<span class="w"> </span>-q</span></code></pre></div><div class="console-split"><span>Output</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-text"><span class="ln">..............                                                           [100%]</span><span class="ln">14 passed in 12.62s</span></code></pre></div></div></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="end-to-end-through-the-interface">End to end, through the interface<a class="anchor" href="#end-to-end-through-the-interface" title="Link to this section">#</a></h2>
+<p><code>scripts/e2e.py</code> drives the studio in a headless browser the way a person would, against a running studio with real models:</p>
+<ul>
+<li><strong>Playground:</strong> every downloaded model answers all six question types, and the models that read images answer a receipt photo. Each answer must appear as a chart with no page errors.</li>
+<li><strong>Evaluate:</strong> a leaderboard over the sample examples with two models.</li>
+<li><strong>History and Templates:</strong> the decisions just made are listed and open; a Playground decision is saved as a template, run in template mode, and found in the template's history.</li>
+<li><strong>API:</strong> the quick-start curl command shown on the page runs and returns answers.</li>
+<li><strong>Models and System:</strong> a small model's files are deleted and downloaded again from the page; models switch to the processor, answer there, and switch back.</li>
+</ul>
+<p>It loads models one at a time, keeping 6 GB of memory free beyond each model's own (<code>--headroom</code>). <code>--models</code> limits it to some models, <code>--skip-download</code> skips the download check, and <code>--no-models</code> or <code>--no-pages</code> runs half of it. <code>--report</code> writes the results as JSON; <code>scripts/test-report.py</code> turns that file into <code>docs/testing.md</code>.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">Terminal</span></div><div class="console-bar"><span class="dc-lang">Shell</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c2-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--python<span class="w"> </span>.venv/bin/python<span class="w"> </span>playwright</span><span class="ln">.venv/bin/python<span class="w"> </span>-m<span class="w"> </span>playwright<span class="w"> </span>install<span class="w"> </span>chromium</span><span class="ln"></span><span class="ln">./run.sh<span class="w"> </span><span class="p">&amp;</span></span><span class="ln">.venv/bin/python<span class="w"> </span>scripts/e2e.py<span class="w"> </span>--models<span class="w"> </span>laya,kev-4b<span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>--skip-download<span class="w"> </span>--report<span class="w"> </span>e2e.json</span><span class="ln">.venv/bin/python<span class="w"> </span>scripts/test-report.py<span class="w"> </span>e2e.json<span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>--conformance<span class="w"> </span><span class="s2">"14 passed"</span><span class="w"> </span>--machine<span class="w"> </span><span class="s2">"NVIDIA GB10, Ubuntu 24.04"</span></span></code></pre></div></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="other-checks">Other checks<a class="anchor" href="#other-checks" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Script</th>
+<th>What it checks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/smoke.py</code></td>
+<td>Through the API, per model: load, three decisions, latency and memory, eject. <code>--image</code> adds a picture for models that read images</td>
+</tr>
+<tr>
+<td><code>scripts/<wbr>model-<wbr>examples.<wbr>py</code></td>
+<td>Each model answers its own signature examples (<code>ui/js/model-guides.js</code>) as intended. A wrong answer there is a bug</td>
+</tr>
+<tr>
+<td><code>scripts/webkit-sweep.py</code></td>
+<td>Every page, dialog and setup screen in WebKit, the engine of Safari and of the macOS and Linux apps, at several window sizes</td>
+</tr>
+<tr>
+<td><code>scripts/safari-check.py</code></td>
+<td>The interface in real Safari through Apple's <code>safaridriver</code>, including the first-run model chooser</td>
+</tr>
+<tr>
+<td><code>tests/test_installer.py</code></td>
+<td>The installer reads PyTorch's version and the device check without being confused by warnings, and never passes paths to uv options that split them at spaces</td>
+</tr>
+</tbody>
+</table></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="continuous-integration">Continuous integration<a class="anchor" href="#continuous-integration" title="Link to this section">#</a></h2>
+<p>Four GitHub Actions workflows run on the repository. The studio tests need no GPU, so they run on every operating system on each change.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Workflow</th>
+<th>When and what</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>studio.yml</code></td>
+<td>When <code>basal/</code>, <code>tests/</code>, the examples or the export script change: the four studio tests on macOS 14, Windows and Ubuntu 24.04</td>
+</tr>
+<tr>
+<td><code>installer.yml</code></td>
+<td>When <code>installer/</code> or the requirements change: the installer tests, then a real first-run install on the processor into a folder named <code>Application Support</code>, on macOS, Windows and Ubuntu</td>
+</tr>
+<tr>
+<td><code>safari.yml</code></td>
+<td>When <code>ui/</code> changes: the interface in Safari on macOS 14 and 15, with screenshots kept as a build artifact</td>
+</tr>
+<tr>
+<td><code>desktop.yml</code></td>
+<td>When a <code>v*</code> tag is pushed, or by hand: the desktop app for four platforms, published as a release (<a href="../../docs/dev/desktop.html">Desktop app and releases</a>)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Conformance and the end-to-end check need models and a GPU, so they are run on a real machine before each release; the results are in <code>docs/testing.md</code>.</p></div></section>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/dev/storage.html"><span class="pg-l">Previous</span><span class="pg-t">Data and storage</span></a><a class="pg next" href="../../docs/dev/desktop.html"><span class="pg-l">Next</span><span class="pg-t">Desktop app and releases</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

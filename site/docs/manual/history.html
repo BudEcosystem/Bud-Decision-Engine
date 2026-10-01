@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>History · Bud Decision Studio Docs</title>
+  <meta name="description" content="Review every decision the studio made, from the app or from code. Filter and search, see what needs a human, label the right answers, rerun on another model, and control what is kept.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="History · Bud Decision Studio">
+  <meta property="og:description" content="Review every decision the studio made, from the app or from code. Filter and search, see what needs a human, label the right answers, rerun on another model, and control what is kept.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html" aria-current=page>History</a><nav class="side-toc" aria-label="On this page"><a href="#the-page">The page</a><a href="#find-decisions">Find decisions</a><a href="#read-a-decision">Read a decision</a><a href="#act-on-a-decision">Act on a decision</a><a href="#label-the-right-answers">Label the right answers</a><a href="#what-history-keeps">What History keeps</a><a href="#history-from-code">History from code</a></nav><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>User manual</span></p>
+      <h1>History</h1>
+      <p class="lead">History keeps every decision the studio makes, wherever it came from: the Playground, Evaluate, your code, an SDK or curl. Use it to see what needed a person, to check answers against the truth, and to turn real decisions into templates and test examples.</p>
+    </header>
+    <h2 id="the-page">The page<a class="anchor" href="#the-page" title="Link to this section">#</a></h2>
+<p>Open <strong>History</strong> from the sidebar.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/history.webp" alt="History for the last 24 hours. The summary and the chart are on the left with the list below them; the selected decision is on the right, with its answers redrawn." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 1</span>History for the last 24 hours. The summary and the chart are on the left with the list below them; the selected decision is on the right, with its answers redrawn.</figcaption></figure>
+
+<p>Everything stays on your computer, in the studio's database. By default each decision is kept for 30 days, with the situation, the questions, the answers, the model and the timing. <a href="#what-history-keeps">What History keeps</a> explains how to change that.</p>
+<p>The first time you open History after installing, a note explains that decisions are now saved. <strong>Change</strong> opens the settings; <strong>Got it</strong> dismisses the note.</p>
+<h2 id="find-decisions">Find decisions<a class="anchor" href="#find-decisions" title="Link to this section">#</a></h2>
+<p>The bar at the top filters the list, the summary and the chart together:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Choices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Live</strong> and <strong>Pause</strong></td>
+<td>The list refreshes every few seconds while <strong>Live</strong>. <strong>Pause</strong> holds it still while you read.</td>
+</tr>
+<tr>
+<td>Time range</td>
+<td><strong>1 hour</strong>, <strong>24 hours</strong>, <strong>7 days</strong> or <strong>All</strong></td>
+</tr>
+<tr>
+<td>Result</td>
+<td><strong>Every result</strong>, <strong>Needs review</strong> (asked a human), <strong>Acted automatically</strong>, <strong>Failed</strong>, <strong>Labelled</strong>, <strong>Pinned</strong></td>
+</tr>
+<tr>
+<td>Model</td>
+<td><strong>Every model</strong>, or one model</td>
+</tr>
+<tr>
+<td>Template</td>
+<td><strong>Every template</strong>, <strong>No template</strong>, one of your templates, or a starter template</td>
+</tr>
+<tr>
+<td><strong>Search situations</strong></td>
+<td>Finds words in what the model read</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>The summary</strong> counts the decisions in range, the share that acted automatically, how many asked a human or failed, and the typical time.</p>
+<p><strong>The chart</strong> has four views. <strong>Timeline</strong> draws each decision as a dot: across, when it ran; up, how long it took. Violet dots acted, orange ones asked a human, red ones failed; choose a dot to open that decision. <strong>Models</strong>, <strong>Templates</strong> and <strong>Sources</strong> count decisions per model, per template and per source, with how often each acted on its own.</p>
+<p><strong>The list</strong> shows each decision's time (a pin and a tag mark pinned and labelled decisions), its result (<strong>Acted</strong>, <strong>Ask a human</strong>, <strong>Failed</strong>, or <strong>Running</strong> for a decision still in progress), the template and version or the model, where it came from, its first answer with its probability, and how long it took. <strong>Show older decisions</strong> loads more.</p>
+<p>Where a decision came from is one of: <strong>Playground</strong>, <strong>API</strong> (with the client, such as <code>curl</code> or an SDK), <strong>Compare</strong>, <strong>Order test</strong>, <strong>Evaluate</strong>, <strong>Rerun</strong>, or <strong>Imported</strong> (decisions recorded by versions before 0.2.0, moved in when you upgraded).</p>
+<h2 id="read-a-decision">Read a decision<a class="anchor" href="#read-a-decision" title="Link to this section">#</a></h2>
+<p>Choose a decision in the list. The panel on the right shows its result, when it ran, its template and version (or "Decision without a template"), the model and the source, then four tabs.</p>
+<p><strong>Answers</strong> redraws every answer exactly as the Playground showed it, with the verdict each question got at the time.</p>
+<p><strong>Input</strong> shows the variables the caller sent (if the decision used a template) and <strong>What the model read</strong>: the situation, after the template filled in its variables. Files attached to the decision are listed and open in a new tab while they are kept.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/history-input.webp" alt="The Input tab: the variables sent by the Playground, and the situation the template built from them." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 2</span>The <strong>Input</strong> tab: the variables sent by the Playground, and the situation the template built from them.</figcaption></figure>
+
+<p><strong>Settings</strong> lists the act threshold and calibration temperature the decision was made with, each with where it came from: the request, the template, the template's values for this model, or the studio default. It also lists any questions or options the caller added or skipped, the timing, the endpoint, the request id, the decision id and the date it will be deleted. Choose an id to copy it.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/history-settings.webp" alt="The Settings tab. The act threshold of 85% came from the template; the temperature of 1.3 came from the template&#x27;s values for Laya; two questions had their own values." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 3</span>The <strong>Settings</strong> tab. The act threshold of 85% came from the template; the temperature of 1.3 came from the template's values for Laya; two questions had their own values.</figcaption></figure>
+
+<p><strong>JSON</strong> shows the whole decision as the API returns it.</p>
+<h2 id="act-on-a-decision">Act on a decision<a class="anchor" href="#act-on-a-decision" title="Link to this section">#</a></h2>
+<p>The buttons above the tabs:</p>
+<ul>
+<li><strong>Open in Playground</strong> loads the decision into the Playground: in its template, with the same variables and per-decision changes, if it used one; otherwise as a free decision with its situation and questions.</li>
+<li><strong>Rerun on</strong> runs the same input on a loaded model, the same one or another. The rerun is a new decision, marked <strong>Rerun</strong>, so you can compare the two.</li>
+<li><strong>Pin</strong> keeps the decision past the retention period and size limit. <strong>Unpin</strong> releases it.</li>
+<li><strong>...</strong> offers <strong>Save as template</strong> (its questions, model and settings), <strong>Add to <em>template</em>'s test examples</strong> (with the labels you gave it), <strong>Open the template</strong>, <strong>Copy decision id</strong> and <strong>Delete this decision</strong>.</li>
+</ul>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/history-actions.webp" alt="The ... menu of a decision made with a template." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 4</span>The <strong>...</strong> menu of a decision made with a template.</figcaption></figure>
+
+<h2 id="label-the-right-answers">Label the right answers<a class="anchor" href="#label-the-right-answers" title="Link to this section">#</a></h2>
+<p>Under the answers, <strong>Label the right answers</strong> lists each question with the answers it allows. Choose the right one; the studio marks the model's answer <strong>right</strong> or <strong>wrong</strong>.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/history-label.webp" alt="Labelling a Support triage decision. Labels are kept with the decision." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 5</span>Labelling a Support triage decision. Labels are kept with the decision.</figcaption></figure>
+
+<p>Labels feed <strong>Accuracy on labels</strong> when you <a href="../../docs/manual/templates.html#compare-versions">compare template versions</a>, and a labelled decision can become a test example in one step (<strong>...</strong>, then <strong>Add to <em>template</em>'s test examples</strong>). Labelled decisions are kept past the retention period, so the record of what was right is not lost.</p>
+<p>Pick one, put in order, rate on a scale and yes or no questions can be labelled here; pick any and estimate a number questions cannot.</p>
+<h2 id="what-history-keeps">What History keeps<a class="anchor" href="#what-history-keeps" title="Link to this section">#</a></h2>
+<p>The gear button at the top right of the page opens the History settings.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/history-keeps.webp" alt="What History keeps, how long decisions are kept, and how much space History uses." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 6</span><strong>What History keeps</strong>, how long decisions are kept, and how much space History uses.</figcaption></figure>
+
+<p><strong>What History keeps</strong> for each decision:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>Keeps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Everything</strong></td>
+<td>the situation, the questions, the answers, the model and the timing (the default)</td>
+</tr>
+<tr>
+<td><strong>Answers only</strong></td>
+<td>the questions, answers, model and timing, but not the situation or any files</td>
+</tr>
+<tr>
+<td><strong>Nothing</strong></td>
+<td>nothing at all. Decisions still work; History is simply off.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Keep decisions for</strong> 7 days, 30 days (the default), 90 days, 1 year or for ever. Older decisions are deleted automatically, except pinned and labelled ones. History also stays under a size limit (20 GB by default), removing the oldest decisions first when it is reached.</p>
+<p><strong>Storage</strong> says how many decisions are kept and how much disk they use. <strong>Delete history</strong> deletes every decision except pinned ones; templates, test examples and models are not affected.</p>
+<p>These settings apply to the whole studio. A template can keep less for its own decisions (see <a href="../../docs/manual/templates.html#what-history-keeps-for-a-template">Templates</a>), and so can each call:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>From</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the Playground</td>
+<td>turn off <strong>Keep this decision in History</strong> in the decision settings</td>
+</tr>
+<tr>
+<td>your code</td>
+<td>send <code>"store": false</code> in the request body to keep nothing, or <code>"store": "answers_only"</code></td>
+</tr>
+<tr>
+<td>a client that cannot change the body</td>
+<td>send the header <code>X-Basal-Store: 0</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>When several of these apply, the most private one wins. Variables a template marks <strong>sensitive</strong> are never written to History at all. <a href="../../docs/concepts/history.html">History and privacy</a> covers the rules in detail.</p>
+<h2 id="history-from-code">History from code<a class="anchor" href="#history-from-code" title="Link to this section">#</a></h2>
+<p>Everything on this page is also available through the API: list and filter decisions, fetch one with its input, add labels, rerun, export as JSON lines or CSV, and delete or redact decisions. Each response names the stored decision in the <code>x-basal-decision-id</code> header and says what was kept in <code>x-basal-stored</code>. See <a href="../../docs/api/history.html">History, feedback and statistics</a>.</p>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/manual/templates.html"><span class="pg-l">Previous</span><span class="pg-t">Templates</span></a><a class="pg next" href="../../docs/manual/models.html"><span class="pg-l">Next</span><span class="pg-t">Models</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The six question types · Bud Decision Studio Docs</title>
+  <meta name="description" content="Pick one, rate on a scale, yes or no, pick any, put in order and estimate a number. What each question type takes, what it returns, and when to use it.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="The six question types · Bud Decision Studio">
+  <meta property="og:description" content="Pick one, rate on a scale, yes or no, pick any, put in order and estimate a number. What each question type takes, what it returns, and when to use it.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs has-console" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html" aria-current=page>The six question types</a><nav class="side-toc" aria-label="On this page"><a href="#the-types-at-a-glance">The types at a glance</a><a href="#ask-all-six-at-once">Ask all six at once</a><a href="#labels-use-the-same-values">Labels use the same values</a><a href="#choosing-a-type">Choosing a type</a></nav><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>Concepts</span></p>
+      <h1>The six question types</h1>
+      <p class="lead">Every question has a type that fixes the shape of its answer. Three types come from TypeSafe's Jev API; three more are studio extensions built on top of them and work with every model.</p>
+    </header>
+    <section class="dsec"><div class="dsec-text"><h2 id="the-types-at-a-glance">The types at a glance<a class="anchor" href="#the-types-at-a-glance" title="Link to this section">#</a></h2>
+<p>The app names each type in plain words; the API uses the <code>type</code> value in the second column.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>In the app</th>
+<th><code>type</code></th>
+<th>You define</th>
+<th>You get back</th>
+<th><code>decision</code> value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pick one</td>
+<td><code>choice</code></td>
+<td>Named options, with optional descriptions</td>
+<td>A probability per option, and the winner</td>
+<td>The winning option's name</td>
+</tr>
+<tr>
+<td>Rate on a scale</td>
+<td><code>score</code></td>
+<td>Ordered levels, lowest first</td>
+<td>A probability per level, and an average position</td>
+<td>The most likely level's key: <code>"0"</code>, <code>"1"</code>, …</td>
+</tr>
+<tr>
+<td>Yes or no</td>
+<td><code>noul</code></td>
+<td>A statement to judge</td>
+<td>The probability that it is true</td>
+<td><code>"yes"</code> or <code>"no"</code></td>
+</tr>
+<tr>
+<td>Pick any</td>
+<td><code>multi</code></td>
+<td>Options and a cut-off</td>
+<td>Every option above the cut-off</td>
+<td>The list of selected options</td>
+</tr>
+<tr>
+<td>Put in order</td>
+<td><code>rank</code></td>
+<td>Options</td>
+<td>The options from most to least likely</td>
+<td>The first option</td>
+</tr>
+<tr>
+<td>Estimate a number</td>
+<td><code>number</code></td>
+<td>The values the number could take</td>
+<td>A best estimate and an 80% range</td>
+<td>The most likely value</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>choice</code>, <code>score</code> and <code>noul</code> are TypeSafe's types. <code>multi</code>, <code>rank</code> and <code>number</code> are studio extensions: the studio turns each into the basic types before the model runs (a <code>multi</code> question becomes one yes-or-no question per option) and assembles the answer afterwards. They are accepted on every endpoint, including <code>/v1/systemone</code>; TypeSafe's hosted API does not have them.</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="ask-all-six-at-once">Ask all six at once<a class="anchor" href="#ask-all-six-at-once" title="Link to this section">#</a></h2>
+<p>One request can mix every type, and all questions are answered in the same pass. The request on the right asks six questions about one support ticket. The response is shortened to each answer's <code>decision</code> and <code>certainty</code>; the sections below show each answer in full.</p>
+<p>Every answer also carries:</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="decision" tabindex="0">
+<td><code>decision</code></td>
+<td>The answer in one canonical value, the same vocabulary you use to label answers and filter History.</td>
+</tr>
+<tr data-param="top_probability" tabindex="0">
+<td><code>top_probability</code></td>
+<td>The probability of the most likely answer.</td>
+</tr>
+<tr data-param="certainty" tabindex="0">
+<td><code>certainty</code></td>
+<td>How sure the answer is, for the act gate: <code>top_probability</code>, except for <code>multi</code> (see below).</td>
+</tr>
+<tr data-param="act" tabindex="0">
+<td><code>act</code></td>
+<td>Whether <code>certainty</code> reached the act threshold. See <a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a>.</td>
+</tr>
+<tr data-param="origin" tabindex="0">
+<td><code>origin</code></td>
+<td><code>adhoc</code> without a template; with one, <code>template</code>, <code>extended</code> or <code>extra</code>. See <a href="../../docs/concepts/templates.html">Templates and versions</a>.</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>decision</code>, <code>certainty</code>, <code>act</code> and <code>origin</code> come from the studio API. On <code>/v1/systemone</code> you get TypeSafe's fields only, unless you send the header <code>X-Basal-Extensions: 1</code>.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method post">POST</span><code>/v1/studio/decisions</code></div><div class="console-bar"><span class="dc-lang">curl</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c0-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8420/v1/studio/decisions<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span></span><span class="ln" style="--i:2"><span class="s1">  "model": "intern-decision-4b",</span></span><span class="ln" style="--i:2"><span class="s1">  "state": "Hi, we were billed twice for March on invoice #4411. Please refund the duplicate today or we will cancel our plan. The new dashboard is also very slow since last week.",</span></span><span class="ln" style="--i:2"><span class="s1">  "questions": {</span></span><span class="ln" style="--i:4"><span class="s1">    "department": {"type": "choice", "instructions": "Which team should handle this ticket?",</span></span><span class="ln" style="--i:19"><span class="s1">                   "criteria": {"billing": "invoices, payments, refunds",</span></span><span class="ln" style="--i:32"><span class="s1">                                "technical": "bugs and outages",</span></span><span class="ln" style="--i:32"><span class="s1">                                "sales": "pricing and upgrades"}},</span></span><span class="ln" style="--i:4"><span class="s1">    "urgency": {"type": "score", "instructions": "How urgent is this ticket?",</span></span><span class="ln" style="--i:16"><span class="s1">                "criteria": ["can wait", "soon", "today", "blocking"]},</span></span><span class="ln" style="--i:4"><span class="s1">    "churn_risk": {"type": "noul", "instructions": "Does the customer threaten to cancel?"},</span></span><span class="ln" style="--i:4"><span class="s1">    "topics": {"type": "multi", "instructions": "Which topics does the ticket raise?",</span></span><span class="ln" style="--i:15"><span class="s1">               "criteria": ["billing error", "refund", "performance", "login", "pricing"]},</span></span><span class="ln" style="--i:4"><span class="s1">    "first_reply": {"type": "rank", "instructions": "Which reply should come first?",</span></span><span class="ln" style="--i:20"><span class="s1">                    "criteria": ["confirm the refund", "apologise for the slow dashboard", "offer a discount"]},</span></span><span class="ln" style="--i:4"><span class="s1">    "minutes": {"type": "number", "instructions": "How many minutes will an agent need to resolve this?",</span></span><span class="ln" style="--i:16"><span class="s1">                "criteria": [5, 15, 30, 60, 120], "unit": "minutes"}</span></span><span class="ln" style="--i:2"><span class="s1">  }</span></span><span class="ln"><span class="s1">}'</span></span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status ok">200 OK</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"intern-decision-4b"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"answers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"department"</span><span class="p">:</span><span class="w">  </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"choice"</span><span class="p">,</span><span class="w"> </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"billing"</span><span class="p">,</span><span class="w"> </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9616</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"urgency"</span><span class="p">:</span><span class="w">     </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"score"</span><span class="p">,</span><span class="w">  </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w"> </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8158</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"churn_risk"</span><span class="p">:</span><span class="w">  </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noul"</span><span class="p">,</span><span class="w">   </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yes"</span><span class="p">,</span><span class="w"> </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9892</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"topics"</span><span class="p">:</span><span class="w">      </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"multi"</span><span class="p">,</span><span class="w">  </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"billing error"</span><span class="p">,</span><span class="w"> </span><span class="s2">"refund"</span><span class="p">,</span><span class="w"> </span><span class="s2">"performance"</span><span class="p">],</span><span class="w"> </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.799</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"first_reply"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rank"</span><span class="p">,</span><span class="w">   </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"confirm the refund"</span><span class="p">,</span><span class="w"> </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.807</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"minutes"</span><span class="p">:</span><span class="w">     </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="p">,</span><span class="w"> </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.3561</span><span class="p">}</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"needs_review"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"urgency"</span><span class="p">,</span><span class="w"> </span><span class="s2">"topics"</span><span class="p">,</span><span class="w"> </span><span class="s2">"first_reply"</span><span class="p">,</span><span class="w"> </span><span class="s2">"minutes"</span><span class="p">]</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec sub has-code"><div class="dsec-text"><h3 id="pick-one-choice">Pick one: <code>choice</code><a class="anchor" href="#pick-one-choice" title="Link to this section">#</a></h3>
+<p>The model picks exactly one option. Give each option a short name, which is what your code compares against, and a description when the name alone is ambiguous; a description often matters more to the model than the name. <code>criteria</code> can also be a plain list of names.</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="choice" tabindex="0">
+<td><code>choice</code></td>
+<td>The winning option.</td>
+</tr>
+<tr data-param="probabilities" tabindex="0">
+<td><code>probabilities</code></td>
+<td>One probability per option, adding up to 1.</td>
+</tr>
+<tr data-param="confidence" tabindex="0">
+<td><code>confidence</code></td>
+<td>TypeSafe's measure: (top − 1/K) / (1 − 1/K) for K options. 0 means no better than guessing, 1 means certain.</td>
+</tr>
+</tbody>
+</table></div>
+<p>A question may have up to 1,000 options, within the model's own limit (20 for Laya, 500 for Lev; see <a href="../../docs/concepts/decision-models.html#the-eleven-models">the model table</a>).</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">choice</span></div><div class="console-bar"><span class="dc-lang">Question</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c1-p0"><pre class="hl" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"department"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"choice"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Which team should handle this ticket?"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"criteria"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"billing"</span><span class="p">:</span><span class="w"> </span><span class="s2">"invoices, payments, refunds"</span><span class="p">,</span></span><span class="ln" style="--i:15"><span class="w">               </span><span class="nt">"technical"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bugs and outages"</span><span class="p">,</span></span><span class="ln" style="--i:15"><span class="w">               </span><span class="nt">"sales"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pricing and upgrades"</span><span class="p">}</span></span><span class="ln"><span class="p">}</span></span></code></pre></div><div class="console-split"><span>Response</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"department"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"choice"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"choice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"billing"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"probabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"billing"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9616</span><span class="p">,</span><span class="w"> </span><span class="nt">"technical"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0346</span><span class="p">,</span><span class="w"> </span><span class="nt">"sales"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0038</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9423</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"billing"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"top_probability"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9616</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9616</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"adhoc"</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec sub has-code"><div class="dsec-text"><h3 id="rate-on-a-scale-score">Rate on a scale: <code>score</code><a class="anchor" href="#rate-on-a-scale-score" title="Link to this section">#</a></h3>
+<p>Levels are ordered from lowest to highest. The answer gives a probability for each level, keyed <code>"0"</code>, <code>"1"</code> and so on, and an average position: <code>score</code> 2.11 here means "today, leaning towards blocking". Use <code>decision</code> (the single most likely level) when you need one level, and <code>score</code> when you sort or threshold.</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="score" tabindex="0">
+<td><code>score</code></td>
+<td>The expected level: the average of the level numbers, weighted by probability.</td>
+</tr>
+<tr data-param="legend" tabindex="0">
+<td><code>legend</code></td>
+<td>Your levels, keyed by their number.</td>
+</tr>
+<tr data-param="confidence" tabindex="0">
+<td><code>confidence</code></td>
+<td>1 when all the probability sits on one level; lower as it spreads.</td>
+</tr>
+<tr data-param="decision" tabindex="0">
+<td><code>decision</code></td>
+<td>The most likely level's key, as a string.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Levels may carry descriptions in the text itself, such as <code>"today: a person cannot work"</code>; <a href="../../docs/guides/improve.html">Improve a template safely</a> shows how much that can help.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">score</span></div><div class="console-bar"><span class="dc-lang">Question</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c2-p0"><pre class="hl" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"urgency"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"score"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"How urgent is this ticket?"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"criteria"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"can wait"</span><span class="p">,</span><span class="w"> </span><span class="s2">"soon"</span><span class="p">,</span><span class="w"> </span><span class="s2">"today"</span><span class="p">,</span><span class="w"> </span><span class="s2">"blocking"</span><span class="p">]</span></span><span class="ln"><span class="p">}</span></span></code></pre></div><div class="console-split"><span>Response</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"urgency"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"score"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.1073</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"legend"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"0"</span><span class="p">:</span><span class="w"> </span><span class="s2">"can wait"</span><span class="p">,</span><span class="w"> </span><span class="nt">"1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"soon"</span><span class="p">,</span><span class="w"> </span><span class="nt">"2"</span><span class="p">:</span><span class="w"> </span><span class="s2">"today"</span><span class="p">,</span><span class="w"> </span><span class="nt">"3"</span><span class="p">:</span><span class="w"> </span><span class="s2">"blocking"</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"probabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"0"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0084</span><span class="p">,</span><span class="w"> </span><span class="nt">"1"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0259</span><span class="p">,</span><span class="w"> </span><span class="nt">"2"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8158</span><span class="p">,</span><span class="w"> </span><span class="nt">"3"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1499</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8074</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"top_probability"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8158</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8158</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"adhoc"</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec sub has-code"><div class="dsec-text"><h3 id="yes-or-no-noul">Yes or no: <code>noul</code><a class="anchor" href="#yes-or-no-noul" title="Link to this section">#</a></h3>
+<p>The name comes from TypeSafe's API. Write the instruction as a statement or a question that is clearly true or false. <code>noul</code> is the probability of yes; <code>decision</code> is <code>"yes"</code> from 0.5 upwards. You can describe what yes and no mean with <code>"criteria": {"true": "…", "false": "…"}</code>.</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="noul" tabindex="0">
+<td><code>noul</code></td>
+<td>The probability of yes.</td>
+</tr>
+<tr data-param="probabilities" tabindex="0">
+<td><code>probabilities</code></td>
+<td><code>false</code> and <code>true</code>.</td>
+</tr>
+<tr data-param="decision" tabindex="0">
+<td><code>decision</code></td>
+<td><code>"yes"</code> or <code>"no"</code>.</td>
+</tr>
+</tbody>
+</table></div></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">noul</span></div><div class="console-bar"><span class="dc-lang">Question</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c3-p0"><pre class="hl" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"churn_risk"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noul"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Does the customer threaten to cancel?"</span></span><span class="ln"><span class="p">}</span></span></code></pre></div><div class="console-split"><span>Response</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"churn_risk"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noul"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"noul"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9892</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"probabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"false"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0108</span><span class="p">,</span><span class="w"> </span><span class="nt">"true"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9892</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yes"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"top_probability"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9892</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9892</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"adhoc"</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec sub has-code"><div class="dsec-text"><h3 id="pick-any-multi">Pick any: <code>multi</code><a class="anchor" href="#pick-any-multi" title="Link to this section">#</a></h3>
+<p>Each option is judged on its own as a yes-or-no question, so any number of options can apply, including none. An option is selected when its probability reaches <code>threshold</code> (0.5 unless you set it). A <code>multi</code> question takes 1 to 64 options, and each option counts as one question towards the model's question limit.</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="threshold" tabindex="0">
+<td><code>threshold</code></td>
+<td>The cut-off for selecting an option, between 0 and 1. A per-decision override is <code>settings.<wbr>questions.<wbr>&lt;key&gt;.<wbr>multi_<wbr>threshold</code>.</td>
+</tr>
+<tr data-param="selected" tabindex="0">
+<td><code>selected</code></td>
+<td>The options at or above the cut-off.</td>
+</tr>
+<tr data-param="probabilities" tabindex="0">
+<td><code>probabilities</code></td>
+<td>The probability that each option applies. These do not add up to 1.</td>
+</tr>
+<tr data-param="certainty" tabindex="0">
+<td><code>certainty</code></td>
+<td>The least certain option's max(p, 1 − p). Here "pricing" at 0.201 is 0.799 sure to be absent, the weakest call, so the answer is 0.799 certain.</td>
+</tr>
+</tbody>
+</table></div></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">multi</span></div><div class="console-bar"><span class="dc-lang">Question</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c4-p0"><pre class="hl" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"multi"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Which topics does the ticket raise?"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"criteria"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"billing error"</span><span class="p">,</span><span class="w"> </span><span class="s2">"refund"</span><span class="p">,</span><span class="w"> </span><span class="s2">"performance"</span><span class="p">,</span><span class="w"> </span><span class="s2">"login"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pricing"</span><span class="p">]</span></span><span class="ln"><span class="p">}</span></span></code></pre></div><div class="console-split"><span>Response</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"multi"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"selected"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"billing error"</span><span class="p">,</span><span class="w"> </span><span class="s2">"refund"</span><span class="p">,</span><span class="w"> </span><span class="s2">"performance"</span><span class="p">],</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"probabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"billing error"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8679</span><span class="p">,</span><span class="w"> </span><span class="nt">"refund"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9405</span><span class="p">,</span><span class="w"> </span><span class="nt">"performance"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9203</span><span class="p">,</span></span><span class="ln" style="--i:20"><span class="w">                    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0631</span><span class="p">,</span><span class="w"> </span><span class="nt">"pricing"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.201</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"threshold"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"billing error"</span><span class="p">,</span><span class="w"> </span><span class="s2">"refund"</span><span class="p">,</span><span class="w"> </span><span class="s2">"performance"</span><span class="p">],</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"top_probability"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9405</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.799</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"adhoc"</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec sub has-code"><div class="dsec-text"><h3 id="put-in-order-rank">Put in order: <code>rank</code><a class="anchor" href="#put-in-order-rank" title="Link to this section">#</a></h3>
+<p>A <code>rank</code> question is a <code>choice</code> whose options come back ordered from most to least likely. Use it when you will try options in turn: the reply to send first, the fix to try first, the candidate to show first. It needs at least two options.</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="ranking" tabindex="0">
+<td><code>ranking</code></td>
+<td>Every option, most likely first.</td>
+</tr>
+<tr data-param="choice" tabindex="0">
+<td><code>choice</code>, <code>decision</code></td>
+<td>The first option.</td>
+</tr>
+<tr data-param="confidence" tabindex="0">
+<td><code>confidence</code></td>
+<td>As for <code>choice</code>.</td>
+</tr>
+</tbody>
+</table></div></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">rank</span></div><div class="console-bar"><span class="dc-lang">Question</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c5-p0"><pre class="hl" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"first_reply"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rank"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Which reply should come first?"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"criteria"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"confirm the refund"</span><span class="p">,</span><span class="w"> </span><span class="s2">"apologise for the slow dashboard"</span><span class="p">,</span><span class="w"> </span><span class="s2">"offer a discount"</span><span class="p">]</span></span><span class="ln"><span class="p">}</span></span></code></pre></div><div class="console-split"><span>Response</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"first_reply"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rank"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"ranking"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"confirm the refund"</span><span class="p">,</span><span class="w"> </span><span class="s2">"apologise for the slow dashboard"</span><span class="p">,</span><span class="w"> </span><span class="s2">"offer a discount"</span><span class="p">],</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"probabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"confirm the refund"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.807</span><span class="p">,</span></span><span class="ln" style="--i:20"><span class="w">                    </span><span class="nt">"apologise for the slow dashboard"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1579</span><span class="p">,</span></span><span class="ln" style="--i:20"><span class="w">                    </span><span class="nt">"offer a discount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.035</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"choice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"confirm the refund"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"confirm the refund"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7105</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"top_probability"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.807</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.807</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"adhoc"</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec sub has-code"><div class="dsec-text"><h3 id="estimate-a-number-number">Estimate a number: <code>number</code><a class="anchor" href="#estimate-a-number-number" title="Link to this section">#</a></h3>
+<p>You list the values the number can take, 2 to 64 of them, as a list or as <code>{"30": "half an hour"}</code> with descriptions. The model scores each value, and the answer reports the expected value, the single most likely value and the range that holds the central 80% of the probability. Add <code>unit</code> to label the values.</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="estimate" tabindex="0">
+<td><code>estimate</code></td>
+<td>The expected value.</td>
+</tr>
+<tr data-param="most_likely" tabindex="0">
+<td><code>most_likely</code></td>
+<td>The value with the highest probability; also <code>decision</code>.</td>
+</tr>
+<tr data-param="range" tabindex="0">
+<td><code>range</code></td>
+<td>The smallest and largest value of the central 80%.</td>
+</tr>
+<tr data-param="unit" tabindex="0">
+<td><code>unit</code></td>
+<td>The unit you gave.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Spread the values over the range you care about; the estimate can only fall between your smallest and largest value.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="dc-title">number</span></div><div class="console-bar"><span class="dc-lang">Question</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c6-p0"><pre class="hl" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"minutes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"How many minutes will an agent need to resolve this?"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"criteria"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">],</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minutes"</span></span><span class="ln"><span class="p">}</span></span></code></pre></div><div class="console-split"><span>Response</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="nt">"minutes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"number"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"estimate"</span><span class="p">:</span><span class="w"> </span><span class="mf">26.0705</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"most_likely"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"range"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">],</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"unit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minutes"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"probabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"5"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1786</span><span class="p">,</span><span class="w"> </span><span class="nt">"15"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.3561</span><span class="p">,</span><span class="w"> </span><span class="nt">"30"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.295</span><span class="p">,</span><span class="w"> </span><span class="nt">"60"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1575</span><span class="p">,</span><span class="w"> </span><span class="nt">"120"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0128</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"top_probability"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.3561</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.3108</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.3561</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"adhoc"</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="labels-use-the-same-values">Labels use the same values<a class="anchor" href="#labels-use-the-same-values" title="Link to this section">#</a></h2>
+<p>When you record the right answer for a decision (feedback), add a test example or filter History by an answer, you use the same values as <code>decision</code>. A few other spellings are accepted on input and stored in the canonical form.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Canonical value</th>
+<th>Also accepted</th>
+<th>Counted correct when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>choice</code></td>
+<td>an option name</td>
+<td>none</td>
+<td>it equals <code>choice</code></td>
+</tr>
+<tr>
+<td><code>noul</code></td>
+<td><code>"yes"</code> or <code>"no"</code></td>
+<td><code>true</code>, <code>false</code>, <code>"true"</code>, <code>"false"</code></td>
+<td>it equals <code>decision</code></td>
+</tr>
+<tr>
+<td><code>score</code></td>
+<td>a level key, <code>"0"</code> to <code>"n-1"</code></td>
+<td>the level number, or the exact level text</td>
+<td>it equals <code>decision</code></td>
+</tr>
+<tr>
+<td><code>multi</code></td>
+<td>a list of option names</td>
+<td>none</td>
+<td>the sets are equal</td>
+</tr>
+<tr>
+<td><code>rank</code></td>
+<td>an option name</td>
+<td>a full or partial ordering (its first element is used)</td>
+<td>it equals <code>decision</code></td>
+</tr>
+<tr>
+<td><code>number</code></td>
+<td>a number</td>
+<td>a numeric string</td>
+<td>it falls inside <code>range</code></td>
+</tr>
+</tbody>
+</table></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="choosing-a-type">Choosing a type<a class="anchor" href="#choosing-a-type" title="Link to this section">#</a></h2>
+<ul>
+<li>One right answer from a fixed list: <strong>Pick one</strong>. If the list has more than about 20 entries, check the model's option limit, or use Lev or CLM 8B.</li>
+<li>Several labels can be true at once: <strong>Pick any</strong>, not several yes-or-no questions; the threshold and certainty then work across the set.</li>
+<li>An ordered judgement (urgency, severity, quality): <strong>Rate on a scale</strong>, so neighbouring levels count as near misses rather than unrelated options.</li>
+<li>A single rule check: <strong>Yes or no</strong>.</li>
+<li>Options you will try in turn: <strong>Put in order</strong>.</li>
+<li>A quantity: <strong>Estimate a number</strong>, with values spread over the range you care about.</li>
+</ul></div></section>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/concepts/decision-models.html"><span class="pg-l">Previous</span><span class="pg-t">Decision models</span></a><a class="pg next" href="../../docs/concepts/acting.html"><span class="pg-l">Next</span><span class="pg-t">Probabilities, certainty and acting</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

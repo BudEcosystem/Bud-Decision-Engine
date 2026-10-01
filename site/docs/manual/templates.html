@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Templates · Bud Decision Studio Docs</title>
+  <meta name="description" content="Keep decisions you reuse as templates, with variables, a default model and settings, numbered versions, aliases, test examples and a comparison of versions on real decisions.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Templates · Bud Decision Studio">
+  <meta property="og:description" content="Keep decisions you reuse as templates, with variables, a default model and settings, numbered versions, aliases, test examples and a comparison of versions on real decisions.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html" aria-current=page>Templates</a><nav class="side-toc" aria-label="On this page"><a href="#the-library">The library</a><a href="#ways-to-make-a-template">Ways to make a template</a><a href="#a-templates-page">A template&#x27;s page</a><a href="#overview">Overview</a><a href="#history">History</a><a href="#compare-versions">Compare versions</a><a href="#test-examples">Test examples</a><a href="#versions">Versions</a><a href="#changing-a-template">Changing a template</a><a href="#what-history-keeps-for-a-template">What History keeps for a template</a><a href="#archive-and-delete">Archive and delete</a></nav><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>User manual</span></p>
+      <h1>Templates</h1>
+      <p class="lead">A template is a decision you reuse. It holds the questions, the variables that fill in the situation, a default model and settings. Your code calls it by a short id, every save is a new numbered version, and every decision made with it is kept in its history.</p>
+    </header>
+    <h2 id="the-library">The library<a class="anchor" href="#the-library" title="Link to this section">#</a></h2>
+<p>Open <strong>Templates</strong> from the sidebar.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/templates.webp" alt="The library. Your templates first, then the Starter templates, grouped by use. Each card shows how many questions and variables the template has, its default model and when it was " loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 1</span>The library. <strong>Your templates</strong> first, then the <strong>Starter templates</strong>, grouped by use. Each card shows how many questions and variables the template has, its default model and when it was last used.</figcaption></figure>
+
+<ul>
+<li><strong>Search templates</strong> filters by id, name and description.</li>
+<li><strong>Show archived</strong> includes templates you have archived.</li>
+<li><strong>New template</strong> offers <strong>Build it in the Playground</strong> (write and try the decision first, then save it) or <strong>Paste a definition</strong> (the JSON that <code>POST /<wbr>v1/<wbr>studio/<wbr>templates</code> takes; every problem in it is listed at once).</li>
+</ul>
+<p><strong>Starter templates</strong> are ready-made decisions for common jobs: routing support messages, labelling log lines, screening prompts for injection, checking an agent's next action, matching invoices and more. There is one for every example in the Playground. They are read only: use one as it is, or choose <strong>Clone to edit</strong> on its page to make your own copy.</p>
+<h2 id="ways-to-make-a-template">Ways to make a template<a class="anchor" href="#ways-to-make-a-template" title="Link to this section">#</a></h2>
+<ul>
+<li><strong>From the Playground.</strong> Build a decision, then choose <strong>Save as template</strong>. See <a href="../../docs/manual/playground.html#save-a-decision-as-a-template">Playground</a>.</li>
+<li><strong>From a past decision.</strong> In <a href="../../docs/manual/history.html">History</a>, open a decision's <strong>...</strong> menu and choose <strong>Save as template</strong>.</li>
+<li><strong>From a definition.</strong> <strong>New template</strong>, then <strong>Paste a definition</strong>.</li>
+<li><strong>From a starter.</strong> Open it and choose <strong>Clone to edit</strong>.</li>
+<li><strong>From code.</strong> <code>PUT /<wbr>v1/<wbr>studio/<wbr>templates/<wbr>{id}</code> creates the template, and calling it again with changes saves the next version. See the <a href="../../docs/api/templates.html">Templates API</a>.</li>
+</ul>
+<h2 id="a-templates-page">A template's page<a class="anchor" href="#a-templates-page" title="Link to this section">#</a></h2>
+<p>Choose a template to open its page. The header shows its name, description and id, the latest version, any aliases (such as <strong>production: v2</strong>), and whether History keeps less than everything for it. On the right:</p>
+<ul>
+<li><strong>Open in Playground</strong> runs it with the variables form.</li>
+<li><strong>Edit</strong> opens it in the Playground with its questions unlocked, so you can try changes and <strong>Save version</strong>. Starter templates have <strong>Clone to edit</strong> instead.</li>
+<li><strong>...</strong> offers <strong>Rename or describe</strong> (does not create a version), <strong>History for this template</strong>, <strong>Duplicate</strong>, <strong>Copy definition as JSON</strong>, <strong>Archive</strong> and <strong>Delete</strong>.</li>
+</ul>
+<p>The page has five tabs: <strong>Overview</strong>, <strong>History</strong>, <strong>Compare versions</strong>, <strong>Test examples</strong> and <strong>Versions</strong>.</p>
+<h2 id="overview">Overview<a class="anchor" href="#overview" title="Link to this section">#</a></h2>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/template-overview.webp" alt="The Overview of Support triage version 2: its five variables and four questions, its model and settings, the models that can run it, and the call to use it from code." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 2</span>The <strong>Overview</strong> of Support triage version 2: its five variables and four questions, its model and settings, the models that can run it, and the call to use it from code.</figcaption></figure>
+
+<p><strong>The situation</strong> lists the template's variables, if it has any: their names, types, defaults and whether they are optional or <strong>sensitive</strong>. <strong>How they become the situation</strong> shows the state the variables are written into. A template without variables takes the whole situation from the caller, as <code>state</code>.</p>
+<p><strong>Questions</strong> shows each question as the model reads it, with its kind, its key in the API response and its options. Chips mark what callers may change: <strong>callers may add options</strong>, <strong>callers may skip</strong>, and a question's own act threshold (<strong>acts at 70%</strong>). The line underneath says whether callers may add questions of their own, and how many.</p>
+<p><strong>Model and settings</strong> shows the default model, when to act automatically, the calibration temperature, and any values set for one model only (for example, "On Laya: temperature 1.3, 1 question setting"). A request can set its own model and settings; History records which layer each value came from.</p>
+<p><strong>Models that can run it</strong> lists every model, greyed out where a model cannot run this template. Point at a greyed model to see why. The check is cautious: a model is also greyed when a text variable allows more text than the model can read, even though shorter messages work.</p>
+<p><strong>Use it from code</strong> has a ready-to-run curl command and a Python example. Call <code>support-triage</code> for the latest version, pin one with <code>support-triage@2</code>, or name an alias such as <code>support-<wbr>triage@production</code>.</p>
+<h3 id="variables">Variables<a class="anchor" href="#variables" title="Link to this section">#</a></h3>
+<p>Variables give the situation a fixed shape: callers fill in a message, a plan tier or a screenshot, and the template writes them into the situation in the same way every time.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>What callers send</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td>a string; optionally one of a fixed list (<code>enum</code>), with a maximum length</td>
+</tr>
+<tr>
+<td>whole number, number</td>
+<td>a number, optionally between a minimum and a maximum</td>
+</tr>
+<tr>
+<td>yes or no</td>
+<td><code>true</code> or <code>false</code></td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>any JSON value</td>
+</tr>
+<tr>
+<td>a list of options</td>
+<td>the options for a question, so callers can supply them per decision</td>
+</tr>
+<tr>
+<td>image, audio, video</td>
+<td>a file, uploaded or sent with the request</td>
+</tr>
+</tbody>
+</table></div>
+<p>Each variable can be required or optional and have a default. Two flags protect data:</p>
+<ul>
+<li><strong>sensitive</strong>: the value is used for the decision but never written to History. Only a keyed fingerprint is kept, which is enough to erase every decision about that value later (for example, everything about one customer's email address) through the API.</li>
+<li><strong>trusted</strong>: a free-text variable may appear inside a question's wording only if it is marked trusted (set by your code, not typed by an end user) or limited to a fixed list. This stops a customer's message from rewriting your questions.</li>
+</ul>
+<h2 id="history">History<a class="anchor" href="#history" title="Link to this section">#</a></h2>
+<p>The <strong>History</strong> tab lists the decisions made with this template, newest first, with the version each one used.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/template-history.webp" alt="Decisions made with Support triage. The strip at the top counts decisions per version, how many acted automatically and the typical time." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 3</span>Decisions made with Support triage. The strip at the top counts decisions per version, how many acted automatically and the typical time.</figcaption></figure>
+
+<p>Choose a decision to open it in History. <strong>Filter and label them in History</strong> opens the full History page filtered to this template, where you can label the right answers.</p>
+<h2 id="compare-versions">Compare versions<a class="anchor" href="#compare-versions" title="Link to this section">#</a></h2>
+<p>When a template has two or more versions, <strong>Compare versions</strong> shows how they behave on real decisions, so you can decide whether to switch.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/template-compare.webp" alt="Version 1 against version 2. Version 2 added the account option and the wants_refund question and lowered the act threshold; callers keep working." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 4</span>Version 1 against version 2. Version 2 added the <code>account</code> option and the <code>wants_refund</code> question and lowered the act threshold; callers keep working.</figcaption></figure>
+
+<p>Choose the two versions, optionally one model, and a time range (<strong>All time</strong>, <strong>7 days</strong>, <strong>30 days</strong>). The strip compares the number of decisions, the typical time and failures, and names what changed:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Extended</strong></td>
+<td>questions, options, variables or file types were added; existing calls work as before</td>
+</tr>
+<tr>
+<td><strong>Wording</strong></td>
+<td>a question's text, a variable's constraints or the state changed</td>
+</tr>
+<tr>
+<td><strong>Settings</strong></td>
+<td>only the model, the settings or what callers may change</td>
+</tr>
+<tr>
+<td><strong>Breaking</strong></td>
+<td>a question, option or variable was removed or changed incompatibly; the strip says whether existing calls may now be refused</td>
+</tr>
+</tbody>
+</table></div>
+<p>Below, each question has its own card with a label for how comparable it is (<strong>Same question</strong>, <strong>Reworded</strong>, <strong>Options changed</strong>, <strong>Not comparable</strong>, <strong>New</strong>, <strong>Removed</strong>) and, for both versions:</p>
+<ul>
+<li><strong>Acted automatically</strong>: the share of decisions sure enough to act on.</li>
+<li><strong>Average certainty</strong>: how sure the answers were.</li>
+<li><strong>Accuracy on labels</strong>: how often the answer matched the right answer, on decisions you labelled in History.</li>
+<li><strong>Same input, same answer</strong>: for inputs that both versions saw, how often the answer stayed the same, and which answers changed.</li>
+<li><strong>The distribution of answers</strong>, version against version.</li>
+</ul>
+<p>The distributions count only decisions that used the template's own questions unchanged.</p>
+<h2 id="test-examples">Test examples<a class="anchor" href="#test-examples" title="Link to this section">#</a></h2>
+<p>Test examples are inputs with their right answers. Use them to check a new version, or another model, before switching.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/template-examples.webp" alt="The Test examples tab: each example&#x27;s input, its right answers and its tags." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 5</span>The <strong>Test examples</strong> tab: each example's input, its right answers and its tags.</figcaption></figure>
+
+<p>The quickest way to collect them is from real decisions: in History, label a decision's right answers, then choose <strong>Add to support-triage's test examples</strong> in its <strong>...</strong> menu. <strong>Add example</strong> adds one by hand, as JSON with the input and the expected answers (a scale takes the level number, "0" being the lowest; yes or no takes "yes" or "no"). <strong>Export</strong> downloads them all as JSON lines.</p>
+<p>Every change to the examples creates a new revision, so a past evaluation can always be repeated on exactly the examples it used.</p>
+<h2 id="versions">Versions<a class="anchor" href="#versions" title="Link to this section">#</a></h2>
+<p>Every save is a new version, and versions never change once saved.</p>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/template-versions.webp" alt="The version list: each version&#x27;s change class, aliases, the note written when it was saved and a summary of what changed." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 6</span>The version list: each version's change class, aliases, the note written when it was saved and a summary of what changed.</figcaption></figure>
+
+<p>For each version:</p>
+<ul>
+<li><strong>View</strong> shows it on the Overview tab.</li>
+<li><strong>Compare with 1</strong> (the previous version) opens Compare versions.</li>
+<li><strong>Set alias</strong> points a name, such as <code>production</code> or <code>staging</code>, at this version. Code that calls <code>support-<wbr>triage@production</code> gets whichever version the alias points at, so you can promote a new version without changing your code.</li>
+<li><strong>Restore</strong> saves an old version again as the newest one. Nothing is lost: the versions in between stay in the list.</li>
+</ul>
+<p>The <code>latest</code> alias always points at the newest version. A version that may refuse existing calls carries a warning: "Requests that worked on version 1 may be refused."</p>
+<h2 id="changing-a-template">Changing a template<a class="anchor" href="#changing-a-template" title="Link to this section">#</a></h2>
+<p>Choose <strong>Edit</strong>. The Playground opens the latest version with its questions unlocked. Try your changes with <strong>Decide</strong>; these trial decisions are kept in History as drafts and do not count in the template's statistics. When you are happy, choose <strong>Save version</strong>, describe what changed, and the edits become the next version. Callers of the latest version use it at once; callers pinned to a version or an alias do not.</p>
+<p>If you save without changing anything, no version is created. If someone else saved a version since you opened the template, the studio refuses to overwrite it and offers to reload.</p>
+<p>To change only the name or description, use <strong>...</strong>, then <strong>Rename or describe</strong>; that does not create a version.</p>
+<h2 id="what-history-keeps-for-a-template">What History keeps for a template<a class="anchor" href="#what-history-keeps-for-a-template" title="Link to this section">#</a></h2>
+<p><strong>...</strong>, then <strong>History for this template</strong>, sets two limits for every decision made with the template:</p>
+<ul>
+<li><strong>What is kept for each decision</strong>: <strong>Everything</strong>, <strong>Answers only</strong> (the answers, model and timing, but not the situation) or <strong>Nothing</strong>. Callers can keep less than this, never more.</li>
+<li><strong>Keep decisions for (days)</strong>: empty uses the studio setting; 0 keeps them for ever.</li>
+</ul>
+<h2 id="archive-and-delete">Archive and delete<a class="anchor" href="#archive-and-delete" title="Link to this section">#</a></h2>
+<p><strong>Archive</strong> hides a template from the library; code that calls it keeps working. <strong>Unarchive</strong> brings it back.</p>
+<p><strong>Delete</strong> removes the template: code that calls it gets "template not found". Its decisions stay in History with the exact version they used; delete them there if you want them gone.</p>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/manual/playground.html"><span class="pg-l">Previous</span><span class="pg-t">Playground</span></a><a class="pg next" href="../../docs/manual/history.html"><span class="pg-l">Next</span><span class="pg-t">History</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

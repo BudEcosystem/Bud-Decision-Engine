@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Architecture · Bud Decision Studio Docs</title>
+  <meta name="description" content="How Bud Decision Studio is built: the server, one worker process per model, adapters, the decision pipeline, templates, history and the interface.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Architecture · Bud Decision Studio">
+  <meta property="og:description" content="How Bud Decision Studio is built: the server, one worker process per model, adapters, the decision pipeline, templates, history and the interface.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs has-console" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html" aria-current=page>Architecture</a><nav class="side-toc" aria-label="On this page"><a href="#the-parts">The parts</a><a href="#how-a-decision-flows">How a decision flows</a><a href="#one-process-per-model">One process per model</a><a href="#adapters-and-the-answer-contract">Adapters and the answer contract</a><a href="#models-and-downloads">Models and downloads</a><a href="#templates-and-history">Templates and history</a><a href="#the-interface">The interface</a><a href="#where-things-live">Where things live</a></nav><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>Developers</span></p>
+      <h1>Architecture</h1>
+      <p class="lead">The studio is a small Python server that never touches the GPU, plus one separate process for each loaded model. This page follows a decision from the request to the history row and names the module that owns each step.</p>
+    </header>
+    <section class="dsec has-code"><div class="dsec-text"><h2 id="the-parts">The parts<a class="anchor" href="#the-parts" title="Link to this section">#</a></h2>
+<p>Bud Decision Studio has four layers. Each one can fail or restart without taking the others down.</p>
+<ul>
+<li><strong>The interface</strong> (<code>ui/</code>) is plain HTML, CSS and JavaScript modules with no build step. It runs in the desktop app's window or in any browser, and talks to the server over HTTP like any other client.</li>
+<li><strong>The studio server</strong> (<code>basal/server.py</code>, FastAPI) serves the interface, every API format, the management endpoints and the studio API. It owns the database and the download queue. It never imports PyTorch, so it stays responsive while a 24 GB model loads.</li>
+<li><strong>Worker processes</strong> (<code>basal/worker.py</code>), one per loaded model. A worker loads exactly one model through its <strong>adapter</strong> (the small class that drives that model's own library) and answers decisions over HTTP on <code>127.0.0.1</code>.</li>
+<li><strong>The desktop shell</strong> (<code>desktop/</code>, Tauri) installs the engine on first run, starts the server, points its window at it, and stops it on quit.</li>
+</ul>
+<p>Model weights are not part of the studio. They live in the standard Hugging Face cache, shared with your other tools.</p>
+<p>The Python modules in the diagram live in <code>basal/</code>.</p></div><div class="dsec-code"><div class="dsec-pin"><figure class="console dc dg"><div class="dc-head"><span class="dc-title">How the parts connect</span></div><ol class="dg-stack"><li class="dg-node"><div class="dg-box"><p class="dg-name">Desktop app<span>desktop/ · Tauri</span></p><p class=dg-what>The first run installs the engine; later runs start the server and show it.</p></div></li><li class="dg-link" aria-hidden="true"><span>shows</span></li><li class="dg-node"><div class="dg-box"><p class="dg-name">Interface<span>ui/</span></p><p class=dg-what>HTML, CSS and JavaScript modules with no build step.</p></div></li><li class="dg-link" aria-hidden="true"><span>HTTP</span></li><li class="dg-node"><div class="dg-box"><p class="dg-name">Studio server<span>basal/server.py · FastAPI</span></p><dl class="dg-mods"><div><dt>API formats</dt><dd>api_compat.py</dd></div><div><dt>Studio API</dt><dd>studio_api.py</dd></div><div><dt>Decision pipeline</dt><dd>decisions.py</dd></div><div><dt>Templates</dt><dd>templates.py, template_store.py</dd></div><div><dt>History</dt><dd>history.py, db.py</dd></div><div><dt>Media files</dt><dd>blobs.py</dd></div><div><dt>Downloads</dt><dd>hub.py, fetch.py</dd></div><div><dt>Worker manager</dt><dd>workers.py</dd></div></dl></div></li><li class="dg-link" aria-hidden="true"><span>HTTP on 127.0.0.1, one port per model</span></li><li class="dg-node"><div class="dg-box"><p class="dg-name">Worker, one per loaded model<span>basal/worker.py</span></p><p class=dg-what>Loads one model through its adapter and runs it on the GPU or the processor.</p><dl class="dg-mods"><div><dt>Adapter</dt><dd>adapters/</dd></div></dl></div></li></ol></figure></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="how-a-decision-flows">How a decision flows<a class="anchor" href="#how-a-decision-flows" title="Link to this section">#</a></h2>
+<p>Every entry point, from the Playground to the official TypeSafe SDK, goes through the same steps. The stateless wire routes (<code>/v1/systemone</code> and the gateway formats) and the studio API (<code>/v1/studio/decisions</code>) differ only in steps 2 and 7.</p>
+<div class="steps"><ol>
+<li><strong>The request is checked before any handler runs.</strong> The middleware in <code>server.py</code> refuses a <code>Host</code> header that is not this machine (a guard against DNS rebinding), writes from other websites (<code>guard.py</code>), management calls without <code>X-Basal-Client: 1</code>, and, when <code>BASAL_API_KEY</code> is set, calls from other machines without the key. Without a key, other machines may make decisions but cannot reach history, templates or settings.</li>
+<li><strong>The request is read.</strong> Wire routes parse the body in their published shape (<code>api_compat.parse</code>). The studio API resolves it (<code>decisions.resolve</code>): the template reference becomes one version, variables fill in the situation, extra questions are merged, and the model and settings are chosen, each setting with the layer it came from.</li>
+<li><strong>A model is chosen and made ready.</strong> A named model is used; with no name, the most recently loaded one. If it is downloaded but not loaded, it loads now (auto-load, on by default).</li>
+<li><strong>The worker answers.</strong> The server posts the request to the model's worker. The worker checks the model's limits (question types, options, questions, media), turns the six question types into the three the models know, and calls the adapter.</li>
+<li><strong>Probabilities become answers.</strong> <code>contract.build_answers</code> applies the calibration temperature and computes each answer's confidence, so an answer means the same thing on every model.</li>
+<li><strong>Each answer is gated.</strong> An answer <em>acts</em> when its certainty reaches the act threshold; the others are listed in <code>needs_review</code>.</li>
+<li><strong>The decision is recorded, then answered.</strong> Unless the caller opted out (<code>"store": false</code>), <code>history.insert</code> writes the decision in one transaction. A content-free usage counter is written either way. Wire routes return exactly the published response shape and add only <code>x-basal-*</code> headers; the studio API returns the full decision object.</li>
+</ol></div>
+
+<p>The pipeline is described at the top of <code>basal/decisions.py</code> as four words: resolve, check, run, record.</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="one-process-per-model">One process per model<a class="anchor" href="#one-process-per-model" title="Link to this section">#</a></h2>
+<p>Loading a model starts a worker, <code>python -m basal.worker</code>, with the model's id, a free port and the load options, and its own log file, <code>DATA/<wbr>logs/<wbr>worker-<wbr>&lt;id&gt;.<wbr>log</code>. The worker starts a small web server at once and loads the model in a background thread, reporting each stage ("Importing the model's code", "Warming up") through <code>GET /health</code>. The server polls every worker's health about once a second; that is what the sidebar and the Models page show.</p>
+<p>Ejecting a model sends <code>POST /shutdown</code> and then ends the worker's whole process group. This is the only reliable way to hand back every byte of GPU memory: PyTorch caches allocations and libraries keep references, so unloading inside a long-lived process leaks. It also means a crash in one model cannot take down the studio. When a worker dies, <code>workers.explain_exit</code> turns the exit code and the last lines of its log into a readable reason, such as running out of memory.</p>
+<p>A worker answers one request at a time. Workers never open the database and never reach the network: they start with <code>HF_HUB_OFFLINE=1</code>, because the studio downloads weights before a model loads.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method get">GET</span><code>/health</code></div><div class="console-bar"><span class="dc-lang">Request</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c0-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln"><span class="c1"># worker.port in GET /api/models/&lt;id&gt;</span></span><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:46667/health</span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status ok">200 OK</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fake-decider"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"pid"</span><span class="p">:</span><span class="w"> </span><span class="mi">2289261</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ready"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"stage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ready"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"progress"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"error"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"detail"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"warning"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"uptime_s"</span><span class="p">:</span><span class="w"> </span><span class="mf">149.7</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"load_seconds"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.9</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"requests"</span><span class="p">:</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"busy_ms"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"memory"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"options"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="adapters-and-the-answer-contract">Adapters and the answer contract<a class="anchor" href="#adapters-and-the-answer-contract" title="Link to this section">#</a></h2>
+<p><code>basal/contract.py</code> defines one request format for every model. It accepts the six question types and <strong>normalises</strong> them into the three that decision models answer natively:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Question type</th>
+<th>What the adapter receives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>choice</code>, <code>score</code>, <code>noul</code></td>
+<td>the same question</td>
+</tr>
+<tr>
+<td><code>multi</code> (pick any)</td>
+<td>one yes-or-no question per option</td>
+</tr>
+<tr>
+<td><code>rank</code> (put in order)</td>
+<td>one <code>choice</code> question; options are ordered by probability</td>
+</tr>
+<tr>
+<td><code>number</code> (estimate a number)</td>
+<td>one <code>score</code> question over the allowed values</td>
+</tr>
+</tbody>
+</table></div>
+<p>An adapter receives these primitive questions and returns, for each one, a probability per option in a fixed order. It never formats answers. <code>build_answers</code> recomposes the extension types and builds the answer objects, so every model's answers have the same fields and the same meaning. The interface to implement is on <a href="../../docs/dev/adding-a-model.html">Add a model</a>.</p>
+<p>Adapters live in <code>basal/adapters/</code> and are imported lazily, so a worker loads only the library its model needs. A model with a different library, such as Laya's <code>laya</code> package or GLiNER's <code>gliner2</code>, gets its own adapter; models of one family share one.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="models-and-downloads">Models and downloads<a class="anchor" href="#models-and-downloads" title="Link to this section">#</a></h2>
+<p><code>basal/catalog.py</code> lists the eleven models: their Hugging Face repositories, the adapter that runs them, their limits (question types, options, questions, context length) and the plain-language text the interface shows.</p>
+<p><code>basal/hub.py</code> answers "what is on disk" by reading the Hugging Face cache directly, so files downloaded by other tools count. Downloads run <strong>one at a time</strong>, smallest remaining download first, ties going to the model with more likes on the Hub. Each download is its own process (<code>python -<wbr>m basal.<wbr>fetch &lt;repo&gt;</code>): cancelling is immediate, a failed download cannot disturb the server, and a download keeps going across a studio restart, which picks it up again. The queue is saved in <code>DATA/download_queue.json</code>.</p>
+<p><code>basal/config.py</code> holds where models run: the device chosen during setup (in <code>DATA/config.json</code>), the devices this computer offers, and whether a model fits in its memory.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="templates-and-history">Templates and history<a class="anchor" href="#templates-and-history" title="Link to this section">#</a></h2>
+<p><strong>Templates</strong> are split in two. <code>basal/templates.py</code> is pure logic with no database: it checks a definition, fills in variables, merges a caller's extra questions, picks settings per question, classifies how a new version differs from the last, and exports a JSON Schema. <code>basal/template_store.py</code> stores heads, immutable versions, aliases and test examples, and seeds the 30 starter templates (<code>builtin/&lt;scenario&gt;</code>) from <code>basal/<wbr>builtin_<wbr>templates.<wbr>json</code> at every start.</p>
+<p><strong>History</strong> is one SQLite file, <code>DATA/studio.db</code>, opened by <code>basal/db.py</code> in WAL mode: one writer connection guarded by a lock, and a read-only connection per thread. A decision is written once, in one transaction, as a small row for lists and filters, a body read only when one decision is opened, and one row per answer for filters and statistics. <code>basal/history.py</code> writes and queries it, computes statistics and version comparisons, and runs the retention sweeper. Media files are stored once per content in <code>DATA/blobs/</code> by <code>basal/blobs.py</code>. Details on <a href="../../docs/dev/storage.html">Data and storage</a>.</p>
+<p>If history cannot open, decisions keep working and nothing is saved; the reason is printed at startup and the studio API answers <code>503 history_unavailable</code> for history calls.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="the-interface">The interface<a class="anchor" href="#the-interface" title="Link to this section">#</a></h2>
+<p>The interface is <code>ui/index.html</code> plus ES modules in <code>ui/js/</code>, loaded directly by the browser. <code>app.js</code> draws the shell (sidebar, title bar, status bar) and routes between pages in <code>ui/js/pages/</code>; <code>store.js</code> talks to the server and keeps one shared, regularly refreshed copy of <code>GET /api/state</code>. Model details and published results come from <code>ui/registry.json</code>; each model's examples from <code>ui/js/model-guides.js</code> and <code>ui/js/examples.js</code>.</p>
+<p>The server sends the interface's files with <code>cache-control: no-cache</code>, so after an update the window never runs yesterday's scripts. The interface sends the header <code>X-Basal-Client</code> on every call, which is how the server tells its own pages from other clients; it refreshes the state about once a second while the window is visible.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="where-things-live">Where things live<a class="anchor" href="#where-things-live" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it owns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>basal/server.py</code></td>
+<td>The FastAPI app: request checks, management endpoints (<code>/api/...</code>), the wire routes, the interface</td>
+</tr>
+<tr>
+<td><code>basal/studio_api.py</code></td>
+<td>The studio API at <code>/v1/studio</code>, with one error envelope for every problem</td>
+</tr>
+<tr>
+<td><code>basal/studio_docs.py</code></td>
+<td>Request bodies and examples for the interactive reference at <code>/docs</code></td>
+</tr>
+<tr>
+<td><code>basal/api_compat.py</code></td>
+<td>The published wire formats: TypeSafe, OpenRouter, Vercel AI Gateway</td>
+</tr>
+<tr>
+<td><code>basal/decisions.py</code></td>
+<td>The decision pipeline, background decisions, idempotency keys</td>
+</tr>
+<tr>
+<td><code>basal/contract.py</code></td>
+<td>The request format, question normalisation, answers, certainty and the act gate</td>
+</tr>
+<tr>
+<td><code>basal/templates.py</code></td>
+<td>Template logic: checks, variables, extensions, settings, versions, diffs</td>
+</tr>
+<tr>
+<td><code>basal/template_store.py</code></td>
+<td>Templates, versions, aliases, test examples and starter templates in the database</td>
+</tr>
+<tr>
+<td><code>basal/history.py</code></td>
+<td>Recording and querying decisions, statistics, feedback, export, retention</td>
+</tr>
+<tr>
+<td><code>basal/db.py</code></td>
+<td>The SQLite connection, migrations, backups and read-only mode</td>
+</tr>
+<tr>
+<td><code>basal/blobs.py</code></td>
+<td>Images, audio and video, stored once per content</td>
+</tr>
+<tr>
+<td><code>basal/guard.py</code></td>
+<td>The cross-site guard</td>
+</tr>
+<tr>
+<td><code>basal/errors.py</code>, <code>basal/ids.py</code></td>
+<td>The studio API's error envelope; <code>dec_...</code>-style ids</td>
+</tr>
+<tr>
+<td><code>basal/workers.py</code>, <code>basal/worker.py</code></td>
+<td>Starting, watching and stopping workers; the worker process itself</td>
+</tr>
+<tr>
+<td><code>basal/adapters/</code></td>
+<td>One adapter per model family, the base class, and the test model</td>
+</tr>
+<tr>
+<td><code>basal/catalog.py</code>, <code>basal/hub.py</code>, <code>basal/fetch.py</code></td>
+<td>The model list, what is on disk, the download queue</td>
+</tr>
+<tr>
+<td><code>basal/config.py</code>, <code>basal/sysinfo.py</code></td>
+<td>Devices and memory fit; live GPU, memory and disk figures</td>
+</tr>
+<tr>
+<td><code>basal/paths.py</code></td>
+<td>Where the studio keeps its files (<code>BASAL_DATA</code>)</td>
+</tr>
+<tr>
+<td><code>basal/doctor.py</code></td>
+<td><code>python -m basal.doctor</code>, the environment check</td>
+</tr>
+<tr>
+<td><code>basal/migrations/</code></td>
+<td>Database migrations, applied in order at startup</td>
+</tr>
+<tr>
+<td><code>installer/engine.py</code></td>
+<td>Hardware detection and the one-step engine install, shared by the app and <code>install.sh</code></td>
+</tr>
+<tr>
+<td><code>desktop/</code></td>
+<td>The desktop app: setup screens and the Rust shell</td>
+</tr>
+<tr>
+<td><code>ui/</code></td>
+<td>The interface</td>
+</tr>
+<tr>
+<td><code>tests/</code>, <code>scripts/</code></td>
+<td>Test suites, the end-to-end check and maintenance scripts</td>
+</tr>
+</tbody>
+</table></div></div></section>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/api/errors.html"><span class="pg-l">Previous</span><span class="pg-t">Errors</span></a><a class="pg next" href="../../docs/dev/source.html"><span class="pg-l">Next</span><span class="pg-t">Run from source</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

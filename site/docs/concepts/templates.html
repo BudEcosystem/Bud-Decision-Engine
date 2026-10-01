@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Templates and versions · Bud Decision Studio Docs</title>
+  <meta name="description" content="What a template holds, how variables become the situation a model reads, how every change becomes a version, and how aliases and extensions let code and templates change at their own pace.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Templates and versions · Bud Decision Studio">
+  <meta property="og:description" content="What a template holds, how variables become the situation a model reads, how every change becomes a version, and how aliases and extensions let code and templates change at their own pace.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs has-console" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html" aria-current=page>Templates and versions</a><nav class="side-toc" aria-label="On this page"><a href="#what-a-template-holds">What a template holds</a><a href="#variables">Variables</a><a href="#how-variables-become-the-situation">How variables become the situation</a><a href="#options-from-a-variable">Options from a variable</a><a href="#versions">Versions</a><a href="#calling-a-version">Calling a version</a><a href="#extensions">Extensions</a><a href="#starter-templates">Starter templates</a><a href="#archiving-and-deleting">Archiving and deleting</a></nav><a href="../../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>Concepts</span></p>
+      <h1>Templates and versions</h1>
+      <p class="lead">A template is a decision you reuse. It holds the questions, the variables that fill in the situation, a default model and settings. Every change to it is saved as a new version that never changes again, so you always know which questions produced a past answer.</p>
+    </header>
+    <section class="dsec has-code"><div class="dsec-text"><h2 id="what-a-template-holds">What a template holds<a class="anchor" href="#what-a-template-holds" title="Link to this section">#</a></h2>
+<p>Callers send a template's id and the values of its variables; the template supplies everything else. The response on the right is the support-triage template used throughout these docs, at version 2.</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr data-param="id" tabindex="0">
+<td><code>id</code></td>
+<td>The name used in code, chosen once and never changed: lowercase letters, digits, <code>-</code> and <code>_</code>.</td>
+</tr>
+<tr data-param="name" tabindex="0">
+<td><code>name</code>, <code>description</code>, <code>metadata</code></td>
+<td>For people. Changing them never creates a version.</td>
+</tr>
+<tr data-param="variables" tabindex="0">
+<td><code>variables</code></td>
+<td>The values callers fill in, each with a type. See <a href="#variables">Variables</a>.</td>
+</tr>
+<tr data-param="state" tabindex="0">
+<td><code>state</code></td>
+<td>How the variables become the situation: text or JSON with <code>{{name}}</code> placeholders.</td>
+</tr>
+<tr data-param="questions" tabindex="0">
+<td><code>questions</code></td>
+<td>1 to 128 questions, in any of the <a href="../../docs/concepts/question-types.html">six types</a>.</td>
+</tr>
+<tr data-param="modalities" tabindex="0">
+<td><code>modalities</code></td>
+<td>The kinds of input callers may attach: <code>text</code>, plus <code>image</code>, <code>audio</code> or <code>video</code>.</td>
+</tr>
+<tr data-param="model" tabindex="0">
+<td><code>model</code></td>
+<td>The default model. <code>null</code> means the most recently loaded model.</td>
+</tr>
+<tr data-param="settings" tabindex="0">
+<td><code>settings</code></td>
+<td>Act threshold and temperature, with per-model and per-question values. See <a href="../../docs/concepts/acting.html#where-the-settings-come-from">Where the settings come from</a>.</td>
+</tr>
+<tr data-param="extensions" tabindex="0">
+<td><code>extensions</code></td>
+<td>What callers may change per decision. See <a href="#extensions">Extensions</a>.</td>
+</tr>
+<tr data-param="storage" tabindex="0">
+<td><code>storage</code>, <code>retention_days</code></td>
+<td>How much of this template's history is kept, and for how long. See <a href="../../docs/concepts/history.html">History and privacy</a>.</td>
+</tr>
+<tr data-param="aliases" tabindex="0">
+<td><code>aliases</code></td>
+<td>Names for versions, such as <code>production</code>. <code>latest</code> always points at the newest.</td>
+</tr>
+<tr data-param="version" tabindex="0">
+<td><code>version</code>, <code>note</code></td>
+<td>The version shown, and why it was saved.</td>
+</tr>
+</tbody>
+</table></div>
+<p>A template works with every model. Limits such as the number of options are checked against the model that answers each decision, and the template page in the app lists which models can run it.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method get">GET</span><code>/<wbr>v1/<wbr>studio/<wbr>templates/<wbr>{id}</code></div><div class="console-bar"><span class="dc-lang">curl</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c0-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8420/v1/studio/templates/support-triage</span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status ok">200 OK</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"support-triage"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"template"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Support triage"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Route inbound tickets, rate urgency, flag churn risk."</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"archived"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"owner_team"</span><span class="p">:</span><span class="w"> </span><span class="s2">"support-eng"</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"storage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"full"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"retention_days"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"aliases"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"latest"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">"production"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"examples_revision"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"examples_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"note"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Add the account team; ask about refunds; act a little sooner"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"content_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sha256:dc9d7ac12f17ca5058a94453934581e092833b263a655d070949622dcddd35fe"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"modalities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"text"</span><span class="p">,</span><span class="w"> </span><span class="s2">"image"</span><span class="p">],</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"variables"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"customer_message"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w"> </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The message, verbatim."</span><span class="p">,</span><span class="w"> </span><span class="nt">"max_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">8000</span><span class="p">,</span></span><span class="ln" style="--i:25"><span class="w">                         </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"sensitive"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"trusted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"account_tier"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w"> </span><span class="nt">"enum"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"free"</span><span class="p">,</span><span class="w"> </span><span class="s2">"pro"</span><span class="p">,</span><span class="w"> </span><span class="s2">"enterprise"</span><span class="p">],</span><span class="w"> </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="s2">"free"</span><span class="p">,</span></span><span class="ln" style="--i:21"><span class="w">                     </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"sensitive"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"trusted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"open_invoices"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="p">,</span><span class="w"> </span><span class="nt">"minimum"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"sensitive"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"trusted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"customer_email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="p">,</span><span class="w"> </span><span class="nt">"max_length"</span><span class="p">:</span><span class="w"> </span><span class="mi">320</span><span class="p">,</span><span class="w"> </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"sensitive"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"trusted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"screenshot"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image"</span><span class="p">,</span><span class="w"> </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"sensitive"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"trusted"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">}</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"customer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"tier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{account_tier}}"</span><span class="p">,</span><span class="w"> </span><span class="nt">"open_invoices"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{open_invoices}}"</span><span class="p">,</span><span class="w"> </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{customer_email}}"</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{customer_message}}"</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"questions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"department"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"choice"</span><span class="p">,</span><span class="w"> </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Which department should handle this request?"</span><span class="p">,</span></span><span class="ln" style="--i:19"><span class="w">                   </span><span class="nt">"criteria"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"billing"</span><span class="p">:</span><span class="w"> </span><span class="s2">"invoices, payments, refunds"</span><span class="p">,</span><span class="w"> </span><span class="nt">"technical"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bugs, outages, system errors"</span><span class="p">,</span></span><span class="ln" style="--i:32"><span class="w">                                </span><span class="nt">"sales"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pricing, upgrades, new contracts"</span><span class="p">,</span><span class="w"> </span><span class="nt">"other"</span><span class="p">:</span><span class="w"> </span><span class="s2">"anything else"</span><span class="p">,</span></span><span class="ln" style="--i:32"><span class="w">                                </span><span class="nt">"account"</span><span class="p">:</span><span class="w"> </span><span class="s2">"login, seats, access"</span><span class="p">}},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"urgency"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"score"</span><span class="p">,</span><span class="w"> </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"How urgent is this request? The customer is on the {{account_tier}} plan."</span><span class="p">,</span></span><span class="ln" style="--i:16"><span class="w">                </span><span class="nt">"criteria"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"can wait"</span><span class="p">,</span><span class="w"> </span><span class="s2">"soon"</span><span class="p">,</span><span class="w"> </span><span class="s2">"today"</span><span class="p">,</span><span class="w"> </span><span class="s2">"blocking or at risk of churn"</span><span class="p">]},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"churn_risk"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noul"</span><span class="p">,</span><span class="w"> </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Does the customer threaten to cancel or leave?"</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"wants_refund"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noul"</span><span class="p">,</span><span class="w"> </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Does the customer ask for money back?"</span><span class="p">}</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"laya"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"settings"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"act_threshold"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.85</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"temperature"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.1</span><span class="p">,</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"questions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"churn_risk"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"act_threshold"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7</span><span class="p">}},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"models"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"laya"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"temperature"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.3</span><span class="p">,</span><span class="w"> </span><span class="nt">"questions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"urgency"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"temperature"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.8</span><span class="p">}}}}</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"extensions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"questions"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"max_questions"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="nt">"options"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"department"</span><span class="p">],</span><span class="w"> </span><span class="nt">"skip"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"churn_risk"</span><span class="p">]},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1790809637</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1790809637</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"last_used_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1790809696</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="variables">Variables<a class="anchor" href="#variables" title="Link to this section">#</a></h2>
+<p>A variable is a typed value the caller sends with each decision. Types are strict: <code>"42"</code> is not an integer, and a typo in a variable name is reported rather than ignored, with a suggestion for the name you probably meant. Every problem in a request is reported at once.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><code>type</code></th>
+<th>Value</th>
+<th>Constraints you can set</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>string</code></td>
+<td>text</td>
+<td><code>min_length</code>, <code>max_length</code> (default 20,000, at most 200,000), <code>pattern</code>, <code>enum</code>, <code>format</code> (<code>date</code> or <code>date-time</code>)</td>
+</tr>
+<tr>
+<td><code>integer</code></td>
+<td>a whole number</td>
+<td><code>minimum</code>, <code>maximum</code>, <code>enum</code></td>
+</tr>
+<tr>
+<td><code>number</code></td>
+<td>any number</td>
+<td><code>minimum</code>, <code>maximum</code></td>
+</tr>
+<tr>
+<td><code>boolean</code></td>
+<td><code>true</code> or <code>false</code></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>json</code></td>
+<td>any JSON value</td>
+<td><code>schema</code> (JSON Schema), <code>max_bytes</code> (default 256 KB)</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td>a list of names, or names with descriptions</td>
+<td><code>min_items</code>, <code>max_items</code> (up to 1,000). Becomes a question's options; see below.</td>
+</tr>
+<tr>
+<td><code>image</code>, <code>audio</code>, <code>video</code></td>
+<td>a file id (<code>file_…</code>) or a <code>data:</code> URL</td>
+<td><code>max_bytes</code> (default 200 MB). Attached as media, never written into text.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Every variable can also have:</p>
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Key</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>description</code></td>
+<td>Shown in the app's form and in the schema. Never sent to the model.</td>
+</tr>
+<tr>
+<td><code>required</code></td>
+<td><code>true</code> unless the variable has a <code>default</code>. A missing or <code>null</code> value counts as missing.</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>Used when the caller leaves the variable out.</td>
+</tr>
+<tr>
+<td><code>example</code></td>
+<td>A sample value for the app's form.</td>
+</tr>
+<tr>
+<td><code>sensitive</code></td>
+<td>Used for the decision, never written to disk; History keeps only a keyed hash. Applies to text, number and JSON variables in 0.2.1. See <a href="../../docs/concepts/history.html#sensitive-variables">History and privacy</a>.</td>
+</tr>
+<tr>
+<td><code>trusted</code></td>
+<td>Allows a free-text variable inside question text (see below).</td>
+</tr>
+</tbody>
+</table></div>
+<p>A template has at most 64 variables. <code>GET /<wbr>v1/<wbr>studio/<wbr>templates/<wbr>{id}/<wbr>schema</code> returns them as a JSON Schema, which the app uses for its form.</p>
+<h3 id="variables-in-question-text">Variables in question text<a class="anchor" href="#variables-in-question-text" title="Link to this section">#</a></h3>
+<p>A variable can appear in a question's instructions or in option descriptions, as in the <code>urgency</code> question above. Variables with a closed set of values (<code>string</code> with <code>enum</code>, <code>integer</code>, <code>number</code>, <code>boolean</code>, <code>string</code> with <code>format</code>) are always allowed there. A free-text <code>string</code> or <code>json</code> variable is refused when the version is saved, unless you declare it <code>trusted: true</code>: text in a question changes what the question asks, so end-user text there could rewrite it.</p>
+<p>Placeholders are never allowed in question keys, option names, number values or the number of levels, because those are the vocabulary History aggregates by.</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="how-variables-become-the-situation">How variables become the situation<a class="anchor" href="#how-variables-become-the-situation" title="Link to this section">#</a></h2>
+<p>Substitution is deliberately simple: <code>{{name}}</code> is replaced by the value, in one pass, with no expressions, conditions or loops. A customer who types <code>{{account_tier}}</code> in a message has it read literally.</p>
+<ul>
+<li>In a JSON state, a string that is exactly one placeholder takes the value with its type: numbers stay numbers, objects stay objects.</li>
+<li>A placeholder inside longer text, and every placeholder in a text state, is written as text.</li>
+<li>An optional variable that was not sent removes its key from the JSON (so the model never reads <code>tier:</code> with nothing after it), and becomes an empty string inside text.</li>
+<li>With <code>"state": null</code>, the state is simply an object of the variables, in the order they are declared.</li>
+<li>Media variables never appear in text; each becomes an attachment.</li>
+</ul>
+<p>The preview on the right sends two of the template's five variables to version 2. The keys for <code>open_invoices</code> and <code>customer_email</code> are gone from the state, the plan appears in the <code>urgency</code> question's text, and <code>rendered_state</code> is the text the model reads. <code>POST /<wbr>v1/<wbr>studio/<wbr>decisions/<wbr>preview</code> checks and renders a decision like this without running a model, which makes it the quickest way to test a template.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method post">POST</span><code>/<wbr>v1/<wbr>studio/<wbr>decisions/<wbr>preview</code></div><div class="console-bar"><span class="dc-lang">curl</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c1-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8420/v1/studio/decisions/preview<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span></span><span class="ln" style="--i:2"><span class="s1">  "template": "support-triage@2",</span></span><span class="ln" style="--i:2"><span class="s1">  "variables": {</span></span><span class="ln" style="--i:4"><span class="s1">    "customer_message": "We were billed twice for March. Refund the duplicate today or we cancel.",</span></span><span class="ln" style="--i:4"><span class="s1">    "account_tier": "enterprise"</span></span><span class="ln" style="--i:2"><span class="s1">  }</span></span><span class="ln"><span class="s1">}'</span></span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status ok">200 OK</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"decision.preview"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"support-triage"</span><span class="p">,</span><span class="w"> </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">"ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"support-triage@2"</span><span class="p">,</span></span><span class="ln" style="--i:15"><span class="w">               </span><span class="nt">"resolved_from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pinned"</span><span class="p">,</span><span class="w"> </span><span class="nt">"attribution"</span><span class="p">:</span><span class="w"> </span><span class="s2">"explicit"</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"laya"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"customer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"tier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"enterprise"</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"We were billed twice for March. Refund the duplicate today or we cancel."</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"rendered_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customer:\n  tier: enterprise\nmessage: We were billed twice for March. Refund the duplicate today or we cancel."</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"questions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"urgency"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:6"><span class="w">      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"score"</span><span class="p">,</span></span><span class="ln" style="--i:6"><span class="w">      </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"How urgent is this request? The customer is on the enterprise plan."</span><span class="p">,</span></span><span class="ln" style="--i:6"><span class="w">      </span><span class="nt">"criteria"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"can wait"</span><span class="p">,</span><span class="w"> </span><span class="s2">"soon"</span><span class="p">,</span><span class="w"> </span><span class="s2">"today"</span><span class="p">,</span><span class="w"> </span><span class="s2">"blocking or at risk of churn"</span><span class="p">]</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="p">}</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">}</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="options-from-a-variable">Options from a variable<a class="anchor" href="#options-from-a-variable" title="Link to this section">#</a></h2>
+<p>A question's whole option list can come from an <code>options</code> variable: write <code>"criteria": "{{actions}}"</code> on a <code>choice</code>, <code>multi</code> or <code>rank</code> question. Callers then send the options with each decision. This suits lists that change every call, such as the actions an agent can take right now; the <a href="../../docs/guides/agents.html">agent guide</a> builds one.</p>
+<p>Answers whose options came from a variable carry <code>dynamic_options: true</code>. Statistics leave them out of option distributions, since the options differ from call to call, but count them for accuracy, act rate and timing.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="versions">Versions<a class="anchor" href="#versions" title="Link to this section">#</a></h2>
+<p>Every change to what a template decides creates a new, numbered version: 1, 2, 3, with no gaps. A version never changes once saved. Each decision records the exact version it used, so History can always show the questions behind an answer and compare versions fairly.</p>
+<ul>
+<li><strong>What creates a version:</strong> a change to <code>modalities</code>, <code>variables</code>, <code>state</code>, <code>questions</code>, <code>model</code>, <code>settings</code> or <code>extensions</code>, whether sent with <code>PUT</code>, <code>PATCH</code> or <code>POST …/versions</code>, or by restoring an old version.</li>
+<li><strong>What does not:</strong> a save identical to the latest version (the response says <code>"change": "unchanged"</code>), and changes to <code>name</code>, <code>description</code>, <code>metadata</code>, <code>storage</code>, <code>retention_days</code>, aliases or archiving (<code>"change": "metadata_<wbr>only"</code>). Setup scripts can therefore run the same <code>PUT</code> again and again safely.</li>
+<li><strong>Two people editing at once:</strong> send <code>If-<wbr>Match: "&lt;version&gt;"</code> (or <code>base_version</code> in the body) and a save based on an older version is refused with <code>412 version_conflict</code>, naming the current version.</li>
+</ul>
+<p>Each new version records how it differs from the one before:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Class</th>
+<th>What changed</th>
+<th>Callers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>settings_only</code></td>
+<td>The model, settings or extensions</td>
+<td>Keep working</td>
+</tr>
+<tr>
+<td><code>wording</code></td>
+<td>Instructions, descriptions, level texts, the state template or a variable's constraints</td>
+<td>Keep working, unless a narrowed variable now refuses their values</td>
+</tr>
+<tr>
+<td><code>extended</code></td>
+<td>Questions, options, optional variables or modalities were added; nothing was removed</td>
+<td>Keep working</td>
+</tr>
+<tr>
+<td><code>breaking</code></td>
+<td>Something was removed, renamed or re-typed; a score's levels changed; a required variable was added</td>
+<td>Some calls may get a 400; <code>breaking_for_callers</code> says so</td>
+</tr>
+</tbody>
+</table></div>
+<p>And for each question, how comparable its answers are across the two versions: <code>identical</code>, <code>text_changed</code>, <code>options_changed</code> (compared on the options both share), <code>incomparable</code> (the type or the number of levels changed), <code>added</code> or <code>removed</code>. History and the version comparison use these to decide what can be charted as one series.</p></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="calling-a-version">Calling a version<a class="anchor" href="#calling-a-version" title="Link to this section">#</a></h2>
+<p>There is one way to name a template in a request, a query or History:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Reference</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>support-triage</code></td>
+<td>The latest version when the request arrives</td>
+</tr>
+<tr>
+<td><code>support-triage@3</code></td>
+<td>Exactly version 3</td>
+</tr>
+<tr>
+<td><code>support-<wbr>triage@production</code></td>
+<td>Whichever version the <code>production</code> alias points at</td>
+</tr>
+</tbody>
+</table></div>
+<p>An <strong>alias</strong> is a name you point at a version, and move later. Code that calls <code>support-<wbr>triage@production</code> keeps working, unchanged, while you promote version 4 to production with one request, and moves back just as quickly if version 4 misbehaves. Calls to the bare id follow every new version immediately; each new version reports in <code>latest_callers_7d</code> how many recent decisions did that.</p>
+<p>Every decision records the version it used, the reference it was called with, and how that resolved (<code>latest</code>, a pinned number or an alias).</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method put">PUT</span><code>/<wbr>v1/<wbr>studio/<wbr>templates/<wbr>{id}/<wbr>aliases/<wbr>{alias}</code></div><div class="console-bar"><span class="dc-lang">curl</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c2-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span>http://127.0.0.1:8420/v1/studio/templates/support-triage/aliases/production<span class="w"> </span><span class="se">\</span></span><span class="ln" style="--i:2"><span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"version": 3}'</span></span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status ok">200 OK</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"template.alias"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="s2">"support-triage"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"alias"</span><span class="p">:</span><span class="w"> </span><span class="s2">"production"</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"previous_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1790815431</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="extensions">Extensions<a class="anchor" href="#extensions" title="Link to this section">#</a></h2>
+<p>A template can let callers adapt a single decision without changing the template. Its <code>extensions</code> field says what is allowed:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Request field</th>
+<th>Allowed when</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>questions</code></td>
+<td><code>extensions.questions</code> is <code>true</code> (the default), up to <code>max_questions</code> (default 16)</td>
+<td>Extra questions with new keys, asked alongside the template's.</td>
+</tr>
+<tr>
+<td><code>add_options</code></td>
+<td>The question is listed in <code>extensions.options</code></td>
+<td>New options appended to a <code>choice</code>, <code>multi</code>, <code>rank</code> or <code>number</code> question. Never to a <code>score</code> or yes-or-no question, because a new level would change what the scale means.</td>
+</tr>
+<tr>
+<td><code>skip</code></td>
+<td>The question is listed in <code>extensions.skip</code></td>
+<td>Leaves that question out of this decision.</td>
+</tr>
+</tbody>
+</table></div>
+<p>A caller can never rewrite one of the template's own questions. Sending a question under an existing key returns <code>400 question_conflict</code>; change the template instead. This keeps one meaning per question key across all of History.</p>
+<p>Each answer's <code>origin</code> records what happened: <code>template</code> (unchanged), <code>extended</code> (options were added), or <code>extra</code> (a caller's own question). Statistics and version comparisons count only unchanged template questions by default.</p>
+<p>The decision on the right calls the <code>production</code> version, adds a <code>finance_ops</code> department, skips <code>churn_risk</code> and asks one extra question.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method post">POST</span><code>/v1/studio/decisions</code></div><div class="console-bar"><span class="dc-lang">curl</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c3-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8420/v1/studio/decisions<span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span></span><span class="ln" style="--i:2"><span class="s1">  "template": "support-triage@production",</span></span><span class="ln" style="--i:2"><span class="s1">  "variables": {"customer_message": "I need an invoice in our company name for the March payment.",</span></span><span class="ln" style="--i:16"><span class="s1">                "account_tier": "pro"},</span></span><span class="ln" style="--i:2"><span class="s1">  "add_options": {"department": {"finance_ops": "invoice copies, tax documents"}},</span></span><span class="ln" style="--i:2"><span class="s1">  "skip": ["churn_risk"],</span></span><span class="ln" style="--i:2"><span class="s1">  "questions": {</span></span><span class="ln" style="--i:4"><span class="s1">    "needs_invoice": {"type": "noul", "instructions": "Does the customer ask for an invoice or a receipt?"}</span></span><span class="ln" style="--i:2"><span class="s1">  }</span></span><span class="ln"><span class="s1">}'</span></span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status ok">200 OK</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="p">{</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"template"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"support-triage"</span><span class="p">,</span><span class="w"> </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nt">"ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"support-triage@production"</span><span class="p">,</span></span><span class="ln" style="--i:15"><span class="w">               </span><span class="nt">"resolved_from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alias"</span><span class="p">,</span><span class="w"> </span><span class="nt">"attribution"</span><span class="p">:</span><span class="w"> </span><span class="s2">"explicit"</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"extensions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"questions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"needs_invoice"</span><span class="p">],</span><span class="w"> </span><span class="nt">"options"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"department"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"finance_ops"</span><span class="p">]},</span></span><span class="ln" style="--i:17"><span class="w">                 </span><span class="nt">"skipped"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"churn_risk"</span><span class="p">]},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"answers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"department"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"choice"</span><span class="p">,</span><span class="w"> </span><span class="nt">"choice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"billing"</span><span class="p">,</span></span><span class="ln" style="--i:19"><span class="w">                   </span><span class="nt">"probabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"billing"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8083</span><span class="p">,</span><span class="w"> </span><span class="nt">"technical"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0128</span><span class="p">,</span><span class="w"> </span><span class="nt">"sales"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0156</span><span class="p">,</span></span><span class="ln" style="--i:37"><span class="w">                                     </span><span class="nt">"other"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0187</span><span class="p">,</span><span class="w"> </span><span class="nt">"account"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0128</span><span class="p">,</span><span class="w"> </span><span class="nt">"finance_ops"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1317</span><span class="p">},</span></span><span class="ln" style="--i:19"><span class="w">                   </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8083</span><span class="p">,</span><span class="w"> </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extended"</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"urgency"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"score"</span><span class="p">,</span><span class="w"> </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w"> </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.4013</span><span class="p">,</span><span class="w"> </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"template"</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"wants_refund"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noul"</span><span class="p">,</span><span class="w"> </span><span class="nt">"noul"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.172</span><span class="p">,</span><span class="w"> </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"no"</span><span class="p">,</span></span><span class="ln" style="--i:21"><span class="w">                     </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.828</span><span class="p">,</span><span class="w"> </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"template"</span><span class="p">},</span></span><span class="ln" style="--i:4"><span class="w">    </span><span class="nt">"needs_invoice"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noul"</span><span class="p">,</span><span class="w"> </span><span class="nt">"noul"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8521</span><span class="p">,</span><span class="w"> </span><span class="nt">"decision"</span><span class="p">:</span><span class="w"> </span><span class="s2">"yes"</span><span class="p">,</span></span><span class="ln" style="--i:22"><span class="w">                      </span><span class="nt">"certainty"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.8521</span><span class="p">,</span><span class="w"> </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"origin"</span><span class="p">:</span><span class="w"> </span><span class="s2">"extra"</span><span class="p">}</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"act"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"needs_review"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"department"</span><span class="p">,</span><span class="w"> </span><span class="s2">"urgency"</span><span class="p">,</span><span class="w"> </span><span class="s2">"wants_refund"</span><span class="p">]</span></span><span class="ln"><span class="p">}</span></span></code></pre></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="starter-templates">Starter templates<a class="anchor" href="#starter-templates" title="Link to this section">#</a></h2>
+<p>The studio comes with a read-only starter template for every Playground example, named <code>builtin/&lt;example&gt;</code>: <code>builtin/support</code>, <code>builtin/agent-browser</code>, <code>builtin/image</code> and so on. They take a whole situation instead of variables. Call them as they are, or clone one and make it yours; in the app, open it and choose <strong>Clone to edit</strong>. When a studio release changes a starter template, it gains a new version; your own templates never change by themselves.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="archiving-and-deleting">Archiving and deleting<a class="anchor" href="#archiving-and-deleting" title="Link to this section">#</a></h2>
+<ul>
+<li><strong>Archive</strong> hides a template from the library and keeps it callable, so code that uses it keeps working; its decisions carry a <code>template_archived</code> warning. New versions are refused until you unarchive it.</li>
+<li><strong>Delete</strong> is the only change that breaks callers: they get <code>template_not_found</code>. By default the versions that History refers to stay readable, so past decisions still show their questions; deleting with <code>history=delete</code> removes those decisions too. Over the API, a delete must repeat the id as <code>?confirm=&lt;id&gt;</code>, so a mistyped path cannot delete the wrong template.</li>
+</ul></div></section>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/concepts/acting.html"><span class="pg-l">Previous</span><span class="pg-t">Probabilities, certainty and acting</span></a><a class="pg next" href="../../docs/concepts/history.html"><span class="pg-l">Next</span><span class="pg-t">History and privacy</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Evaluate · Bud Decision Studio Docs</title>
+  <meta name="description" content="Measure models on your own labelled examples. See how often each is right, whether its percentages can be trusted, and which act threshold keeps mistakes under your limit.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Evaluate · Bud Decision Studio">
+  <meta property="og:description" content="Measure models on your own labelled examples. See how often each is right, whether its percentages can be trusted, and which act threshold keeps mistakes under your limit.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.2.1">0.2.1</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html" aria-current=page>Evaluate</a><nav class="side-toc" aria-label="On this page"><a href="#why-evaluate">Why evaluate</a><a href="#set-up-a-run">Set up a run</a><a href="#read-the-results">Read the results</a><a href="#use-the-recommendations">Use the recommendations</a><a href="#check-every-example">Check every example</a><a href="#notes">Notes</a></nav><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>User manual</span></p>
+      <h1>Evaluate</h1>
+      <p class="lead">Evaluate runs one question over many labelled examples on several models at once. It shows how often each model is right, whether its percentages can be taken at face value, and which act threshold keeps mistakes under the limit you choose.</p>
+    </header>
+    <h2 id="why-evaluate">Why evaluate<a class="anchor" href="#why-evaluate" title="Link to this section">#</a></h2>
+<p>A model's published results are measured on someone else's data. Before you let it act on its own, measure it on yours: a few dozen real examples with the right answers tell you more than any benchmark. Evaluate answers three questions:</p>
+<ul>
+<li><strong>How often is it right?</strong> Accuracy on your examples.</li>
+<li><strong>Can its percentages be trusted?</strong> When it says 80%, is it right about 80% of the time? This is called <strong>calibration</strong>.</li>
+<li><strong>Where should the act threshold be?</strong> The lowest threshold that keeps mistakes under your limit, and how much work that leaves for people.</li>
+</ul>
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/evaluate-results.webp" alt="Laya and Julia 1 on the built-in sample of 24 support messages. Laya is right on 88% of them; the charts and recommendations below the table are for the selected model." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 1</span>Laya and Julia 1 on the built-in sample of 24 support messages. Laya is right on 88% of them; the charts and recommendations below the table are for the selected model.</figcaption></figure>
+
+<h2 id="set-up-a-run">Set up a run<a class="anchor" href="#set-up-a-run" title="Link to this section">#</a></h2>
+<p>The left column has three steps.</p>
+<p><strong>1. The question.</strong> Write one question, as in the Playground. Evaluate takes <strong>Pick one</strong>, <strong>Rate on a scale</strong> and <strong>Yes or no</strong> questions.</p>
+<p><strong>2. Examples.</strong> One example per line, with the right answer after it. <strong>Sample</strong> loads 24 support messages, each labelled with the team that should handle it. <strong>Open file</strong> reads a file from your computer; <strong>Edit as text</strong> shows the examples as text you can edit or paste into. Three formats are accepted:</p>
+<div class="tabs" data-tabs data-group=""><div class="tab-list" role="tablist"><button role="tab" type="button" aria-selected="true" data-tab="Tab-separated" id="t4-0" aria-controls="t4-p0">Tab-separated</button><button role="tab" type="button" aria-selected="false" data-tab="CSV" id="t4-1" aria-controls="t4-p1">CSV</button><button role="tab" type="button" aria-selected="false" data-tab="JSON lines" id="t4-2" aria-controls="t4-p2">JSON lines</button></div><div class="tab-panel" role="tabpanel" id="t4-p0" aria-labelledby="t4-0"><p>One example per line, then a tab, then the right answer:</p>
+<div class="code-block"><div class="code-bar"><span class="code-lang">Text</span><button class="copy" type="button" data-copy aria-label="Copy code"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><pre class="hl"><code class="lang-text"><span class="ln">I was charged twice for my subscription this month, please refund one of them.	billing</span><span class="ln">The app crashes as soon as I open the settings screen.	technical</span></code></pre></div></div><div class="tab-panel" role="tabpanel" id="t4-p1" aria-labelledby="t4-1" hidden><p>A header row with a <code>text</code> column and a <code>label</code> column (<code>answer</code> or <code>correct</code> also work):</p>
+<div class="code-block"><div class="code-bar"><span class="code-lang">Text</span><button class="copy" type="button" data-copy aria-label="Copy code"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><pre class="hl"><code class="lang-text"><span class="ln">text,label</span><span class="ln">"I was charged twice for my subscription this month, please refund one of them.",billing</span><span class="ln">"The app crashes as soon as I open the settings screen.",technical</span></code></pre></div></div><div class="tab-panel" role="tabpanel" id="t4-p2" aria-labelledby="t4-2" hidden><p>One JSON object per line, with <code>text</code> (or <code>state</code>) and <code>label</code> (or <code>answer</code>):</p>
+<div class="code-block"><div class="code-bar"><span class="code-lang">JSON</span><button class="copy" type="button" data-copy aria-label="Copy code"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><pre class="hl"><code class="lang-json"><span class="ln"><span class="p">{</span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I was charged twice for my subscription this month, please refund one of them."</span><span class="p">,</span><span class="w"> </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"billing"</span><span class="p">}</span></span><span class="ln"><span class="p">{</span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The app crashes as soon as I open the settings screen."</span><span class="p">,</span><span class="w"> </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"technical"</span><span class="p">}</span></span></code></pre></div></div></div>
+
+<p>Right answers are matched to the question's options without regard to capital letters. For a scale, give the level's name or its number (0 is the lowest); for yes or no, give <code>yes</code> or <code>no</code> (<code>true</code>, <code>false</code>, <code>1</code> and <code>0</code> work too). An answer that matches no option is not scored, and the studio says how many there were. Answers are optional: without them you still get every model's answers, but no accuracy. A run takes up to 2,000 examples.</p>
+<p><strong>3. Models.</strong> Tick the models to compare. Loaded models are ticked for you and run in parallel; a model that is not loaded says <strong>Loads first</strong> and loads when the run starts.</p>
+<p>Choose <strong>Run on 24 examples</strong> (the button counts your examples).</p>
+<h2 id="read-the-results">Read the results<a class="anchor" href="#read-the-results" title="Link to this section">#</a></h2>
+<p><strong>The table</strong> ranks the models:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Right</strong></td>
+<td>the share of scored examples the model answered correctly</td>
+</tr>
+<tr>
+<td><strong>Calibration error</strong></td>
+<td>how far its stated certainty is from how often it is actually right, on average. Lower is better; 0 is perfectly honest.</td>
+</tr>
+<tr>
+<td><strong>Confident mistakes</strong></td>
+<td>answers given with 90% or more that were wrong: the most dangerous kind of mistake</td>
+</tr>
+<tr>
+<td><strong>Typical time</strong></td>
+<td>the median time per decision</td>
+</tr>
+</tbody>
+</table></div>
+<p>While the run is going, the table fills in live and a bar shows the progress. Choose a model in the table to see its charts and recommendations below.</p>
+<p><strong>Are its percentages honest?</strong> plots how sure the model said it was against how often it was right. Points on the dashed diagonal are honest; points below it mean the model is overconfident, above it underconfident. Bigger points stand for more examples.</p>
+<p><strong>What each act threshold would do</strong> plots, for every threshold from 50% to 99%, the share of examples the model would handle on its own and how often those answers were right. The orange line is your error budget.</p>
+<h2 id="use-the-recommendations">Use the recommendations<a class="anchor" href="#use-the-recommendations" title="Link to this section">#</a></h2>
+<p>Under the charts, Evaluate recommends two settings for the selected model.</p>
+<p><strong>Act threshold.</strong> The lowest threshold at which the answers the model acts on are wrong less often than your <strong>Error budget</strong> (1%, 2%, 5%, 10% or 20%; 5% by default), with how many examples that automates and at what accuracy. <strong>Use this threshold</strong> makes it the Playground's act threshold. If even the most confident answers are wrong too often, it says <strong>No safe threshold</strong>: send these decisions to a person, or try another model.</p>
+<p><strong>Calibration temperature.</strong> One number that makes the model's probabilities honest without changing any answer. Above 1 means the model was overconfident; below 1, underconfident. <strong>Use in Playground</strong> applies it to the Playground's decisions. If no temperature would help, it says so and recommends keeping the model's own numbers.</p>
+<aside class="callout note"><div class="callout-ic"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></svg></div><div class="callout-body"><p class="callout-t">Small samples</p><p>With fewer than 50 examples, these are rough estimates, and the recommendation says so. With 100 or more they are dependable. To save a threshold or temperature for your code, put it in a <a href="../../docs/manual/templates.html">template</a>'s settings.</p></div></aside>
+
+<h2 id="check-every-example">Check every example<a class="anchor" href="#check-every-example" title="Link to this section">#</a></h2>
+<p><strong>Every example</strong> lists each example, its right answer and each model's answer with its probability, marked right or wrong. <strong>Mistakes</strong> shows only the examples some model got wrong; <strong>Confident mistakes</strong> only those answered wrongly with 90% or more. The table shows the first 400 rows.</p>
+<p><strong>Export CSV</strong> downloads every example with each model's answer and probability, as <code>bud-decision-results.csv</code>.</p>
+<h2 id="notes">Notes<a class="anchor" href="#notes" title="Link to this section">#</a></h2>
+<ul>
+<li>Evaluate remembers your question and examples in this window.</li>
+<li>Every decision a run makes is kept in <a href="../../docs/manual/history.html">History</a>, marked <strong>Evaluate</strong>, so you can open any of them later. The Playground's <strong>Keep this decision in History</strong> switch does not apply here; to keep nothing from a run, set <strong>What History keeps</strong> to <strong>Nothing</strong> in History's settings first.</li>
+<li>To check a template against its own test examples, or two versions of a template against each other on real decisions, use the <a href="../../docs/manual/templates.html#compare-versions">Templates</a> page.</li>
+</ul>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/manual/models.html"><span class="pg-l">Previous</span><span class="pg-t">Models</span></a><a class="pg next" href="../../docs/manual/system.html"><span class="pg-l">Next</span><span class="pg-t">API, Learn and System</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

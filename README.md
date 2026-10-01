@@ -21,6 +21,10 @@
   <img src="docs/media/demo.gif" width="880" alt="Bud Decision Studio: choosing an example, pressing Decide, and reading every answer as a chart">
 </p>
 
+**Documentation:** the user manual, installation, guides, API reference and developer docs are in
+[`site/docs/`](site/docs/index.html), built from the Markdown in [`site/docs-src/`](site/docs-src/README.md). Open
+`site/docs/index.html` in a browser, or serve the `site/` folder.
+
 ## Install
 
 **One line**, and the app opens when it is done:

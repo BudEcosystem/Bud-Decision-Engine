@@ -12,6 +12,14 @@ data/
 docs/external/
 .refs/
 
+# The trainer's research and verification runs (model copies and trained adapters, several GB): kept locally
+training_research/
+*.peak
+*.peak.last
+
+# A packaged copy of site/ for uploading to a host
+site.zip
+
 # Internal product and design-process notes
 PRODUCT.md
 .impeccable/*

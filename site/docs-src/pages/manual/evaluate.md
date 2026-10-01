@@ -76,7 +76,7 @@ While the run is going, the table fills in live and a bar shows the progress. Ch
 
 Under the charts, Evaluate recommends two settings for the selected model.
 
-**Act threshold.** The lowest threshold at which the answers the model acts on are wrong less often than your **Error budget** (1%, 2%, 5%, 10% or 20%; 5% by default), with how many examples that automates and at what accuracy. **Use this threshold** makes it the Playground's act threshold. If even the most confident answers are wrong too often, it says **No safe threshold**: send these decisions to a person, or try another model.
+**Act threshold.** The lowest threshold at which the answers the model acts on are wrong less often than your **Error budget** (1%, 2%, 5%, 10% or 20%; 5% by default), with how many examples that automates and at what accuracy. **Use this threshold** makes it the Playground's act threshold. The recommendation stays within 50% to 99%, the range of the Playground's slider and of the chart. If even the most confident answers are wrong too often, it says **No safe threshold**: send these decisions to a person, or try another model. If fewer than three examples reach 50% certainty, it says **Not sure enough to act**: the model is not wrong, it is never sure, so describe the options more clearly or try another model. (Version 0.2.1 could recommend a threshold below 50%, which the slider cannot show; the next release keeps it in range.)
 
 **Calibration temperature.** One number that makes the model's probabilities honest without changing any answer. Above 1 means the model was overconfident; below 1, underconfident. **Use in Playground** applies it to the Playground's decisions. If no temperature would help, it says so and recommends keeping the model's own numbers.
 

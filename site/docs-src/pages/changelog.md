@@ -4,6 +4,23 @@ description: Every release of Bud Decision Studio, newest first, with what chang
 lead: Every release, newest first. To update, install the new version over the old one, or run the one-line install command again; your engine, settings, models, templates and history are kept.
 ---
 
+## Unreleased
+
+Fixed on the `main` branch and included in the next release. Until then, 0.2.1 behaves as described under each item.
+
+- **A sensitive file is never kept.** An image, audio or video variable marked `sensitive` was stored with the decision: its contents, its file name and its content hash. The model now reads it and History keeps only a keyed hash, as for every other sensitive value. A queued background decision no longer holds inline file data either, and temporary copies are removed even when a decision fails or is cancelled.
+- **Background decisions no longer report a false save failure.** Each one came back with a `history_write_failed` warning although it was saved, and failed outright when the studio was set to refuse unsaved decisions.
+- **A template's default model is no longer shown as unable to run it.** A variable that may hold more text than a model reads is now a note on that model, not a problem that greys it out.
+- **A version that narrows a variable is marked breaking.** A new list of allowed values, a lower maximum, a higher minimum or a new pattern can refuse values callers already send; such versions were classed as wording changes.
+- **A variable with a default is never required.** Adding a default with a patch left `required: true` behind.
+- **Cancelling a background decision stops the model load it started**, unless another request is waiting for that model or you loaded it yourself.
+- **Evaluate recommends an act threshold only within 50% to 99%.** It could suggest a lower one that the Playground's slider cannot show. A model that never reaches 50% certainty gets its own message.
+- **Save as template in a fresh window** names and saves the model the Playground uses, instead of saving no default model.
+- **The template id and alias fields are checked in the browser again.** Their pattern was invalid in current browsers, so the check was skipped; the server always validated.
+- **Leaving the Playground straight after opening it** no longer throws an error.
+- **A second studio started with `BASAL_NO_DOWNLOADS=1`** answers download requests with the reason instead of an error 500.
+- **The environment check** reports a GPU that is out of memory as that, not as "PyTorch failed to import".
+
 ## 0.2.1
 
 *30 September 2026.* The decisions endpoint is easy to find, and so is what gets saved.

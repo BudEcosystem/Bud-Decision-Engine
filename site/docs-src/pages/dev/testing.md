@@ -8,15 +8,17 @@ lead: Most of the studio can be tested in under half a minute without a GPU or a
 
 | Suite | What it checks |
 |---|---|
-| `test_templates.py` | 49 tests of template logic: variable types, substitution, sensitive values, extensions, the settings ladder, version change classes, the JSON Schema export, starter templates in sync |
+| `test_templates.py` | 62 tests of template logic: variable types, substitution, sensitive values, extensions, the settings ladder, version change classes (including narrowed variables), model compatibility, the JSON Schema export, starter templates in sync |
 | `test_contract.py` | 9 tests of answers: per-question temperature, raw probabilities, certainty and the act gate for every type |
 | `test_history_store.py` | 11 tests of history in a real SQLite file: storage levels, immutability, filters, feedback, statistics, retention, erasure, redaction, search, migration safety |
-| `test_studio_api.py` | 20 tests against a live studio: the main calls end to end, wire routes unchanged, idempotency, retries, the cross-site guard, background decisions, the error envelope |
+| `test_studio_api.py` | 24 tests against a live studio: the main calls end to end, wire routes unchanged, idempotency, retries, the cross-site guard, background decisions and cancelling one while its model loads, sensitive files leaving nothing on disk, the error envelope |
+| `test_doctor.py` | 4 tests of the environment check: each PyTorch and GPU failure is reported as itself |
 | `test_conformance.py` | 14 checks of the API against TypeSafe's published schema, both official SDKs and OpenRouter's schema. Needs a running studio and a model |
 | `test_installer.py` | 3 regression tests of the engine installer |
 | `scripts/e2e.py` | Every page through a real browser, with real models |
+| `scripts/ui_checks.py` | Interface regressions through a real browser with the test model: leaving the Playground mid-start, the id fields' validation, Save as template in a fresh window, Evaluate's threshold range. Starts its own studio; needs Playwright |
 
-The test files are in `tests/`. The first four are the **studio tests**. They need only the server's own libraries, not PyTorch: `tests/conftest.py` gives each run a temporary data folder and turns on `BASAL_FAKE_MODEL=1`, the deterministic test model described on [Run from source](/docs/dev/source).
+The test files are in `tests/`. The first five are the **studio tests**. They need only the server's own libraries, not PyTorch: `tests/conftest.py` gives each run a temporary data folder and turns on `BASAL_FAKE_MODEL=1`, the deterministic test model described on [Run from source](/docs/dev/source).
 
 ## Run the studio tests
 
@@ -32,18 +34,18 @@ uv run --no-project --python 3.12 \
   --with 'pydantic>=2.12' --with python-multipart --with 'huggingface_hub>=1.0' \
   --with jsonschema --with pytest \
   pytest tests/test_templates.py tests/test_contract.py \
-         tests/test_history_store.py tests/test_studio_api.py -q
+         tests/test_history_store.py tests/test_studio_api.py tests/test_doctor.py -q
 ```
 @@ .venv
 ```bash
 .venv/bin/python -m pytest tests/test_templates.py tests/test_contract.py \
-  tests/test_history_store.py tests/test_studio_api.py -q
+  tests/test_history_store.py tests/test_studio_api.py tests/test_doctor.py -q
 ```
 @@ Output
 ```text
-........................................................................ [ 80%]
-.................                                                        [100%]
-89 passed in 19.24s
+........................................................................ [ 65%]
+......................................                                   [100%]
+110 passed in 35.41s
 ```
 :::
 

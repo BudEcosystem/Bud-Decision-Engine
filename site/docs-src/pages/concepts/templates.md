@@ -106,7 +106,7 @@ Every variable can also have:
 | Key | Meaning |
 |---|---|
 | `description` | Shown in the app's form and in the schema. Never sent to the model. |
-| `required` | `true` unless the variable has a `default`. A missing or `null` value counts as missing. |
+| `required` | `true` unless the variable has a `default`: the default is used whenever the value is left out, so a variable with one is never required. A missing or `null` value counts as missing. |
 | `default` | Used when the caller leaves the variable out. |
 | `example` | A sample value for the app's form. |
 | `sensitive` | Used for the decision, never written to disk; History keeps only a keyed hash. Applies to text, number and JSON variables in 0.2.1. See [History and privacy](/docs/concepts/history#sensitive-variables). |
@@ -185,9 +185,9 @@ Each new version records how it differs from the one before:
 | Class | What changed | Callers |
 |---|---|---|
 | `settings_only` | The model, settings or extensions | Keep working |
-| `wording` | Instructions, descriptions, level texts, the state template or a variable's constraints | Keep working, unless a narrowed variable now refuses their values |
+| `wording` | Instructions, descriptions, level texts, the state template, or a variable made more permissive | Keep working |
 | `extended` | Questions, options, optional variables or modalities were added; nothing was removed | Keep working |
-| `breaking` | Something was removed, renamed or re-typed; a score's levels changed; a required variable was added | Some calls may get a 400; `breaking_for_callers` says so |
+| `breaking` | Something was removed, renamed or re-typed; a score's levels changed; a required variable was added; a variable was narrowed (fewer allowed values, a lower maximum, a new pattern) | Some calls may get a 400; `breaking_for_callers` says so |
 
 And for each question, how comparable its answers are across the two versions: `identical`, `text_changed`, `options_changed` (compared on the options both share), `incomparable` (the type or the number of levels changed), `added` or `removed`. History and the version comparison use these to decide what can be charted as one series.
 

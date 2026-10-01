@@ -48,7 +48,7 @@ The **Overview** of Support triage version 2: its five variables and four questi
 
 **Model and settings** shows the default model, when to act automatically, the calibration temperature, and any values set for one model only (for example, "On Laya: temperature 1.3, 1 question setting"). A request can set its own model and settings; History records which layer each value came from.
 
-**Models that can run it** lists every model, greyed out where a model cannot run this template. Point at a greyed model to see why. The check is cautious: a model is also greyed when a text variable allows more text than the model can read, even though shorter messages work.
+**Models that can run it** lists every model, greyed out where a model cannot run this template. Point at a greyed model to see why. Point at any other model to see what to watch for: one that reads less text than a variable allows says that longer values are cut off at the end. (Version 0.2.1 greyed those models out too, even a template's own default model; the next release shows the note instead.)
 
 **Use it from code** has a ready-to-run curl command and a Python example. Call `support-triage` for the latest version, pin one with `support-triage@2`, or name an alias such as `support-triage@production`.
 
@@ -93,9 +93,9 @@ Choose the two versions, optionally one model, and a time range (**All time**, *
 | Change | Means |
 |---|---|
 | **Extended** | questions, options, variables or file types were added; existing calls work as before |
-| **Wording** | a question's text, a variable's constraints or the state changed |
+| **Wording** | a question's text or the state changed, or a variable became more permissive |
 | **Settings** | only the model, the settings or what callers may change |
-| **Breaking** | a question, option or variable was removed or changed incompatibly; the strip says whether existing calls may now be refused |
+| **Breaking** | a question, option or variable was removed or changed incompatibly, or a variable now refuses values it used to accept; the strip says whether existing calls may now be refused |
 
 Below, each question has its own card with a label for how comparable it is (**Same question**, **Reworded**, **Options changed**, **Not comparable**, **New**, **Removed**) and, for both versions:
 

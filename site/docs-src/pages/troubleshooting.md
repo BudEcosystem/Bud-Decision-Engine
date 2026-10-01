@@ -9,7 +9,7 @@ lead: Each problem below starts with the message the studio shows, word for word
 - **A model's log.** On the Models page, select the model and choose **View log**. The same file is `logs/worker-<model>.log` in the [data folder](/docs/dev/storage#where-the-data-lives).
 - **The server's log.** The desktop app writes it to `logs/studio.log` in its application-data folder. From a source checkout, it is the terminal running `./run.sh`.
 - **A download's log.** `logs/download-<model>.log` in the data folder.
-- **The environment check.** From a source checkout, `.venv/bin/python -m basal.doctor` checks that PyTorch sees the GPU and that every model library imports.
+- **The environment check.** From a source checkout, `.venv/bin/python -m basal.doctor` checks that PyTorch sees the GPU and that every model library imports. A line reading *out of memory right now* means other programs are using the GPU, not that PyTorch is broken: close them or eject models, and run it again. (Version 0.2.1 reported that case as "PyTorch failed to import".)
 
 ## Installing
 
@@ -89,6 +89,7 @@ Hugging Face limits anonymous downloads. Run `hf auth login` once in a terminal 
 | *download of &lt;repository&gt; failed (exit 1); see data/logs/download-&lt;model&gt;.log* | The download process failed: often the connection or the disk. The log has the reason. Press Download again; files already complete are kept |
 | *download finished but some files are still missing; try again* | The download ended early. Press Download again |
 | *Some model files are missing on disk. Open the Models page and download this model again.* | Files in the Hugging Face cache were removed or never finished. Download the model again |
+| *Downloads are switched off for this studio (it was started with BASAL_NO_DOWNLOADS=1 ...)* | This is a second studio started beside the main one, without a download queue. Download the model in the main studio, or restart this one without `BASAL_NO_DOWNLOADS`. (Version 0.2.1 answered these requests with an unexplained error 500) |
 
 ### A model does not load
 

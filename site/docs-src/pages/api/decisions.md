@@ -947,6 +947,8 @@ The response is shortened; its `answers` are omitted here. Note `settings.questi
 
 Cancels a background decision that has not reached the model yet, for example one waiting for its model to load. It returns the decision with `status: "cancelled"`. A decision the model is already working on, or one that has finished, answers `409 decision_finished`.
 
+If the decision itself started that model loading and no other request is waiting for the model, the load stops too and its memory is freed. A model you loaded yourself is left to finish. (In 0.2.1 the load always carried on; the next release stops it.)
+
 :::console POST /v1/studio/decisions/{id}/cancel
 @@ curl
 ```bash

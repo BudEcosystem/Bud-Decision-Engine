@@ -316,7 +316,7 @@ The response is shortened to the fields that show the copy.
 
 ### Variables
 
-Each variable has a `type` and optional settings. A variable is required unless it has a `default` or `"required": false`.
+Each variable has a `type` and optional settings. A variable is required unless it has a `default` or `"required": false`. A default is used whenever the value is left out, so a variable with one always reads `"required": false`.
 
 | Type | Settings | Value |
 |---|---|---|
@@ -781,9 +781,9 @@ The response is shortened to the newest version; version 1 follows it with `clas
 | Class | Meaning |
 |---|---|
 | `created` | The first version. |
-| `breaking` | A question was removed or changed type, a scale's number of levels changed, options were removed, or a variable was removed, retyped or made required. Results before and after are not directly comparable. |
+| `breaking` | A question was removed or changed type, a scale's number of levels changed, options were removed, or a variable was removed, retyped, made required or narrowed (it now refuses values it accepted: fewer allowed values, a lower maximum, a higher minimum, a new pattern). Results before and after are not directly comparable. |
 | `extended` | Questions, options, optional variables or modalities were added. Existing answers still mean the same. |
-| `wording` | Question text, the state template or variable constraints changed. |
+| `wording` | Question text or the state template changed, or a variable became more permissive. |
 | `settings_only` | Only the model, settings or extensions changed. |
 
 Per question, comparability is `identical`, `text_changed`, `options_changed` (with `added_options` and `removed_options`), `added`, `removed` or `incomparable`.
@@ -1188,7 +1188,9 @@ const schema = await (await fetch("http://127.0.0.1:8420/v1/studio/templates/sup
 
 Checks every model the studio knows against a version (`?version=`, latest by default), before anything loads. Each model has `ok`, its `status` (`loaded`, `loading`, `downloaded`, `not_downloaded`), the `problems` that stop it, and `notes`.
 
-Problems include question types or option counts a model cannot handle, too many questions, media it cannot read, and `context_too_small`: a variable can hold more text than the model reads. That last one does not stop decisions; long inputs are cut off at the end, and each such decision carries a `state_may_be_truncated` warning.
+Problems are what stops a model: question types or option counts it cannot handle, too many questions, or a required file it cannot read. Notes are what to watch for on a model that can run the template: a variable that may hold more text than the model reads (longer values are cut off at the end, and each such decision carries a `state_may_be_truncated` warning), or an optional file the model cannot read.
+
+Version 0.2.1 reported the first of those notes as a problem, `context_too_small`, which marked the model `ok: false` although its decisions ran. The next release reports it as a note.
 
 :::console GET /v1/studio/templates/{id}/compatibility
 @@ curl
@@ -1220,16 +1222,13 @@ console.log(c.models.filter((m) => m.ok).map((m) => m.model));
     {
       "model": "laya",
       "name": "Laya",
-      "status": "loaded",
-      "ok": false,
-      "problems": [
-        {
-          "code": "context_too_small",
-          "param": "variables.customer_message",
-          "message": "customer_message allows 8,000 characters (about 2,000 tokens); Laya reads 512 tokens."
-        }
-      ],
-      "notes": []
+      "status": "downloaded",
+      "ok": true,
+      "problems": [],
+      "notes": [
+        "customer_message allows 8,000 characters (about 2,000 tokens); Laya reads 512 tokens, so a longer value is cut off at the end.",
+        "Cannot read the optional image variable 'screenshot'; decisions that send it will be refused."
+      ]
     },
     {
       "model": "kev-4b",
@@ -1237,7 +1236,9 @@ console.log(c.models.filter((m) => m.ok).map((m) => m.model));
       "status": "downloaded",
       "ok": true,
       "problems": [],
-      "notes": []
+      "notes": [
+        "Cannot read the optional image variable 'screenshot'; decisions that send it will be refused."
+      ]
     },
     {
       "model": "jev-omni",

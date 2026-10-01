@@ -102,7 +102,7 @@ Because the hash is keyed, nobody can read the value back from it, but you can s
 
 A decision with a sensitive value can be rerun only if you send the value again.
 
-In 0.2.1 this protection covers text, number and JSON variables. A file sent in a media variable marked `sensitive` is still stored with the decision; for private files use `answers_only` or turn off `store_media`.
+The protection covers every kind of variable, files included. The model reads a file sent in a sensitive `image`, `audio` or `video` variable, and History keeps no contents, no file name and only a keyed hash of it. (Version 0.2.1 still stored such a file; the next release fixes that. On 0.2.1, use `answers_only` or turn off `store_media` for private files.)
 
 :::console GET /v1/studio/decisions/{id}
 @@ Template

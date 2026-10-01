@@ -214,8 +214,10 @@ Files are stored once by their content, so the same photo sent twenty times take
 | `store: false` | Nothing is kept; an inline file is deleted as soon as the model has read it |
 | `store_media` off in the studio's settings | Contents are discarded right after each decision; History shows "file not kept" |
 
-:::warning Sensitive does not apply to files in 0.2.1
-Marking an `image`, `audio` or `video` variable `sensitive` does not stop its file from being stored with the decision. For private files, call with `"store": "answers_only"`, set the template's `storage` to `answers_only`, or turn off `store_media`.
+:::note A sensitive file is never kept
+Mark an `image`, `audio` or `video` variable `sensitive` and the model reads the file while History keeps nothing of it: no contents, no file name, and a keyed hash where the content hash would be. Rerunning such a decision needs the file sent again. Send private files inline, as a data URL: a file you uploaded yourself with `POST /v1/studio/files` follows the rule for uploads and stays until it expires, a day after its last use.
+
+Version 0.2.1 still stored such a file with the decision. The next release fixes that; on 0.2.1, call with `"store": "answers_only"` or turn off `store_media` for private files.
 :::
 
 `DELETE /v1/studio/files/{id}` removes a file's contents even when decisions used it; those decisions keep their answers and can no longer be rerun.

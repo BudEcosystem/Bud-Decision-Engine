@@ -46,7 +46,7 @@
 <li><strong>A model's log.</strong> On the Models page, select the model and choose <strong>View log</strong>. The same file is <code>logs/<wbr>worker-<wbr>&lt;model&gt;.<wbr>log</code> in the <a href="../docs/dev/storage.html#where-the-data-lives">data folder</a>.</li>
 <li><strong>The server's log.</strong> The desktop app writes it to <code>logs/studio.log</code> in its application-data folder. From a source checkout, it is the terminal running <code>./run.sh</code>.</li>
 <li><strong>A download's log.</strong> <code>logs/<wbr>download-<wbr>&lt;model&gt;.<wbr>log</code> in the data folder.</li>
-<li><strong>The environment check.</strong> From a source checkout, <code>.<wbr>venv/<wbr>bin/<wbr>python -<wbr>m basal.<wbr>doctor</code> checks that PyTorch sees the GPU and that every model library imports.</li>
+<li><strong>The environment check.</strong> From a source checkout, <code>.<wbr>venv/<wbr>bin/<wbr>python -<wbr>m basal.<wbr>doctor</code> checks that PyTorch sees the GPU and that every model library imports. A line reading <em>out of memory right now</em> means other programs are using the GPU, not that PyTorch is broken: close them or eject models, and run it again. (Version 0.2.1 reported that case as "PyTorch failed to import".)</li>
 </ul></div></section>
 <section class="dsec"><div class="dsec-text"><h2 id="installing">Installing<a class="anchor" href="#installing" title="Link to this section">#</a></h2></div></section>
 <section class="dsec sub has-code"><div class="dsec-text"><h3 id="macos-says-the-app-is-from-an-unidentified-developer">macOS says the app is from an unidentified developer<a class="anchor" href="#macos-says-the-app-is-from-an-unidentified-developer" title="Link to this section">#</a></h3>
@@ -118,6 +118,10 @@
 <tr>
 <td><em>Some model files are missing on disk. Open the Models page and download this model again.</em></td>
 <td>Files in the Hugging Face cache were removed or never finished. Download the model again</td>
+</tr>
+<tr>
+<td><em>Downloads are switched off for this studio (it was started with BASAL_NO_DOWNLOADS=1 ...)</em></td>
+<td>This is a second studio started beside the main one, without a download queue. Download the model in the main studio, or restart this one without <code>BASAL_NO_DOWNLOADS</code>. (Version 0.2.1 answered these requests with an unexplained error 500)</td>
 </tr>
 </tbody>
 </table></div>

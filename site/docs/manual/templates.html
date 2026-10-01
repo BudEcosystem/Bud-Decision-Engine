@@ -73,7 +73,7 @@
 <p><strong>The situation</strong> lists the template's variables, if it has any: their names, types, defaults and whether they are optional or <strong>sensitive</strong>. <strong>How they become the situation</strong> shows the state the variables are written into. A template without variables takes the whole situation from the caller, as <code>state</code>.</p>
 <p><strong>Questions</strong> shows each question as the model reads it, with its kind, its key in the API response and its options. Chips mark what callers may change: <strong>callers may add options</strong>, <strong>callers may skip</strong>, and a question's own act threshold (<strong>acts at 70%</strong>). The line underneath says whether callers may add questions of their own, and how many.</p>
 <p><strong>Model and settings</strong> shows the default model, when to act automatically, the calibration temperature, and any values set for one model only (for example, "On Laya: temperature 1.3, 1 question setting"). A request can set its own model and settings; History records which layer each value came from.</p>
-<p><strong>Models that can run it</strong> lists every model, greyed out where a model cannot run this template. Point at a greyed model to see why. The check is cautious: a model is also greyed when a text variable allows more text than the model can read, even though shorter messages work.</p>
+<p><strong>Models that can run it</strong> lists every model, greyed out where a model cannot run this template. Point at a greyed model to see why. Point at any other model to see what to watch for: one that reads less text than a variable allows says that longer values are cut off at the end. (Version 0.2.1 greyed those models out too, even a template's own default model; the next release shows the note instead.)</p>
 <p><strong>Use it from code</strong> has a ready-to-run curl command and a Python example. Call <code>support-triage</code> for the latest version, pin one with <code>support-triage@2</code>, or name an alias such as <code>support-<wbr>triage@production</code>.</p>
 <h3 id="variables">Variables<a class="anchor" href="#variables" title="Link to this section">#</a></h3>
 <p>Variables give the situation a fixed shape: callers fill in a message, a plan tier or a screenshot, and the template writes them into the situation in the same way every time.</p>
@@ -140,7 +140,7 @@
 </tr>
 <tr>
 <td><strong>Wording</strong></td>
-<td>a question's text, a variable's constraints or the state changed</td>
+<td>a question's text or the state changed, or a variable became more permissive</td>
 </tr>
 <tr>
 <td><strong>Settings</strong></td>
@@ -148,7 +148,7 @@
 </tr>
 <tr>
 <td><strong>Breaking</strong></td>
-<td>a question, option or variable was removed or changed incompatibly; the strip says whether existing calls may now be refused</td>
+<td>a question, option or variable was removed or changed incompatibly, or a variable now refuses values it used to accept; the strip says whether existing calls may now be refused</td>
 </tr>
 </tbody>
 </table></div>

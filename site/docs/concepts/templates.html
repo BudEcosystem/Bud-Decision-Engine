@@ -165,7 +165,7 @@
 </tr>
 <tr>
 <td><code>required</code></td>
-<td><code>true</code> unless the variable has a <code>default</code>. A missing or <code>null</code> value counts as missing.</td>
+<td><code>true</code> unless the variable has a <code>default</code>: the default is used whenever the value is left out, so a variable with one is never required. A missing or <code>null</code> value counts as missing.</td>
 </tr>
 <tr>
 <td><code>default</code></td>
@@ -226,8 +226,8 @@
 </tr>
 <tr>
 <td><code>wording</code></td>
-<td>Instructions, descriptions, level texts, the state template or a variable's constraints</td>
-<td>Keep working, unless a narrowed variable now refuses their values</td>
+<td>Instructions, descriptions, level texts, the state template, or a variable made more permissive</td>
+<td>Keep working</td>
 </tr>
 <tr>
 <td><code>extended</code></td>
@@ -236,7 +236,7 @@
 </tr>
 <tr>
 <td><code>breaking</code></td>
-<td>Something was removed, renamed or re-typed; a score's levels changed; a required variable was added</td>
+<td>Something was removed, renamed or re-typed; a score's levels changed; a required variable was added; a variable was narrowed (fewer allowed values, a lower maximum, a new pattern)</td>
 <td>Some calls may get a 400; <code>breaking_for_callers</code> says so</td>
 </tr>
 </tbody>

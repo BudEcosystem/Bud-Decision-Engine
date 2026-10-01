@@ -104,7 +104,7 @@ On Linux, `scripts/open.sh` starts the studio in the background if it is not run
 
 On its first start the studio creates its database and the starter templates, as the output shows.
 
-`python -m basal.doctor` checks the environment: that PyTorch can use the GPU and that every model library imports. It prints one line per library and `All good` when nothing is missing.
+`python -m basal.doctor` checks the environment: that PyTorch can use the GPU and that every model library imports. It prints one line per library and `All good` when nothing is missing. Each GPU failure is named for what it is: no GPU, the GPU out of memory at that moment, or a test calculation that failed.
 
 :::console Terminal
 @@ macOS and Linux
@@ -153,8 +153,9 @@ The server reads these when it starts. A checkout keeps its data in `./data`; th
 | `BASAL_API_KEY` | Callers from other machines must send `Authorization: Bearer <key>`. Without a key, other machines can make decisions but cannot reach history, templates or settings |
 | `BASAL_AUTH_LOCAL` | `1` requires the key from this computer too. The tests use it |
 | `BASAL_CORS_ORIGINS` | Comma-separated websites allowed to call the studio from a browser |
-| `BASAL_NO_DOWNLOADS` | `1` turns the download queue off, for a second studio that shares the model cache with a first one |
+| `BASAL_NO_DOWNLOADS` | `1` turns the download queue off, for a second studio that shares the model cache with a first one. Its download requests answer `409` and say why |
 | `BASAL_FAKE_MODEL` | `1` adds the deterministic test model, `fake-decider` |
+| `BASAL_FAKE_LOAD_SECONDS` | Makes the test model take that many seconds to load, for tests of what happens during a load |
 | `BASAL_PARENT_PID` | Set by the desktop app: the server shuts down cleanly when that process is gone |
 | `HF_HOME` | Read by the Hugging Face library: where model weights are cached. Default `~/.cache/huggingface` |
 

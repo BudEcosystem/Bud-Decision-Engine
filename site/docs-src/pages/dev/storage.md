@@ -147,7 +147,7 @@ Variables marked `sensitive` are never written at any level. The studio stores a
 
 Images, audio and video are stored by content: a file's bytes are named after their SHA-256 hash, in `blobs/sha256/` under a folder named for the hash's first two characters, so the same photo sent a hundred times is stored once. Each upload still gets its own random id (`file_...`); an id derived from the content would let one caller find out that another holds a given file. Files are limited to 200 MB.
 
-Media sent with a decision stored at `answers_only` or `none`, or with media storage switched off, is written to `blobs/tmp/` for the model to read and deleted straight after. An uploaded file that no decision or example uses is kept for a day. Deleting a file removes its bytes unless another upload shares them; decisions that used it keep its type, size and fingerprint and show the media as no longer available.
+Media sent with a decision stored at `answers_only` or `none`, or with media storage switched off, is written to `blobs/tmp/` for the model to read and deleted straight after, whether the decision answers, fails or is cancelled. The same goes for the file of a `sensitive` variable at any storage level: its row in `decision_media` has no file, no name and a keyed hash (`hmac-sha256:...`) in place of the content hash. An uploaded file that no decision or example uses is kept for a day. Deleting a file removes its bytes unless another upload shares them; decisions that used it keep its type, size and fingerprint and show the media as no longer available.
 
 ## Retention
 

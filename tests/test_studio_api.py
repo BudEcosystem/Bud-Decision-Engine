@@ -323,6 +323,8 @@ def test_background_and_wait(studio):
     assert q["status"] == "queued"
     done = studio.get(f"/decisions/{q['id']}", params={"wait": 20}).json()
     assert done["status"] == "completed" and done["answers"]
+    assert done["warnings"] == []                    # the queued row is replaced, not inserted a second time
+    assert studio.get("/settings").json()["storage"]["store_errors"] == []
 
 
 def test_template_lifecycle(studio):

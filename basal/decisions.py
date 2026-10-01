@@ -356,7 +356,9 @@ def _map_load_error(e: HTTPException) -> tuple[int, str]:
     return 503, "model_load_failed"
 
 
-async def execute(r: Resolved, source: Source, *, did: str | None = None, created_ms: int | None = None) -> Outcome:
+async def execute(r: Resolved, source: Source, *, did: str | None = None, created_ms: int | None = None,
+                  persist: bool = True) -> Outcome:
+    """Run one decision. persist=False leaves the write to the caller (a background decision replaces its queued row)."""
     did = did or new_id("dec")
     created = created_ms or db.now_ms()
     t0 = time.perf_counter()
@@ -419,7 +421,7 @@ async def execute(r: Resolved, source: Source, *, did: str | None = None, create
         warnings=r.warnings, metadata=r.metadata, secrets=r.secrets, error=err, http_status=status,
         rerun_of=r.rerun_of, group=r.group)
     stored = r.storage
-    if r.storage != "none":
+    if r.storage != "none" and persist:
         stored = await save(rec)
     history.count_usage(model=r.model, template_seq=(r.template or {}).get("seq"), surface=source.surface, fmt=source.format,
                         status=status, stored=stored, model_ms=rec.timing.get("model_ms"), total_ms=total)
@@ -516,7 +518,7 @@ async def start_background(r: Resolved, source: Source) -> dict:
             if BACKGROUND[did]["cancel"]:
                 return
             await asyncio.to_thread(db.write, lambda c: c.execute("UPDATE decisions SET status = 'in_progress' WHERE id = ?", (did,)))
-            out = await execute(r, source, did=did, created_ms=created)
+            out = await execute(r, source, did=did, created_ms=created, persist=False)
             await asyncio.to_thread(db.write, lambda c: _replace(c, out.record))
         except ApiError as e:
             error = {"type": e.type, "code": e.code, "message": e.message}

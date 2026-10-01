@@ -13,6 +13,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -26,8 +27,13 @@ def latest() -> dict:
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
     if token:
         req.add_header("Authorization", f"Bearer {token}")
-    with urllib.request.urlopen(req, timeout=30) as r:
-        j = json.load(r)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            j = json.load(r)
+    except urllib.error.HTTPError as e:
+        hint = (" GitHub limits anonymous use to 60 requests an hour per network address; set GH_TOKEN "
+                "(for example GH_TOKEN=$(gh auth token)) and run it again.") if e.code in (403, 429) and not token else ""
+        raise SystemExit(f"GitHub answered {e.code} for the latest release of {REPO}.{hint}") from None
     assets = sorted(({"name": a["name"], "size": a["size"], "url": a["browser_download_url"]} for a in j.get("assets", [])),
                     key=lambda a: a["name"])
     if not j.get("tag_name") or not assets:

@@ -178,6 +178,7 @@ def test_release_gate_weighs_general_losses_against_the_task_gain():
 
 
 def test_an_example_too_big_for_memory_turns_on_checkpointing_then_is_skipped(monkeypatch):
+    __import__("pytest").importorskip("torch")     # the engine's training step imports it; CI's light environment has none
     import types
     from basal.training import engine as eng_mod
     from basal.training.engine import Engine

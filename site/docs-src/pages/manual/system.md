@@ -100,3 +100,11 @@ A model marked **On the processor** asked for the GPU but found too little free 
 |---|---|
 | **Eject models that have not been used for** | **Never (keep them loaded)**, **15 minutes**, **1 hour** or **4 hours**. Frees memory for other programs automatically; an ejected model loads again the next time it is used. |
 | **Load models on demand** | On: when an API request names a downloaded model that is not loaded, the studio loads it and then answers; the request waits. Off: such requests are refused. |
+
+### Training
+
+**Allow experimental training** lets the [Train](/docs/manual/train) page use GPUs that work but haven't been tested for training as fully: Intel Arc and Core Ultra graphics, AMD on Linux, NVIDIA RTX 20 series and Apple M1. On NVIDIA RTX 30 series or newer and Apple M2 or newer, training is always on. The Train page offers the same switch as **Try training on this GPU**.
+
+:::figure /docs/img/manual/train-system.webp
+The **Training** setting at the end of the System page.
+:::

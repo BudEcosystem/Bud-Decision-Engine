@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Teach a model your own decisions · Bud Decision Studio Docs</title>
+  <meta name="description" content="Prepare a file of examples, train a model on it in the studio, read the result, and use the new model from the Playground and from code.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="Teach a model your own decisions · Bud Decision Studio">
+  <meta property="og:description" content="Prepare a file of examples, train a model on it in the studio, read the result, and use the new model from the Playground and from code.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs has-console" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.3.0">0.3.0</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/train.html">Train</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a><a href="../../docs/concepts/fine-tuning.html">Fine-tuning and its safeguards</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/teach.html" aria-current=page>Teach a model your own decisions</a><nav class="side-toc" aria-label="On this page"><a href="#prepare-your-examples">Prepare your examples</a><a href="#the-standard-format">The standard format</a><a href="#train">Train</a><a href="#read-the-result">Read the result</a><a href="#use-it-from-code">Use it from code</a><a href="#move-it-to-another-computer">Move it to another computer</a></nav><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/training.html">Training and trained models</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/trainer.html">The trainer</a><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>Guides</span></p>
+      <h1>Teach a model your own decisions</h1>
+      <p class="lead">When a model doesn't decide the way your team would, show it. This guide takes a spreadsheet of past decisions to a trained model your code can call, and says what to do when the studio doesn't keep the result.</p>
+    </header>
+    <section class="dsec"><div class="dsec-text"><h2 id="prepare-your-examples">Prepare your examples<a class="anchor" href="#prepare-your-examples" title="Link to this section">#</a></h2>
+<p>A training file is a list of past situations with the answer you would give. The simplest is a spreadsheet saved as CSV: one column with the text, and one column per answer.</p>
+<div class="code-block"><div class="code-bar"><span class="code-lang">Text</span><button class="copy" type="button" data-copy aria-label="Copy code"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><pre class="hl"><code class="lang-text"><span class="ln">ticket,team,urgent</span><span class="ln">"Can't sign in since the password reset this morning",identity,yes</span><span class="ln">"Refund for a double charge on invoice 4412",payments,no</span><span class="ln">"The Harbor VPN drops every few minutes from the Pune office",network,no</span></code></pre></div>
+
+<figure class="shot"><div class="frame"><img src="../../docs/img/manual/train-format.webp" alt="What should the file look like? on the Train page shows the same shape." loading="lazy" decoding="async"></div><figcaption><span class="fig-n">Fig. 1</span><strong>What should the file look like?</strong> on the Train page shows the same shape.</figcaption></figure>
+
+<p>From this file the studio builds two questions: <strong>team</strong>, a <strong>Pick one</strong> question with the team names it found, and <strong>urgent</strong>, a <strong>Yes or no</strong> question asked as "Is this urgent?". You can reword both before training.</p>
+<p>What makes a good file:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A few hundred rows.</strong> At least 30 answered questions are needed; with 30 to 300, only large improvements can be told apart from luck, and the result says so. 300 to 2,000 is the sweet spot.</td>
+<td>The studio keeps about a third of your examples aside to test the result.</td>
+</tr>
+<tr>
+<td><strong>Every answer represented.</strong> Ten to twenty examples of each answer at least.</td>
+<td>A rare answer can't be learned; one answer for everything is refused.</td>
+</tr>
+<tr>
+<td><strong>Real examples, messy as they come.</strong></td>
+<td>The model learns what it is shown. Exact copies of a situation are kept on the same side of the train/test split, so they can't inflate the score.</td>
+</tr>
+<tr>
+<td><strong>Consistent answers.</strong></td>
+<td>If two people would answer an example differently, the model learns that uncertainty and its percentages reflect it. That is fine.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Text in any language works with the multilingual models; the studio notices when examples aren't in English and recommends one of them.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="the-standard-format">The standard format<a class="anchor" href="#the-standard-format" title="Link to this section">#</a></h2>
+<p>For questions a table can't express (scales with named levels, pick-all-that-apply, option descriptions, or different questions on different rows) use JSON lines: one example per line, written as a decision request plus the right answers.</p>
+<div class="code-block"><div class="code-bar"><span class="code-lang">JSON</span><button class="copy" type="button" data-copy aria-label="Copy code"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><pre class="hl"><code class="lang-json"><span class="ln"><span class="p">{</span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Order 1182 arrived with a cracked screen"</span><span class="p">,</span></span><span class="ln" style="--i:1"><span class="w"> </span><span class="nt">"questions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"team"</span><span class="p">:</span><span class="w">   </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"choice"</span><span class="p">,</span><span class="w"> </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Which team should handle this?"</span><span class="p">,</span></span><span class="ln" style="--i:26"><span class="w">                          </span><span class="nt">"criteria"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"returns"</span><span class="p">:</span><span class="w"> </span><span class="s2">"damaged or wrong items"</span><span class="p">,</span><span class="w"> </span><span class="nt">"billing"</span><span class="p">:</span><span class="w"> </span><span class="s2">"charges and refunds"</span><span class="p">}},</span></span><span class="ln" style="--i:15"><span class="w">               </span><span class="nt">"urgent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noul"</span><span class="p">,</span><span class="w"> </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Does this need attention today?"</span><span class="p">},</span></span><span class="ln" style="--i:15"><span class="w">               </span><span class="nt">"impact"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"score"</span><span class="p">,</span><span class="w"> </span><span class="nt">"instructions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"How bad is it for the customer?"</span><span class="p">,</span></span><span class="ln" style="--i:26"><span class="w">                          </span><span class="nt">"criteria"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"minor"</span><span class="p">,</span><span class="w"> </span><span class="s2">"moderate"</span><span class="p">,</span><span class="w"> </span><span class="s2">"severe"</span><span class="p">]}},</span></span><span class="ln" style="--i:1"><span class="w"> </span><span class="nt">"answers"</span><span class="p">:</span><span class="w">   </span><span class="p">{</span><span class="nt">"team"</span><span class="p">:</span><span class="w"> </span><span class="s2">"returns"</span><span class="p">,</span><span class="w"> </span><span class="nt">"urgent"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">"impact"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moderate"</span><span class="p">},</span></span><span class="ln" style="--i:1"><span class="w"> </span><span class="nt">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"customer-0412"</span><span class="p">}</span></span></code></pre></div>
+
+<div class="table-wrap"><table class="fields">
+<thead>
+<tr>
+<th>Field</th>
+<th></th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>state</code></td>
+<td>required</td>
+<td>the situation: text, or an object or list</td>
+</tr>
+<tr>
+<td><code>questions</code></td>
+<td>required</td>
+<td>the <a href="../../docs/concepts/question-types.html">question definitions</a> a decision request takes</td>
+</tr>
+<tr>
+<td><code>answers</code></td>
+<td>required</td>
+<td>the right answer per question; leave out a question whose answer you don't know</td>
+</tr>
+<tr>
+<td><code>group</code></td>
+<td>optional</td>
+<td>examples that share a situation (one customer, one document) stay together when the studio splits train from test</td>
+</tr>
+<tr>
+<td><code>split</code></td>
+<td>optional</td>
+<td><code>train</code>, <code>calibration</code> or <code>test</code>, to fix where an example goes</td>
+</tr>
+<tr>
+<td><code>media</code></td>
+<td>optional</td>
+<td>images, audio or video for the models that read them: <code>[{"type": "image", "path": "/<wbr>full/<wbr>path/<wbr>photo.<wbr>jpg"}]</code></td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>optional</td>
+<td>your own reference</td>
+</tr>
+</tbody>
+</table></div>
+<p>How to write an answer:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Question type</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pick one</strong> (<code>choice</code>)</td>
+<td>the option's name or its description; capital letters don't matter</td>
+</tr>
+<tr>
+<td><strong>Yes or no</strong> (<code>noul</code>)</td>
+<td><code>true</code> or <code>false</code>, <code>"yes"</code> or <code>"no"</code></td>
+</tr>
+<tr>
+<td><strong>Rate on a scale</strong> (<code>score</code>)</td>
+<td>the level's text, or its number counting from 0</td>
+</tr>
+<tr>
+<td><strong>Pick any</strong> (<code>multi</code>)</td>
+<td>a list of option names</td>
+</tr>
+<tr>
+<td><strong>Put in order</strong> (<code>rank</code>)</td>
+<td>the top option's name</td>
+</tr>
+<tr>
+<td><strong>Estimate a number</strong> (<code>number</code>)</td>
+<td>a number; the nearest listed value is used</td>
+</tr>
+<tr>
+<td>any type</td>
+<td><code>{"probabilities": {"a": 0.<wbr>7, "b": 0.<wbr>3}}</code> when the honest answer is "probably a"</td>
+</tr>
+</tbody>
+</table></div>
+<p>The files the Evaluate page reads (tab-separated <code>text</code> and answer, CSV with <code>text</code> and <code>label</code>, JSON lines with <code>text</code> and <code>label</code>) work as they are, and so does a <code>typed-decisions</code> style <code>gold</code> field.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="train">Train<a class="anchor" href="#train" title="Link to this section">#</a></h2>
+<div class="steps"><ol>
+<li><strong>Open Train and add the file.</strong> Drop it on the page or choose <strong>Choose a file</strong>. The page lists the questions it found and any problems.</li>
+<li><strong>Check the questions.</strong> Reword each instruction the way you would ask it; the model will be asked it in exactly those words later.</li>
+<li><strong>Check the model and the time.</strong> The recommendation suits most tasks. Choose <strong>Change model</strong> for another; models that can't learn these examples say why.</li>
+<li><strong>Name the new model and choose Start teaching.</strong> You can leave the page; training continues, and the Train page shows it at the top.</li>
+</ol></div>
+
+<p>On an NVIDIA GB10 shared with other work, the studio's tests took 8 minutes for 420 support tickets on Julia 1, 25 to 30 minutes for about a thousand examples on Laya, about an hour on the 4B models and over two hours on Jev-Omni.</p></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="read-the-result">Read the result<a class="anchor" href="#read-the-result" title="Link to this section">#</a></h2>
+<p>The result page gives two numbers. <strong>Correct on questions it had never seen</strong> is the one that matters: the studio set those examples aside before training and never trained on them. <strong>General decisions it already knew</strong> is the check that nothing was forgotten. One held-out example the original got wrong is shown with both answers.</p>
+<ul>
+<li><strong>Use it now</strong> opens that example in the Playground with the new model.</li>
+<li><strong>Compare on Evaluate</strong> loads the held-out examples into Evaluate with both models ticked: choose <strong>Run</strong> to see calibration and the act threshold each model supports.</li>
+</ul>
+<aside class="callout note"><div class="callout-ic"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></svg></div><div class="callout-body"><p class="callout-t">Why a held-out score</p><p>Any model can learn to repeat the answers it was shown. The only honest measure is examples it never saw, so the studio splits your file before training (keeping groups and copies together) and reports only those.</p></div></aside>
+
+<h3 id="when-the-result-isnt-kept">When the result isn't kept<a class="anchor" href="#when-the-result-isnt-kept" title="Link to this section">#</a></h3>
+<p>The page names the reason. What usually helps:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Reason</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Didn't beat the original model</strong></td>
+<td>more examples, especially of rare answers; clearer instructions or option descriptions; or <strong>Teach another model instead</strong></td>
+</tr>
+<tr>
+<td><strong>Got worse at general decisions</strong></td>
+<td>more varied examples; the studio has already retried once more gently</td>
+</tr>
+<tr>
+<td><strong>The same answer to almost everything</strong></td>
+<td>one answer dominates your file; add examples of the others</td>
+</tr>
+<tr>
+<td><strong>The original already gets almost all of them right</strong></td>
+<td>nothing to fix: use the original</td>
+</tr>
+</tbody>
+</table></div></div></section>
+<section class="dsec has-code"><div class="dsec-text"><h2 id="use-it-from-code">Use it from code<a class="anchor" href="#use-it-from-code" title="Link to this section">#</a></h2>
+<p>A trained model has its own id, shown in the Playground's <strong>Code</strong> tab. Call it like any other model, or make it a template's default model.</p>
+
+
+<p>Ask it the questions it was trained on, in the same words: that is where it improved. It still answers anything the original model could.</p></div><div class="dsec-code"><div class="dsec-pin"><div class="console dc" data-tabs><div class="dc-head"><span class="method post">POST</span><code>/v1/systemone</code></div><div class="console-bar"><span class="dc-lang">curl</span><button class="copy" type="button" data-copy aria-label="Copy the example"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><div class="dc-panel" role="group" id="c0-p0"><pre class="hl" tabindex="0"><code class="lang-bash"><span class="ln">curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:8420/v1/systemone<span class="w"> </span>-H<span class="w"> </span><span class="s1">'content-type: application/json'</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">'{</span></span><span class="ln" style="--i:2"><span class="s1">  "model": "julia-1-ft-support-tickets",</span></span><span class="ln" style="--i:2"><span class="s1">  "state": "Quick one: In the Ledger invoice screen, a customer was charged twice.",</span></span><span class="ln" style="--i:2"><span class="s1">  "questions": {"team": {"type": "choice", "instructions": "Which team fits best?",</span></span><span class="ln" style="--i:4"><span class="s1">    "criteria": {"identity": null, "payments": null, "devices": null, "network": null, "data": null, "people": null}},</span></span><span class="ln" style="--i:4"><span class="s1">    "urgent": {"type": "noul", "instructions": "Is this urgent?"}}}'</span></span></code></pre></div><div class="console-split"><span>Response</span><span class="dc-status ok">200 OK</span></div><pre class="hl dc-resp" tabindex="0"><code class="lang-json"><span class="ln"><span class="p">{</span><span class="nt">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"julia-1-ft-support-tickets"</span><span class="p">,</span></span><span class="ln" style="--i:1"><span class="w"> </span><span class="nt">"answers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"team"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"choice"</span><span class="p">,</span><span class="w"> </span><span class="nt">"choice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"payments"</span><span class="p">,</span></span><span class="ln" style="--i:3"><span class="w">   </span><span class="nt">"probabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"identity"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0003</span><span class="p">,</span><span class="w"> </span><span class="nt">"payments"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9911</span><span class="p">,</span><span class="w"> </span><span class="nt">"devices"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0006</span><span class="p">,</span><span class="w"> </span><span class="nt">"network"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0001</span><span class="p">,</span><span class="w"> </span><span class="nt">"data"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0002</span><span class="p">,</span><span class="w"> </span><span class="nt">"people"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0077</span><span class="p">},</span></span><span class="ln" style="--i:3"><span class="w">   </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.9893</span><span class="p">},</span></span><span class="ln" style="--i:2"><span class="w">  </span><span class="nt">"urgent"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"noul"</span><span class="p">,</span><span class="w"> </span><span class="nt">"noul"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0106</span><span class="p">}},</span></span><span class="ln" style="--i:1"><span class="w"> </span><span class="nt">"usage"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"input_tokens"</span><span class="p">:</span><span class="w"> </span><span class="mi">91</span><span class="p">,</span><span class="w"> </span><span class="nt">"output_tokens"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">}}</span></span></code></pre></div></div></div></section>
+<section class="dsec"><div class="dsec-text"><h2 id="move-it-to-another-computer">Move it to another computer<a class="anchor" href="#move-it-to-another-computer" title="Link to this section">#</a></h2>
+<p>On the Train page, <strong>Export</strong> <svg class="ph inline" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></svg> on the model's row saves it as one .zip: the small file of changes and a record of how it was trained, not the whole model. On the other computer, choose <strong>Import a trained model</strong> on its Train page. The model it was trained from downloads there like any other model; the studio says if it needs it.</p></div></section>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/guides/improve.html"><span class="pg-l">Previous</span><span class="pg-t">Improve a template safely</span></a><a class="pg next" href="../../docs/guides/agents.html"><span class="pg-l">Next</span><span class="pg-t">Let an agent choose its next action</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

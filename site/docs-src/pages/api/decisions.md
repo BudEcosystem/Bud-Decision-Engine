@@ -453,7 +453,7 @@ The response is shortened: the urgency answer also carries its `legend`, `confid
 | `created_at`, `completed_at` | integer | Unix seconds. |
 | `template` | object | `id`, `version`, the `ref` you sent, `resolved_from` (`latest`, `pinned` or `alias`) and `attribution` (`explicit`; `header` for a [wire-format call](/docs/api/systemone#file-a-call-under-a-template) filed under a template; `draft` for the Playground's unsaved edits). `null` without a template. |
 | `model`, `model_requested` | string | The model that answered, and the one you named (`null` when the default was used). |
-| `model_revision` | string | Always `null` in 0.2.1. |
+| `model_revision` | string | Always `null` for now. |
 | `input` | object | What the model was given: `variables`, `state`, `media` and `questions`. Returned by [Retrieve a decision](#retrieve-a-decision), or on create with `include`. |
 | `extensions` | object | The extra questions, added options and skipped questions of this call. |
 | `answers` | object | One answer per question, described below. `null` when the decision failed or has not finished. |
@@ -466,7 +466,7 @@ The response is shortened: the urgency answer also carries its `legend`, `confid
 | `warnings` | array | Things the studio changed or ignored, each `{code, message, param}`. |
 | `source` | object | Where the call came from: `surface` (`api`, `playground`, `compare`, `rerun`), `endpoint`, `format`, `client` (read from the user agent), `request_id`, `attempt` and `retry_of`. |
 | `group`, `rerun_of` | object, string | The comparison a decision belongs to, and the decision it reran. |
-| `batch`, `eval` | null | Reserved; always `null` in 0.2.1. |
+| `batch`, `eval` | null | Reserved; always `null` for now. |
 | `metadata`, `pinned` | object, boolean | Your labels, and whether retention keeps it forever. |
 | `feedback` | object | The latest label per question: `{expected, correct, feedback_id}`. |
 | `store` | string | `full`, `answers_only` or `none`. |
@@ -947,7 +947,7 @@ The response is shortened; its `answers` are omitted here. Note `settings.questi
 
 Cancels a background decision that has not reached the model yet, for example one waiting for its model to load. It returns the decision with `status: "cancelled"`. A decision the model is already working on, or one that has finished, answers `409 decision_finished`.
 
-If the decision itself started that model loading and no other request is waiting for the model, the load stops too and its memory is freed. A model you loaded yourself is left to finish. (In 0.2.1 the load always carried on; the next release stops it.)
+If the decision itself started that model loading and no other request is waiting for the model, the load stops too and its memory is freed. A model you loaded yourself is left to finish. (Before 0.3.0 the load always carried on.)
 
 :::console POST /v1/studio/decisions/{id}/cancel
 @@ curl

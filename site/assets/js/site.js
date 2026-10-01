@@ -332,7 +332,7 @@
     const o = { markStep: 0.8, ambient: 1 / 5200, intro: false, homeMark: false, ...opts };
     let W = 0; let H = 0; let dpr = 1; let n = 0; let m = 0;
     let x; let y; let vx; let vy; let tx; let ty; let sx; let sy; let delay; let dur; let col; let dep; let swirl;
-    let mode = 'free'; let modeAt = 0; let raf = 0; let visible = true; let last = 0;
+    let mode = 'free'; let modeAt = 0; let raf = 0; let visible = true; let last = 0; let springFrom = 0;
     let mark = { cx: 0, cy: 0, size: 0 };
     const mouse = { x: -1e4, y: -1e4 };
     let pts = [];
@@ -384,13 +384,17 @@
         x[i] = sx[i]; y[i] = sy[i];
       }
     }
-    function release(now) {
-      mode = 'free'; modeAt = now; flash = 1;
+    // Every mark particle flies outward; a held mark (homeMark) lets its springs back in after a moment.
+    function burst(now, strength) {
+      springFrom = now + (o.homeMark ? 520 : 0); flash = strength;
       for (let i = 0; i < m; i++) {
         const dx = x[i] - mark.cx; const dy = y[i] - mark.cy; const d = Math.hypot(dx, dy) || 1;
-        const sp = 3 + Math.random() * 9;
-        vx[i] = (dx / d) * sp + (Math.random() - 0.5) * 2; vy[i] = (dy / d) * sp + (Math.random() - 0.5) * 2;
+        const sp = (3 + Math.random() * 9) * strength; const tw = (Math.random() - 0.5) * 3 * strength;
+        vx[i] = (dx / d) * sp - (dy / d) * tw + (Math.random() - 0.5) * 2; vy[i] = (dy / d) * sp + (dx / d) * tw + (Math.random() - 0.5) * 2;
       }
+    }
+    function release(now) {
+      mode = 'free'; modeAt = now; burst(now, 1);
       if (o.onRelease) o.onRelease();
     }
 
@@ -418,13 +422,14 @@
       }
 
       // physics for everything that is free
-      const start = (mode === 'free' || o.homeMark) ? 0 : m;
+      const start = mode === 'free' ? 0 : m;
       const R = 150; const R2 = R * R;
       for (let i = start; i < n; i++) {
         const home = o.homeMark && i < m;
         let ax; let ay;
         if (home) {
-          ax = (tx[i] - x[i]) * 0.018; ay = (ty[i] - y[i]) * 0.018;
+          const k = t < springFrom ? 0 : 0.018 * Math.min(1, (t - springFrom) / 1100);
+          ax = (tx[i] - x[i]) * k; ay = (ty[i] - y[i]) * k;
           ax += Math.sin(t * 0.0012 + i * 0.7) * 0.004; ay += Math.cos(t * 0.001 + i) * 0.004;
         } else {
           const a = flow(x[i], y[i], t);
@@ -435,7 +440,7 @@
           const d = Math.sqrt(d2); const f = (1 - d / R) * (home ? 1.6 : 0.7);
           ax += (dx / d) * f + (-dy / d) * f * 0.35; ay += (dy / d) * f + (dx / d) * f * 0.35;
         }
-        const damp = home ? 0.88 : 0.965;
+        const damp = home ? (t < springFrom ? 0.966 : 0.9) : 0.965;
         vx[i] = (vx[i] + ax * dt) * Math.pow(damp, dt); vy[i] = (vy[i] + ay * dt) * Math.pow(damp, dt);
         x[i] += vx[i] * dt; y[i] += vy[i] * dt;
         if (!home) {
@@ -490,7 +495,11 @@
       host.addEventListener('pointerleave', () => { mouse.x = -1e4; mouse.y = -1e4; });
     }
     kick();
-    return { release: () => { if (mode !== 'free') release(performance.now()); }, relayout: () => { if (m) layoutMark(); } };
+    return {
+      release: () => { if (mode !== 'free') release(performance.now()); },
+      explode: () => { if (mode === 'free' && m) { burst(performance.now(), 0.8); kick(); } },
+      relayout: () => { if (m) layoutMark(); },
+    };
   }
 
   // A burst of particles that flies from one element to others, on the canvas laid over the app window.
@@ -546,28 +555,29 @@
 
   // ================================================================== hero
   const hero = $('.hero');
-  const heroTitle = $('.hero-title');
+  const heroMark = $('[data-hero-mark]');
   let heroReady = false;
-  function markHeroReady() { if (heroReady) return; heroReady = true; hero.classList.add('ready'); setTimeout(() => replay.start(0), reduce ? 0 : 1000); }
+  function markHeroReady() { if (heroReady) return; heroReady = true; hero.classList.add('ready'); setTimeout(() => replay.start(), reduce ? 0 : 1000); }
 
   let heroField = null;
   if (!reduce) {
     heroField = Field($('.hero-canvas'), {
-      intro: true, hold: 300, markStep: 0.82, ambient: 1 / 4200, pointerHost: hero,
+      intro: true, homeMark: true, hold: 420, markStep: 0.82, ambient: 1 / 4200, pointerHost: hero,
       markBox: () => {
-        const c = $('.hero-canvas').getBoundingClientRect(); const t = heroTitle.getBoundingClientRect();
-        const size = Math.min(250, c.width * 0.46, Math.max(150, t.height * 0.95));
-        return { cx: t.left - c.left + t.width / 2, cy: t.top - c.top + t.height / 2, size };
+        const c = $('.hero-canvas').getBoundingClientRect(); const r = heroMark.getBoundingClientRect();
+        return { cx: r.left - c.left + r.width / 2, cy: r.top - c.top + r.height / 2, size: r.width };
       },
       onRelease: markHeroReady,
     });
-    if (!heroField) markHeroReady();
+    if (!heroField) { hero.classList.add('no-field'); markHeroReady(); }
+    else heroMark.addEventListener('click', () => heroField.explode());
     // Scrolling or clicking during the intro skips it.
     const skip = () => heroField && heroField.release();
     addEventListener('wheel', skip, { once: true, passive: true }); addEventListener('touchstart', skip, { once: true, passive: true });
     addEventListener('keydown', skip, { once: true });
     setTimeout(markHeroReady, 3500);
   } else {
+    hero.classList.add('no-field');
     markHeroReady();
   }
 
@@ -638,63 +648,79 @@
 
   const replay = (() => {
     const stateEl = $('[data-state]'); const stateBox = $('.m-state'); const qs = $('[data-questions]'); const figs = $('[data-figs]');
-    const meta = $('[data-meta]'); const decide = $('[data-decide]'); const decideLabel = $('[data-decide-label]'); const cursor = $('.cursor');
-    const tabs = $$('.scn'); const sparks = reduce ? null : Sparks($('.fx-canvas'));
-    let token = 0; let onScreen = true; let started = false;
+    const meta = $('[data-meta]'); const decide = $('[data-decide]'); const decideLabel = $('[data-decide-label]'); const save = $('[data-save]');
+    const cursor = $('.cursor'); const tabs = $$('.scn'); const sparks = reduce ? null : Sparks($('.fx-canvas'));
+    const pages = Object.fromEntries($$('.m-page').map((el) => [el.dataset.page, el]));
+    const navs = Object.fromEntries($$('.m-side [data-nav]').map((el) => [el.dataset.nav, el]));
+    const mtitle = $('[data-mtitle]'); const msub = $('[data-msub]');
+    const ORDER = ['playground', 'templates', 'train', 'history'];
+    const DUR = { playground: 10400, templates: 4600, train: 5200, history: 5000 };
+    let token = 0; let onScreen = true; let started = false; let scn = 0; let histCount = 235; let page = 'playground';
     new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }, { threshold: 0.15 }).observe(mock);
 
-    function selectTab(i, ms) {
-      tabs.forEach((t, k) => {
-        t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1;
+    const sub = (name) => ({
+      playground: 'Intern-Decision 4B, ready', templates: 'support-triage, version 2', train: 'Teach a model your own decisions',
+      history: `${histCount} decisions in the last 24 hours`,
+    }[name]);
+    function setPage(name) {
+      page = name;
+      Object.entries(pages).forEach(([k, el]) => el.classList.toggle('on', k === name));
+      Object.entries(navs).forEach(([k, el]) => el.classList.toggle('on', k === name));
+      mtitle.textContent = name.charAt(0).toUpperCase() + name.slice(1); msub.textContent = sub(name);
+    }
+    function selectTab(name, ms) {
+      tabs.forEach((t) => {
+        const on = t.dataset.pg === name; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1;
         const bar = $('i', t); bar.style.transition = 'none'; bar.style.transform = 'scaleX(0)';
-        if (k === i && ms) { void bar.offsetWidth; bar.style.transition = `transform ${ms}ms linear`; bar.style.transform = 'scaleX(1)'; }
+        if (on && ms) { void bar.offsetWidth; bar.style.transition = `transform ${ms}ms linear`; bar.style.transform = 'scaleX(1)'; }
       });
     }
-    function metaHTML(s, ms) {
-      return `<b>Intern-Decision 4B</b> answered ${s.questions.length} questions in <span class="ms" data-ms>${ms}</span><span class="ms"> ms</span>, one pass, ${s.tokens} tokens`;
-    }
+    const visibleEl = (el) => !!(el && el.getClientRects().length);
     function placeCursor(el, dx = 0.5, dy = 0.5) {
       const m = mock.getBoundingClientRect(); const r = el.getBoundingClientRect();
       cursor.style.left = `${r.left - m.left + r.width * dx}px`; cursor.style.top = `${r.top - m.top + r.height * dy}px`;
     }
-    function showStatic(i) {
-      const s = D.SCENARIOS[i]; token++; selectTab(i, 0);
+    async function press(el, alive, dx = 0.5, dy = 0.55, travel = 760) {
+      if (!visibleEl(el)) return true;
+      cursor.classList.add('show'); placeCursor(el, dx, dy);
+      await sleep(travel); if (!alive()) return false;
+      cursor.classList.add('click'); el.classList.add('press');
+      await sleep(150); cursor.classList.remove('click'); el.classList.remove('press');
+      return alive();
+    }
+    function metaHTML(s, ms) {
+      return `<b>Intern-Decision 4B</b> answered ${s.questions.length} questions in <span class="ms" data-ms>${ms}</span><span class="ms"> ms</span>, one pass<span class="saved">${I('clock-counter-clockwise', 12)}Saved to History</span>`;
+    }
+    function firstAnswer(s) {
+      const q = s.questions[0];
+      if (q.type === 'choice') { const [o, p] = Object.entries(q.probs).sort((x, y) => y[1] - x[1])[0]; return `${esc(o)} <i>${pct(p)}</i>`; }
+      if (q.type === 'score') { const k = q.probs.indexOf(Math.max(...q.probs)); return `${esc(q.options[k])} <i>${pct(q.probs[k])}</i>`; }
+      return `${q.yes >= 0.5 ? 'yes' : 'no'} <i>${pct(Math.max(q.yes, 1 - q.yes))}</i>`;
+    }
+
+    function fillPlayground(s) {
       stateEl.textContent = s.state; stateBox.classList.add('done');
       qs.innerHTML = s.questions.map(questionHTML).join(''); $$('.mq', qs).forEach((q) => q.classList.add('in'));
       figs.innerHTML = s.questions.map((q, k) => figHTML(q, k)).join('');
       $$('.fig', figs).forEach((f) => { f.classList.add('in'); drawFig(f, true); });
-      meta.innerHTML = metaHTML(s, s.latency);
+      meta.innerHTML = metaHTML(s, s.latency); $('.saved', meta).classList.add('on');
     }
 
-    async function run(i) {
-      const my = ++token; const alive = () => my === token;
-      const s = D.SCENARIOS[i];
-      const TOTAL = 9800;
-      selectTab(i, TOTAL);
-      // clear the previous answer
+    async function playground(alive, s) {
       $$('.fig', figs).forEach((f) => f.classList.remove('in'));
       await sleep(260); if (!alive()) return;
       figs.innerHTML = ''; meta.innerHTML = '&nbsp;'; qs.innerHTML = ''; stateEl.textContent = ''; stateBox.classList.remove('done');
-      cursor.classList.remove('show');
-      // the situation types itself
       for (let c = 0; c <= s.state.length; c += 3) { stateEl.textContent = s.state.slice(0, c); await sleep(14); if (!alive()) return; }
       stateEl.textContent = s.state;
-      // the questions arrive
       for (const q of s.questions) {
         qs.insertAdjacentHTML('beforeend', questionHTML(q));
         const el = qs.lastElementChild; requestAnimationFrame(() => el.classList.add('in'));
         await sleep(190); if (!alive()) return;
       }
       stateBox.classList.add('done');
-      // the pointer goes to Decide and presses it
-      placeCursor(stateBox, 0.8, 0.7); cursor.style.transition = 'none'; void cursor.offsetWidth; cursor.style.transition = '';
-      cursor.classList.add('show');
-      await sleep(60); placeCursor(decide, 0.56, 0.62);
-      await sleep(820); if (!alive()) return;
-      cursor.classList.add('click'); decide.classList.add('press'); decideLabel.textContent = 'Deciding';
-      await sleep(150); cursor.classList.remove('click');
-      await sleep(120); decide.classList.remove('press'); if (!alive()) return;
-      // answers: rendered first so the sparks know where to fly
+      if (!(await press(decide, alive, 0.56, 0.62, 820))) return;
+      decideLabel.textContent = 'Deciding';
+      await sleep(120); if (!alive()) return;
       figs.innerHTML = s.questions.map((q, k) => figHTML(q, k)).join('');
       const figEls = $$('.fig', figs);
       if (sparks) sparks.burst(decide, figEls);
@@ -702,20 +728,66 @@
       await sleep(430); if (!alive()) return;
       decideLabel.textContent = 'Decide';
       for (const f of figEls) { f.classList.add('in'); drawFig(f, false); await sleep(110); if (!alive()) return; }
-      setTimeout(() => cursor.classList.remove('show'), 700);
-      await sleep(5400); if (!alive()) return;
-      while ((!onScreen || document.hidden) && alive()) await sleep(400);
-      if (alive()) run((i + 1) % D.SCENARIOS.length);
+      setTimeout(() => { const sv = $('.saved', meta); if (sv) sv.classList.add('on'); }, 500);
+      await sleep(2600); if (!alive()) return;
+      await press(save, alive, 0.5, 0.55, 700);
+    }
+    async function templates(alive) {
+      const row = $('[data-tp-new]', pages.templates); row.classList.remove('flash'); void row.offsetWidth; row.classList.add('flash');
+      await sleep(DUR.templates - 900);
+    }
+    async function train(alive) {
+      const p = pages.train; const big = $('[data-tn-big]', p);
+      p.classList.remove('go'); big.textContent = '76%';
+      await sleep(380); if (!alive()) return;
+      p.classList.add('go');
+      const t0 = performance.now();
+      const tick = (now) => { const k = clamp((now - t0) / 1200, 0, 1); big.textContent = `${Math.round(76 + 24 * easeOut(k))}%`; if (k < 1 && alive()) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+      await sleep(DUR.train - 1300);
+    }
+    async function history(alive, s) {
+      const rows = $('[data-hi-rows]');
+      const act = s.questions.every((q) => q.top >= 0.9);
+      histCount += 1; $('[data-hi-count]').textContent = histCount; msub.textContent = sub('history');
+      $$('.hi-row.new', rows).forEach((r) => r.classList.remove('new'));
+      rows.insertAdjacentHTML('afterbegin', `<div class="hi-row new"><span>just now</span><span><em class="${act ? 'act' : 'ask'}">${act ? 'Act automatically' : 'Ask a human'}</em></span><span><b>Intern-Decision 4B</b><small>Playground</small></span><span>${firstAnswer(s)}</span><span>${s.latency} ms</span></div>`);
+      while (rows.children.length > 5) rows.lastElementChild.remove();
+      await sleep(DUR.history - 900);
+    }
+
+    async function run(startName) {
+      const my = ++token; const alive = () => my === token;
+      let i = ORDER.indexOf(startName); let first = true;
+      while (alive()) {
+        const name = ORDER[i];
+        selectTab(name, DUR[name]);
+        if (first || name === page) setPage(name);
+        else { if (!(await press(navs[name], alive, 0.3, 0.55, 760))) return; setPage(name); }
+        first = false;
+        if (name === 'playground') await playground(alive, D.SCENARIOS[scn]);
+        else if (name === 'templates') await templates(alive);
+        else if (name === 'train') await train(alive);
+        else { await history(alive, D.SCENARIOS[scn]); scn = (scn + 1) % D.SCENARIOS.length; }
+        if (!alive()) return;
+        while ((!onScreen || document.hidden) && alive()) await sleep(400);
+        i = (i + 1) % ORDER.length;
+      }
+    }
+    function showStatic(name) {
+      token++; selectTab(name, 0); setPage(name);
+      if (name === 'playground') fillPlayground(D.SCENARIOS[0]);
+      if (name === 'train') { pages.train.classList.add('go'); $('[data-tn-big]', pages.train).textContent = '100%'; }
     }
 
     tabs.forEach((t, k) => {
-      t.addEventListener('click', () => (reduce ? showStatic(k) : run(k)));
+      t.addEventListener('click', () => { started = true; cursor.classList.remove('show'); if (reduce) showStatic(t.dataset.pg); else run(t.dataset.pg); });
       t.addEventListener('keydown', (e) => {
         const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
         if (!d) return; e.preventDefault(); const j = (k + d + tabs.length) % tabs.length; tabs[j].focus(); tabs[j].click();
       });
     });
-    return { start(i) { if (started) return; started = true; if (reduce) showStatic(i); else run(i); } };
+    return { start() { if (started) return; started = true; if (reduce) showStatic('playground'); else run('playground'); } };
   })();
 
   // ================================================================== makers strip

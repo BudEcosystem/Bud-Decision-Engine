@@ -48,7 +48,7 @@ The **Overview** of Support triage version 2: its five variables and four questi
 
 **Model and settings** shows the default model, when to act automatically, the calibration temperature, and any values set for one model only (for example, "On Laya: temperature 1.3, 1 question setting"). A request can set its own model and settings; History records which layer each value came from.
 
-**Models that can run it** lists every model, greyed out where a model cannot run this template. Point at a greyed model to see why. Point at any other model to see what to watch for: one that reads less text than a variable allows says that longer values are cut off at the end. (Version 0.2.1 greyed those models out too, even a template's own default model; the next release shows the note instead.)
+**Models that can run it** lists every model, greyed out where a model cannot run this template. Point at a greyed model to see why. Point at any other model to see what to watch for: one that reads less text than a variable allows says that longer values are cut off at the end. (Versions before 0.3.0 greyed those models out too, even a template's own default model.)
 
 **Use it from code** has a ready-to-run curl command and a Python example. Call `support-triage` for the latest version, pin one with `support-triage@2`, or name an alias such as `support-triage@production`.
 

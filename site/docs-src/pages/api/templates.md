@@ -1190,7 +1190,7 @@ Checks every model the studio knows against a version (`?version=`, latest by de
 
 Problems are what stops a model: question types or option counts it cannot handle, too many questions, or a required file it cannot read. Notes are what to watch for on a model that can run the template: a variable that may hold more text than the model reads (longer values are cut off at the end, and each such decision carries a `state_may_be_truncated` warning), or an optional file the model cannot read.
 
-Version 0.2.1 reported the first of those notes as a problem, `context_too_small`, which marked the model `ok: false` although its decisions ran. The next release reports it as a note.
+Versions before 0.3.0 reported the first of those notes as a problem, `context_too_small`, which marked the model `ok: false` although its decisions ran.
 
 :::console GET /v1/studio/templates/{id}/compatibility
 @@ curl

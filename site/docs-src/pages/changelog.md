@@ -4,9 +4,21 @@ description: Every release of Bud Decision Studio, newest first, with what chang
 lead: Every release, newest first. To update, install the new version over the old one, or run the one-line install command again; your engine, settings, models, templates and history are kept.
 ---
 
-## Unreleased
+## 0.3.0
 
-Fixed on the `main` branch and included in the next release. Until then, 0.2.1 behaves as described under each item.
+*1 October 2026.* Teach a model your own decisions, and twelve fixes, one of them for privacy.
+
+### New: teach a model your own decisions
+
+- **The Train page** fine-tunes any of the eleven models on a spreadsheet of your past decisions, on this computer's GPU. It works out the questions from the file, recommends a model with a time estimate, trains it, and shows the result on examples it never saw, with one it used to get wrong. **Use it now** opens the new model in the Playground; **Compare on Evaluate** opens Evaluate with the held-out examples and both models ready. [Train](/docs/manual/train).
+- **Nothing worse is ever kept.** Each training replays general decisions so the model keeps what it knew, measures how far its general answers move, and is kept only if it is better on your held-out examples, not worse on general questions it never trained on, not answering everything the same way, and identical once saved and reloaded. [Fine-tuning and its safeguards](/docs/concepts/fine-tuning), with results on every model.
+- **Trained models** appear with the others (Playground, Models, Evaluate and your code), cost a small file of changes on disk and no extra memory, and move between computers with **Export** and **Import a trained model**.
+- **Training is safe to leave running.** One training at a time, in its own process, within a memory limit set for its model, at low priority; it waits when other programs need the memory, can be paused and continued, and restarts itself if the GPU stops responding.
+- **The training API** under `/api/training` and `/api/finetunes`. [Training and trained models](/docs/api/training).
+- **CLM 8B answers the same request the same way every time.** It embedded several texts together, so an answer could change by up to 0.06 depending on what was cached; it now embeds each text on its own.
+- **Intern-Decision 4B and Lev load straight onto the GPU**, without a temporary second copy of the weights in memory (about 9 GB on a GB10).
+
+### Fixes
 
 - **A sensitive file is never kept.** An image, audio or video variable marked `sensitive` was stored with the decision: its contents, its file name and its content hash. The model now reads it and History keeps only a keyed hash, as for every other sensitive value. A queued background decision no longer holds inline file data either, and temporary copies are removed even when a decision fails or is cancelled.
 - **Background decisions no longer report a false save failure.** Each one came back with a `history_write_failed` warning although it was saved, and failed outright when the studio was set to refuse unsaved decisions.
@@ -20,6 +32,8 @@ Fixed on the `main` branch and included in the next release. Until then, 0.2.1 b
 - **Leaving the Playground straight after opening it** no longer throws an error.
 - **A second studio started with `BASAL_NO_DOWNLOADS=1`** answers download requests with the reason instead of an error 500.
 - **The environment check** reports a GPU that is out of memory as that, not as "PyTorch failed to import".
+
+[Release on GitHub](https://github.com/BudEcosystem/Bud-Decision-Engine/releases/tag/v0.3.0)
 
 ## 0.2.1
 

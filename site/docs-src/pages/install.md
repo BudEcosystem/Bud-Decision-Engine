@@ -56,7 +56,7 @@ Run the command in Terminal. It copies the app into `/Applications` (or `~/Appli
 @@ Linux
 Run the command in a terminal. It installs the `.deb` package with apt, or the `.rpm` package with dnf or zypper, and asks for your password once. Without a package manager or `sudo`, it installs the AppImage for your user into `~/.local/bin`. Either way the app appears in your applications menu.
 
-Two options go after `sh -s --`: `--appimage` never uses `sudo`, and `--version v0.2.1` installs a specific release.
+Two options go after `sh -s --`: `--appimage` never uses `sudo`, and `--version v0.3.0` installs a specific release.
 :::
 
 :::console Terminal
@@ -79,30 +79,30 @@ curl -fsSL https://raw.githubusercontent.com/BudEcosystem/Bud-Decision-Engine/ma
 
 ## Download the installer yourself
 
-Every release is on the [releases page](https://github.com/BudEcosystem/Bud-Decision-Engine/releases/latest). For version 0.2.1:
+Every release is on the [releases page](https://github.com/BudEcosystem/Bud-Decision-Engine/releases/latest). For version 0.3.0:
 
 :::tabs os
 @@ Windows
 | File | Size |
 |---|---|
-| `Bud.Decision.Studio_0.2.1_x64-setup.exe` | 14.5 MB |
-| `Bud.Decision.Studio_0.2.1_x64_en-US.msi` | 21.3 MB |
+| `Bud.Decision.Studio_0.3.0_x64-setup.exe` | 14.5 MB |
+| `Bud.Decision.Studio_0.3.0_x64_en-US.msi` | 21.3 MB |
 
 Run either one. The app is added to the Start menu. The installers are not signed yet, so Windows SmartScreen may warn you: choose **More info**, then **Run anyway**.
 
 @@ macOS
 | File | Size |
 |---|---|
-| `Bud.Decision.Studio_0.2.1_aarch64.dmg` | 20.5 MB |
+| `Bud.Decision.Studio_0.3.0_aarch64.dmg` | 20.5 MB |
 
 Open the disk image and drag **Bud Decision Studio** into **Applications**. The app is not notarised yet, so the first time, right-click it and choose **Open**. If you start it from the disk image or your Downloads folder, setup offers to move it to Applications first.
 
 @@ Linux
 | Your system | File | Install with |
 |---|---|---|
-| Ubuntu, Debian | `Bud.Decision.Studio_0.2.1_amd64.deb` or `_arm64.deb` | `sudo apt install ./Bud.Decision.Studio_0.2.1_amd64.deb` |
-| Fedora, openSUSE | `Bud.Decision.Studio-0.2.1-1.x86_64.rpm` or `.aarch64.rpm` | `sudo dnf install ./Bud.Decision.Studio-0.2.1-1.x86_64.rpm` |
-| Any other distribution | `Bud.Decision.Studio_0.2.1_amd64.AppImage` or `_aarch64.AppImage` | `chmod +x Bud*.AppImage`, then open it |
+| Ubuntu, Debian | `Bud.Decision.Studio_0.3.0_amd64.deb` or `_arm64.deb` | `sudo apt install ./Bud.Decision.Studio_0.3.0_amd64.deb` |
+| Fedora, openSUSE | `Bud.Decision.Studio-0.3.0-1.x86_64.rpm` or `.aarch64.rpm` | `sudo dnf install ./Bud.Decision.Studio-0.3.0-1.x86_64.rpm` |
+| Any other distribution | `Bud.Decision.Studio_0.3.0_amd64.AppImage` or `_aarch64.AppImage` | `chmod +x Bud*.AppImage`, then open it |
 
 Use the `arm64` or `aarch64` file on ARM computers such as the NVIDIA GB10. The AppImage adds itself to your applications menu the first time it runs.
 :::

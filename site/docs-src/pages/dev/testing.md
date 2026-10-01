@@ -15,7 +15,10 @@ lead: Most of the studio can be tested in under half a minute without a GPU or a
 | `test_doctor.py` | 4 tests of the environment check: each PyTorch and GPU failure is reported as itself |
 | `test_conformance.py` | 14 checks of the API against TypeSafe's published schema, both official SDKs and OpenRouter's schema. Needs a running studio and a model |
 | `test_installer.py` | 3 regression tests of the engine installer |
+| `training/test_dataformat.py`, `test_metrics_and_engine.py`, `test_device_policy.py`, `test_job.py` | 34 tests of the trainer that need no PyTorch: the training file importers and splits, metrics and temperature fitting, the release gate, replay and out-of-memory handling, export and import of trained models, the device policy for NVIDIA, AMD, Intel, Apple and the processor, the training queue and the supervisor |
+| `training/test_<family>.py` | 21 contract tests, one file per model family: real tokenizers (and, where cached, real weights) on the processor; scored, trained, exported, attached to a fresh adapter, and checked to answer like the trained model |
 | `scripts/e2e.py` | Every page through a real browser, with real models |
+| `scripts/e2e_train.py` | The Train page through a real browser: the example file, review, a real training on the GPU, the result, **Use it now**, and an answer in the Playground |
 | `scripts/ui_checks.py` | Interface regressions through a real browser with the test model: leaving the Playground mid-start, the id fields' validation, Save as template in a fresh window, Evaluate's threshold range. Starts its own studio; needs Playwright |
 
 The test files are in `tests/`. The first five are the **studio tests**. They need only the server's own libraries, not PyTorch: `tests/conftest.py` gives each run a temporary data folder and turns on `BASAL_FAKE_MODEL=1`, the deterministic test model described on [Run from source](/docs/dev/source).
@@ -121,9 +124,9 @@ Four GitHub Actions workflows run on the repository. The studio tests need no GP
 
 | Workflow | When and what |
 |---|---|
-| `studio.yml` | When `basal/`, `tests/`, the examples or the export script change: the four studio tests on macOS 14, Windows and Ubuntu 24.04 |
+| `studio.yml` | When `basal/`, `tests/`, the examples or the export script change: the studio tests and the trainer's PyTorch-free tests on macOS 14, Windows and Ubuntu 24.04 |
 | `installer.yml` | When `installer/` or the requirements change: the installer tests, then a real first-run install on the processor into a folder named `Application Support`, on macOS, Windows and Ubuntu |
 | `safari.yml` | When `ui/` changes: the interface in Safari on macOS 14 and 15, with screenshots kept as a build artifact |
 | `desktop.yml` | When a `v*` tag is pushed, or by hand: the desktop app for four platforms, published as a release ([Desktop app and releases](/docs/dev/desktop)) |
 
-Conformance and the end-to-end check need models and a GPU, so they are run on a real machine before each release; the results are in `docs/testing.md`.
+Conformance, the end-to-end checks and real training runs need models and a GPU, so they are run on a real machine before each release; the results are in `docs/testing.md`, and every training run in `docs/trainer/RESULTS.md`.

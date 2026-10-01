@@ -22,6 +22,12 @@ Above the table:
 - **Help me choose** asks three questions and recommends a model.
 - **Download models** opens the list of models to download.
 
+Models you trained on the [Train](/docs/manual/train) page appear in the table too, with a **Fine-tuned** badge and their held-out score before and after training. They use the files of the model they were trained from plus a small file of changes, so they need no extra download and the same memory.
+
+:::figure /docs/img/manual/train-models-page.webp
+A trained model on the Models page: Laya for support tickets, with its original's logo, the **Fine-tuned** badge, and its result before and after training.
+:::
+
 Below the table, a line says how many models are on this computer, how much disk they take and which folder holds them.
 
 Use <kbd>↑</kbd> and <kbd>↓</kbd> to move through the table. Double-click a loaded model to open it in the Playground.

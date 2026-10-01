@@ -1,6 +1,6 @@
 ---
 title: The app at a glance
-description: A tour of the Bud Decision Studio window, its eight pages, the status bar and the keyboard shortcuts.
+description: A tour of the Bud Decision Studio window, its nine pages, the status bar and the keyboard shortcuts.
 lead: The studio is one window with three parts that never move: the sidebar on the left, the page in the middle, and the status bar along the bottom. This page names each part and says which page to open for which job.
 ---
 
@@ -14,7 +14,7 @@ The studio with the Playground open. The sidebar lists the pages and the loaded 
 
 | Group | Pages |
 |---|---|
-| (top) | **Playground**, **Templates**, **Models**, **Evaluate** |
+| (top) | **Playground**, **Templates**, **Models**, **Evaluate**, **Train** |
 | Developer | **History**, **API** |
 | Help | **Learn**, **System** |
 
@@ -26,7 +26,7 @@ Next to **Models** is the number of models downloaded to this computer. Under th
 - **Colour theme** cycles between following your system, light and dark.
 - The button at the far left of the title bar hides or shows the sidebar.
 
-**The status bar** shows where models run (the GPU's or processor's name) and how busy it is, a memory meter (violet for loaded models, grey for other programs), how many of the eleven models are on this computer, any download in progress, and the address of the studio's API.
+**The status bar** shows where models run (the GPU's or processor's name) and how busy it is, a memory meter (violet for loaded models, grey for other programs), how many models are on this computer (the eleven, plus any you have trained), any download in progress, and the address of the studio's API.
 
 Throughout the studio, a word with a dotted underline has a definition: point at it, or move to it with the keyboard, to read it.
 
@@ -38,6 +38,7 @@ Throughout the studio, a word with a dotted underline has a definition: point at
 | [Templates](/docs/manual/templates) | Keep decisions you reuse: their questions, variables, default model and settings, with every change saved as a numbered version. Compare two versions on real decisions. |
 | [Models](/docs/manual/models) | See the eleven open models, what each is good at and how it compares with Jev. Download, load and eject them. |
 | [Evaluate](/docs/manual/evaluate) | Measure models on your own labelled examples: how often they are right, whether their percentages can be trusted, and which act threshold keeps mistakes under your limit. |
+| [Train](/docs/manual/train) | Teach a model your own decisions from a spreadsheet of examples. The studio tests the result on examples it never saw and keeps it only if it got better without forgetting anything. |
 | [History](/docs/manual/history) | Review every decision the studio made, from the app or from code. Filter, label the right answers, rerun on another model, and turn decisions into templates or test examples. |
 | [API](/docs/manual/system#the-api-page) | Find the studio's address, its endpoints and ready-to-run code. |
 | [Learn](/docs/manual/system#learn) | Read a ten-minute introduction to decision models, with a live example. |
@@ -50,6 +51,7 @@ Throughout the studio, a word with a dotted underline has a definition: point at
 3. When the questions work, choose **Save as template** so your code can call them by name.
 4. Call the template from your code. Each call appears in **History**, where you check the decisions that asked a human and label the right answers.
 5. Before changing the template or switching models, measure the change in **Evaluate**, or save a new version and compare the two on the **Templates** page.
+6. When the model often decides differently from your team, export the decisions you labelled (or any spreadsheet of past decisions) and teach it on the **Train** page. The trained model appears beside the others; make it the template's default model.
 
 ## Keyboard shortcuts
 

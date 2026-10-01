@@ -122,14 +122,14 @@ A release is a version bump, a tag, and GitHub Actions. The version appears in f
 
 :::console Terminal
 ```bash
-git commit -am "Bud Decision Studio 0.2.1"
-git tag -a v0.2.1 -m "Bud Decision Studio 0.2.1"
-git push origin main v0.2.1
+git commit -am "Bud Decision Studio 0.3.0"
+git tag -a v0.3.0 -m "Bud Decision Studio 0.3.0"
+git push origin main v0.3.0
 
 # after the four builds finish
-gh release view v0.2.1 --repo BudEcosystem/Bud-Decision-Engine
-gh release edit v0.2.1 --repo BudEcosystem/Bud-Decision-Engine \
-  --title "Bud Decision Studio 0.2.1" --notes-file notes.md
+gh release view v0.3.0 --repo BudEcosystem/Bud-Decision-Engine
+gh release edit v0.3.0 --repo BudEcosystem/Bud-Decision-Engine \
+  --title "Bud Decision Studio 0.3.0" --notes-file notes.md
 ```
 :::
 

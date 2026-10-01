@@ -12,6 +12,7 @@ layout: home
 - [Save it as a template](/docs/manual/templates) Reuse the same questions with new details each time.
 - [Review what was decided](/docs/manual/history) Every decision, what the model saw, and what needed a person.
 - [Choose a model](/docs/manual/models) The eleven models, what each is good at and the memory it needs.
+- [Teach it your decisions](/docs/manual/train) Train a model on your own examples; keep it only if it got better.
 
 ## Build with the API
 - [Call the studio from your code](/docs/guides/from-code) Send a situation and questions, act on the answers.
@@ -135,10 +136,12 @@ console.log(d.answers.department.choice, d.needs_review);
 - [Probabilities, certainty and acting](/docs/concepts/acting)
 - [Templates and versions](/docs/concepts/templates)
 - [History and privacy](/docs/concepts/history)
+- [Fine-tuning and its safeguards](/docs/concepts/fine-tuning)
 
 ### Guides
 - [Build a support-triage template](/docs/guides/support-triage)
 - [Improve a template safely](/docs/guides/improve)
+- [Teach a model your own decisions](/docs/guides/teach)
 - [Let an agent choose its next action](/docs/guides/agents)
 - [Decide about images, audio and video](/docs/guides/media)
 
@@ -146,6 +149,7 @@ console.log(d.answers.department.choice, d.needs_review);
 - [Architecture](/docs/dev/architecture)
 - [Run from source](/docs/dev/source)
 - [Add a model](/docs/dev/adding-a-model)
+- [The trainer](/docs/dev/trainer)
 - [Data and storage](/docs/dev/storage)
 - [Testing](/docs/dev/testing)
 

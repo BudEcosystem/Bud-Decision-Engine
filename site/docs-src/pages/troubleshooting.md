@@ -9,7 +9,7 @@ lead: Each problem below starts with the message the studio shows, word for word
 - **A model's log.** On the Models page, select the model and choose **View log**. The same file is `logs/worker-<model>.log` in the [data folder](/docs/dev/storage#where-the-data-lives).
 - **The server's log.** The desktop app writes it to `logs/studio.log` in its application-data folder. From a source checkout, it is the terminal running `./run.sh`.
 - **A download's log.** `logs/download-<model>.log` in the data folder.
-- **The environment check.** From a source checkout, `.venv/bin/python -m basal.doctor` checks that PyTorch sees the GPU and that every model library imports. A line reading *out of memory right now* means other programs are using the GPU, not that PyTorch is broken: close them or eject models, and run it again. (Version 0.2.1 reported that case as "PyTorch failed to import".)
+- **The environment check.** From a source checkout, `.venv/bin/python -m basal.doctor` checks that PyTorch sees the GPU and that every model library imports. A line reading *out of memory right now* means other programs are using the GPU, not that PyTorch is broken: close them or eject models, and run it again. (Versions before 0.3.0 reported that case as "PyTorch failed to import".)
 
 ## Installing
 
@@ -89,7 +89,7 @@ Hugging Face limits anonymous downloads. Run `hf auth login` once in a terminal 
 | *download of &lt;repository&gt; failed (exit 1); see data/logs/download-&lt;model&gt;.log* | The download process failed: often the connection or the disk. The log has the reason. Press Download again; files already complete are kept |
 | *download finished but some files are still missing; try again* | The download ended early. Press Download again |
 | *Some model files are missing on disk. Open the Models page and download this model again.* | Files in the Hugging Face cache were removed or never finished. Download the model again |
-| *Downloads are switched off for this studio (it was started with BASAL_NO_DOWNLOADS=1 ...)* | This is a second studio started beside the main one, without a download queue. Download the model in the main studio, or restart this one without `BASAL_NO_DOWNLOADS`. (Version 0.2.1 answered these requests with an unexplained error 500) |
+| *Downloads are switched off for this studio (it was started with BASAL_NO_DOWNLOADS=1 ...)* | This is a second studio started beside the main one, without a download queue. Download the model in the main studio, or restart this one without `BASAL_NO_DOWNLOADS`. (Versions before 0.3.0 answered these requests with an unexplained error 500) |
 
 ### A model does not load
 
@@ -126,6 +126,49 @@ In the studio API these come back as `409 model_not_loaded`, `409 model_not_down
 ### Run on the processor, or switch back to the GPU
 
 *This computer cannot run models on 'cuda'. Run setup again to install support for it.* The engine was installed for another device. Setup installs one PyTorch build at a time; run it again and choose the device (**System**, then **Run setup again**, or `./install.sh --device cuda` from source). Everything else is kept.
+
+## Training
+
+### The Train page says training isn't available
+
+*Training needs a GPU. This computer runs models on the processor.* Training is off on computers without a supported GPU; every model still runs there. If the computer has a GPU, the engine was installed for the processor: run setup again and choose the GPU (**System**, then **Run setup again**, or `./install.sh` from source). On Intel Arc and Core Ultra graphics, AMD on Linux, NVIDIA RTX 20 series and Apple M1, choose **Try training on this GPU**, or turn on **Allow experimental training** on the System page.
+
+### The file can't be used
+
+The review screen lists each problem in plain words; one shown in red stops training until the file is fixed.
+
+| Message | Fix |
+|---|---|
+| *Every example in 'label' has the same answer ('spam'). The model needs examples of at least two different answers.* | Add examples of the other answers |
+| *The file has only 12 examples. Add at least 30 (a few hundred works much better).* | Add examples |
+| *Some answers to 'team' don't match its options, e.g. ...* | A few answers are misspelled or use another name. Fix them, or leave them: up to a fifth are skipped |
+| *The column 'notes' has 412 different answers. A decision model picks from a fixed list; use at most 64 answers.* | That column is free text, not an answer. Remove it, or name the text column `text` |
+| *After keeping some examples aside to test the result, too few are left to train on.* | The file has too few answered questions once a third is set aside. Add examples |
+
+### Training stops or waits
+
+| Message | What happens, and what to do |
+|---|---|
+| *Waiting for another training to finish* | One training runs at a time on a computer. It starts by itself; **Cancel** removes it from the queue |
+| *Other programs left only 2.8 GB of memory free. It will continue by itself when there is room.* | Training waits instead of letting the computer swap. Close programs or eject models; it continues by itself 30 seconds after memory is free, and gives up with a resume point after an hour (**Continue** carries on) |
+| *Training Laya needs about 6 GB of memory and 3 GB is free right now.* | Not enough memory to start. Eject loaded models or close other programs |
+| *Memory was tight; using smaller batches* | A note, not an error: training continues with smaller batches |
+| *Some examples are long, so it is training in a slower way that needs much less memory.* | A note: one example didn't fit, so it switched to a method that recomputes instead of storing; slower, same result |
+| *Too many of your examples are too long to learn from with this computer's memory.* | More than a tenth of the examples don't fit even then. Split long documents, or choose a smaller model |
+| *The GPU stopped responding, so training is starting again.* | The supervisor restarted a training whose GPU work stopped answering. After three tries it stops with *The GPU stopped responding several times*; close programs that use a lot of memory and choose **Try again** |
+| *The computer ran out of memory and stopped the training.* | The operating system ended it. Close other programs, then **Try again** |
+
+### The result wasn't kept
+
+The page names the reason; the original model is unchanged. See [When the result isn't kept](/docs/guides/teach#when-the-result-isnt-kept) for what helps, or choose **Teach another model instead**. *The saved model did not answer exactly like the trained one* is a bug: the job folder (`training/jobs/<id>` in the studio's data folder) keeps the rejected files and the log; please report it.
+
+### Importing a trained model fails
+
+| Message | Fix |
+|---|---|
+| *That file isn't a .zip exported from Bud Decision Studio.* | Choose the .zip that **Export** saved |
+| *It was trained from 'kev-4b', which this studio doesn't have. Update the studio, then import it again.* | The model it was trained from isn't in this version's catalog |
+| *That .zip doesn't hold a fine-tuned model exported from Bud Decision Studio (unexpected: ...).* | The archive holds other files; export it again rather than editing it |
 
 ## Calling the API
 

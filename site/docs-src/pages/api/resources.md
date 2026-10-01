@@ -234,7 +234,7 @@ Lists every model the studio knows, downloaded or not, with what it can do. `GET
 | `max_options`, `max_questions` | The most options per question and questions per decision it takes. |
 | `context_tokens` | How much input it reads; longer input is cut off at the end. |
 | `status` | `loaded`, `loading`, `downloaded` or `not_downloaded`. A decision naming a downloaded model loads it first. |
-| `revision` | Always `null` in 0.2.1. |
+| `revision` | Always `null` for now. |
 
 Loading, ejecting and downloading models are done in the app's Models page. `GET /v1/models` lists the same models in [TypeSafe's format](/docs/api/systemone#list-models-in-typesafes-format).
 

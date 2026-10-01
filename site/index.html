@@ -23,13 +23,14 @@
 <header class="nav" id="nav">
   <div class="nav-in">
     <a class="brand" href="#top" aria-label="Bud Decision Studio, back to top">
-      <img src="assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <img src="assets/brand/bud-mark.png" width="24" height="24" alt="">
       <span>Bud <b>Decision Studio</b></span>
     </a>
     <nav class="nav-links" aria-label="Sections">
+      <a href="#features">Features</a>
       <a href="#how">How it works</a>
-      <a href="#tour">Features</a>
       <a href="#models">Models</a>
+      <a href="#train">Train</a>
       <a href="#developers">Developers</a>
       <a href="docs/index.html">Docs</a>
       <a href="#faq">Help</a>
@@ -43,9 +44,10 @@
     </div>
   </div>
   <div class="menu" id="menu" hidden>
+    <a href="#features">Features</a>
     <a href="#how">How it works</a>
-    <a href="#tour">Features</a>
     <a href="#models">Models</a>
+    <a href="#train">Train</a>
     <a href="#developers">Developers</a>
     <a href="docs/index.html">Docs</a>
     <a href="#download">Download</a>
@@ -61,13 +63,9 @@
   <div class="hero-grid" aria-hidden="true"></div>
 
   <div class="hero-copy">
-    <a class="release-pill" href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases/latest" data-release-pill>
-      <span class="dot"></span><span data-release-text>Version 0.1.3 for macOS, Windows and Linux</span>
-    </a>
-    <h1 class="hero-title" aria-label="Decisions, not text.">
-      <span class="w">Decisions,</span> <span class="w">not</span> <span class="w">text.</span>
-    </h1>
-    <p class="hero-lede">Bud Decision Studio runs open decision models on your own computer. Give a model a situation and a few questions, and it returns a calibrated probability for every answer in about a tenth of a second. No per-call fees, and nothing leaves your machine.</p>
+    <div class="hero-mark" data-hero-mark aria-hidden="true"><img src="assets/brand/bud-mark.png" alt="" width="150" height="150"></div>
+    <h1 class="hero-title"><span class="w">The</span> <span class="w">LM</span> <span class="w">Studio</span> <span class="w">for</span> <span class="w">decision</span> <span class="w">models.</span></h1>
+    <p class="hero-lede">Learn, infer, serve, train and integrate Jev-like decision models on your own hardware, with no setup.</p>
 
     <div class="hero-cta">
       <a class="btn btn-lg btn-primary" href="#download" data-dl-primary>
@@ -79,22 +77,22 @@
       </a>
     </div>
     <p class="hero-meta" data-dl-meta>For macOS, Windows and Linux.</p>
-
   </div>
 
-  <!-- the live replay of the Playground -->
+  <!-- the live replay of the app: Playground, Templates, Train, History -->
   <div class="stage" id="stage">
-    <div class="scenarios" role="tablist" aria-label="Example decisions">
-      <button role="tab" class="scn" data-scn="0" aria-selected="true"><span>Support ticket</span><i></i></button>
-      <button role="tab" class="scn" data-scn="1" aria-selected="false"><span>Server log</span><i></i></button>
-      <button role="tab" class="scn" data-scn="2" aria-selected="false"><span>Supplier invoice</span><i></i></button>
+    <div class="scenarios" role="tablist" aria-label="Pages in the replay">
+      <button role="tab" class="scn" data-pg="playground" aria-selected="true"><span>Playground</span><i></i></button>
+      <button role="tab" class="scn" data-pg="templates" aria-selected="false"><span>Templates</span><i></i></button>
+      <button role="tab" class="scn" data-pg="train" aria-selected="false"><span>Train</span><i></i></button>
+      <button role="tab" class="scn" data-pg="history" aria-selected="false"><span>History</span><i></i></button>
     </div>
 
     <div class="mock-wrap">
-      <div class="mock" aria-label="Bud Decision Studio Playground, replaying a real decision">
+      <div class="mock" aria-label="Bud Decision Studio, replaying the Playground, Templates, Train and History pages">
         <div class="mock-bar">
           <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="mock-title"><b>Playground</b> <span>Intern-Decision 4B, ready</span></span>
+          <span class="mock-title"><b data-mtitle>Playground</b> <span data-msub>Intern-Decision 4B, ready</span></span>
           <span class="mock-bar-end" aria-hidden="true">
             <svg class="ph" viewBox="0 0 256 256" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></svg>
             <svg class="ph" viewBox="0 0 256 256" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M207.06,72.67A111.24,111.24,0,0,0,128,40h-.4C66.07,40.21,16,91,16,153.13V176a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V152A111.25,111.25,0,0,0,207.06,72.67ZM224,176H119.71l54.76-75.3a8,8,0,0,0-12.94-9.42L99.92,176H32V153.13c0-3.08.15-6.12.43-9.13H56a8,8,0,0,0,0-16H35.27c10.32-38.86,44-68.24,84.73-71.66V80a8,8,0,0,0,16,0V56.33A96.14,96.14,0,0,1,221,128H200a8,8,0,0,0,0,16h23.67c.21,2.65.33,5.31.33,8Z"/></svg>
@@ -104,44 +102,134 @@
           <aside class="m-side" aria-hidden="true">
             <div class="m-brand"><img src="assets/brand/bud-mark.png" alt="" width="18" height="18"><span><b>Bud</b> Decision Studio</span></div>
             <ul>
-              <li class="on"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M221.69,199.77,160,96.92V40h8a8,8,0,0,0,0-16H88a8,8,0,0,0,0,16h8V96.92L34.31,199.77A16,16,0,0,0,48,224H208a16,16,0,0,0,13.72-24.23ZM110.86,103.25A7.93,7.93,0,0,0,112,99.14V40h32V99.14a7.93,7.93,0,0,0,1.14,4.11L183.36,167c-12,2.37-29.07,1.37-51.75-10.11-15.91-8.05-31.05-12.32-45.22-12.81ZM48,208l28.54-47.58c14.25-1.74,30.31,1.85,47.82,10.72,19,9.61,35,12.88,48,12.88a69.89,69.89,0,0,0,19.55-2.7L208,208Z"/></svg>Playground</li>
-              <li><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/></svg>Templates</li>
-              <li><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"/></svg>Models<em>11</em></li>
-              <li><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128ZM128,72h88a8,8,0,0,0,0-16H128a8,8,0,0,0,0,16Zm88,112H128a8,8,0,0,0,0,16h88a8,8,0,0,0,0-16ZM82.34,42.34,56,68.69,45.66,58.34A8,8,0,0,0,34.34,69.66l16,16a8,8,0,0,0,11.32,0l32-32A8,8,0,0,0,82.34,42.34Zm0,64L56,132.69,45.66,122.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Zm0,64L56,196.69,45.66,186.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Z"/></svg>Evaluate</li>
+              <li data-nav="playground" class="on"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M221.69,199.77,160,96.92V40h8a8,8,0,0,0,0-16H88a8,8,0,0,0,0,16h8V96.92L34.31,199.77A16,16,0,0,0,48,224H208a16,16,0,0,0,13.72-24.23ZM110.86,103.25A7.93,7.93,0,0,0,112,99.14V40h32V99.14a7.93,7.93,0,0,0,1.14,4.11L183.36,167c-12,2.37-29.07,1.37-51.75-10.11-15.91-8.05-31.05-12.32-45.22-12.81ZM48,208l28.54-47.58c14.25-1.74,30.31,1.85,47.82,10.72,19,9.61,35,12.88,48,12.88a69.89,69.89,0,0,0,19.55-2.7L208,208Z"/></svg>Playground</li>
+              <li data-nav="templates"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/></svg>Templates</li>
+              <li data-nav="models"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"/></svg>Models<em>11</em></li>
+              <li data-nav="evaluate"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128ZM128,72h88a8,8,0,0,0,0-16H128a8,8,0,0,0,0,16Zm88,112H128a8,8,0,0,0,0,16h88a8,8,0,0,0,0-16ZM82.34,42.34,56,68.69,45.66,58.34A8,8,0,0,0,34.34,69.66l16,16a8,8,0,0,0,11.32,0l32-32A8,8,0,0,0,82.34,42.34Zm0,64L56,132.69,45.66,122.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Zm0,64L56,196.69,45.66,186.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Z"/></svg>Evaluate</li>
+              <li data-nav="train"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M48,64a8,8,0,0,1,8-8H72V40a8,8,0,0,1,16,0V56h16a8,8,0,0,1,0,16H88V88a8,8,0,0,1-16,0V72H56A8,8,0,0,1,48,64ZM184,192h-8v-8a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0v-8h8a8,8,0,0,0,0-16Zm56-48H224V128a8,8,0,0,0-16,0v16H192a8,8,0,0,0,0,16h16v16a8,8,0,0,0,16,0V160h16a8,8,0,0,0,0-16ZM219.31,80,80,219.31a16,16,0,0,1-22.62,0L36.68,198.63a16,16,0,0,1,0-22.63L176,36.69a16,16,0,0,1,22.63,0l20.68,20.68A16,16,0,0,1,219.31,80Zm-54.63,32L144,91.31l-96,96L68.68,208ZM208,68.69,187.31,48l-32,32L176,100.69Z"/></svg>Train</li>
             </ul>
             <p class="m-sec">Developer</p>
             <ul>
-              <li><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M136,80v43.47l36.12,21.67a8,8,0,0,1-8.24,13.72l-40-24A8,8,0,0,1,120,128V80a8,8,0,0,1,16,0Zm-8-48A95.44,95.44,0,0,0,60.08,60.15C52.81,67.51,46.35,74.59,40,82V64a8,8,0,0,0-16,0v40a8,8,0,0,0,8,8H72a8,8,0,0,0,0-16H49c7.15-8.42,14.27-16.35,22.39-24.57a80,80,0,1,1,1.66,114.75,8,8,0,1,0-11,11.64A96,96,0,1,0,128,32Z"/></svg>History</li>
-              <li><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M128,128a8,8,0,0,1-3,6.25l-40,32a8,8,0,1,1-10-12.5L107.19,128,75,102.25a8,8,0,1,1,10-12.5l40,32A8,8,0,0,1,128,128Zm48,24H136a8,8,0,0,0,0,16h40a8,8,0,0,0,0-16Zm56-96V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/></svg>API</li>
+              <li data-nav="history"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M136,80v43.47l36.12,21.67a8,8,0,0,1-8.24,13.72l-40-24A8,8,0,0,1,120,128V80a8,8,0,0,1,16,0Zm-8-48A95.44,95.44,0,0,0,60.08,60.15C52.81,67.51,46.35,74.59,40,82V64a8,8,0,0,0-16,0v40a8,8,0,0,0,8,8H72a8,8,0,0,0,0-16H49c7.15-8.42,14.27-16.35,22.39-24.57a80,80,0,1,1,1.66,114.75,8,8,0,1,0-11,11.64A96,96,0,1,0,128,32Z"/></svg>History</li>
+              <li data-nav="api"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M128,128a8,8,0,0,1-3,6.25l-40,32a8,8,0,1,1-10-12.5L107.19,128,75,102.25a8,8,0,1,1,10-12.5l40,32A8,8,0,0,1,128,128Zm48,24H136a8,8,0,0,0,0,16h40a8,8,0,0,0,0-16Zm56-96V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/></svg>API</li>
+            </ul>
+            <p class="m-sec">Help</p>
+            <ul>
+              <li data-nav="learn"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M232,48H160a40,40,0,0,0-32,16A40,40,0,0,0,96,48H24a8,8,0,0,0-8,8V200a8,8,0,0,0,8,8H96a24,24,0,0,1,24,24,8,8,0,0,0,16,0,24,24,0,0,1,24-24h72a8,8,0,0,0,8-8V56A8,8,0,0,0,232,48ZM96,192H32V64H96a24,24,0,0,1,24,24V200A39.81,39.81,0,0,0,96,192Zm128,0H160a39.81,39.81,0,0,0-24,8V88a24,24,0,0,1,24-24h64Z"/></svg>Learn</li>
+              <li data-nav="system"><svg class="ph" viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M152,96H104a8,8,0,0,0-8,8v48a8,8,0,0,0,8,8h48a8,8,0,0,0,8-8V104A8,8,0,0,0,152,96Zm-8,48H112V112h32Zm88,0H216V112h16a8,8,0,0,0,0-16H216V56a16,16,0,0,0-16-16H160V24a8,8,0,0,0-16,0V40H112V24a8,8,0,0,0-16,0V40H56A16,16,0,0,0,40,56V96H24a8,8,0,0,0,0,16H40v32H24a8,8,0,0,0,0,16H40v40a16,16,0,0,0,16,16H96v16a8,8,0,0,0,16,0V216h32v16a8,8,0,0,0,16,0V216h40a16,16,0,0,0,16-16V160h16a8,8,0,0,0,0-16Zm-32,56H56V56H200v95.87s0,.09,0,.13,0,.09,0,.13V200Z"/></svg>System</li>
             </ul>
             <p class="m-sec">Loaded</p>
             <div class="m-loaded"><i></i>Intern-Decision 4B<span>8.8 GB</span></div>
           </aside>
 
-          <section class="m-build">
-            <div class="m-model">
-              <span class="m-model-ico" aria-hidden="true"><img src="assets/logos/internlm.png" alt="" width="22" height="22"></span>
-              <span class="m-model-txt"><b>Intern-Decision 4B</b><small><i class="dots" aria-hidden="true"></i>Ready, 4B, 10 GB</small></span>
-              <span class="kbd">Ctrl</span><span class="kbd">L</span>
+          <div class="m-pages">
+            <!-- Playground -->
+            <div class="m-page m-play on" data-page="playground">
+              <section class="m-build">
+                <div class="m-tools">
+                  <div class="m-model">
+                    <span class="m-model-ico" aria-hidden="true"><img src="assets/logos/internlm.png" alt="" width="22" height="22"></span>
+                    <span class="m-model-txt"><b>Intern-Decision 4B</b><small><i class="dots" aria-hidden="true"></i>Ready, 4B, 10 GB</small></span>
+                    <span class="kbd">Ctrl</span><span class="kbd">L</span>
+                  </div>
+                  <span class="m-btn"><svg class="ph" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/></svg>Templates</span>
+                  <span class="m-btn m-btn-new"><svg class="ph" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg>New</span>
+                </div>
+                <div class="m-label"><b>State</b> the situation to judge</div>
+                <div class="m-state"><span data-state></span><i class="caret" aria-hidden="true"></i></div>
+                <div class="m-label m-label-q"><b>Questions</b> <span data-qcount>3, answered in one pass</span></div>
+                <div class="m-questions" data-questions></div>
+                <div class="m-decide-row">
+                  <button class="m-decide" tabindex="-1" aria-hidden="true" data-decide><svg class="ph" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z"/></svg><span data-decide-label>Decide</span></button>
+                  <span class="kbd">Ctrl</span><span class="kbd">Enter</span>
+                  <span class="m-btn m-save" data-save><svg class="ph" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/></svg>Save as template</span>
+                </div>
+              </section>
+              <section class="m-answers">
+                <div class="m-tabs" aria-hidden="true"><span class="on">Answers</span><span>JSON</span><span>Code</span></div>
+                <div class="m-meta" data-meta>&nbsp;</div>
+                <div class="m-figs" data-figs aria-live="polite"></div>
+              </section>
             </div>
-            <div class="m-label"><b>State</b> the situation to judge</div>
-            <div class="m-state"><span data-state></span><i class="caret" aria-hidden="true"></i></div>
-            <div class="m-label m-label-q"><b>Questions</b> <span data-qcount>3, answered in one pass</span></div>
-            <div class="m-questions" data-questions></div>
-            <div class="m-decide-row">
-              <button class="m-decide" tabindex="-1" aria-hidden="true" data-decide>
-                <svg class="ph" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z"/></svg>
-                <span data-decide-label>Decide</span>
-              </button>
-              <span class="kbd">Ctrl</span><span class="kbd">Enter</span>
-            </div>
-          </section>
 
-          <section class="m-answers">
-            <div class="m-tabs" aria-hidden="true"><span class="on">Answers</span><span>JSON</span><span>Code</span></div>
-            <div class="m-meta" data-meta>&nbsp;</div>
-            <div class="m-figs" data-figs aria-live="polite"></div>
-          </section>
+            <!-- Templates -->
+            <div class="m-page m-tpl" data-page="templates">
+              <div class="tp-list">
+                <div class="tp-head"><b>Your templates</b><span class="m-btn"><svg class="ph" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg>New</span></div>
+                <ul>
+                  <li class="on" data-tp-new><span><b>Support triage</b><code>support-triage</code></span><span class="tp-v">v2</span></li>
+                </ul>
+                <div class="tp-head tp-head-2"><b>Starter templates</b></div>
+                <ul>
+                  <li><span><b>Route a support ticket</b><code>support</code></span></li>
+                  <li><span><b>Screen a prompt for injection</b><code>injection</code></span></li>
+                  <li><span><b>Moderate a comment</b><code>moderation</code></span></li>
+                  <li><span><b>Pick the next tool for an agent</b><code>tool</code></span></li>
+                  <li><span><b>Check an AI answer against a source</b><code>verify</code></span></li>
+                  <li><span><b>Triage a shared inbox</b><code>email</code></span></li>
+                </ul>
+              </div>
+              <div class="tp-detail">
+                <div class="tp-title">
+                  <div><p class="ttl">Support triage</p><p>Route inbound tickets, rate urgency, flag churn risk.</p></div>
+                  <span class="m-decide sm"><svg class="ph" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M221.69,199.77,160,96.92V40h8a8,8,0,0,0,0-16H88a8,8,0,0,0,0,16h8V96.92L34.31,199.77A16,16,0,0,0,48,224H208a16,16,0,0,0,13.72-24.23ZM110.86,103.25A7.93,7.93,0,0,0,112,99.14V40h32V99.14a7.93,7.93,0,0,0,1.14,4.11L183.36,167c-12,2.37-29.07,1.37-51.75-10.11-15.91-8.05-31.05-12.32-45.22-12.81ZM48,208l28.54-47.58c14.25-1.74,30.31,1.85,47.82,10.72,19,9.61,35,12.88,48,12.88a69.89,69.89,0,0,0,19.55-2.7L208,208Z"/></svg>Open in Playground</span>
+                </div>
+                <div class="tp-tags"><code>support-triage</code><span class="vl">v2 latest</span><span>production: v2</span></div>
+                <div class="tp-tabs"><span class="on">Overview</span><span>History</span><span>Compare versions</span><span>Test examples</span><span>Versions (2)</span></div>
+                <p class="tp-sec">The situation</p>
+                <div class="tp-vars">
+                  <div><span><code>customer_message</code></span><span>text, up to 8,000 characters</span></div>
+                  <div><span><code>account_tier</code> <i>optional</i></span><span>one of free, pro, enterprise</span></div>
+                  <div><span><code>open_invoices</code> <i>optional</i></span><span>whole number</span></div>
+                </div>
+                <p class="tp-sec">Use it from code</p>
+                <pre class="tp-code"><span class="c1">curl</span> http://127.0.0.1:8420/v1/studio/decisions \
+  -d '{<span class="c2">"template"</span>: <span class="c3">"support-triage"</span>,
+       <span class="c2">"variables"</span>: {<span class="c2">"customer_message"</span>: <span class="c3">"..."</span>}}'</pre>
+              </div>
+            </div>
+
+            <!-- Train -->
+            <div class="m-page m-trn" data-page="train">
+              <div class="tn-head"><div><p class="ttl">Laya got better</p><p>Laya for support tickets</p></div><span class="m-link"><svg class="ph" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg>All training</span></div>
+              <div class="tn-card">
+                <b class="tn-big" data-tn-big>76%</b>
+                <p class="tn-sub">correct on 126 questions it had never seen, up from 76%</p>
+                <div class="tn-row"><span>Before training</span><span class="tn-track"><i class="tn-b"></i></span><span>76%</span></div>
+                <div class="tn-row on"><span>After training</span><span class="tn-track"><i class="tn-a" data-tn-after></i></span><span>100%</span></div>
+                <p class="tn-gen">On general decisions it already knew, it scores 49% (49% before), so nothing was forgotten.</p>
+                <div class="tn-wrong">
+                  <span class="tn-k">One it used to get wrong</span>
+                  <p>Hi there, In Keystone, my account shows the wrong manager. This stops us closing the month today.</p>
+                  <div class="tn-t"><span class="h">Question</span><span class="h">Before</span><span class="h">Now</span>
+                    <span>Which team fits best?</span><span class="x"><svg class="ph" viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>network</span><span class="ok"><svg class="ph" viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>identity</span>
+                    <span>Is this urgent?</span><span class="x"><svg class="ph" viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>no</span><span class="ok"><svg class="ph" viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>yes</span></div>
+                </div>
+                <p class="tn-foot">It learned from 588 answered questions and was tested on 126 it never saw, in 10 min.</p>
+                <div class="tn-btns"><span class="m-decide sm"><svg class="ph" viewBox="0 0 256 256" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z"/></svg>Use it now</span><span class="m-btn"><svg class="ph" viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128ZM128,72h88a8,8,0,0,0,0-16H128a8,8,0,0,0,0,16Zm88,112H128a8,8,0,0,0,0,16h88a8,8,0,0,0,0-16ZM82.34,42.34,56,68.69,45.66,58.34A8,8,0,0,0,34.34,69.66l16,16a8,8,0,0,0,11.32,0l32-32A8,8,0,0,0,82.34,42.34Zm0,64L56,132.69,45.66,122.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Zm0,64L56,196.69,45.66,186.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Z"/></svg>Compare on Evaluate</span></div>
+              </div>
+            </div>
+
+            <!-- History -->
+            <div class="m-page m-hist" data-page="history">
+              <div class="hi-bar"><span class="hi-live"><i></i>Live</span><span class="hi-seg"><span>1 hour</span><span class="on">24 hours</span><span>7 days</span><span>All</span></span><span class="hi-sel">Every model</span><span class="hi-sel">Every template</span></div>
+              <div class="hi-stats">
+                <div><span>Decisions</span><b data-hi-count>235</b><small>in the last 24 hours</small></div>
+                <div><span>Acted automatically</span><b>29%</b><small>67 of 235 completed</small></div>
+                <div><span>Asked a human</span><b>168</b><small>none failed</small></div>
+                <div><span>Typical time</span><b>64 ms</b><small>95% under 1.30 s</small></div>
+              </div>
+              <div class="hi-table">
+                <div class="hi-row hi-h"><span>When</span><span>Result</span><span>Decision</span><span>First answer</span><span>Time</span></div>
+                <div data-hi-rows>
+                  <div class="hi-row"><span>4 min ago</span><span><em class="ask">Ask a human</em></span><span><b>support-triage v2</b><small>Laya, Playground</small></span><span>account <i>43%</i></span><span>266 ms</span></div>
+                  <div class="hi-row"><span>7 min ago</span><span><em class="ask">Ask a human</em></span><span><b>Laya</b><small>Playground</small></span><span>billing <i>98%</i></span><span>286 ms</span></div>
+                  <div class="hi-row"><span>18 min ago</span><span><em class="ask">Ask a human</em></span><span><b>support-triage v2</b><small>Laya, API, curl</small></span><span>billing <i>95%</i></span><span>10.1 s</span></div>
+                  <div class="hi-row"><span>2 h ago</span><span><em class="ask">Ask a human</em></span><span><b>Julia 1</b><small>Playground</small></span><span>technical <i>78%</i></span><span>415 ms</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="mock-status" aria-hidden="true">
           <span><svg class="ph" viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M215.79,118.17a8,8,0,0,0-5-5.66L153.18,90.9l14.66-73.33a8,8,0,0,0-13.69-7l-112,120a8,8,0,0,0,3,13l57.63,21.61L88.16,238.43a8,8,0,0,0,13.69,7l112-120A8,8,0,0,0,215.79,118.17ZM109.37,214l10.47-52.38a8,8,0,0,0-5-9.06L62,132.71l84.62-90.66L136.16,94.43a8,8,0,0,0,5,9.06l52.8,19.8Z"/></svg>NVIDIA GB10</span>
@@ -152,7 +240,7 @@
       </div>
       <canvas class="fx-canvas" aria-hidden="true"></canvas>
     </div>
-    <p class="stage-note">Real answers from Intern-Decision 4B on an NVIDIA GB10, replayed. Each request asks three questions in one pass; the timings are the model's own.</p>
+    <p class="stage-note">Real answers from Intern-Decision 4B and a real training run on an NVIDIA GB10, replayed. Timings are the model's own.</p>
   </div>
 </section>
 
@@ -200,6 +288,92 @@
       <li><h3>Every question in one pass</h3><p>The situation is read once and every option of every question is scored together, in about 100 ms on a GPU.</p></li>
       <li><h3>Honest about doubt</h3><p>These models are trained to be calibrated: at 90% they should be right about nine times in ten. Evaluate checks that on your own examples.</p></li>
     </ul>
+  </div>
+</section>
+
+<!-- ============================================================ features: the whole lifecycle, as a bento of real screens -->
+<section class="sec wrap" id="features" aria-labelledby="feat-h">
+  <header class="head">
+    <h2 id="feat-h">Everything a decision model needs, in one app</h2>
+    <p>Learn what they are, run them, serve them to your code, teach them your own decisions and watch every answer they give, all on your computer.</p>
+  </header>
+  <div class="bento">
+    <article class="bento-cell b-infer">
+      <div class="bc-text">
+        <h3><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M221.69,199.77,160,96.92V40h8a8,8,0,0,0,0-16H88a8,8,0,0,0,0,16h8V96.92L34.31,199.77A16,16,0,0,0,48,224H208a16,16,0,0,0,13.72-24.23ZM110.86,103.25A7.93,7.93,0,0,0,112,99.14V40h32V99.14a7.93,7.93,0,0,0,1.14,4.11L183.36,167c-12,2.37-29.07,1.37-51.75-10.11-15.91-8.05-31.05-12.32-45.22-12.81ZM48,208l28.54-47.58c14.25-1.74,30.31,1.85,47.82,10.72,19,9.61,35,12.88,48,12.88a69.89,69.89,0,0,0,19.55-2.7L208,208Z"/></svg>Inference<span>Playground</span></h3>
+        <p>Write a situation, ask typed questions and read every answer as a chart, in about 100 ms on a GPU. Images, audio and video work too.</p>
+        <a href="#how">How a decision works</a>
+      </div>
+      <div class="bc-shot"><img src="assets/img/crop-infer.webp" alt="Playground answers drawn as charts: billing 98%, today 89%" width="805" height="1020" loading="lazy"></div>
+    </article>
+    <article class="bento-cell b-serve">
+      <div class="bc-text">
+        <h3><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M128,128a8,8,0,0,1-3,6.25l-40,32a8,8,0,1,1-10-12.5L107.19,128,75,102.25a8,8,0,1,1,10-12.5l40,32A8,8,0,0,1,128,128Zm48,24H136a8,8,0,0,0,0,16h40a8,8,0,0,0,0-16Zm56-96V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Z"/></svg>Serve<span>API</span></h3>
+        <p>A local server that speaks TypeSafe's Jev API, OpenRouter and Vercel AI Gateway. Point existing code at it and change nothing else.</p>
+        <a href="#developers">See the API</a>
+      </div>
+      <pre class="bc-code" aria-label="The four request formats the local server accepts"><span class="c4"># One local server, four formats</span>
+<span class="c1">POST</span> /v1/systemone           <span class="c4">TypeSafe Jev</span>
+<span class="c1">POST</span> /api/v1/systemone       <span class="c4">OpenRouter</span>
+<span class="c1">POST</span> /typesafe/v1/systemone  <span class="c4">Vercel AI Gateway</span>
+<span class="c1">POST</span> /v1/studio/decisions    <span class="c4">Studio, with templates</span>
+
+<span class="c4">base_url =</span> <span class="c3">"http://127.0.0.1:8420"</span></pre>
+    </article>
+    <article class="bento-cell b-registry">
+      <div class="bc-text">
+        <h3><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"/></svg>Model registry<span>Models</span></h3>
+        <p>Eleven open models with their size, memory and published results next to Jev. Download, load and eject each with one click.</p>
+        <a href="#models">Browse the models</a>
+      </div>
+      <div class="bc-shot"><img src="assets/img/crop-models.webp" alt="The Models table: eleven models with size, memory and how many results are ahead of Jev" width="1068" height="625" loading="lazy"></div>
+    </article>
+    <article class="bento-cell b-templates">
+      <div class="bc-text">
+        <h3><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M230.91,172A8,8,0,0,1,228,182.91l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,36,169.09l92,53.65,92-53.65A8,8,0,0,1,230.91,172ZM220,121.09l-92,53.65L36,121.09A8,8,0,0,0,28,134.91l96,56a8,8,0,0,0,8.06,0l96-56A8,8,0,1,0,220,121.09ZM24,80a8,8,0,0,1,4-6.91l96-56a8,8,0,0,1,8.06,0l96,56a8,8,0,0,1,0,13.82l-96,56a8,8,0,0,1-8.06,0l-96-56A8,8,0,0,1,24,80Zm23.88,0L128,126.74,208.12,80,128,33.26Z"/></svg>Templates<span>Templates</span></h3>
+        <p>Save a decision as a versioned template with variables, test it on examples and call it by name from your code.</p>
+        <a href="docs/manual/templates.html">How templates work</a>
+      </div>
+      <div class="bc-shot"><img src="assets/img/crop-templates.webp" alt="A template with its variables, versions and tabs for history and test examples" width="1080" height="680" loading="lazy"></div>
+    </article>
+    <article class="bento-cell b-train">
+      <div class="bc-text">
+        <h3><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M48,64a8,8,0,0,1,8-8H72V40a8,8,0,0,1,16,0V56h16a8,8,0,0,1,0,16H88V88a8,8,0,0,1-16,0V72H56A8,8,0,0,1,48,64ZM184,192h-8v-8a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0v-8h8a8,8,0,0,0,0-16Zm56-48H224V128a8,8,0,0,0-16,0v16H192a8,8,0,0,0,0,16h16v16a8,8,0,0,0,16,0V160h16a8,8,0,0,0,0-16ZM219.31,80,80,219.31a16,16,0,0,1-22.62,0L36.68,198.63a16,16,0,0,1,0-22.63L176,36.69a16,16,0,0,1,22.63,0l20.68,20.68A16,16,0,0,1,219.31,80Zm-54.63,32L144,91.31l-96,96L68.68,208ZM208,68.69,187.31,48l-32,32L176,100.69Z"/></svg>Train<span>Train</span></h3>
+        <p>Teach a model your own decisions from a spreadsheet. It is kept only if it gets better without forgetting.</p>
+        <a href="#train">See the results</a>
+      </div>
+      <div class="bc-shot"><img src="assets/img/crop-train.webp" alt="A training result: 100% correct on 126 unseen questions, up from 76%" width="1057" height="775" loading="lazy"></div>
+    </article>
+    <article class="bento-cell b-observe">
+      <div class="bc-text">
+        <h3><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M136,80v43.47l36.12,21.67a8,8,0,0,1-8.24,13.72l-40-24A8,8,0,0,1,120,128V80a8,8,0,0,1,16,0Zm-8-48A95.44,95.44,0,0,0,60.08,60.15C52.81,67.51,46.35,74.59,40,82V64a8,8,0,0,0-16,0v40a8,8,0,0,0,8,8H72a8,8,0,0,0,0-16H49c7.15-8.42,14.27-16.35,22.39-24.57a80,80,0,1,1,1.66,114.75,8,8,0,1,0-11,11.64A96,96,0,1,0,128,32Z"/></svg>Observability<span>History</span></h3>
+        <p>Every decision from the app, your code and any SDK, with what acted automatically and what asked a person.</p>
+        <a href="docs/manual/history.html">How History works</a>
+      </div>
+      <div class="bc-shot"><img src="assets/img/crop-history.webp" alt="History: decisions, share acted automatically, asked a human and typical time, over a timeline" width="996" height="580" loading="lazy"></div>
+    </article>
+    <article class="bento-cell b-evaluate">
+      <div class="bc-text">
+        <h3><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128ZM128,72h88a8,8,0,0,0,0-16H128a8,8,0,0,0,0,16Zm88,112H128a8,8,0,0,0,0,16h88a8,8,0,0,0,0-16ZM82.34,42.34,56,68.69,45.66,58.34A8,8,0,0,0,34.34,69.66l16,16a8,8,0,0,0,11.32,0l32-32A8,8,0,0,0,82.34,42.34Zm0,64L56,132.69,45.66,122.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Zm0,64L56,196.69,45.66,186.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Z"/></svg>Evaluate<span>Evaluate</span></h3>
+        <p>Score several models on your own labelled examples, with calibration and act-threshold charts and a recommendation.</p>
+        <a href="docs/manual/evaluate.html">How Evaluate works</a>
+      </div>
+      <div class="bc-shot"><img src="assets/img/crop-evaluate.webp" alt="Evaluate results: two models scored, with calibration and act-threshold charts" width="1025" height="710" loading="lazy"></div>
+    </article>
+    <article class="bento-cell b-learn">
+      <div class="bc-text">
+        <h3><svg class="ph" viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M232,48H160a40,40,0,0,0-32,16A40,40,0,0,0,96,48H24a8,8,0,0,0-8,8V200a8,8,0,0,0,8,8H96a24,24,0,0,1,24,24,8,8,0,0,0,16,0,24,24,0,0,1,24-24h72a8,8,0,0,0,8-8V56A8,8,0,0,0,232,48ZM96,192H32V64H96a24,24,0,0,1,24,24V200A39.81,39.81,0,0,0,96,192Zm128,0H160a39.81,39.81,0,0,0-24,8V88a24,24,0,0,1,24-24h64Z"/></svg>Learn<span>Learn</span></h3>
+        <p>A guide inside the app that explains decision models with live examples, from the first question to your own training.</p>
+        <a href="docs/index.html">Read the docs</a>
+      </div>
+      <ol class="bc-learn">
+        <li>How is this different from a chatbot?</li>
+        <li>Six kinds of question</li>
+        <li>Reading the numbers</li>
+        <li>Where they shine, and where they do not</li>
+        <li>Teaching it your own decisions</li>
+      </ol>
+    </article>
   </div>
 </section>
 
@@ -271,7 +445,7 @@
 <section class="sec wrap" id="tour" aria-labelledby="tour-h">
   <header class="head">
     <h2 id="tour-h">Everything between your first decision and production</h2>
-    <p>Try a model, compare it with others, measure it on your own examples, save it as a template and review every decision it makes, without leaving the app.</p>
+    <p>Try a model, compare it with others, measure it on your own examples, teach it your own decisions, save it as a template and review every decision it makes, without leaving the app.</p>
   </header>
   <div class="tour-bar">
     <div class="seg" role="tablist" aria-label="Pages in the app" data-tour-tabs></div>
@@ -359,6 +533,59 @@
   <p class="fine">Results are each maker's own published numbers, compared with TypeSafe's Jev where the maker reports one. Each model keeps its own license; its page in the app links to it.</p>
 </section>
 
+<!-- ============================================================ training: measured before and after -->
+<section class="sec wrap" id="train" aria-labelledby="train-h">
+  <header class="head">
+    <h2 id="train-h">Teach any of them your own decisions</h2>
+    <p>Show a model a spreadsheet of past decisions. The studio trains it on your GPU, tests it on examples it never saw, and keeps it only if it got better without forgetting what it already knew.</p>
+  </header>
+  <figure class="tr-fig">
+    <div class="tr-head" aria-hidden="true"><span>Model, task</span><span>Right on held-out examples <i class="tr-key tr-b"></i>before <i class="tr-key tr-a"></i>after</span><span></span><span>General</span></div>
+    <ol class="tr-list">
+        <li class="tr-row"><span class="tr-name"><b>Julia 1</b><small>support tickets</small></span>
+          <span class="tr-bars" role="img" aria-label="Julia 1: 52% before, 91% after"><i class="tr-b" style="width:52%"></i><i class="tr-a" style="width:91%"></i></span>
+          <span class="tr-num">52% <span aria-hidden="true">→</span> <b>91%</b></span><span class="tr-g">−0.4</span></li>
+        <li class="tr-row"><span class="tr-name"><b>Laya</b><small>policy topics</small></span>
+          <span class="tr-bars" role="img" aria-label="Laya: 59% before, 80% after"><i class="tr-b" style="width:59%"></i><i class="tr-a" style="width:80%"></i></span>
+          <span class="tr-num">59% <span aria-hidden="true">→</span> <b>80%</b></span><span class="tr-g">+0.2</span></li>
+        <li class="tr-row"><span class="tr-name"><b>Laya Multilingual</b><small>business workflows</small></span>
+          <span class="tr-bars" role="img" aria-label="Laya Multilingual: 34% before, 62% after"><i class="tr-b" style="width:34%"></i><i class="tr-a" style="width:62%"></i></span>
+          <span class="tr-num">34% <span aria-hidden="true">→</span> <b>62%</b></span><span class="tr-g">+12.7</span></li>
+        <li class="tr-row"><span class="tr-name"><b>Laya Typed-Decisions</b><small>policy topics</small></span>
+          <span class="tr-bars" role="img" aria-label="Laya Typed-Decisions: 61% before, 81% after"><i class="tr-b" style="width:61%"></i><i class="tr-a" style="width:81%"></i></span>
+          <span class="tr-num">61% <span aria-hidden="true">→</span> <b>81%</b></span><span class="tr-g">+0.2</span></li>
+        <li class="tr-row"><span class="tr-name"><b>GLiNER2.5 Decide</b><small>policy topics</small></span>
+          <span class="tr-bars" role="img" aria-label="GLiNER2.5 Decide: 66% before, 75% after"><i class="tr-b" style="width:66%"></i><i class="tr-a" style="width:75%"></i></span>
+          <span class="tr-num">66% <span aria-hidden="true">→</span> <b>75%</b></span><span class="tr-g">+0.7</span></li>
+        <li class="tr-row"><span class="tr-name"><b>Kev 0.5B</b><small>policy topics</small></span>
+          <span class="tr-bars" role="img" aria-label="Kev 0.5B: 65% before, 79% after"><i class="tr-b" style="width:65%"></i><i class="tr-a" style="width:79%"></i></span>
+          <span class="tr-num">65% <span aria-hidden="true">→</span> <b>79%</b></span><span class="tr-g">+0.6</span></li>
+        <li class="tr-row"><span class="tr-name"><b>Kev 4B</b><small>policy topics</small></span>
+          <span class="tr-bars" role="img" aria-label="Kev 4B: 77% before, 82% after"><i class="tr-b" style="width:77%"></i><i class="tr-a" style="width:82%"></i></span>
+          <span class="tr-num">77% <span aria-hidden="true">→</span> <b>82%</b></span><span class="tr-g">+0.2</span></li>
+        <li class="tr-row"><span class="tr-name"><b>Intern-Decision 4B</b><small>emotions</small></span>
+          <span class="tr-bars" role="img" aria-label="Intern-Decision 4B: 61% before, 76% after"><i class="tr-b" style="width:61%"></i><i class="tr-a" style="width:76%"></i></span>
+          <span class="tr-num">61% <span aria-hidden="true">→</span> <b>76%</b></span><span class="tr-g">+0.2</span></li>
+        <li class="tr-row"><span class="tr-name"><b>Lev</b><small>policy topics</small></span>
+          <span class="tr-bars" role="img" aria-label="Lev: 75% before, 82% after"><i class="tr-b" style="width:75%"></i><i class="tr-a" style="width:82%"></i></span>
+          <span class="tr-num">75% <span aria-hidden="true">→</span> <b>82%</b></span><span class="tr-g">+2.5</span></li>
+        <li class="tr-row"><span class="tr-name"><b>CLM 8B</b><small>business workflows</small></span>
+          <span class="tr-bars" role="img" aria-label="CLM 8B: 39% before, 68% after"><i class="tr-b" style="width:39%"></i><i class="tr-a" style="width:68%"></i></span>
+          <span class="tr-num">39% <span aria-hidden="true">→</span> <b>68%</b></span><span class="tr-g">+11.2</span></li>
+        <li class="tr-row"><span class="tr-name"><b>Jev-Omni</b><small>business workflows</small></span>
+          <span class="tr-bars" role="img" aria-label="Jev-Omni: 62% before, 77% after"><i class="tr-b" style="width:62%"></i><i class="tr-a" style="width:77%"></i></span>
+          <span class="tr-num">62% <span aria-hidden="true">→</span> <b>77%</b></span><span class="tr-g">0.0</span></li>
+    </ol>
+    <figcaption class="cap"><span class="fig-n">Fig. 5</span>One training run per model, by the studio itself on an NVIDIA GB10, measured on examples set aside before training. <b>General</b> is the change, in points, on general questions it never trained on: none got worse by more than half a point.</figcaption>
+  </figure>
+  <ul class="tr-notes">
+    <li><h3>From a spreadsheet</h3><p>A column of text and a column per answer. The studio works out the questions and recommends a model with a time estimate.</p></li>
+    <li><h3>Keeps what it knew</h3><p>It practises on general decisions as it learns yours, and every new model must pass the same checks before you can use it.</p></li>
+    <li><h3>Yours to keep</h3><p>A trained model is a small file beside the original: it loads in the Playground and your code, and exports to another computer.</p></li>
+  </ul>
+  <p class="tr-more"><a href="docs/manual/train.html">How the Train page works</a> · <a href="docs/concepts/fine-tuning.html">What it checks, and every result</a></p>
+</section>
+
 <!-- ============================================================ hardware: screenshot and a strip -->
 <section class="sec wrap" id="hardware" aria-labelledby="hw-h">
   <header class="head">
@@ -370,7 +597,7 @@
       <div class="frame-bar" aria-hidden="true"><span class="lights"><i></i><i></i><i></i></span><span>First run</span></div>
       <img src="assets/img/setup.webp" alt="Setup asking whether models should run on the NVIDIA GPU or the processor, with what each choice installs and its size" loading="lazy" width="1920" height="1200">
     </div>
-    <figcaption class="cap"><span class="fig-n">Fig. 5</span>Setup on an NVIDIA GB10. Each choice says what it installs and how big it is; you can switch later on the System page.</figcaption>
+    <figcaption class="cap"><span class="fig-n">Fig. 6</span>Setup on an NVIDIA GB10. Each choice says what it installs and how big it is; you can switch later on the System page.</figcaption>
   </figure>
   <ul class="hw-strip" data-hw>
     <li data-hw-kind="nvidia"><h3>NVIDIA GPU</h3><p>GeForce, RTX, GB10 and DGX Spark, data-centre cards</p><span class="run">CUDA 12.6, 12.8 or 13.0, picked from your driver</span></li>
@@ -487,6 +714,10 @@
         <p>No. Every model except Jev-Omni runs on the processor, and the small ones (Julia 1, Laya, GLiNER2.5 Decide) answer in about a second. A GPU makes the 4B and 8B models fast: on an NVIDIA GB10, Intern-Decision 4B answers three questions in about 100 ms.</p>
       </details>
       <details>
+        <summary>Can I train a model on my own decisions?</summary>
+        <p>Yes, on a computer with an NVIDIA RTX 30 series or newer GPU (including the GB10) or an Apple M2 or newer; Intel Arc, AMD on Linux and older cards are an experimental option. Give the Train page a spreadsheet of past decisions: it trains the model on this computer, tests it on examples it never saw, and keeps it only if it got better without getting worse at general decisions. <a href="docs/manual/train.html">How it works</a>.</p>
+      </details>
+      <details>
         <summary>Does anything leave my computer?</summary>
         <p>Your situations, questions and answers don't. The internet is used to download the engine during setup and the models you choose, from each maker's Hugging Face repository.</p>
       </details>
@@ -537,7 +768,7 @@
       <p>Bud Decision Studio runs open decision models on your own computer.</p>
     </div>
     <nav class="foot-cols" aria-label="Footer">
-      <div><p class="foot-h">Product</p><a href="#how">How it works</a><a href="#tour">Features</a><a href="#models">Models</a><a href="#download">Download</a></div>
+      <div><p class="foot-h">Product</p><a href="#features">Features</a><a href="#how">How it works</a><a href="#models">Models</a><a href="#download">Download</a></div>
       <div><p class="foot-h">Documentation</p><a href="docs/quickstart.html">Quickstart</a><a href="docs/manual/index.html">User manual</a><a href="docs/api/index.html">API reference</a><a href="docs/dev/architecture.html">Developers</a></div>
       <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
     </nav>

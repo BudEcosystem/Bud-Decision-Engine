@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The trainer · Bud Decision Studio Docs</title>
+  <meta name="description" content="How the studio fine-tunes its models - one PyTorch engine with a small plugin per model family, the job process and its supervisor, the release gate, the stored delta, and how to add a family or run training from the command line.">
+  <meta name="theme-color" content="#0F0C17">
+  <meta property="og:title" content="The trainer · Bud Decision Studio">
+  <meta property="og:description" content="How the studio fine-tunes its models - one PyTorch engine with a small plugin per model family, the job process and its supervisor, the release gate, the stored delta, and how to add a family or run training from the command line.">
+  <meta property="og:type" content="article">
+  <link rel="icon" type="image/png" href="../../assets/brand/favicon.png">
+  <link rel="preload" href="../../assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/docs.css">
+</head>
+<body class="docs" id="top">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav scrolled" id="nav">
+  <div class="nav-in docs-nav-in">
+    <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button>
+    <a class="brand" href="../../index.html" aria-label="Bud Decision Studio home">
+      <img src="../../assets/brand/bud-mark.png" width="26" height="26" alt="">
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version 0.3.0">0.3.0</span>
+    </a>
+    <nav class="nav-links" aria-label="Site"><a href="../../index.html">Product</a><a href="../../docs/index.html" aria-current=page>Docs</a><a href="../../docs/api/index.html">API</a><a href="../../docs/changelog.html">Changelog</a></nav>
+    <div class="nav-end">
+      <button class="search-btn" type="button" data-search-open aria-label="Search the documentation"><svg class="ph " viewBox="0 0 256 256" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><span>Search</span><kbd data-kbd>Ctrl K</kbd></button>
+      <a class="icon-link" href="https://github.com/BudEcosystem/Bud-Decision-Engine" aria-label="Source on GitHub"><svg class="ph " viewBox="0 0 256 256" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></svg></a>
+      <a class="btn btn-sm btn-primary" href="../../index.html#download">Download</a>
+    </div>
+  </div>
+</header>
+<div class="docs-shell">
+<aside class="docs-side" id="docs-side" aria-label="Documentation"><div class="side-in"><div class="side-sec"><p class="side-h">Get started</p><a href="../../docs/index.html">Introduction</a><a href="../../docs/install.html">Installation</a><a href="../../docs/quickstart.html">Quickstart</a></div><div class="side-sec"><p class="side-h">User manual</p><a href="../../docs/manual/index.html">The app at a glance</a><a href="../../docs/manual/playground.html">Playground</a><a href="../../docs/manual/templates.html">Templates</a><a href="../../docs/manual/history.html">History</a><a href="../../docs/manual/models.html">Models</a><a href="../../docs/manual/evaluate.html">Evaluate</a><a href="../../docs/manual/train.html">Train</a><a href="../../docs/manual/system.html">API, Learn and System</a></div><div class="side-sec"><p class="side-h">Concepts</p><a href="../../docs/concepts/decision-models.html">Decision models</a><a href="../../docs/concepts/question-types.html">The six question types</a><a href="../../docs/concepts/acting.html">Probabilities, certainty and acting</a><a href="../../docs/concepts/templates.html">Templates and versions</a><a href="../../docs/concepts/history.html">History and privacy</a><a href="../../docs/concepts/fine-tuning.html">Fine-tuning and its safeguards</a></div><div class="side-sec"><p class="side-h">Guides</p><a href="../../docs/guides/support-triage.html">Build a support-triage template</a><a href="../../docs/guides/from-code.html">Call the studio from your code</a><a href="../../docs/guides/improve.html">Improve a template safely</a><a href="../../docs/guides/teach.html">Teach a model your own decisions</a><a href="../../docs/guides/agents.html">Let an agent choose its next action</a><a href="../../docs/guides/media.html">Decide about images, audio and video</a><a href="../../docs/guides/migrate.html">Move from Jev or a gateway</a></div><div class="side-sec"><p class="side-h">API reference</p><a href="../../docs/api/index.html">Overview</a><a href="../../docs/api/decisions.html">Decisions</a><a href="../../docs/api/history.html">History, feedback and statistics</a><a href="../../docs/api/templates.html">Templates</a><a href="../../docs/api/examples.html">Test examples</a><a href="../../docs/api/resources.html">Files, models and settings</a><a href="../../docs/api/training.html">Training and trained models</a><a href="../../docs/api/systemone.html">TypeSafe and gateway formats</a><a href="../../docs/api/errors.html">Errors</a></div><div class="side-sec"><p class="side-h">Developers</p><a href="../../docs/dev/architecture.html">Architecture</a><a href="../../docs/dev/source.html">Run from source</a><a href="../../docs/dev/adding-a-model.html">Add a model</a><a href="../../docs/dev/trainer.html" aria-current=page>The trainer</a><nav class="side-toc" aria-label="On this page"><a href="#the-parts">The parts</a><a href="#the-family-contract">The family contract</a><a href="#the-recipes">The recipes</a><a href="#a-jobs-life">A job&#x27;s life</a><a href="#the-stored-delta">The stored delta</a><a href="#run-a-training-from-the-command-line">Run a training from the command line</a><a href="#add-a-family">Add a family</a><a href="#tests">Tests</a></nav><a href="../../docs/dev/storage.html">Data and storage</a><a href="../../docs/dev/testing.html">Testing</a><a href="../../docs/dev/desktop.html">Desktop app and releases</a></div><div class="side-sec"><p class="side-h">Help</p><a href="../../docs/troubleshooting.html">Troubleshooting</a><a href="../../docs/faq.html">FAQ</a><a href="../../docs/changelog.html">Changelog</a></div></div></aside>
+<div class="side-scrim" hidden></div>
+<main class="docs-main" id="main">
+  <article class="prose">
+    <header class="page-head">
+      <p class="crumb"><a href="../../docs/index.html">Docs</a><svg class="ph " viewBox="0 0 256 256" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg><span>Developers</span></p>
+      <h1>The trainer</h1>
+      <p class="lead">The trainer is one PyTorch training loop shared by every model, plus a short plugin per model family that says how to load the model, turn an example into its input and read option probabilities back. It runs as its own process, one job at a time, and a fine-tune it keeps is a small file of changes that the studio's workers attach to the released model.</p>
+    </header>
+    <h2 id="the-parts">The parts<a class="anchor" href="#the-parts" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Module</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>basal/<wbr>training/<wbr>dataformat.<wbr>py</code></td>
+<td>the standard training format, the importers for tables and Evaluate files, quality checks, and the grouped, stratified train/calibration/test split. No PyTorch</td>
+</tr>
+<tr>
+<td><code>basal/<wbr>training/<wbr>families/<wbr>base.<wbr>py</code></td>
+<td>the contract every family meets (<code>FamilyTrainer</code>, <code>Unit</code>, <code>Recipe</code>), LoRA injection, delta export and attach</td>
+</tr>
+<tr>
+<td><code>basal/<wbr>training/<wbr>families/<wbr>&lt;family&gt;.<wbr>py</code></td>
+<td>one plugin per family: <code>julia</code>, <code>laya</code>, <code>gliner</code>, <code>kev</code>, <code>intern</code>, <code>lev</code>, <code>clm</code>, <code>jev_omni</code></td>
+</tr>
+<tr>
+<td><code>basal/training/engine.py</code></td>
+<td>the loop: replay with distillation, the drift monitor, early stopping, out-of-memory recovery, calibration, the release gate, publishing and the serving parity check</td>
+</tr>
+<tr>
+<td><code>basal/<wbr>training/<wbr>metrics.<wbr>py</code></td>
+<td>accuracy, log loss, calibration error, temperature fitting, the paired bootstrap, collapse detection</td>
+</tr>
+<tr>
+<td><code>basal/training/device.py</code></td>
+<td>which GPUs may train and in what precision, memory probes and caps, the self-test, the memory watchdog</td>
+</tr>
+<tr>
+<td><code>basal/training/job.py</code></td>
+<td>the job process, its supervisor and the machine-wide queue</td>
+</tr>
+<tr>
+<td><code>basal/<wbr>training/<wbr>manager.<wbr>py</code>, <code>api.py</code>, <code>probe.py</code></td>
+<td>the server side: datasets, the model recommendation, starting and controlling jobs. The server never imports PyTorch</td>
+</tr>
+<tr>
+<td><code>basal/finetunes.py</code></td>
+<td>the registry: each saved fine-tune becomes a catalog entry; export and import</td>
+</tr>
+<tr>
+<td><code>basal/<wbr>training/<wbr>assets/<wbr>general.<wbr>jsonl</code></td>
+<td>the general examples every run replays and is checked against, built by <code>scripts/<wbr>build_<wbr>training_<wbr>pack.<wbr>py</code></td>
+</tr>
+<tr>
+<td><code>ui/js/pages/train.js</code></td>
+<td>the Train page</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="the-family-contract">The family contract<a class="anchor" href="#the-family-contract" title="Link to this section">#</a></h2>
+<p>A family plugin turns examples into <strong>units</strong> (one forward pass: one question for models that answer one at a time, or a whole example for models that answer every question in one pass) and returns, for each question in a unit, differentiable log-probabilities over the question's options in the studio's key order. Everything else (the loss, replay, evaluation, calibration, the gate) is written once in the engine.</p>
+<div class="code-block"><div class="code-bar"><span class="code-lang">Python</span><button class="copy" type="button" data-copy aria-label="Copy code"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><pre class="hl"><code class="lang-python"><span class="ln"><span class="k">class</span><span class="w"> </span><span class="nc">FamilyTrainer</span><span class="p">:</span></span><span class="ln" style="--i:4">    <span class="k">def</span><span class="w"> </span><span class="nf">recipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="n">n_train_questions</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Recipe</span><span class="p">:</span> <span class="o">...</span>    <span class="c1"># this family's best-practice settings</span></span><span class="ln" style="--i:4">    <span class="k">def</span><span class="w"> </span><span class="nf">supports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">example</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>           <span class="c1"># a reason, when the model can't take this example</span></span><span class="ln" style="--i:4">    <span class="k">def</span><span class="w"> </span><span class="nf">estimate_gb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">recipe</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span> <span class="o">...</span>               <span class="c1"># memory to train, measured</span></span><span class="ln" style="--i:4">    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="n">recipe</span><span class="p">,</span> <span class="n">stage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>           <span class="c1"># load through the serving adapter, freeze, add LoRA</span></span><span class="ln" style="--i:4">    <span class="k">def</span><span class="w"> </span><span class="nf">units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Unit</span><span class="p">]:</span> <span class="o">...</span>    <span class="c1"># shuffle choice options when train is true</span></span><span class="ln" style="--i:4">    <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">units</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]]:</span> <span class="o">...</span>                <span class="c1"># log-probabilities per question, with gradients</span></span><span class="ln" style="--i:4">    <span class="nd">@staticmethod</span></span><span class="ln" style="--i:4">    <span class="k">def</span><span class="w"> </span><span class="nf">attach</span><span class="p">(</span><span class="n">adapter</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>                         <span class="c1"># serving: put a saved delta onto a loaded model</span></span></code></pre></div>
+
+<p>Plugins load the model through the studio's own adapter and build inputs with the same functions the adapter's <code>decide()</code> uses (<code>julia_row</code>, <code>laya_questions</code>, <code>gliner_tasks</code>, <code>kev_record</code>, <code>intern_request</code>, <code>lev_questions</code>, <code>clm_pairs</code>, <code>jev_question</code>), so a fine-tune is trained on exactly what the studio will send it.</p>
+<h2 id="the-recipes">The recipes<a class="anchor" href="#the-recipes" title="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Family</th>
+<th>What trains</th>
+<th>Learning rate</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Julia 1</td>
+<td>LoRA r16 on <code>Wqkv</code>, <code>Wo</code>, <code>Wi</code>; head frozen</td>
+<td>5e-5</td>
+<td>at 1e-4, or with the head trained, it forgot general decisions</td>
+</tr>
+<tr>
+<td>Laya (all three)</td>
+<td>LoRA r16 on <code>Wqkv</code>, <code>Wo</code>, <code>Wi</code>; head frozen</td>
+<td>1e-4</td>
+<td>activation checkpointing when the fast path doesn't fit in free memory</td>
+</tr>
+<tr>
+<td>GLiNER2.5 Decide</td>
+<td>LoRA r16 on DeBERTa's attention and dense layers, plus the classifier</td>
+<td>1e-4</td>
+<td>fp32</td>
+</tr>
+<tr>
+<td>Kev 0.5B, Kev 4B</td>
+<td>a new LoRA on the released targets, over the released adapter merged as Kev serves it; the pointer head</td>
+<td>5e-5 (head 2e-5)</td>
+<td>evaluation scores one example at a time, as served</td>
+</tr>
+<tr>
+<td>Intern-Decision 4B</td>
+<td>LoRA r16 on the language model</td>
+<td>5e-5</td>
+<td>one pass; replay 25%</td>
+</tr>
+<tr>
+<td>Lev</td>
+<td>its released LoRA, trained further in place, unmerged</td>
+<td>5e-5</td>
+<td>merging it in bf16 changed its answers by up to 0.053</td>
+</tr>
+<tr>
+<td>CLM 8B</td>
+<td>its two heads only, on embeddings of the frozen 8B encoder computed once per text</td>
+<td>5e-4</td>
+<td>replay capped at 1,500</td>
+</tr>
+<tr>
+<td>Jev-Omni</td>
+<td>LoRA r16 on the language model and the head's linear layer</td>
+<td>5e-5</td>
+<td>NVIDIA only</td>
+</tr>
+</tbody>
+</table></div>
+<p>Frozen weights are held in bf16 (fp16 on older GPUs); trainable weights and their optimizer state are fp32.</p>
+<h2 id="a-jobs-life">A job's life<a class="anchor" href="#a-jobs-life" title="Link to this section">#</a></h2>
+<p>The studio starts <code>python -<wbr>m basal.<wbr>training.<wbr>job &lt;job folder&gt;</code>. That process is a <strong>supervisor</strong>: it waits its turn in the machine-wide queue (a lock file in <code>~/.<wbr>cache/<wbr>bud-<wbr>decision-<wbr>studio/</code> with first-come tickets beside it), then runs the engine in a child process and watches it. If the engine's main thread is silent for 15 minutes (30 while loading or verifying), the supervisor records its stacks and starts it again, up to twice; on an NVIDIA GB10 under heavy memory pressure a GPU-to-host copy was seen to hang with the GPU idle.</p>
+<p>The engine, in order:</p>
+<ol>
+<li>checks the GPU (<code>device.profile</code>, a self-test against the processor) and caps the job's GPU memory at twice its family's estimate;</li>
+<li>reads and splits the examples, drops general examples whose situation also appears in them, and loads the model;</li>
+<li>measures the released model on the test split and the general guard set, and records its answers on the replay examples;</li>
+<li>trains: each micro-batch is the person's examples plus replay examples distilled towards the released model's answers; every few hundred questions it measures progress and drift and keeps the best step;</li>
+<li>fits a temperature, runs the gate, and if forgetting was the only failure, trains once more from the start more gently;</li>
+<li>saves the delta, reloads it through <code>finetunes.load_adapter</code> exactly as a worker would, and compares answers per example.</li>
+</ol>
+<p>The job writes <code>events.jsonl</code> (progress), <code>status.json</code>, <code>result.json</code> (every number the gate used), <code>predictions.json</code> (every test and guard answer before and after) and <code>stacks.log</code>. A <code>pause</code> or <code>cancel</code> file in the folder stops it; a paused job keeps <code>resume.pt</code> and continues from it.</p>
+<h2 id="the-stored-delta">The stored delta<a class="anchor" href="#the-stored-delta" title="Link to this section">#</a></h2>
+<div class="code-block"><div class="code-bar"><span class="code-lang">Text</span><button class="copy" type="button" data-copy aria-label="Copy code"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><pre class="hl"><code class="lang-text"><span class="ln">DATA/finetunes/laya-ft-policy-topics/</span><span class="ln" style="--i:2">  lora.safetensors   the LoRA tensors (fp32)</span><span class="ln" style="--i:2">  lora.json          {"root", "r", "alpha", "dropout", "targets"}</span><span class="ln" style="--i:2">  head.safetensors   trained head weights, when the head was trained</span><span class="ln" style="--i:2">  manifest.json      base model, name, temperatures, before/after scores, data summary, versions, parity result</span></code></pre></div>
+
+<p><code>finetunes.refresh()</code> turns every manifest into a catalog entry: the released model's entry with the fine-tune's id, name and temperatures, so downloads, load options and limits follow the released model. A worker loads the released model, then <code>attach</code> injects the LoRA unmerged and loads the head; merging into bf16 weights would round the change away. <code>finetunes.calibrate</code> applies the fitted temperature to every answer.</p>
+<p><code>GET /<wbr>api/<wbr>finetunes/<wbr>{id}/<wbr>export</code> zips the folder without local paths; <code>POST /<wbr>api/<wbr>finetunes/<wbr>import</code> accepts only those four file names, checks every tensor file's header and refuses a base model the studio doesn't have.</p>
+<h2 id="run-a-training-from-the-command-line">Run a training from the command line<a class="anchor" href="#run-a-training-from-the-command-line" title="Link to this section">#</a></h2>
+<div class="code-block"><div class="code-bar"><span class="code-lang">Shell</span><button class="copy" type="button" data-copy aria-label="Copy code"><svg class="ph " viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg><span>Copy</span></button></div><pre class="hl"><code class="lang-bash"><span class="ln">python<span class="w"> </span>-m<span class="w"> </span>basal.training.job<span class="w"> </span>--model<span class="w"> </span>julia-1<span class="w"> </span>--data<span class="w"> </span>examples.csv<span class="w"> </span>--out<span class="w"> </span>runs/julia-test</span><span class="ln">python<span class="w"> </span>-m<span class="w"> </span>basal.training.job<span class="w"> </span>--model<span class="w"> </span>kev-4b<span class="w"> </span>--data<span class="w"> </span>decisions.jsonl<span class="w"> </span>--out<span class="w"> </span>runs/kev<span class="w"> </span>--override<span class="w"> </span><span class="s1">'{"lr": 5e-5}'</span></span></code></pre></div>
+
+<p><code>--override</code> changes any <code>Recipe</code> field. <code>--no-replay</code> and <code>--no-parity</code> exist for experiments. An accepted fine-tune is saved to <code>DATA/finetunes/</code> and appears in a running studio's model list on its next refresh. <code>BASAL_TRAIN_LOCK</code> names another lock file, so a small development run can go beside a long one; the studio never sets it.</p>
+<h2 id="add-a-family">Add a family<a class="anchor" href="#add-a-family" title="Link to this section">#</a></h2>
+<ol>
+<li>Write <code>basal/<wbr>training/<wbr>families/<wbr>&lt;family&gt;.<wbr>py</code> with a <code>FamilyTrainer</code> subclass and register it in <code>families/__init__.py</code> under the adapter's key.</li>
+<li>Move the adapter's input building into a function that <code>decide()</code> and the plugin both call.</li>
+<li>Add <code>tests/<wbr>training/<wbr>test_<wbr>&lt;family&gt;.<wbr>py</code>: a tiny random model with the real tokenizer that is scored, trained two steps, exported, attached to a fresh adapter, and must answer like the trained model.</li>
+<li>Run a real job on a task the model starts weak on, with <code>--seed 0</code> and <code>--seed 1</code>, and check the guard change in <code>result.json</code>. <code>training_<wbr>research/<wbr>trainer_<wbr>verification/<wbr>guard_<wbr>flips.<wbr>py &lt;run&gt;</code> shows which general answers moved.</li>
+<li>Add its memory and speed to <code>TRAIN_GB</code> and <code>SEC_PER_Q</code> in <code>manager.py</code>, measured from the job's own step times.</li>
+</ol>
+<h2 id="tests">Tests<a class="anchor" href="#tests" title="Link to this section">#</a></h2>
+<p><code>tests/training/</code> holds the trainer's tests. The data format, metrics, gate, device policy, queue and supervisor need no PyTorch and run in CI; each family's contract test needs PyTorch and the model's library. <code>scripts/e2e_train.py</code> drives the Train page in a browser from the example file to an answer in the Playground. See <a href="../../docs/dev/testing.html">Testing</a>.</p>
+  </article>
+  <nav class="pager" aria-label="Previous and next"><a class="pg prev" href="../../docs/dev/adding-a-model.html"><span class="pg-l">Previous</span><span class="pg-t">Add a model</span></a><a class="pg next" href="../../docs/dev/storage.html"><span class="pg-l">Next</span><span class="pg-t">Data and storage</span></a></nav>
+</main>
+</div>
+<footer class="foot">
+  <div class="foot-in wrap">
+    <div class="foot-brand">
+      <img src="../../assets/brand/bud-lockup-white.png" alt="Bud Ecosystem" width="220" height="36">
+      <p>Bud Decision Studio runs open decision models on your own computer.</p>
+    </div>
+    <nav class="foot-cols" aria-label="Footer">
+      <div><p class="foot-h">Product</p><a href="../../index.html#how">How it works</a><a href="../../index.html#models">Models</a><a href="../../index.html#download">Download</a></div>
+      <div><p class="foot-h">Documentation</p><a href="../../docs/quickstart.html">Quickstart</a><a href="../../docs/manual/index.html">User manual</a><a href="../../docs/api/index.html">API reference</a><a href="../../docs/dev/architecture.html">Developers</a></div>
+      <div><p class="foot-h">Bud Ecosystem</p><a href="https://github.com/BudEcosystem/Bud-Decision-Engine">Source on GitHub</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/releases">Releases</a><a href="https://github.com/BudEcosystem/Bud-Decision-Engine/issues">Report a problem</a></div>
+    </nav>
+  </div>
+  <p class="foot-fine wrap">Model names and logos belong to their makers. Benchmark figures are each maker's published claims. Jev is a model by TypeSafe AI.</p>
+</footer>
+<div class="search" id="search" hidden>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search the documentation">
+    <div class="search-bar"><svg class="ph " viewBox="0 0 256 256" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg><input type="search" placeholder="Search the documentation" aria-label="Search" autocomplete="off" spellcheck="false"><kbd>Esc</kbd></div>
+    <div class="search-results" role="listbox" aria-label="Results"></div>
+    <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
+  </div>
+</div>
+<script>window.DOCS_ROOT = "../../docs/index.html";</script>
+<script src="../../docs/search-index.js" defer></script>
+<script src="../../assets/js/docs.js" defer></script>
+</body>
+</html>

@@ -57,6 +57,10 @@ The memory each model needs once loaded, as the Models page shows it:
 
 Several models can be loaded at once. A model too large for your device is marked **Too large here** on the Models page and the loader says why instead of loading it; the System page shows what each loaded model uses.
 
+### Do I need a GPU to train a model?
+
+Yes. Teaching a model on the [Train](/docs/manual/train) page needs an NVIDIA RTX 30 series or newer (including the GB10), or an Apple M2 or newer; Intel Arc and Core Ultra graphics, AMD on Linux, older NVIDIA cards and the M1 work as an experimental option. Trained models then run anywhere their original model runs, including on the processor.
+
 ## Models
 
 ### Which model should I start with?
@@ -80,6 +84,24 @@ No. These are open models from different makers, trained differently from TypeSa
 ### What licence do the models have?
 
 Each model keeps its own licence. The studio's catalog lists all eleven under Apache-2.0; each model's page in the app links to its Hugging Face card, which is the authority. Weights come from each publisher's Hugging Face repository and are not redistributed by the studio.
+
+## Training
+
+### Do my examples leave my computer?
+
+No. Training runs on this computer's GPU; the file you add is kept in the studio's data folder with the training job, and nothing is uploaded.
+
+### How many examples do I need?
+
+At least 30 answered questions, and a few hundred for a result you can rely on: the studio sets about a third of them aside to test the result, and with fewer than 300 only large improvements can be told apart from luck. Every answer should appear at least ten to twenty times. [Teach a model your own decisions](/docs/guides/teach#prepare-your-examples) has the details.
+
+### Can training make the model worse?
+
+Not one you get to use. The trained model is tested on examples it never saw and on general questions it never trains on, and it is added only if it is better on the first without a clear drop on the second; otherwise the original stays and the page says why. The original model is never changed. [Fine-tuning and its safeguards](/docs/concepts/fine-tuning) lists the checks and the results on every model.
+
+### Can I use a trained model on another computer?
+
+Yes. **Export** on its row of the Train page saves it as one .zip, a few to a few hundred MB; **Import a trained model** on the other computer's Train page adds it. The model it was trained from must be downloaded there too.
 
 ## Using it from code
 

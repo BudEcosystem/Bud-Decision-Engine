@@ -238,7 +238,7 @@ A decision normally takes a fraction of a second. The first decision for a model
 For clients with short timeouts, send `"background": true`. The studio answers at once with `status: "queued"` and a `location` header, and you collect the result with `GET /v1/studio/decisions/{id}?wait=60`, which holds the request open for up to 60 seconds until the decision finishes. See [Run a decision in the background](/docs/api/decisions#run-a-decision-in-the-background).
 
 :::note
-Streaming (`"stream": true`) is not available in 0.2.1. A request that asks for it answers `400` and suggests background decisions instead.
+Streaming (`"stream": true`) is not available yet. A request that asks for it answers `400` and suggests background decisions instead.
 :::
 
 ## Retries and idempotency

@@ -217,7 +217,7 @@ Files are stored once by their content, so the same photo sent twenty times take
 :::note A sensitive file is never kept
 Mark an `image`, `audio` or `video` variable `sensitive` and the model reads the file while History keeps nothing of it: no contents, no file name, and a keyed hash where the content hash would be. Rerunning such a decision needs the file sent again. Send private files inline, as a data URL: a file you uploaded yourself with `POST /v1/studio/files` follows the rule for uploads and stays until it expires, a day after its last use.
 
-Version 0.2.1 still stored such a file with the decision. The next release fixes that; on 0.2.1, call with `"store": "answers_only"` or turn off `store_media` for private files.
+Versions before 0.3.0 stored such a file with the decision. On those, call with `"store": "answers_only"` or turn off `store_media` for private files.
 :::
 
 `DELETE /v1/studio/files/{id}` removes a file's contents even when decisions used it; those decisions keep their answers and can no longer be rerun.

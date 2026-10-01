@@ -6,11 +6,12 @@ lead: The studio is a small Python server that never touches the GPU, plus one s
 
 ## The parts
 
-Bud Decision Studio has four layers. Each one can fail or restart without taking the others down.
+Bud Decision Studio has four layers, and a fifth process while a model is being trained. Each one can fail or restart without taking the others down.
 
 - **The interface** (`ui/`) is plain HTML, CSS and JavaScript modules with no build step. It runs in the desktop app's window or in any browser, and talks to the server over HTTP like any other client.
 - **The studio server** (`basal/server.py`, FastAPI) serves the interface, every API format, the management endpoints and the studio API. It owns the database and the download queue. It never imports PyTorch, so it stays responsive while a 24 GB model loads.
 - **Worker processes** (`basal/worker.py`), one per loaded model. A worker loads exactly one model through its **adapter** (the small class that drives that model's own library) and answers decisions over HTTP on `127.0.0.1`.
+- **A training job** (`basal/training/job.py`), at most one at a time: a separate process that fine-tunes a model on the GPU while the server reads its progress files. It is described on [The trainer](/docs/dev/trainer).
 - **The desktop shell** (`desktop/`, Tauri) installs the engine on first run, starts the server, points its window at it, and stops it on quit.
 
 Model weights are not part of the studio. They live in the standard Hugging Face cache, shared with your other tools.
@@ -142,6 +143,8 @@ The server sends the interface's files with `cache-control: no-cache`, so after 
 | `basal/guard.py` | The cross-site guard |
 | `basal/errors.py`, `basal/ids.py` | The studio API's error envelope; `dec_...`-style ids |
 | `basal/workers.py`, `basal/worker.py` | Starting, watching and stopping workers; the worker process itself |
+| `basal/training/` | The trainer: the training file format, one plugin per model family, the training loop and its checks, the job process; see [The trainer](/docs/dev/trainer) |
+| `basal/finetunes.py` | Trained models: each becomes a catalog entry; a worker attaches its changes to the released model; export and import |
 | `basal/adapters/` | One adapter per model family, the base class, and the test model |
 | `basal/catalog.py`, `basal/hub.py`, `basal/fetch.py` | The model list, what is on disk, the download queue |
 | `basal/config.py`, `basal/sysinfo.py` | Devices and memory fit; live GPU, memory and disk figures |

@@ -109,7 +109,7 @@ Every variable can also have:
 | `required` | `true` unless the variable has a `default`: the default is used whenever the value is left out, so a variable with one is never required. A missing or `null` value counts as missing. |
 | `default` | Used when the caller leaves the variable out. |
 | `example` | A sample value for the app's form. |
-| `sensitive` | Used for the decision, never written to disk; History keeps only a keyed hash. Applies to text, number and JSON variables in 0.2.1. See [History and privacy](/docs/concepts/history#sensitive-variables). |
+| `sensitive` | Used for the decision, never written to disk; History keeps only a keyed hash. Applies to every kind of variable, files included (text, number and JSON variables only before 0.3.0). See [History and privacy](/docs/concepts/history#sensitive-variables). |
 | `trusted` | Allows a free-text variable inside question text (see below). |
 
 A template has at most 64 variables. `GET /v1/studio/templates/{id}/schema` returns them as a JSON Schema, which the app uses for its form.

@@ -134,7 +134,7 @@ $env:BASAL_API_KEY = "change-me"
 ```
 @@ Output
 ```text
-  Bud Decision Studio 0.2.1  at  http://localhost:8420
+  Bud Decision Studio 0.3.0  at  http://localhost:8420
 
 [history] database ready (migrations [1, 2, 3] applied)
 [templates] 30 starter template(s) added or updated

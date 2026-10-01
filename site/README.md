@@ -39,10 +39,14 @@ The one-line installers (`get.sh`, `get.ps1` at the repository root) are offered
 | Demo video | `docs/media/` in the repository; ships as H.264 MP4 plus a VP9 WebM, because some Linux Chromium builds cannot play H.264 |
 | Icons | `assets/js/icons.js`: Phosphor (regular), the same family the app vendors in `ui/js/phosphor.js`, plus four brand logos from `@phosphor-icons/core` 2.1.1 |
 | Test counts (14 of 14, 21 of 21) | the root README's Tested table |
+| The training results (Fig. 5) and the results table in `docs-src/pages/concepts/fine-tuning.md` | the trainer's own runs on an NVIDIA GB10 on 2026-10-01, listed with their settings in `docs/trainer/RESULTS.md` |
+| The Train screenshots (`assets/img/train.webp`, `docs/img/manual/train-*.webp`) | the unreleased source checkout, from a fresh studio that trained Laya on the built-in example file; same capture settings as the others, with the API address shown as 8420 |
 
 ## Page structure
 
-Below the hero, each section uses a different layout, and every chart is captioned "Fig. n" like the answers in the app: a comparison figure with margin notes, a pinned four-step walkthrough, six small-multiple charts on one plate, one screenshot frame driven by a segmented control, a diagram of the request path, a model table with an inspector (after the app's Models page), a setup screenshot over a hardware strip, endpoints beside a request and response, the download panel over a four-column file table, and the FAQ.
+The hero mirrors the closing section: the Bud mark in particles (it assembles, bursts and springs back; click it to burst it again), the headline and the tagline, then a replay of the app that walks the pointer through Playground, Save as template, Templates, Train and History. A features bento with crops of real screens follows the chat-versus-decision comparison.
+
+Below the hero, each section uses a different layout, and every chart is captioned "Fig. n" like the answers in the app: a comparison figure with margin notes, a pinned four-step walkthrough, six small-multiple charts on one plate, one screenshot frame driven by a segmented control, a diagram of the request path, a model table with an inspector (after the app's Models page), the training results as before-and-after bars, a setup screenshot over a hardware strip, endpoints beside a request and response, the download panel over a four-column file table, and the FAQ.
 
 Update `assets/js/data.js` when the catalog or a release changes; `RELEASE_FALLBACK` only matters when GitHub can't
 be reached.

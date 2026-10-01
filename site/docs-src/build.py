@@ -20,6 +20,10 @@ Markdown extensions (see docs-src/README.md for examples):
     :icon-name:                                       an inline Phosphor icon
     links and images starting with /docs/ or /assets/ become relative, so the site works from any folder
 
+The pages are written for one version (nav.py's VERSION), but they do not go stale between builds: in the browser,
+docs.js asks GitHub for the latest release (assets/js/release.js) and updates the version beside the name and the
+installer file names and sizes in the text.
+
 Every H2 and H3 starts a row. A page with a console lays each row out as prose on the left and that row's console on
 the right, pinned while the row is in view; parameter tables in a row are linked to its console, so hovering a
 parameter lights its line in the request. Pages without a console are one reading column, and screenshots run wider.
@@ -448,7 +452,7 @@ def header(page: Page) -> str:
     <button class="side-btn" type="button" aria-controls="docs-side" aria-expanded="false" aria-label="Open the contents">{icon("list", 20) if "list" in ICONS else icon("list-bullets", 20)}</button>
     <a class="brand" href="{r('/index.html')}" aria-label="Bud Decision Studio home">
       <img src="{r('/assets/brand/bud-mark.png')}" width="26" height="26" alt="">
-      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" title="Documentation for version {VERSION}">{VERSION}</span>
+      <span>Bud <b>Decision Studio</b></span><span class="brand-docs" data-version title="Documentation for version {VERSION}">{VERSION}</span>
     </a>
     <nav class="nav-links" aria-label="Site">{nav}</nav>
     <div class="nav-end">
@@ -556,8 +560,9 @@ def layout(page: Page, pages: list[Page]) -> str:
     <p class="search-foot"><span><kbd>↑</kbd><kbd>↓</kbd> to move</span><span><kbd>Enter</kbd> to open</span></p>
   </div>
 </div>
-<script>window.DOCS_ROOT = "{r('/docs/')}";</script>
+<script>window.DOCS_ROOT = "{r('/docs/')}"; window.DOCS_VERSION = "{VERSION}";</script>
 <script src="{r('/docs/search-index.js')}" defer></script>
+<script src="{r('/assets/js/release.js')}" defer></script>
 <script src="{r('/assets/js/docs.js')}" defer></script>
 </body>
 </html>

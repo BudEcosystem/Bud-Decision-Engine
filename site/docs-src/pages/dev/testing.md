@@ -20,6 +20,7 @@ lead: Most of the studio can be tested in under half a minute without a GPU or a
 | `scripts/e2e.py` | Every page through a real browser, with real models |
 | `scripts/e2e_train.py` | The Train page through a real browser: the example file, review, a real training on the GPU, the result, **Use it now**, and an answer in the Playground |
 | `scripts/ui_checks.py` | Interface regressions through a real browser with the test model: leaving the Playground mid-start, the id fields' validation, Save as template in a fresh window, Evaluate's threshold range. Starts its own studio; needs Playwright |
+| `scripts/site_release_checks.py` | The website's release handling through a real browser, with GitHub's answers stood in for: a newer release, the API refusing, nothing answering, and the docs following along. Serves `site/` itself; needs Playwright |
 
 The test files are in `tests/`. The first five are the **studio tests**. They need only the server's own libraries, not PyTorch: `tests/conftest.py` gives each run a temporary data folder and turns on `BASAL_FAKE_MODEL=1`, the deterministic test model described on [Run from source](/docs/dev/source).
 

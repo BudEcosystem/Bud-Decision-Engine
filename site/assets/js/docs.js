@@ -164,6 +164,49 @@
     if (cur) side.scrollTop = Math.max(0, cur.offsetTop - side.clientHeight / 3);
   }
 
+  // ------------------------------------------------------------------ the latest release, from GitHub
+  // These pages are written for one version (window.DOCS_VERSION). The version beside the name, and the installer file
+  // names and sizes in the text, follow the latest release as soon as GitHub answers (release.js), so the docs never
+  // point at an old download. The changelog is history and stays as written.
+  const built = window.DOCS_VERSION;
+  let showing = built;
+  // long inline code may wrap at its own seams, as the build marks it
+  const setCode = (el, text) => {
+    el.textContent = '';
+    if (text.length < 25) { el.append(text); return; }
+    text.replace(/([/._-])(?=[^/._-])/g, '$1\u0000').split('\u0000').forEach((part, i) => { if (i) el.append(document.createElement('wbr')); el.append(part); });
+  };
+  function applyRelease(rel) {
+    if (!rel || !built) return;
+    const v = rel.version;
+    $$('[data-version]').forEach((el) => {
+      el.textContent = v;
+      el.title = v === built ? `Documentation for version ${v}` : `The latest release is ${v}. These pages were written for ${built}.`;
+    });
+    const prose = $('.prose');
+    if (!prose || /(^|\/)changelog\.html$/.test(location.pathname)) return;
+    if (v !== showing) {
+      const old = reEsc(showing);
+      const inCode = [[new RegExp(`(Bud\\.Decision\\.Studio[_-])${old}(?![0-9])`, 'g'), `$1${v}`], [new RegExp(`(--version v)${old}(?![0-9])`, 'g'), `$1${v}`]];
+      $$('code', prose).filter((c) => !c.closest('pre')).forEach((c) => {
+        const before = c.textContent; let after = before;
+        for (const [re, to] of inCode) after = after.replace(re, to);
+        if (after !== before) setCode(c, after);
+      });
+      const sentence = new RegExp(`(For version )${old}(?![0-9])`, 'g');
+      const walker = document.createTreeWalker(prose, NodeFilter.SHOW_TEXT);
+      for (let n = walker.nextNode(); n; n = walker.nextNode()) if (n.nodeValue.includes(showing)) n.nodeValue = n.nodeValue.replace(sentence, `$1${v}`);
+      showing = v;
+    }
+    // a table row that names a release file shows that file's size
+    const sizes = new Map(rel.assets.map((a) => [a.name, a.size]));
+    $$('tr', prose).forEach((tr) => {
+      const name = $('td code', tr)?.textContent; const cell = tr.cells[1];
+      if (name && sizes.get(name) && cell && /^[\d.]+\s*MB$/.test(cell.textContent.trim())) cell.textContent = `${(sizes.get(name) / 1e6).toFixed(1)} MB`;
+    });
+  }
+  if (window.BudRelease) window.BudRelease.load(applyRelease);
+
   // ------------------------------------------------------------------ search
   const box = $('#search'); if (!box) return;
   const input = $('input', box); const results = $('.search-results', box);

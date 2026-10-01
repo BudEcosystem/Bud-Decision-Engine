@@ -116,7 +116,7 @@ A release is a version bump, a tag, and GitHub Actions. The version appears in f
 1. **Test.** Run the studio tests, conformance and the end-to-end check ([Testing](/docs/dev/testing)), and update `docs/testing.md`.
 2. **Bump the version** in the files above and commit.
 3. **Tag and push.** Pushing a `v*` tag starts `desktop.yml`, which builds macOS (Apple Silicon), Windows x64, Linux x64 and Linux ARM64 (NVIDIA GB10, DGX Spark) in parallel and attaches every installer to one draft release.
-4. **Publish.** When all four builds succeed, the workflow publishes the draft and marks it the latest release. The one-line installers, `get.sh` and `get.ps1`, always install the latest release.
+4. **Publish.** When all four builds succeed, the workflow publishes the draft and marks it the latest release. The one-line installers, `get.sh` and `get.ps1`, always install the latest release. The workflow then writes `site/release.json` and commits it to `main`, so the website shows the new release without any edit: its pages read the latest release from GitHub in the browser, from the API and from that file.
 5. **Write the notes.** Replace the generated text with notes for people: what changed, why it matters, and how to update.
 :::
 

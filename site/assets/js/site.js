@@ -147,31 +147,10 @@
 
   const mb = (b) => `${Math.round(b / 1e6)} MB`;
 
-  function fallbackRelease() {
-    const fb = D.RELEASE_FALLBACK;
-    return {
-      tag: fb.tag, date: fb.date, html: `https://github.com/${D.repo}/releases/tag/${fb.tag}`,
-      assets: fb.assets.map(([name, size]) => ({ name, size, url: `https://github.com/${D.repo}/releases/download/${fb.tag}/${name}` })),
-    };
-  }
-  function cachedRelease() {
-    try { const c = sessionStorage.getItem('bud-release'); return c ? JSON.parse(c) : null; } catch { return null; }
-  }
-  // The latest release, from GitHub. The page never waits for it: it renders from the built-in copy first.
-  async function fetchRelease() {
-    try {
-      const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 8000);
-      const r = await fetch(`https://api.github.com/repos/${D.repo}/releases/latest`, { signal: ctl.signal, headers: { Accept: 'application/vnd.github+json' } });
-      clearTimeout(timer);
-      if (!r.ok) return null;
-      const j = await r.json();
-      const rel = { tag: j.tag_name, date: (j.published_at || '').slice(0, 10), html: j.html_url,
-        assets: (j.assets || []).map((a) => ({ name: a.name, size: a.size, url: a.browser_download_url })) };
-      if (!KINDS.some((k) => rel.assets.some((a) => k.re.test(a.name)))) return null;
-      try { sessionStorage.setItem('bud-release', JSON.stringify(rel)); } catch { /* storage blocked */ }
-      return rel;
-    } catch { return null; }
-  }
+  // The release itself always comes from GitHub (release.js); this page holds no version of its own. Until GitHub has
+  // answered, or when it cannot be reached, every download link goes to GitHub's "latest release" address.
+  const R = window.BudRelease;
+  const unknownRelease = () => ({ tag: '', date: '', html: R.latestPage, assets: [], unknown: true });
 
   const assetFor = (rel, id) => { const k = KINDS.find((x) => x.id === id); const a = k && rel.assets.find((x) => k.re.test(x.name)); return a ? { ...a, kind: k } : null; };
 
@@ -194,7 +173,7 @@
       primary = pkgs[0]; alts = [pkgs[1], `appimage-${a}`];
     }
     const asset = primary && assetFor(rel, primary);
-    if (!asset) return { title: 'Choose your computer', detail: 'Pick a download from the list.', icon: ICON.device, eng };
+    if (!asset && !(rel.unknown && primary)) return { title: 'Choose your computer', detail: 'Pick a download from the list.', icon: ICON.device, eng };
     const archLabel = d.os === 'linux' ? (d.arch === 'arm64' ? 'ARM64' : 'x64') : d.os === 'mac' ? 'Apple Silicon' : 'x64';
     let who;
     if (d.os === 'mac') who = g ? `a Mac with ${g.replace(/^Apple\s+/, 'Apple ')}` : 'a Mac with Apple Silicon';
@@ -205,7 +184,7 @@
     if (d.os === 'linux' && !d.archSure) note = ' On an ARM computer such as an NVIDIA GB10, use the ARM64 files.';
     return {
       osName, archLabel, who, title, asset, alts: alts.map((id) => assetFor(rel, id)).filter(Boolean), eng, note,
-      icon: ICON[d.os] || ICON.device, cmdTab: d.os === 'windows' ? 'win' : 'unix',
+      icon: ICON[d.os] || ICON.device, cmdTab: d.os === 'windows' ? 'win' : 'unix', pending: !asset,
     };
   }
 
@@ -214,9 +193,9 @@
     const version = rel.tag.replace(/^v/, '');
     // release pill
     const pill = $('[data-release-text]');
-    if (pill) pill.textContent = `Version ${version} for macOS, Windows and Linux`;
+    if (pill) pill.textContent = version ? `Version ${version} for macOS, Windows and Linux` : 'The latest version, for macOS, Windows and Linux';
     $$('[data-release-pill], [data-release-notes]').forEach((a) => { a.href = rel.html; });
-    const ver = $('[data-dl-version]'); if (ver) ver.textContent = `Version ${version}${rel.date ? `, ${new Date(`${rel.date}T12:00:00`).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}`;
+    const ver = $('[data-dl-version]'); if (ver) ver.textContent = !version ? '' : `Version ${version}${rel.date ? `, ${new Date(`${rel.date}T12:00:00`).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}`;
 
     // hero, nav and final buttons
     const heroBtn = $('[data-dl-primary]'); const finalBtn = $('[data-dl-final]'); const navBtn = $('[data-dl-nav]');
@@ -232,6 +211,12 @@
       [heroBtn, finalBtn].forEach((b) => b && b.setAttribute('data-download', p.asset.kind.after));
       const meta = $('[data-dl-meta]');
       if (meta) meta.innerHTML = `Version ${esc(version)} for ${esc(p.archLabel)}, ${esc(p.asset.kind.ext)}, ${mb(p.asset.size)}. <a href="#all-downloads">Other downloads</a>`;
+    } else if (p.pending) {       // GitHub has not answered: its "latest release" page always has the newest files
+      const label = `Download for ${p.osName}`;
+      setBtn(heroBtn, label, R.latestPage, p.icon); setBtn(finalBtn, label, R.latestPage, p.icon);
+      [heroBtn, finalBtn].forEach((b) => b && b.removeAttribute('data-download'));
+      const meta = $('[data-dl-meta]');
+      if (meta) meta.innerHTML = `Opens the latest release on GitHub; choose the ${esc(p.archLabel)} file there. <a href="#download">Or install with one command</a>`;
     } else {
       setBtn(heroBtn, p.mobile ? 'Get it for your computer' : 'Choose your download', '#download', ICON.dl);
       setBtn(finalBtn, p.mobile ? 'Get it for your computer' : 'Choose your download', '#download', ICON.dl);
@@ -242,12 +227,16 @@
     // download section, main card
     $('[data-dl-icon-lg]').innerHTML = p.icon;
     $('[data-dl-title]').textContent = p.title;
-    $('[data-dl-detail]').textContent = p.asset ? `${p.who.charAt(0).toUpperCase()}${p.who.slice(1)}. ${p.eng.text}${p.note}` : p.detail;
+    $('[data-dl-detail]').textContent = p.asset || p.pending ? `${p.who.charAt(0).toUpperCase()}${p.who.slice(1)}. ${p.eng.text}${p.note}` : p.detail;
     const main = $('[data-dl-main]'); const mainLabel = $('[data-dl-main-label]');
     if (p.asset) {
       main.href = p.asset.url; main.setAttribute('data-download', p.asset.kind.after);
       mainLabel.textContent = `Download ${p.asset.kind.ext === 'AppImage' ? 'the AppImage' : `the ${p.asset.kind.ext} ${p.asset.kind.id === 'exe' ? 'installer' : 'file'}`}`;
       $('[data-dl-file]').textContent = `${p.asset.name.replace(/\./g, '.​')}, ${mb(p.asset.size)}`;
+    } else if (p.pending) {
+      main.href = R.latestPage; main.removeAttribute('data-download'); main.onclick = null;
+      mainLabel.textContent = 'Open the latest release on GitHub';
+      $('[data-dl-file]').textContent = '';
     } else if (p.mobile) {
       mainLabel.textContent = p.button; main.href = '#';
       main.onclick = (e) => { e.preventDefault(); copyText(location.href.split('#')[0], mainLabel); };
@@ -267,7 +256,9 @@
     selectOneLine(p.cmdTab || 'unix');
 
     // all downloads, one column per platform
-    $('[data-dl-list]').innerHTML = GROUPS.map((g) => {
+    $('[data-dl-list]').innerHTML = rel.unknown
+      ? `<p class="dl-none">The list of files comes from GitHub and has not arrived. <a href="${esc(R.latestPage)}">Open the latest release on GitHub</a> to choose a file, or use the one-line command above.</p>`
+      : GROUPS.map((g) => {
       const rows = g.ids.map((id) => assetFor(rel, id)).filter(Boolean);
       if (!rows.length) return '';
       return `<div class="dl-col"><h3>${ICON[g.icon]}${esc(g.title)} <small>${esc(g.sub)}</small></h3>${rows.map((a) => `
@@ -1065,11 +1056,14 @@
   // ================================================================== downloads, once we know the computer
   (async () => {
     const d = await detect();
-    let rel = cachedRelease() || fallbackRelease();
-    const p = renderDownloads(d, rel);
-    if (d.gpu && /GB10/i.test(d.gpu.raw)) models.setMem(128);
-    else if (p && p.eng && p.eng.kind === 'cpu') models.setMem(16);
-    const live = await fetchRelease();
-    if (live && (live.tag !== rel.tag || live.assets.length !== rel.assets.length)) { rel = live; renderDownloads(d, rel); }
+    let first = true;
+    await R.load((rel) => {
+      const usable = rel && KINDS.some((k) => rel.assets.some((a) => k.re.test(a.name)));
+      const p = renderDownloads(d, usable ? rel : unknownRelease());
+      if (!first) return;
+      first = false;
+      if (d.gpu && /GB10/i.test(d.gpu.raw)) models.setMem(128);
+      else if (p && p.eng && p.eng.kind === 'cpu') models.setMem(16);
+    });
   })();
 })();

@@ -1,0 +1,33 @@
+# Keeps site/release.json equal to the latest published release, so the website (site/assets/js/release.js) can read
+# it from the repository when GitHub's API is not available to a visitor. desktop.yml does the same right after it
+# publishes a release; this workflow covers releases published, edited or removed by hand, and can be run on demand.
+name: release info
+
+on:
+  release:
+    types: [published, edited, deleted, unpublished]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-info
+  cancel-in-progress: false
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - name: Record the latest release for the website
+        env: { GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
+        run: |
+          python3 scripts/release_info.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/release.json
+          if git diff --cached --quiet; then echo "site/release.json is already current"; exit 0; fi
+          git commit -m "Record $(python3 -c "import json;print(json.load(open('site/release.json'))['tag'])") as the latest release for the website"
+          git push origin HEAD:main || { git pull --rebase origin main && git push origin HEAD:main; }

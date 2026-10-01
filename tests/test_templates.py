@@ -304,6 +304,59 @@ def test_change_classes(support):
     assert T.classify_change(support, required)["breaking_for_callers"]
 
 
+@pytest.mark.parametrize("name,change,why", [
+    ("customer_message", {"enum": ["refund", "cancel"]}, "now limited to refund, cancel"),
+    ("account_tier", {"enum": ["free", "pro"]}, "no longer accepts enterprise"),
+    ("customer_message", {"max_length": 500}, "max_length is now 500"),
+    ("customer_email", {"min_length": 6}, "min_length is now 6"),
+    ("customer_email", {"pattern": "@"}, "pattern added"),
+    ("open_invoices", {"maximum": 10}, "maximum is now 10"),
+    ("open_invoices", {"minimum": 1}, "minimum is now 1"),
+])
+def test_narrowing_a_variable_breaks_callers(support, name, change, why):
+    """A version that refuses values the last one accepted is breaking, however small the edit looks."""
+    new = json.loads(json.dumps(support))
+    new["variables"][name].update(change)
+    ch = T.classify_change(support, new)
+    assert ch["class"] == "breaking" and ch["breaking_for_callers"] and f"variable {name}: {why}" in ch["summary"]
+
+
+@pytest.mark.parametrize("name,change", [
+    ("account_tier", {"enum": ["free", "pro", "enterprise", "partner"]}),      # one more allowed value
+    ("customer_message", {"max_length": 12000}),                               # room for longer text
+    ("open_invoices", {"minimum": None}),                                      # a limit removed
+    ("customer_message", {"description": "The whole message."}),
+])
+def test_widening_a_variable_keeps_callers_working(support, name, change):
+    new = json.loads(json.dumps(support))
+    for k, v in change.items():
+        if v is None:
+            new["variables"][name].pop(k)
+        else:
+            new["variables"][name][k] = v
+    ch = T.classify_change(support, new)
+    assert ch["class"] == "wording" and not ch["breaking_for_callers"]
+
+
+def test_a_default_makes_a_variable_optional():
+    """The default is used when the caller leaves the variable out, so `required` cannot stay true beside it."""
+    base = {"state": "{{plan}}", "questions": {"q": {"type": "noul"}}}
+    d = T.check_definition({**base, "variables": {"plan": {"type": "string", "required": True, "default": "free"}}}).definition
+    assert d["variables"]["plan"]["required"] is False
+    r, problems = render(d, {})
+    assert problems == [] and r.values == {"plan": "free"}
+    assert T.check_definition({**base, "variables": {"plan": {"type": "string"}}}).definition["variables"]["plan"]["required"] is True
+    assert T.schema(d, "t@1").get("required", []) == []
+
+
+def test_a_long_variable_is_a_note_not_a_reason_a_model_cannot_run(support):
+    """customer_message may hold 8,000 characters and Laya reads 512 tokens: Laya still runs the template."""
+    by = {m["model"]: m for m in T.compatibility(support, lambda spec: "downloaded")}
+    assert by["laya"]["ok"] and by["laya"]["problems"] == []
+    assert any("customer_message" in n and "cut off" in n for n in by["laya"]["notes"])
+    assert all(p["code"] != "context_too_small" for m in by.values() for p in m["problems"])
+
+
 def test_schema_export(support):
     s = T.schema(support, "support-triage@1")
     assert s["required"] == ["customer_message"]

@@ -222,7 +222,9 @@ def check_definition(body: dict) -> Checked:
             if k not in ("type", "required", "sensitive", "trusted") and k not in extra:
                 norm[k] = v
         has_default = spec.get("default") is not None
-        norm["required"] = bool(spec.get("required", not has_default))
+        # a default is used whenever the caller leaves the variable out, so it can never be "required" (and a
+        # merge patch that adds a default must not leave the stored `required: true` behind)
+        norm["required"] = False if has_default else bool(spec.get("required", True))
         norm["sensitive"] = bool(spec.get("sensitive", False))
         norm["trusted"] = bool(spec.get("trusted", False))
         _check_var_spec(name, norm, p)
@@ -766,7 +768,7 @@ def render(defn: dict, variables_in, state_in, secret: bytes, p: Problems) -> Re
     sensitive = {n for n, s in variables.items() if s.get("sensitive")}
     stored, secrets = {}, {}
     for name, v in values.items():
-        if name in sensitive and variables[name]["type"] not in MEDIA_TYPES:
+        if name in sensitive:          # text and media alike: history keeps the keyed hash, never the value
             h = secret_hash(secret, v)
             stored[name] = {"$redacted": h}
             secrets[name] = h
@@ -784,8 +786,8 @@ def render(defn: dict, variables_in, state_in, secret: bytes, p: Problems) -> Re
     if state in ("", {}, []) or (isinstance(state, str) and not state.strip()):
         p.add("empty_state", "variables", "With these variables the state is empty; send at least one of: "
                                           + ", ".join(text_vars) + ".")
-    media = [{"variable": n, "type": s["type"], "value": values[n]} for n, s in variables.items()
-             if s["type"] in MEDIA_TYPES and n in values]
+    media = [{"variable": n, "type": s["type"], "value": values[n], "sensitive": n in sensitive}
+             for n, s in variables.items() if s["type"] in MEDIA_TYPES and n in values]
     questions = render_questions(defn["questions"], values, variables, p)
     dynamic = {k for k, q in defn["questions"].items() if is_dynamic(q)}
     return Rendered(values, stored, secrets, state, stored_state, media, questions, dynamic)
@@ -1157,9 +1159,13 @@ def classify_change(prev: dict | None, new: dict) -> dict:
             breaking = callers_break = True
             summary.append(f"variable {n}: type changed from {va[n]['type']} to {s['type']}")
         elif canonical(va[n]) != canonical(s):
+            narrower = narrowed(va[n], s)
             if s.get("required") and not va[n].get("required"):
                 breaking = callers_break = True
                 summary.append(f"variable {n}: now required")
+            elif narrower:      # values the last version accepted are refused now
+                breaking = callers_break = True
+                summary.append(f"variable {n}: {'; '.join(narrower)}")
             else:
                 wording = True
                 summary.append(f"variable {n}: constraints changed")
@@ -1199,6 +1205,35 @@ def classify_change(prev: dict | None, new: dict) -> dict:
     cls = ("breaking" if breaking else "extended" if extended else "wording" if wording
            else "settings_only" if settings_only else "unchanged")
     return {"from": None, "class": cls, "breaking_for_callers": callers_break, "questions": comp, "summary": summary}
+
+
+def narrowed(old: dict, new: dict) -> list[str]:
+    """How a variable of the same type now refuses values it used to accept (empty when it only got wider)."""
+    out = []
+    t = new["type"]
+    if "enum" in new:
+        if "enum" not in old:
+            out.append("now limited to " + ", ".join(map(str, new["enum"])))
+        else:
+            gone = [x for x in old["enum"] if x not in new["enum"]]
+            if gone:
+                out.append("no longer accepts " + ", ".join(map(str, gone)))
+    # an upper limit that fell, or appeared below the limit that applied before
+    highs = {"max_length": STRING_DEFAULT_MAX if t == "string" else None, "maximum": None, "max_items": None,
+             "max_bytes": JSON_DEFAULT_MAX if t == "json" else None}
+    for k, default in highs.items():
+        if k in new:
+            before = old.get(k, default)
+            if before is None or new[k] < before:
+                out.append(f"{k} is now {new[k]:,}" if isinstance(new[k], int) else f"{k} is now {new[k]}")
+    # a lower limit that rose or appeared
+    for k in ("min_length", "minimum", "min_items"):
+        if k in new and (k not in old or new[k] > old[k]) and not (k != "minimum" and new[k] == 0):
+            out.append(f"{k} is now {new[k]}")
+    for k in ("pattern", "format", "schema"):     # no way to tell wider from narrower, so say callers may break
+        if k in new and canonical(new[k]) != canonical(old.get(k)):
+            out.append(f"{k} {'changed' if k in old else 'added'}")
+    return out
 
 
 def _changed_paths(a, b, path: str = "") -> dict:
@@ -1314,9 +1349,9 @@ def compatibility(defn: dict, status_of) -> list[dict]:
             if v["type"] in optional_media and v["type"] not in spec.modalities:
                 notes.append(f"Cannot read the optional {v['type']} variable '{n}'; decisions that send it will be refused.")
             if v["type"] == "string" and "max_length" in v and v["max_length"] / 4 > spec.context_tokens:
-                probs.append({"code": "context_too_small", "param": param_path("variables", n),
-                              "message": f"{n} allows {v['max_length']:,} characters (about {v['max_length'] // 4:,} tokens); "
-                                         f"{spec.name} reads {spec.context_tokens:,} tokens."})
+                # not a problem: the model still runs, and a decision that is too long says state_may_be_truncated
+                notes.append(f"{n} allows {v['max_length']:,} characters (about {v['max_length'] // 4:,} tokens); "
+                             f"{spec.name} reads {spec.context_tokens:,} tokens, so a longer value is cut off at the end.")
         if any(is_dynamic(q) for q in defn["questions"].values()):
             notes.append(f"Options that come from a variable must stay within {spec.max_options} per question.")
         out.append({"model": spec.id, "name": spec.name, "status": status_of(spec), "ok": not probs, "problems": probs, "notes": notes})

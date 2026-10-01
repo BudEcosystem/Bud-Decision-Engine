@@ -37,6 +37,7 @@ class Handle:
     detail: str | None = None
     ejecting: bool = False
     was_ready: bool = False          # reached "ready" at least once (a later death is a crash, not a load failure)
+    auto: bool = False               # a request started this load (auto-load), not the user pressing Load
     failed_at: float | None = None
     last_used: float = 0.0
     log: object = None
@@ -103,11 +104,13 @@ class Workers:
         if h.ejecting:
             return True
         h.ejecting = True
+        asked = False
         try:
             await self.client.post(f"{h.url}/shutdown", timeout=2.0)
+            asked = True
         except Exception:
-            pass
-        for _ in range(50):
+            pass             # not listening yet (it has only just started) or hung: there is nothing to wait for
+        for _ in range(50 if asked else 0):
             if h.proc.poll() is not None: break
             await asyncio.sleep(0.1)
         await asyncio.to_thread(self._reap, h)

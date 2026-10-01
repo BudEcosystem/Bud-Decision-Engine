@@ -34,7 +34,7 @@ from .ids import new_id
 from .paths import DATA
 
 # Filled in by server.py: how to route a model name, make sure it is loaded, and ask it.
-RUNTIME = SimpleNamespace(route=None, ensure_ready=None, decide=None, status_of=None, is_ready=None)
+RUNTIME = SimpleNamespace(route=None, ensure_ready=None, decide=None, status_of=None, is_ready=None, abandon_load=None)
 BACKGROUND: dict[str, dict] = {}        # decision id -> {"task", "cancel", "started"}
 KNOWN_FIELDS = {"template", "variables", "state", "questions", "add_options", "skip", "media", "model", "settings", "metadata",
                 "store", "background", "stream", "include", "user", "session_id"}
@@ -206,7 +206,8 @@ def resolve(body: dict, source: Source, *, header_store: str | None = None, head
             merged.questions.update(extra)
         media_items = [{"type": m["type"], "variable": m["variable"],
                         **({"file_id": m["value"]} if str(m["value"]).startswith("file_") else {"data": m["value"]}),
-                        "_param": param_path("variables", m["variable"])} for m in rendered.media]
+                        "_param": param_path("variables", m["variable"]), "_sensitive": m["sensitive"]}
+                       for m in rendered.media]
         state, stored_state = rendered.state, rendered.stored_state
         stored_vars = rendered.stored_variables if defn["variables"] else None
         secrets_ = rendered.secrets
@@ -291,8 +292,9 @@ def resolve(body: dict, source: Source, *, header_store: str | None = None, head
                                                       f"{BY_ID[model].context_tokens:,}, so the end may be cut off.", "state")
     vh = None
     if defn is not None and defn["variables"]:
+        # a sensitive file is already in stored_vars as its keyed hash; its plain hash stays out
         vh = T.sha({"variables": stored_vars, "media": [m.get("file_id") or hashlib.sha256(str(m.get("data")).encode()).hexdigest()
-                                                         for m in media_items if isinstance(m, dict)]})
+                                                         for m in media_items if isinstance(m, dict) and not m.get("_sensitive")]})
     return Resolved(tpl, defn, model, requested if requested not in (None, "") else None, stored_vars, vh, secrets_, state,
                     stored_state, questions, origins, dynamic, extensions, media_items, per, settings_out, storage, metadata,
                     warnings, set(inc), bool(body.get("background")))
@@ -323,7 +325,7 @@ def preview_object(r: Resolved) -> dict:
         sys_req["settings"] = {"temperature": r.settings["temperature"]}
     return {"object": "decision.preview", "template": _public_template(r.template), "model": r.model, "state": r.state,
             "rendered_state": render_state(r.state), "questions": r.questions, "extensions": r.extensions,
-            "media": [{k: v for k, v in m.items() if k != "_param" and k != "data"} for m in r.media_items if isinstance(m, dict)],
+            "media": [{k: v for k, v in m.items() if not k.startswith("_") and k != "data"} for m in r.media_items if isinstance(m, dict)],
             "settings": r.settings, "usage": {"input_tokens": max(1, (len(render_state(r.state)) + len(T.canonical(r.questions))) // 4)},
             "systemone_request": sys_req, "worker_settings": ws, "store": r.storage, "warnings": r.warnings}
 
@@ -370,6 +372,9 @@ async def execute(r: Resolved, source: Source, *, did: str | None = None, create
         media = await asyncio.to_thread(blobs.resolve, r.media_items, keep=keep_media,
                                         allowed=(r.definition or {}).get("modalities") if r.definition else None)
         for m in media:
+            if m.sensitive:      # history gets a keyed hash of the file, never its content hash or its name
+                m.stored_hash = T.secret_hash(install_secret(), m.sha256)
+        for m in media:
             if r.model and m.type not in BY_ID[r.model].modalities:
                 raise ApiError(400, "model_incompatible", f"{BY_ID[r.model].name} cannot read {m.type} input.", "media",
                                [{"code": "modality_not_supported", "param": "media", "message": f"{BY_ID[r.model].name} cannot read {m.type} input."}])
@@ -395,12 +400,8 @@ async def execute(r: Resolved, source: Source, *, did: str | None = None, create
                 else:
                     status, err = 503, {"type": "model_error", "code": "model_crashed", "message": str(detail)}
                 res = None
-    except ApiError:
-        blobs.cleanup(media)
-        raise
     finally:
-        pass
-    blobs.cleanup(media)
+        blobs.cleanup(media)     # temporary copies go whatever happened: an answer, an error or a cancel
     total = round((time.perf_counter() - t0) * 1000, 1)
     answers = raw = None
     act, lowest, needs = None, None, []
@@ -412,7 +413,7 @@ async def execute(r: Resolved, source: Source, *, did: str | None = None, create
         id=did, created_ms=created, completed_ms=db.now_ms(), status="completed" if err is None else "failed",
         storage=r.storage if r.storage != "none" else "full", source=source.as_dict(), template=r.template, model=r.model,
         model_requested=r.model_requested, questions=r.questions,
-        input_hash=T.sha({"state": render_state(r.stored_state), "media": [m.sha256 for m in media]}),
+        input_hash=T.sha({"state": render_state(r.stored_state), "media": [m.stored_hash or m.sha256 for m in media]}),
         variables_hash=r.variables_hash, variables=_stored_variables(r, media), state=r.stored_state,
         rendered_state=render_state(r.stored_state), media=media, extensions=r.extensions, settings=r.settings,
         answers=answers, raw_probabilities=raw, act=act, min_certainty=lowest,
@@ -438,8 +439,20 @@ def _stored_variables(r: Resolved, media: list) -> dict | None:
         return None
     out = dict(r.variables)
     for m in media:
-        if m.variable and m.variable in out:
+        if m.variable and m.variable in out and not m.sensitive:      # a sensitive one is already its keyed hash
             out[m.variable] = m.file_id if (m.file_id and m.file_seq) else f"[{m.type} not kept]"
+    return out
+
+
+def _queued_variables(r: Resolved) -> dict | None:
+    """What a queued background decision records before it runs: media variables by file id, never inline bytes."""
+    if r.variables is None:
+        return None
+    out = dict(r.variables)
+    for m in r.media_items:
+        name = m.get("variable") if isinstance(m, dict) else None
+        if name and name in out and not m.get("_sensitive"):
+            out[name] = m.get("file_id") or f"[{m.get('type') or 'file'} pending]"
     return out
 
 
@@ -473,9 +486,10 @@ def response_object(rec: history.Record, include: set, stored: str) -> dict:
            "model_revision": None}
     if include & {"input", "input.rendered_state"}:
         inp = {"variables": rec.variables, "state": rec.state,
-               "media": [{"type": m.type, "file_id": m.file_id if m.file_seq else None, "name": m.name,
-                          "content_type": m.content_type, "bytes": m.bytes, "variable": m.variable,
-                          "sha256": "sha256:" + m.sha256, "available": bool(m.file_seq)} for m in rec.media],
+               "media": [{"type": m.type, "file_id": m.file_id if m.file_seq else None,
+                          "name": None if m.sensitive else m.name, "content_type": m.content_type, "bytes": m.bytes,
+                          "variable": m.variable, "sha256": m.fingerprint, "available": bool(m.file_seq)}
+                         for m in rec.media],
                "questions": rec.questions}
         if "input.rendered_state" in include:
             inp["rendered_state"] = rec.rendered_state
@@ -507,7 +521,7 @@ async def start_background(r: Resolved, source: Source) -> dict:
     rec = history.Record(id=did, created_ms=created, completed_ms=None, status="queued", storage=r.storage,
                          source=source.as_dict(), template=r.template, model=r.model, model_requested=r.model_requested,
                          questions=r.questions, input_hash=T.sha({"state": render_state(r.stored_state), "media": []}),
-                         variables_hash=r.variables_hash, variables=r.variables, state=r.stored_state,
+                         variables_hash=r.variables_hash, variables=_queued_variables(r), state=r.stored_state,
                          rendered_state=render_state(r.stored_state), extensions=r.extensions, settings=r.settings,
                          warnings=r.warnings, metadata=r.metadata, secrets=r.secrets, rerun_of=r.rerun_of)
     await asyncio.to_thread(db.write, lambda c: history.insert(c, rec))
@@ -523,6 +537,11 @@ async def start_background(r: Resolved, source: Source) -> dict:
         except ApiError as e:
             error = {"type": e.type, "code": e.code, "message": e.message}
             await asyncio.to_thread(db.write, lambda c: _fail(c, did, error))
+        except asyncio.CancelledError:
+            # cancelled while its model was still loading: a load that only this decision asked for stops with it
+            if RUNTIME.abandon_load and r.model:
+                await asyncio.shield(RUNTIME.abandon_load(r.model))
+            raise
         except Exception as e:   # noqa: BLE001
             error = {"type": "api_error", "code": "internal_error", "message": f"{type(e).__name__}: {e}"}
             await asyncio.to_thread(db.write, lambda c: _fail(c, did, error))

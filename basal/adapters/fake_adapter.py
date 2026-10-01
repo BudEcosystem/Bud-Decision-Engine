@@ -4,6 +4,8 @@ without downloading or running a real model."""
 from __future__ import annotations
 
 import hashlib
+import os
+import time
 
 from .base import Adapter, DecideInput, DecideOutput
 
@@ -15,6 +17,8 @@ def _weight(*parts: str) -> float:
 
 class FakeAdapter(Adapter):
     def load(self) -> None:
+        # tests of what happens while a model loads (BASAL_FAKE_LOAD_SECONDS) need a load that takes a moment
+        time.sleep(float(os.environ.get("BASAL_FAKE_LOAD_SECONDS") or 0))
         self.stage("Ready", 1.0)
 
     def warmup(self) -> None:

@@ -282,9 +282,10 @@ def insert(c, r: Record, search: bool | None = None) -> int:
         c.execute("INSERT INTO decision_metadata (decision_seq, key, value) VALUES (?,?,?)", (seq, k, str(v)))
     for i, m in enumerate(r.media):
         c.execute("INSERT INTO decision_media (decision_seq, position, file_seq, type, name, variable, bytes, sha256) "
-                  "VALUES (?,?,?,?,?,?,?,?)", (seq, i, m.file_seq if full else None, m.type, m.name if full else None,
-                                              m.variable, m.bytes, m.sha256))
-        if m.file_seq and full:
+                  "VALUES (?,?,?,?,?,?,?,?)", (seq, i, m.file_seq if full and not m.sensitive else None, m.type,
+                                              m.name if full and not m.sensitive else None, m.variable, m.bytes,
+                                              m.stored_hash or m.sha256))
+        if m.file_seq and full and not m.sensitive:
             c.execute("UPDATE files SET last_ref_at = ? WHERE seq = ?", (r.created_ms, m.file_seq))
     for var, h in (r.secrets or {}).items():
         c.execute("INSERT INTO decision_secrets (decision_seq, variable, hmac) VALUES (?,?,?)", (seq, var, h))
@@ -457,7 +458,8 @@ def _input(row, b, questions: dict, rendered: bool) -> dict | None:
                                "LEFT JOIN files f ON f.seq = m.file_seq LEFT JOIN blobs b ON b.sha256 = f.blob_sha256 "
                                "WHERE m.decision_seq = ? ORDER BY m.position", (row["seq"],)):
         media.append({"type": m["type"], "file_id": m["file_id"], "name": m["name"], "content_type": m["content_type"],
-                      "bytes": m["bytes"], "variable": m["variable"], "sha256": "sha256:" + m["sha256"],
+                      "bytes": m["bytes"], "variable": m["variable"],
+                      "sha256": m["sha256"] if m["sha256"].startswith("hmac-") else "sha256:" + m["sha256"],
                       "available": bool(m["file_id"] and m["stored"])})
     out = {"variables": json.loads(b["variables"]) if b["variables"] else None,
            "state": json.loads(b["state"]) if b["state"] is not None else None,

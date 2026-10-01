@@ -328,10 +328,19 @@ def _spec(model_id: str):
 # Downloads
 
 
+def _downloads() -> Downloader:
+    """The download queue, or a plain refusal when this studio was started without one (BASAL_NO_DOWNLOADS=1)."""
+    if downloader is None:
+        raise HTTPException(409, "Downloads are switched off for this studio (it was started with BASAL_NO_DOWNLOADS=1, "
+                                 "as a second instance beside the main one). Download models in the main studio, or "
+                                 "restart this one without that setting.")
+    return downloader
+
+
 @app.post("/api/models/{model_id}/download")
 def download(model_id: str):
     _spec(model_id)
-    downloader.enqueue(model_id)
+    _downloads().enqueue(model_id)
     return downloader.snapshot()
 
 
@@ -339,19 +348,22 @@ def download(model_id: str):
 def download_many(body: dict = Body(...)):
     """Queue the models the person chose; they download one at a time, smallest first."""
     ids = [i for i in body.get("models") or [] if i in BY_ID]
+    queue = _downloads()
     for i in ids:
-        downloader.enqueue(i)
-    return downloader.snapshot()
+        queue.enqueue(i)
+    return queue.snapshot()
 
 
 @app.post("/api/downloads/all")
 def download_all():
-    downloader.enqueue_all()
+    _downloads().enqueue_all()
     return downloader.snapshot()
 
 
 @app.post("/api/models/{model_id}/download/cancel")
 def cancel_download(model_id: str):
+    if downloader is None:          # no queue in this studio, so nothing of its own to cancel
+        return {}
     downloader.cancel(model_id)
     return downloader.snapshot()
 
@@ -361,7 +373,8 @@ async def delete_files(model_id: str):
     spec = _spec(model_id)
     if model_id in workers.handles:
         await workers.stop(model_id)
-    downloader.cancel(model_id)
+    if downloader is not None:
+        downloader.cancel(model_id)
     downloaded = {m.id for m in CATALOG if model_status(m)["complete"]}
     removed = delete_model_files(spec, downloaded)
     return {"removed": removed}
@@ -377,6 +390,7 @@ def load(model_id: str, body: dict = Body(default={})):
     if not model_status(spec)["complete"]:
         raise HTTPException(409, f"{spec.name} isn't downloaded yet. Download it first.")
     h = workers.start(model_id, body.get("options") or {})
+    h.auto = False       # asked for by name: it stays, even if the request that first started it is cancelled
     return h.public()
 
 
@@ -490,6 +504,9 @@ def _route(requested: str | None) -> str:
                              "or name a downloaded model in the request's `model` field.")
 
 
+WAITING: dict[str, int] = {}      # model id -> requests waiting for it to finish loading
+
+
 async def _ensure_ready(model_id: str, timeout: float = 900) -> None:
     spec = BY_ID[model_id]
     h = workers.handles.get(model_id)
@@ -502,18 +519,32 @@ async def _ensure_ready(model_id: str, timeout: float = 900) -> None:
         if not model_status(spec)["complete"]:
             raise HTTPException(409, f"{spec.name} isn't downloaded. Download it on the Models page first.")
         h = workers.start(model_id, {})
+        h.auto = True
     t = time.time()
-    while True:
-        cur = workers.handles.get(model_id)
-        if cur is not h or h.ejecting:
-            raise HTTPException(503, f"{spec.name} was ejected while this request was waiting for it to load.")
-        if h.status == "ready":
-            return
-        if h.status == "error":
-            raise HTTPException(503, f"{spec.name} failed to load: {h.error}")
-        if time.time() - t > timeout:
-            raise HTTPException(504, f"{spec.name} is still loading; try again in a moment.")
-        await asyncio.sleep(0.3)
+    WAITING[model_id] = WAITING.get(model_id, 0) + 1
+    try:
+        while True:
+            cur = workers.handles.get(model_id)
+            if cur is not h or h.ejecting:
+                raise HTTPException(503, f"{spec.name} was ejected while this request was waiting for it to load.")
+            if h.status == "ready":
+                return
+            if h.status == "error":
+                raise HTTPException(503, f"{spec.name} failed to load: {h.error}")
+            if time.time() - t > timeout:
+                raise HTTPException(504, f"{spec.name} is still loading; try again in a moment.")
+            await asyncio.sleep(0.3)
+    finally:
+        WAITING[model_id] -= 1
+
+
+async def _abandon_load(model_id: str) -> bool:
+    """Stop a load that a request started and that no request is waiting for any more (its decision was cancelled).
+    A load the user asked for, and a model that is already ready, are left alone."""
+    h = workers.handles.get(model_id)
+    if h is None or not h.auto or h.status in ("ready", "error", "ejecting") or WAITING.get(model_id, 0) > 0:
+        return False
+    return await workers.stop(model_id)
 
 
 def _status_of(spec) -> str:
@@ -533,6 +564,7 @@ async def _decide(model_id: str, body: dict) -> tuple[int, dict]:
 
 decisions.RUNTIME.route = _route
 decisions.RUNTIME.ensure_ready = _ensure_ready
+decisions.RUNTIME.abandon_load = _abandon_load
 decisions.RUNTIME.decide = _decide
 decisions.RUNTIME.status_of = _status_of
 decisions.RUNTIME.is_ready = lambda mid: bool(mid) and getattr(workers.handles.get(mid), "status", None) == "ready"

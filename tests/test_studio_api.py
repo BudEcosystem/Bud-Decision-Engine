@@ -63,6 +63,9 @@ def _free_port() -> int:
     return port
 
 
+DATA_DIRS: dict = {}       # base URL -> the studio's data folder, for checks on what reached the disk
+
+
 def _start(extra_env: dict | None = None):
     port = _free_port()
     data = tempfile.mkdtemp(prefix="basal-api-test-")
@@ -71,6 +74,7 @@ def _start(extra_env: dict | None = None):
     proc = subprocess.Popen([sys.executable, "-m", "basal.server", "--port", str(port)], cwd=ROOT, env=env, stdout=log,
                             stderr=subprocess.STDOUT)
     base = f"http://127.0.0.1:{port}"
+    DATA_DIRS[base] = Path(data)
     for _ in range(120):
         try:
             if httpx.get(f"{base}/v1/studio/models", timeout=2).status_code in (200, 401):
@@ -107,8 +111,8 @@ def err(r) -> tuple[int, str]:
     return r.status_code, r.json()["error"]["code"]
 
 
-def png() -> bytes:
-    raw = b"".join(b"\x00" + b"\xff\x00\x00" * 4 for _ in range(4))
+def png(colour: bytes = b"\xff\x00\x00") -> bytes:
+    raw = b"".join(b"\x00" + colour * 4 for _ in range(4))
     ch = lambda t, d: struct.pack(">I", len(d)) + t + d + struct.pack(">I", zlib.crc32(t + d) & 0xFFFFFFFF)   # noqa: E731
     return b"\x89PNG\r\n\x1a\n" + ch(b"IHDR", struct.pack(">IIBBBBB", 4, 4, 8, 2, 0, 0, 0)) + ch(b"IDAT", zlib.compress(raw)) + ch(b"IEND", b"")
 
@@ -327,6 +331,74 @@ def test_background_and_wait(studio):
     assert studio.get("/settings").json()["storage"]["store_errors"] == []
 
 
+def test_sensitive_file_is_never_kept(studio, api):
+    """A sensitive image is read by the model and leaves nothing behind: no bytes, no file name, no content hash."""
+    import hashlib
+    blobs = DATA_DIRS[str(api.base_url).rstrip("/")] / "blobs"
+    on_disk = lambda raw: any(hashlib.sha256(f.read_bytes()).digest() == hashlib.sha256(raw).digest()   # noqa: E731
+                              for f in blobs.rglob("*") if f.is_file())
+    t = {"modalities": ["text", "image"], "state": "{{note}}",
+         "variables": {"note": {"type": "string"}, "id_card": {"type": "image", "sensitive": True},
+                       "photo": {"type": "image", "required": False}},
+         "questions": {"valid": {"type": "noul", "instructions": "Is the card valid?"}}}
+    studio.post("/templates", json={"id": "kyc", **t}).raise_for_status()
+    secret, plain = png(b"\x12\x34\x56"), png(b"\x65\x43\x21")
+    url = lambda raw: "data:image/png;base64," + base64.b64encode(raw).decode()   # noqa: E731
+    r = studio.post("/decisions", json={"template": "kyc", "variables": {"note": "Check this card.", "id_card": url(secret),
+                                                                        "photo": url(plain)}, "include": ["input"]})
+    assert r.status_code == 200, r.text
+    for body in (r.json(), studio.get(f"/decisions/{r.json()['id']}").json()):
+        inp = body["input"]
+        assert set(inp["variables"]["id_card"]) == {"$redacted"} and inp["variables"]["id_card"]["$redacted"].startswith("hmac-sha256:")
+        card = next(m for m in inp["media"] if m["variable"] == "id_card")
+        assert card["file_id"] is None and card["name"] is None and card["available"] is False
+        assert card["sha256"].startswith("hmac-sha256:") and hashlib.sha256(secret).hexdigest() not in json.dumps(body)
+        photo = next(m for m in inp["media"] if m["variable"] == "photo")       # an ordinary image is kept as before
+        assert photo["available"] is True and photo["sha256"] == "sha256:" + hashlib.sha256(plain).hexdigest()
+        assert inp["variables"]["photo"] == photo["file_id"]
+    assert not on_disk(secret) and on_disk(plain)
+    assert "base64" not in json.dumps(studio.get(f"/decisions/{r.json()['id']}").json())
+    # the same file sent by id is read but not attached to the decision, so it expires like any unused upload
+    f = studio.post("/files", files={"file": ("passport.png", secret, "image/png")}).json()
+    d = studio.post("/decisions", json={"template": "kyc", "variables": {"note": "Again.", "id_card": f["id"]}, "include": ["input"]}).json()
+    card = d["input"]["media"][0]
+    assert card["file_id"] is None and card["name"] is None and card["available"] is False and "passport" not in json.dumps(d)
+    # it cannot be rerun without the file, and can with it
+    assert err(studio.post(f"/decisions/{d['id']}/rerun", json={})) == (409, "input_unavailable")
+    again = studio.post(f"/decisions/{d['id']}/rerun", json={"variables": {"id_card": url(secret)}})
+    assert again.status_code == 200 and again.json()["rerun_of"] == d["id"], again.text
+    # erasing by value finds both decisions that used this file
+    hit = studio.get("/decisions", params={"template": "kyc"}).json()["data"]
+    assert len(hit) == 3
+    # a queued background decision never holds the inline bytes of any file
+    other = png(b"\x0a\x0b\x0c")
+    q = studio.post("/decisions", json={"template": "kyc", "background": True, "include": ["input"],
+                                        "variables": {"note": "Later.", "id_card": url(other), "photo": url(plain)}}).json()
+    assert q["status"] == "queued" and "base64" not in json.dumps(q)
+    done = studio.get(f"/decisions/{q['id']}", params={"wait": 20}).json()
+    assert done["status"] == "completed" and done["warnings"] == [] and not on_disk(other)
+
+
+def test_patch_keeps_required_and_breaking_honest(studio):
+    """A default added by a patch makes the variable optional; a patch that narrows a variable says callers may break."""
+    t = {"variables": {"plan": {"type": "string"}, "msg": {"type": "string"}}, "state": "{{plan}}: {{msg}}",
+         "questions": {"q": {"type": "noul", "instructions": "Ok?"}}}
+    v1 = studio.post("/templates", json={"id": "dflt", **t}).json()
+    assert v1["variables"]["plan"]["required"] is True
+    assert err(studio.post("/decisions", json={"template": "dflt", "variables": {"msg": "hi"}})) == (400, "missing_variable")
+    v2 = studio.patch("/templates/dflt", json={"variables": {"plan": {"default": "free"}}}).json()
+    assert v2["version"] == 2 and v2["variables"]["plan"]["required"] is False and v2["variables"]["plan"]["default"] == "free"
+    assert not studio.get("/templates/dflt/versions/2").json()["changes"]["breaking_for_callers"]
+    assert studio.get("/templates/dflt/schema").json().get("required") == ["msg"]
+    assert studio.post("/decisions", json={"template": "dflt", "variables": {"msg": "hi"}}).status_code == 200
+    studio.patch("/templates/dflt", json={"variables": {"msg": {"enum": ["hi", "bye"]}}}).raise_for_status()
+    ch = studio.get("/templates/dflt/versions/3").json()["changes"]
+    assert ch["class"] == "breaking" and ch["breaking_for_callers"] and "variable msg: now limited to hi, bye" in ch["summary"]
+    assert err(studio.post("/decisions", json={"template": "dflt", "variables": {"msg": "hello"}})) == (400, "invalid_variable")
+    # the earlier version still accepts what it always did
+    assert studio.post("/decisions", json={"template": "dflt@2", "variables": {"msg": "hello"}}).status_code == 200
+
+
 def test_template_lifecycle(studio):
     t = {"variables": {"msg": {"type": "string"}}, "state": "{{msg}}", "questions": {"q": {"type": "noul", "instructions": "Ok?"}}}
     assert studio.post("/templates", json={"id": "tmp", **t}).status_code == 201
@@ -373,6 +445,16 @@ def test_settings_and_legacy_history(api, studio):
     assert len(old) == 3 and {"id", "time", "model", "request", "response"} <= set(old[0])
 
 
+def test_downloads_switched_off_say_so(api):
+    """This test studio runs with BASAL_NO_DOWNLOADS=1: the download endpoints explain that instead of crashing."""
+    h = {"x-basal-client": "1"}
+    for path, body in ((f"/api/models/{MODEL}/download", None), ("/api/downloads", {"models": [MODEL]}), ("/api/downloads/all", None)):
+        r = api.post(path, json=body, headers=h)
+        assert r.status_code == 409 and "BASAL_NO_DOWNLOADS" in r.json()["detail"], (path, r.status_code, r.text)
+    assert api.post(f"/api/models/{MODEL}/download/cancel", headers=h).json() == {}
+    assert api.get("/api/state").json()["downloads"] == {}
+
+
 def test_studio_auth_envelope():
     proc, base = _start({"BASAL_API_KEY": "sekrit", "BASAL_AUTH_LOCAL": "1"})
     try:
@@ -380,6 +462,48 @@ def test_studio_auth_envelope():
         assert err(r) == (401, "missing_api_key")
         assert err(httpx.post(f"{base}/v1/studio/decisions", json=WIRE, headers={"Authorization": "Bearer nope"})) == (401, "invalid_api_key")
         assert httpx.post(f"{base}/v1/systemone", json=WIRE).status_code == 403     # TypeSafe's own shape is unchanged
+    finally:
+        proc.terminate()
+        proc.wait(10)
+
+
+def test_cancel_stops_a_load_only_it_asked_for():
+    """A background decision that has to load its model: cancelling it stops that load, unless someone else wants it."""
+    proc, base = _start({"BASAL_FAKE_LOAD_SECONDS": "3"})
+    try:
+        api = httpx.Client(base_url=base, timeout=60, headers={"x-basal-client": "1"})
+        studio = httpx.Client(base_url=base + "/v1/studio", timeout=60)
+        worker = lambda: next(m for m in api.get("/api/state").json()["models"] if m["id"] == MODEL)["worker"]   # noqa: E731
+
+        def until(cond, seconds=10.0):
+            end = time.time() + seconds
+            while time.time() < end:
+                if cond():
+                    return True
+                time.sleep(0.1)
+            return False
+
+        # 1. the only decision waiting is cancelled: the load it started stops
+        q = studio.post("/decisions", json={**WIRE, "background": True}).json()
+        assert until(lambda: worker() is not None), "the decision should have started the load"
+        assert studio.post(f"/decisions/{q['id']}/cancel").json()["status"] == "cancelled"
+        assert until(lambda: worker() is None, 5), "the load should stop with the decision"
+        time.sleep(3.5)
+        assert worker() is None
+        # 2. two decisions wait for the same load: cancelling one leaves it running for the other
+        a = studio.post("/decisions", json={**WIRE, "background": True}).json()
+        b = studio.post("/decisions", json={**WIRE, "background": True}).json()
+        assert until(lambda: worker() is not None)
+        studio.post(f"/decisions/{a['id']}/cancel").raise_for_status()
+        done = studio.get(f"/decisions/{b['id']}", params={"wait": 30}).json()
+        assert done["status"] == "completed" and worker()["status"] == "ready"
+        # 3. a load the user asked for is never stopped by a cancel
+        api.post(f"/api/models/{MODEL}/eject").raise_for_status()
+        assert until(lambda: worker() is None)
+        api.post(f"/api/models/{MODEL}/load").raise_for_status()
+        c = studio.post("/decisions", json={**WIRE, "background": True}).json()
+        studio.post(f"/decisions/{c['id']}/cancel").raise_for_status()
+        assert until(lambda: (worker() or {}).get("status") == "ready", 15)
     finally:
         proc.terminate()
         proc.wait(10)

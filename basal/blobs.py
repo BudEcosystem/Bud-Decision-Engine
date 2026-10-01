@@ -183,6 +183,13 @@ class MediaRef:
     file_seq: int | None = None
     file_id: str | None = None
     temp: bool = False           # delete right after the model has read it
+    sensitive: bool = False      # a sensitive variable's file: read by the model, never linked to the decision
+    stored_hash: str | None = None   # what history records instead of the content hash (a keyed hash)
+
+    @property
+    def fingerprint(self) -> str:
+        """The hash history and the API show: the content hash, or the keyed hash of a sensitive file."""
+        return self.stored_hash or "sha256:" + self.sha256
 
     def worker(self) -> dict:
         return {"type": self.type, "path": self.path, "name": self.name}
@@ -190,10 +197,22 @@ class MediaRef:
 
 def resolve(items: list[dict], *, keep: bool, allowed: list[str] | None = None) -> list[MediaRef]:
     """Request media -> files the worker can read. keep=False: inline bytes are never stored (storage 'none' or
-    'answers_only', or media storage switched off). Server paths and remote URLs are never accepted."""
+    'answers_only', or media storage switched off). The file of a sensitive variable is never kept, whatever `keep`
+    says. Server paths and remote URLs are never accepted."""
     out: list[MediaRef] = []
+    try:
+        _resolve_into(out, items, keep, allowed)
+    except BaseException:
+        cleanup(out)         # a later item was refused: the temporary copies of the earlier ones go too
+        raise
+    return out
+
+
+def _resolve_into(out: list[MediaRef], items: list[dict], keep_all: bool, allowed: list[str] | None):
     for i, m in enumerate(items or []):
         where = m.get("_param") or param_path("media", i)
+        secret = isinstance(m, dict) and bool(m.get("_sensitive"))
+        keep = keep_all and not secret
         if not isinstance(m, dict):
             raise ApiError(400, "invalid_field", "Each media item is {type?, file_id | data | path, name?}.", where)
         want = m.get("type")
@@ -235,12 +254,12 @@ def resolve(items: list[dict], *, keep: bool, allowed: list[str] | None = None) 
                                                       "no decision uses are removed after a day.", where)
         if want and want != ref.type:
             ref.type = want
+        ref.sensitive = secret
         if allowed is not None and ref.type not in allowed:
             cleanup([ref] + out)
             raise ApiError(400, "modality_not_allowed", f"This template accepts {', '.join(allowed)} input, not {ref.type}. "
                                                         "Add it to the template's modalities to allow it.", where)
         out.append(ref)
-    return out
 
 
 def cleanup(refs: list[MediaRef]):

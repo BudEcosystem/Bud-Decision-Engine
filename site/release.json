@@ -1,0 +1,57 @@
+{
+  "tag": "v0.3.0",
+  "date": "2026-10-01",
+  "html": "https://github.com/BudEcosystem/Bud-Decision-Engine/releases/tag/v0.3.0",
+  "assets": [
+    {
+      "name": "Bud.Decision.Studio-0.3.0-1.aarch64.rpm",
+      "size": 23748597,
+      "url": "https://github.com/BudEcosystem/Bud-Decision-Engine/releases/download/v0.3.0/Bud.Decision.Studio-0.3.0-1.aarch64.rpm"
+    },
+    {
+      "name": "Bud.Decision.Studio-0.3.0-1.x86_64.rpm",
+      "size": 24432536,
+      "url": "https://github.com/BudEcosystem/Bud-Decision-Engine/releases/download/v0.3.0/Bud.Decision.Studio-0.3.0-1.x86_64.rpm"
+    },
+    {
+      "name": "Bud.Decision.Studio_0.3.0_aarch64.AppImage",
+      "size": 97872392,
+      "url": "https://github.com/BudEcosystem/Bud-Decision-Engine/releases/download/v0.3.0/Bud.Decision.Studio_0.3.0_aarch64.AppImage"
+    },
+    {
+      "name": "Bud.Decision.Studio_0.3.0_aarch64.dmg",
+      "size": 21174834,
+      "url": "https://github.com/BudEcosystem/Bud-Decision-Engine/releases/download/v0.3.0/Bud.Decision.Studio_0.3.0_aarch64.dmg"
+    },
+    {
+      "name": "Bud.Decision.Studio_0.3.0_amd64.AppImage",
+      "size": 100518392,
+      "url": "https://github.com/BudEcosystem/Bud-Decision-Engine/releases/download/v0.3.0/Bud.Decision.Studio_0.3.0_amd64.AppImage"
+    },
+    {
+      "name": "Bud.Decision.Studio_0.3.0_amd64.deb",
+      "size": 24440944,
+      "url": "https://github.com/BudEcosystem/Bud-Decision-Engine/releases/download/v0.3.0/Bud.Decision.Studio_0.3.0_amd64.deb"
+    },
+    {
+      "name": "Bud.Decision.Studio_0.3.0_arm64.deb",
+      "size": 23754684,
+      "url": "https://github.com/BudEcosystem/Bud-Decision-Engine/releases/download/v0.3.0/Bud.Decision.Studio_0.3.0_arm64.deb"
+    },
+    {
+      "name": "Bud.Decision.Studio_0.3.0_x64-setup.exe",
+      "size": 15142988,
+      "url": "https://github.com/BudEcosystem/Bud-Decision-Engine/releases/download/v0.3.0/Bud.Decision.Studio_0.3.0_x64-setup.exe"
+    },
+    {
+      "name": "Bud.Decision.Studio_0.3.0_x64_en-US.msi",
+      "size": 22004993,
+      "url": "https://github.com/BudEcosystem/Bud-Decision-Engine/releases/download/v0.3.0/Bud.Decision.Studio_0.3.0_x64_en-US.msi"
+    },
+    {
+      "name": "Bud.Decision.Studio_aarch64.app.tar.gz",
+      "size": 21029276,
+      "url": "https://github.com/BudEcosystem/Bud-Decision-Engine/releases/download/v0.3.0/Bud.Decision.Studio_aarch64.app.tar.gz"
+    }
+  ]
+}

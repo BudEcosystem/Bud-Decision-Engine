@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import os
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -73,7 +74,20 @@ def laya_mixed_precision(agent) -> bool:
         agent.amp_enabled, agent.dtype = False, torch.float32
     print(f"  mixed precision off NVIDIA: the head took the fast path {inside} time(s) before the rule and {after} after; "
           f"answer {mixed:.4f} against {full:.4f} in full precision")
-    return inside > 0 and after == 0 and abs(mixed - full) < 0.02
+    # The choice an Intel GPU gets (16 bits if it passes the check, else full precision), run here on the processor:
+    # either outcome is fine, the model must answer afterwards.
+    from basal.adapters.laya_adapter import choose_precision
+    said = []
+    plain_attention("xpu")
+    t = time.time()
+    try:
+        chosen = choose_precision(agent, said.append)
+        after_choice = agent.predict(state, qs)["answers"]["refund"]["noul"]
+    finally:
+        torch.backends.mha.set_fastpath_enabled(True)
+        agent.amp_enabled, agent.dtype = False, torch.float32
+    print(f"  precision choice: {chosen} in {time.time() - t:.1f} s ({said[-1][:120]}); answer {after_choice:.4f}")
+    return inside > 0 and after == 0 and abs(mixed - full) < 0.02 and chosen in ("fp16", "fp32") and abs(after_choice - full) < 0.05
 
 
 def main() -> int:

@@ -4,8 +4,9 @@
 
 The first Windows bug report was Laya on an Intel Core Ultra: "Laya failed to load: RuntimeError: expected scalar type
 BFloat16 but found Float". The cause (adapters/base.plain_attention) and the three things done about it are tested
-here: PyTorch's native attention fast path is switched off on those GPUs, Laya runs in full precision on Intel's, and a
-model that still fails on such a GPU runs on the processor with a warning. Also: a model whose own library cannot use
+here: PyTorch's native attention fast path is switched off on those GPUs, Laya tries 16-bit precision on Intel's and falls
+back to full precision if that does not pass a check, and a model that still fails on such a GPU runs on the
+processor with a warning. Also: a model whose own library cannot use
 a device is not offered on it. The parts that need PyTorch are skipped where it is not installed (CI's light jobs).
 """
 import sys
@@ -166,16 +167,89 @@ def test_the_windows_error_and_its_fix_on_an_nvidia_gpu(torch_fast_path, monkeyp
     assert torch.equal(fixed, good)                            # the same code path NVIDIA takes: identical numbers
 
 
-def test_laya_runs_in_full_precision_on_an_intel_gpu_only():
+class FakeLaya:
+    """Answers like the laya runtime's agent; `half` says what 16-bit precision does on this pretend GPU."""
+
+    def __init__(self, torch, kind="xpu", half="close", amp=True, dtype=None):
+        self.torch = torch
+        self.device = SimpleNamespace(type=kind)
+        self.amp_enabled, self.dtype = amp, dtype if dtype is not None else torch.bfloat16
+        self.half, self.asked = half, []
+
+    def predict(self, state, questions, max_len=None):
+        sixteen = self.amp_enabled and self.dtype is self.torch.float16
+        self.asked.append("fp16" if sixteen else "fp32" if not self.amp_enabled else "other")
+        if sixteen and self.half == "error":
+            raise RuntimeError("could not create a primitive descriptor for the matmul primitive")
+        shift = {"close": 0.004, "far": 0.3, "nan": float("nan")}.get(self.half, 0.0) if sixteen else 0.0
+        out = {}
+        for qid, q in questions.items():
+            if q["type"] == "noul":
+                out[qid] = {"noul": 0.8 + shift / 2}
+            else:
+                names = list(q["criteria"]) if isinstance(q["criteria"], dict) else [str(i) for i in range(len(q["criteria"]))]
+                first = 0.7 - shift
+                out[qid] = {"probabilities": {n: (first if i == 0 else (1 - first) / (len(names) - 1)) for i, n in enumerate(names)}}
+        return {"answers": out, "usage": {"input_tokens": 12}}
+
+
+def test_laya_on_an_intel_gpu_uses_16_bits_when_they_pass_the_check():
     torch = pytest.importorskip("torch")
-    from basal.adapters.laya_adapter import full_precision_on_intel
-    def agent(kind, amp, dtype):
-        return SimpleNamespace(device=SimpleNamespace(type=kind), amp_enabled=amp, dtype=dtype)
-    intel = agent("xpu", True, torch.bfloat16)
-    assert full_precision_on_intel(intel) is True and intel.amp_enabled is False and intel.dtype is torch.float32
+    from basal.adapters.laya_adapter import precision_on_intel
+    said = []
+    agent = FakeLaya(torch)
+    assert precision_on_intel(agent, said.append) == "fp16"
+    assert agent.amp_enabled is True and agent.dtype is torch.float16
+    assert agent.asked == ["fp32", "fp32", "fp16", "fp16"]                 # full precision first, as the reference
+    assert said == ["16-bit precision checked against full precision on this GPU; using it"]
+
+
+@pytest.mark.parametrize("half, reason", [("error", "could not create a primitive descriptor"),
+                                          ("far", "up to 0.30 away from full precision"),
+                                          ("nan", "answers that are not numbers")])
+def test_laya_on_an_intel_gpu_falls_back_to_full_precision(half, reason):
+    torch = pytest.importorskip("torch")
+    from basal.adapters.laya_adapter import precision_on_intel
+    said = []
+    agent = FakeLaya(torch, half=half)
+    assert precision_on_intel(agent, said.append) == "fp32"
+    assert agent.amp_enabled is False and agent.dtype is torch.float32
+    assert len(said) == 1 and reason in said[0] and said[0].endswith("using full precision")
+
+
+def test_laya_elsewhere_keeps_the_runtimes_own_precision():
+    torch = pytest.importorskip("torch")
+    from basal.adapters.laya_adapter import precision_on_intel
     for kind, amp, dtype in (("cuda", True, torch.bfloat16), ("mps", True, torch.float16), ("cpu", False, torch.float32)):
-        other = agent(kind, amp, dtype)
-        assert full_precision_on_intel(other) is False and (other.amp_enabled, other.dtype) == (amp, dtype)
+        agent = FakeLaya(torch, kind=kind, amp=amp, dtype=dtype)
+        assert precision_on_intel(agent) is None and (agent.amp_enabled, agent.dtype) == (amp, dtype) and agent.asked == []
+
+
+def test_a_request_that_fails_in_16_bits_is_answered_in_full_precision(capsys):
+    torch = pytest.importorskip("torch")
+    from basal.adapters.base import DecideInput
+    from basal.adapters.laya_adapter import LayaAdapter
+    from basal.contract import SystemOneRequest, normalise
+    a = LayaAdapter(catalog.BY_ID["laya"], {"device": "cpu"}, lambda *x: None)
+    a.agent, a.max_len = FakeLaya(torch), 512
+    a.precision = "fp16"
+    a.agent.amp_enabled, a.agent.dtype = True, torch.float16
+    req = SystemOneRequest.model_validate({"state": "x", "questions": {"q": {"type": "noul", "instructions": "Is it?"}}})
+    qs = normalise(req)
+    good = a.decide(DecideInput(req, qs, "x", []))
+    assert good.notes == [] and a.precision == "fp16"
+    a.agent.half = "error"                                                 # this request's shape fails in 16 bits
+    out = a.decide(DecideInput(req, qs, "x", []))
+    assert out.probs == [[pytest.approx(0.2), pytest.approx(0.8)]]
+    assert out.notes == ["This model switched to full precision: a request failed in 16-bit precision on this GPU."]
+    assert a.precision == "fp32" and a.agent.amp_enabled is False and a.agent.dtype is torch.float32
+    assert "16-bit precision failed on a request" in capsys.readouterr().out
+    again = a.decide(DecideInput(req, qs, "x", []))
+    assert again.notes == [] and a.agent.asked[-1] == "fp32"               # and it stays there, quietly
+    a.precision = "fp32"
+    a.agent.predict = lambda *args, **kw: (_ for _ in ()).throw(RuntimeError("something else"))
+    with pytest.raises(RuntimeError, match="something else"):               # full precision failing is a real error
+        a.decide(DecideInput(req, qs, "x", []))
 
 
 # -------------------------------------------------------------------------------------------- the processor fallback

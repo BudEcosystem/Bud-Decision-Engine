@@ -23,11 +23,17 @@ BODY = {"state": "Hi, I was charged twice for my March subscription. Please refu
 
 
 def download(spec) -> None:
-    from huggingface_hub import snapshot_download
-    os.environ["HF_HUB_OFFLINE"] = "0"
+    """In a process of its own, as the studio downloads (basal/hub.py): importing the worker switches Hugging Face to
+    offline mode for this one, so that a model never reaches the network while it answers."""
+    import subprocess
     for repo in spec.repos():
-        snapshot_download(repo.id, allow_patterns=list(repo.include) or None, ignore_patterns=list(repo.exclude) or None)
-    os.environ["HF_HUB_OFFLINE"] = "1"
+        cmd = [sys.executable, "-m", "basal.fetch", repo.id]
+        if repo.include:
+            cmd += ["--include", *repo.include]
+        if repo.exclude:
+            cmd += ["--exclude", *repo.exclude]
+        subprocess.run(cmd, check=True, cwd=Path(__file__).resolve().parent.parent,
+                       env={**os.environ, "HF_HUB_OFFLINE": "0", "HF_HUB_DISABLE_PROGRESS_BARS": "1"})
 
 
 def ask(adapter) -> dict:

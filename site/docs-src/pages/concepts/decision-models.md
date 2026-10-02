@@ -111,7 +111,7 @@ Every model below speaks the same request format and returns answers in the same
 | Kev 4B | `kev-4b` | 4B | 9.5 GB | text | 255 | 8,192 | Careful and well calibrated; long policies |
 | Lev | `lev` | 4B | 9.5 GB | text | 500 | 8,192 | Hundreds of options per question |
 | CLM 8B | `clm-v0.1-8b` | 8B | 17 GB | text | 1,000 | 2,048 | Agent actions; ranking many candidates |
-| Jev-Omni | `jev-omni` | 12B | 26 GB | text, images, audio, video | 256 | 8,192 | The hardest questions; needs a GPU |
+| Jev-Omni | `jev-omni` | 12B | 26 GB | text, images, audio, video | 256 | 8,192 | The hardest questions; needs an NVIDIA GPU |
 
 All eleven answer up to 64 questions in one pass, except Intern-Decision 4B, which answers up to 16. Jev-Omni is the only one that may need more than one pass for a long list of questions. The Models page in the app shows each model's published results, its license and the examples it was checked on; see [Models](/docs/manual/models).
 

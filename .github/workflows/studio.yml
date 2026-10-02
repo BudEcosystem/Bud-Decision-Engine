@@ -32,5 +32,6 @@ jobs:
           --with fastapi --with 'uvicorn[standard]' --with httpx --with psutil --with 'pydantic>=2.12'
           --with python-multipart --with 'huggingface_hub>=1.0' --with jsonschema --with pytest
           pytest tests/test_templates.py tests/test_contract.py tests/test_history_store.py tests/test_studio_api.py tests/test_doctor.py
+          tests/test_worker_memory.py tests/test_devices.py
           tests/training/test_dataformat.py tests/training/test_metrics_and_engine.py tests/training/test_device_policy.py
           tests/training/test_job.py -q

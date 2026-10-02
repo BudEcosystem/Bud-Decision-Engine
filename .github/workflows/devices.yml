@@ -1,0 +1,52 @@
+# Runs the models' device handling with a real PyTorch and a real model on Windows, macOS and Linux runners. The first
+# Windows bug report (Laya on an Intel Core Ultra: "expected scalar type BFloat16 but found Float") came from a path no
+# test reached; the runners have no Intel GPU, so this covers what they can: the engine as the app installs it, the
+# device tests with PyTorch present (tests/test_devices.py skips them without it), and Laya loaded through the
+# worker's own code and asked a question.
+name: devices
+
+on:
+  push:
+    branches: [main]
+    paths: ["basal/adapters/base.py", "basal/adapters/laya_adapter.py", "basal/worker.py", "basal/config.py",
+            "basal/catalog.py", "tests/test_devices.py", "tests/test_worker_memory.py", "scripts/device_smoke.py",
+            ".github/workflows/devices.yml"]
+  pull_request:
+    paths: ["basal/adapters/base.py", "basal/adapters/laya_adapter.py", "basal/worker.py", "basal/config.py",
+            "basal/catalog.py", "tests/test_devices.py", "tests/test_worker_memory.py", "scripts/device_smoke.py",
+            ".github/workflows/devices.yml"]
+  workflow_dispatch:
+
+jobs:
+  model:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-14, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Install the engine for the processor, as the app does
+        shell: bash
+        run: |
+          dir="$RUNNER_TEMP/Application Support/ai.bud.decisionstudio"
+          uv run --no-project --python 3.12 installer/engine.py install --device cpu --venv "$dir/engine-env" --data "$dir/data" > install.log || true
+          grep -q '"type": "done"' install.log || { tail -40 install.log; exit 1; }
+          if [ -x "$dir/engine-env/Scripts/python.exe" ]; then py="$dir/engine-env/Scripts/python.exe"; else py="$dir/engine-env/bin/python"; fi
+          echo "ENGINE_PY=$py" >> "$GITHUB_ENV"
+          echo "BASAL_DATA=$dir/data" >> "$GITHUB_ENV"
+          uv pip install --python "$py" pytest
+
+      - name: Device tests with PyTorch installed
+        shell: bash
+        run: |
+          "$ENGINE_PY" -m pytest tests/test_devices.py tests/test_worker_memory.py -q -rs
+
+      - name: Laya loads through the worker and answers
+        shell: bash
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          "$ENGINE_PY" scripts/device_smoke.py laya

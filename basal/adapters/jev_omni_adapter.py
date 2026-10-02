@@ -36,6 +36,9 @@ class JevOmniAdapter(Adapter):
     def load(self):
         if self.device == "cpu":
             raise RuntimeError("Jev-Omni needs a GPU with about 26 GB of memory; it is too large to run on the CPU.")
+        if self.device != "cuda":     # the catalog says so too (devices=("cuda",)), so the interface never gets here
+            raise RuntimeError("Jev-Omni needs an NVIDIA GPU with about 26 GB of memory: its own loader does not run "
+                               "on Apple or Intel GPUs.")
         path = self.snapshot(self.spec.repo.id)
         if path not in sys.path:
             sys.path.insert(0, path)

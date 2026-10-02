@@ -156,6 +156,14 @@
 <td>Jev-Omni runs only on a GPU. Choose another model, or install for the GPU on a computer that has one</td>
 </tr>
 <tr>
+<td><em>Needs an NVIDIA GPU. This computer runs models on (your GPU), which this model's own code does not support.</em></td>
+<td>Jev-Omni's own loader runs on NVIDIA GPUs only. Choose another model</td>
+</tr>
+<tr>
+<td><em>(model) failed to load: RuntimeError: expected scalar type BFloat16 but found Float</em></td>
+<td>Version 0.3.0 or older on a computer with an Intel GPU (Core Ultra, Arc): the three Laya models could not load there. Update the app. Until then, open the model on the Models page, and on its <strong>Load</strong> tab set <strong>Run on</strong> to <strong>CPU</strong></td>
+</tr>
+<tr>
 <td><em>Needs about N GB of memory; your device has M GB.</em></td>
 <td>The Models page's estimate says the model does not fit your device's memory. Choose a smaller model</td>
 </tr>
@@ -164,6 +172,8 @@
 <h3 id="answers-are-slow-and-the-answer-says-it-ran-on-the-processor">Answers are slow, and the answer says it ran on the processor<a class="anchor" href="#answers-are-slow-and-the-answer-says-it-ran-on-the-processor" title="Link to this section">#</a></h3>
 <p><em>Running on the processor, about ten times slower: the GPU did not have enough free memory when this model loaded. Eject other models (or close other GPU programs) and load it again.</em></p>
 <p>The model asked for the GPU, but the GPU was full when it loaded, and its library fell back to the processor. The answers are the same, only slower. Free GPU memory, then eject the model and load it again. Until it is reloaded, the note appears with every answer from that model: in the Playground, in the studio API's <code>notes</code>, and in the wire formats' <code>notes</code> when you send <code>X-Basal-Extensions: 1</code>.</p>
+<p><em>Running on the processor, which is slower: this model could not run on this computer's Intel GPU (reason).</em></p>
+<p>On an Intel or Apple GPU, a model that fails to load there is loaded on the processor instead of failing, and the note carries the reason. The answers are right, only slower. The reason is worth reporting, with the model's log from <strong>Details</strong>: it names an operation that GPU's software does not handle yet. Lev always runs on the processor on these computers, and says so under <strong>Run on</strong>.</p>
 <h3 id="a-call-says-no-model-is-loaded">A call says no model is loaded<a class="anchor" href="#a-call-says-no-model-is-loaded" title="Link to this section">#</a></h3>
 <div class="table-wrap"><table>
 <thead>

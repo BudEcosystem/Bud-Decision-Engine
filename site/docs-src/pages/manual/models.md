@@ -46,7 +46,7 @@ Use <kbd>↑</kbd> and <kbd>↓</kbd> to move through the table. Double-click a 
 | Kev 4B | 4B | careful and well calibrated; long policies | text |
 | Lev | 4B | hundreds of options per question | text |
 | CLM 8B | 8B | agent actions, ranking many candidates | text |
-| Jev-Omni | 12B | the hardest questions; images, audio and video (needs a GPU) | text, images, audio, video |
+| Jev-Omni | 12B | the hardest questions; images, audio and video (needs an NVIDIA GPU) | text, images, audio, video |
 
 If you are not sure, start with **Laya** for English text on any computer, or **Intern-Decision 4B** (marked **Start here**) if you have a GPU with 10 GB to spare. **Help me choose** narrows it down:
 
@@ -88,7 +88,7 @@ Models download one at a time, smallest first, in the background. The **Download
 
 Some models are small adapters on top of a shared base model: Kev 4B and Lev, for example, both use the same Qwen base. The base is downloaded once and shared, and the page counts it once.
 
-A model too large for this computer is marked **Too large here**, or **Needs a GPU** when the studio runs on the processor; point at the label for the reason.
+A model too large for this computer is marked **Too large here**, or **Needs a GPU** when the studio runs on the processor. Jev-Omni is marked **Needs an NVIDIA GPU** on a computer with an Intel or Apple GPU, because its own code runs on NVIDIA GPUs only. Point at the label for the reason.
 
 :::tip Slow downloads
 Hugging Face limits anonymous downloads. Sign in once with `hf auth login` (from `pip install -U huggingface_hub`) and restart the studio.

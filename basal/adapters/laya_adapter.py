@@ -25,12 +25,29 @@ def laya_questions(qs) -> dict:
     return questions
 
 
+def full_precision_on_intel(agent) -> bool:
+    """Laya on an Intel GPU runs in full 32-bit precision. -> True when the agent was changed.
+
+    The laya runtime turns on bf16 mixed precision there, a path it cannot have run: with PyTorch 2.11 it stops at
+    the first request ("expected scalar type BFloat16 but found Float", see adapters.base.plain_attention), and its
+    own retry in full precision covers Apple GPUs and the processor but not Intel's. Full precision is the reference
+    the runtime's other precisions are measured against (answers move by under 0.01), it is what the weights are
+    stored in, and it does not depend on bf16 support, which Core Ultra graphics without matrix engines only
+    emulate. NVIDIA, Apple and processor runs keep the runtime's own choice."""
+    import torch
+    if getattr(getattr(agent, "device", None), "type", None) != "xpu":
+        return False
+    agent.amp_enabled, agent.dtype = False, torch.float32
+    return True
+
+
 class LayaAdapter(Adapter):
     def load(self):
         import laya  # type: ignore
         self.stage("Loading encoder and decision head", 0.3)
         path = self.snapshot(self.spec.repo.id)
         self.agent = laya.load(path, device=self.device)
+        full_precision_on_intel(self.agent)
         self.max_len = int(self.options.get("max_length") or self.spec.context_tokens)
 
     def effective_device(self):

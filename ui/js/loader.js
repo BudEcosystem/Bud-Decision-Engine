@@ -38,7 +38,7 @@ export async function openLoader({ current } = {}) {
         const r = reg.models[m.id] || {};
         const mk = reg.makers[r.maker_id] || {};
         const src = mk.avatar || r.logo || mk.logo;
-        const st = m.fit && !m.fit.ok && !m.worker ? `<span class="chip" title="${esc(m.fit.reason)}">${m.needs_gpu && store.state.runtime?.device === 'cpu' ? 'Needs a GPU' : 'Too large here'}</span>`
+        const st = m.fit && !m.fit.ok && !m.worker ? `<span class="chip" title="${esc(m.fit.reason)}">${esc(m.fit.short || (m.needs_gpu && store.state.runtime?.device === 'cpu' ? 'Needs a GPU' : 'Too large here'))}</span>`
           : m.worker?.status === 'ready' ? '<span class="chip ok">Loaded</span>'
           : m.worker ? '<span class="chip amber">Loading</span>'
           : m.downloaded ? ''

@@ -168,7 +168,7 @@ Training needs an NVIDIA RTX 30 series or newer (including the GB10) or an Apple
 | Kev 4B | 4B | careful and well calibrated; long policies | text |
 | Lev | 4B | hundreds of options per question | text |
 | CLM 8B | 8B | agent actions, ranking many candidates | text |
-| Jev-Omni | 12B | the hardest questions; images, audio and video (needs a GPU) | text, images, audio, video |
+| Jev-Omni | 12B | the hardest questions; images, audio and video (needs an NVIDIA GPU) | text, images, audio, video |
 
 **Every model comes with examples made for it**, checked to give the right answers: CLM 8B opens on a web agent choosing its next action, Lev on a question with 77 options, Kev 4B on a refund policy with exceptions, Laya Multilingual on a Japanese message, Jev-Omni on a receipt photo. Choosing a model in the Playground shows its own example (unless you have written your own), and the Models page lists them under **Try it**. `scripts/model-examples.py` checks that each model still answers its examples as intended.
 

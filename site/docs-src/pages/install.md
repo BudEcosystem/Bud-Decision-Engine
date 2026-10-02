@@ -24,7 +24,7 @@ A GPU is optional. Setup finds the one you have and installs the matching engine
 
 **Disk.** The engine (a private copy of Python, PyTorch and the model libraries) takes 1.5 GB for the processor, 1.6 GB on a Mac, 3 GB for an Intel GPU and about 4.5 GB for NVIDIA or AMD. Each model adds its own download, from 0.6 GB to 24 GB.
 
-**Memory.** A model uses memory only while it is loaded, and you can eject it at any time. The smallest needs under 1 GB; the largest, Jev-Omni, needs about 26 GB and a GPU.
+**Memory.** A model uses memory only while it is loaded, and you can eject it at any time. The smallest needs under 1 GB; the largest, Jev-Omni, needs about 26 GB and an NVIDIA GPU.
 
 | Model | Parameters | Memory when loaded | Download | Reads |
 |---|---|---|---|---|

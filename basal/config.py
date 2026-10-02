@@ -76,19 +76,31 @@ def device_name(dev: str | None = None) -> str:
     return next((d["name"] for d in available() if d["id"] == dev), LABEL.get(dev, dev))
 
 
-def fit(memory_gb: float, needs_gpu: bool) -> dict:
-    """Whether a model that needs `memory_gb` once loaded can run on this computer's default device."""
+def fit(memory_gb: float, needs_gpu: bool, only: tuple[str, ...] = ()) -> dict:
+    """Whether a model that needs `memory_gb` once loaded can run on this computer's default device.
+    `only`: the devices the model's own library can use (empty: any). `short` is the few words the interface shows
+    in place of a Load button; `reason` is the full sentence."""
     devs = available()
     gpu = next((d for d in devs if d["id"] != "cpu"), None)
     if needs_gpu and not gpu:
-        return {"ok": False, "reason": "Needs a GPU. This computer runs models on the CPU."}
-    dev = gpu if needs_gpu else next(d for d in devs if d["id"] == default_device())
+        return {"ok": False, "short": "Needs a GPU", "reason": "Needs a GPU. This computer runs models on the CPU."}
+    if only:
+        can = [d for d in devs if d["id"] in only and not (needs_gpu and d["id"] == "cpu")]
+        if not can:
+            need = "an NVIDIA GPU" if tuple(x for x in only if x != "cpu") == ("cuda",) else "a GPU this computer doesn't have"
+            return {"ok": False, "short": f"Needs {need}" if need.startswith("an ") else "Can't run here",
+                    "reason": f"Needs {need}. This computer runs models on {gpu['name'] if gpu else 'the CPU'}, "
+                              "which this model's own code does not support."}
+        devs = can
+        gpu = next((d for d in devs if d["id"] != "cpu"), None)
+    dev = gpu if needs_gpu else next((d for d in devs if d["id"] == default_device()), devs[0])
     cap = dev.get("memory_gb")
     # Leave room for the operating system; Apple Silicon lets the GPU use about three quarters of memory.
     usable = cap * (0.72 if dev["id"] == "mps" else 0.85) if cap else None
     if usable and memory_gb > usable:
-        return {"ok": False, "reason": f"Needs about {memory_gb:g} GB of memory; {dev['name']} has {cap:g} GB."}
-    return {"ok": True, "reason": ""}
+        return {"ok": False, "short": "Too large here",
+                "reason": f"Needs about {memory_gb:g} GB of memory; {dev['name']} has {cap:g} GB."}
+    return {"ok": True, "short": "", "reason": ""}
 
 
 def summary() -> dict:

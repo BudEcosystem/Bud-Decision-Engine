@@ -30,7 +30,7 @@ At whichever level suits you:
 
 ### Do I need a GPU?
 
-No. Every model except Jev-Omni runs on the processor, and small models such as Laya and Julia 1 answer in about a second there. A GPU makes the 4B to 12B models practical.
+No. Every model except Jev-Omni runs on the processor, and small models such as Laya and Julia 1 answer in about a second there. A GPU makes the 4B to 12B models practical. On a computer with an Intel or Apple GPU, Lev runs on the processor, and Jev-Omni, which needs an NVIDIA GPU, is not offered.
 
 | Hardware | Models run on |
 |---|---|
@@ -53,7 +53,7 @@ The memory each model needs once loaded, as the Models page shows it:
 | Kev 4B, Lev | 9.5 GB |
 | Intern-Decision 4B | 10 GB |
 | CLM 8B | 17 GB |
-| Jev-Omni | 26 GB, on a GPU only |
+| Jev-Omni | 26 GB, on an NVIDIA GPU only |
 
 Several models can be loaded at once. A model too large for your device is marked **Too large here** on the Models page and the loader says why instead of loading it; the System page shows what each loaded model uses.
 

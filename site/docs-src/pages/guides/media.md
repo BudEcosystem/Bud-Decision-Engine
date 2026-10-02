@@ -9,7 +9,7 @@ lead: Two of the eleven models can look at images, and one can also listen to au
 | Model | Images | Audio | Video | Notes |
 |---|---|---|---|---|
 | Intern-Decision 4B | yes | no | no | 10 GB of memory; runs on the GPU or the processor |
-| Jev-Omni | yes | yes | yes | 26 GB of memory; needs a GPU |
+| Jev-Omni | yes | yes | yes | 26 GB of memory; needs an NVIDIA GPU |
 | Every other model | no | no | no | Text only |
 
 A request with media for a model that cannot read it is refused before anything runs, with `400 model_incompatible` and a `modality_not_supported` detail. The **Images, audio and video** examples in the Playground (a receipt photo and a chart) are set up for these two models.
@@ -195,7 +195,7 @@ curl -s http://127.0.0.1:8420/v1/studio/decisions -d '{
 
 ## Audio and video
 
-Audio and video work the same way, with `"type": "audio"` or `"type": "video"` and Jev-Omni as the model. Jev-Omni needs a GPU with about 26 GB of free memory; load it from the Models page first, since loading takes a while.
+Audio and video work the same way, with `"type": "audio"` or `"type": "video"` and Jev-Omni as the model. Jev-Omni needs an NVIDIA GPU with about 26 GB of free memory; load it from the Models page first, since loading takes a while.
 
 | | Request |
 |---|---|

@@ -4,6 +4,15 @@ description: Every release of Bud Decision Studio, newest first, with what chang
 lead: Every release, newest first. To update, install the new version over the old one, or run the one-line install command again; your engine, settings, models, templates and history are kept.
 ---
 
+## Unreleased
+
+Changes on the `main` branch that are not in a release yet.
+
+- **The three Laya models load on Intel GPUs** (Core Ultra and Arc, on Windows and Linux). They failed with "expected scalar type BFloat16 but found Float": inside mixed precision, PyTorch ran the decision head through a native fast path whose Intel kernel cannot mix precisions, because its check for mixed precision only looks at NVIDIA. The studio now turns that fast path off on GPUs other than NVIDIA's, where the ordinary code computes the same numbers, and runs Laya in full precision on Intel GPUs. Training Laya or Julia 1 on an Intel GPU would have failed the same way. On 0.3.0, set **Run on** to **CPU** on the model's **Load** tab. [Troubleshooting](/docs/troubleshooting)
+- **A model that fails to load on an Intel or Apple GPU runs on the processor instead of failing**, with a warning that says why. NVIDIA GPUs are unchanged.
+- **Jev-Omni is marked "Needs an NVIDIA GPU"** on a computer with an Intel or Apple GPU. Before, it was offered there and failed after a 24 GB download, because its own loader runs on NVIDIA GPUs only. **Lev** now shows that it runs on the processor on those computers, which is where its library has always put it.
+- **Loading a large model on an NVIDIA GB10 no longer fails with "The GPU ran out of memory" while memory is available.** On that machine the GPU shares the system's memory but cannot use what the system holds as file cache, which is full of the model's own files straight after a download. The studio now frees that cache before it loads a model, as the trainer already did.
+
 ## 0.3.0
 
 *1 October 2026.* Teach a model your own decisions, and twelve fixes, one of them for privacy.

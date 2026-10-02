@@ -144,7 +144,7 @@ function statusWord(m) {
   if (m.worker?.status === 'ready') return 'Loaded';
   if (m.worker?.status === 'error') return 'Failed to load';
   if (m.worker) return esc(m.worker.stage || 'Loading');
-  if (m.fit && !m.fit.ok) return `<span data-tip="${esc(m.fit.reason)}">${m.needs_gpu && st.runtime?.device === 'cpu' ? 'Needs a GPU' : 'Too large here'}</span>`;
+  if (m.fit && !m.fit.ok) return `<span data-tip="${esc(m.fit.reason)}">${esc(m.fit.short || (m.needs_gpu && st.runtime?.device === 'cpu' ? 'Needs a GPU' : 'Too large here'))}</span>`;
   if (m.downloaded) return 'On this machine';
   if (st.downloads?.queue?.includes(m.id)) return 'Queued';
   return fmtBytes(d.remaining || m.download_bytes);

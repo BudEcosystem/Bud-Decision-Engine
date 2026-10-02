@@ -89,6 +89,8 @@ class LayaTrainer(FamilyTrainer):
         self.root = agent.model
         self.device = dev.kind
         self.autocast = getattr(torch, dev.autocast) if dev.autocast else None
+        if not agent.amp_enabled:
+            self.autocast = None      # served in full precision here (an Intel GPU, the processor): train it that way
         # The runtime keeps fp32 weights and autocasts each forward; the frozen base stays that way (0.8-1.7 GB) so
         # training runs the exact arithmetic the studio serves.
         freeze(self.root)

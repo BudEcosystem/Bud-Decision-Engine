@@ -46,6 +46,9 @@ class ModelSpec:
     headline_metric: str = ""
     license: str = "Apache-2.0"
     needs_gpu: bool = False       # too large or GPU-only code; never offered on the CPU
+    # Devices the model's own library can run on, as PyTorch names them ("cuda", "mps", "xpu", "cpu"); empty: any.
+    # Jev-Omni's loader refuses everything but an NVIDIA GPU, and Lev's puts the model on one or else on the processor.
+    devices: tuple[str, ...] = ()
     load_options: tuple[dict, ...] = field(default_factory=tuple)
     # Fine-tuned models (basal/finetunes.py): the released model this one was trained from, the folder holding the
     # trained delta, and the calibration temperature per question type fitted by the trainer.
@@ -66,6 +69,10 @@ class ModelSpec:
                 if self.needs_gpu:
                     gpus = [c for c in o["choices"] if c[0] != "cpu"]
                     o = {**o, "choices": gpus or o["choices"], "default": gpus[0][0] if gpus else o["default"]}
+                if self.devices:      # only where its library runs; the default moves there too (Lev on an Intel GPU: CPU)
+                    can = [c for c in o["choices"] if c[0] in self.devices]
+                    if can:
+                        o = {**o, "choices": can, "default": o["default"] if o["default"] in self.devices else can[0][0]}
             out.append(o)
         return out
 
@@ -73,7 +80,7 @@ class ModelSpec:
         d = asdict(self)
         d["load_options"] = self.options()
         from .config import fit
-        d["fit"] = fit(self.memory_gb, self.needs_gpu)
+        d["fit"] = fit(self.memory_gb, self.needs_gpu, self.devices)
         d["hf_url"] = f"https://huggingface.co/{self.repo.id}"
         return d
 
@@ -241,7 +248,7 @@ CATALOG: list[ModelSpec] = [
         watch_out=("Weak on one-word-difference comparisons and fine 5-level ratings", "English only"),
         languages="English", max_options=500, context_tokens=8192,
         headline_metric="68.9% macro on all 13 S1Bench subsets; 98% on 77 banking intents",
-        badge="Most options",
+        badge="Most options", devices=("cuda", "cpu"),
         load_options=(DEVICE,),
     ),
     ModelSpec(
@@ -270,11 +277,12 @@ CATALOG: list[ModelSpec] = [
         summary="Gemma 4 12B with a decision head, trained on 30,000 questions. Give it a photo, a sound clip or a short video "
                 "along with your question, and it returns a probability for each option instead of a description.",
         good_for=("Questions about images, audio clips (up to 30 s) and videos (16 frames)", "Hard text decisions where accuracy matters most"),
-        watch_out=("Answers one question per pass, so many questions take longer", "Biggest model here: about 24 GB download and 26 GB of memory",
+        watch_out=("Needs an NVIDIA GPU: its own loader does not run on Apple or Intel GPUs",
+                   "Answers one question per pass, so many questions take longer", "Biggest model here: about 24 GB download and 26 GB of memory",
                    "Best with 20 options or fewer"),
         languages="English", modalities=("text", "image", "audio", "video"), max_options=256, context_tokens=8192,
         headline_metric="87.6% on DecisionBench Medium; calibration error 0.04",
-        badge="Multimodal", needs_gpu=True,
+        badge="Multimodal", needs_gpu=True, devices=("cuda",),
         load_options=(DEVICE,),
     ),
 ]

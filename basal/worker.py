@@ -93,28 +93,129 @@ def friendly(e: BaseException) -> str:
     return s
 
 
+def make_room(spec, device: str, extra_gb: float = 2.0) -> float:
+    """On a unified-memory Linux machine (the NVIDIA GB10) the GPU shares the system's memory but cannot take what the
+    system holds as file cache: a load fails with "out of memory" while plenty is available, typically straight after
+    a download filled the cache with the model's own files. Turn that cache into free memory first, as the trainer
+    does (training/device.reclaim). Does nothing on other machines, for small models, or when enough is already free.
+    -> GB made free"""
+    if device != "cuda" or sys.platform != "linux" or spec.memory_gb < 2:
+        return 0.0
+    try:
+        from .training import device as devmod
+        dev = devmod.profile()
+        return devmod.reclaim(dev, spec.memory_gb + extra_gb) if dev.unified else 0.0
+    except Exception as e:  # noqa: BLE001 — never let this stop a load that might have worked
+        log(f"could not free file cache before loading: {e}")
+        return 0.0
+
+
+def out_of_memory(e: BaseException) -> bool:
+    low = f"{type(e).__name__}: {e}".lower()
+    return "out of memory" in low or "cuda oom" in low
+
+
+def cpu_fallback(spec, device: str | None, e: BaseException) -> bool:
+    """Whether a model that failed to load on `device` should be run on the processor instead of failing.
+
+    GPUs other than NVIDIA's (Intel "xpu", Apple "mps") are newer ground for PyTorch and for the models' own
+    libraries, and a failure there is usually an operation that backend lacks or handles differently (the first
+    Windows report was one: Laya on a Core Ultra, "expected scalar type BFloat16 but found Float"). A model that can
+    run on the processor then does, slower and with a warning that says why, instead of not running at all.
+    Not for NVIDIA GPUs (a failure there is not the backend's), not for models that need a GPU or whose library has
+    no processor path, not when memory ran out (the processor shares that memory on these machines) and not when the
+    failure has nothing to do with the device (a missing package, missing files)."""
+    if device not in ("xpu", "mps") or spec.needs_gpu or (spec.devices and "cpu" not in spec.devices):
+        return False
+    if out_of_memory(e) or isinstance(e, (ImportError, FileNotFoundError)):
+        return False
+    low = f"{type(e).__name__}: {e}".lower()
+    return not ("offline" in low and ("cannot find" in low or "not found" in low or "localentrynotfound" in low))
+
+
+def release_gpu() -> None:
+    """Give back what a failed load left on the GPU, before trying again."""
+    import gc
+    gc.collect()
+    try:
+        import torch
+        for name in ("cuda", "xpu", "mps"):
+            backend = getattr(torch, name, None)
+            if backend is not None and hasattr(backend, "empty_cache") and (name != "cuda" or torch.cuda.is_available()):
+                try:
+                    backend.empty_cache()
+                except Exception:  # noqa: BLE001 — a backend this build does not have
+                    pass
+    except ImportError:
+        pass
+
+
+def bring_up(spec, cls, options: dict) -> None:
+    """Load the model with these options and run its warm-up request."""
+    S.adapter = cls(spec, options, set_stage)
+    t = time.time()
+    freed = make_room(spec, S.adapter.device)
+    if freed > 0.5:
+        log(f"freed {freed:.1f} GB of file cache before loading")
+    try:
+        S.adapter.load()
+        failed = None
+    except Exception as e:  # noqa: BLE001
+        if not out_of_memory(e):
+            raise
+        failed = f"{type(e).__name__}: {e}"         # keep the text only, so the half-loaded weights can be freed
+    if failed:
+        # The cache filled up again, or another program took the memory in between: ask for more room, once.
+        S.adapter = None
+        release_gpu()
+        freed = make_room(spec, cls(spec, options, set_stage).device, extra_gb=spec.memory_gb * 0.5 + 6.0)
+        if freed < 1.0:
+            raise RuntimeError(failed)
+        log(f"the GPU ran out of memory while loading; freed {freed:.1f} GB of file cache and trying once more")
+        set_stage("Making room in memory, then loading again", 0.1)
+        S.adapter = cls(spec, options, set_stage)
+        S.adapter.load()
+    if spec.finetune_dir:     # a model fine-tuned on this computer: the released model plus its trained delta
+        set_stage("Applying what it learned from your examples", 0.9)
+        from . import finetunes
+        finetunes.attach(S.adapter, spec)
+    log(f"loaded in {time.time() - t:.1f}s; memory {gpu_memory()}")
+    actual = S.adapter.effective_device()
+    if actual == "cpu" and S.adapter.device != "cpu":
+        S.warning = ("Running on the processor, about ten times slower: the GPU did not have enough free memory when "
+                     "this model loaded. Eject other models (or close other GPU programs) and load it again.")
+        log("warning: " + S.warning)
+    S.status = "warming"
+    set_stage("Warming up (first run compiles GPU kernels)", 0.95)
+    S.adapter.warmup()
+
+
 def load_model(model_id: str, options: dict) -> None:
     spec = BY_ID[model_id]
     try:
         S.status = "loading"
         set_stage("Importing the model's code", 0.05)
         cls = adapters.get(spec.adapter)
-        S.adapter = cls(spec, options, set_stage)
-        t = time.time()
-        S.adapter.load()
-        if spec.finetune_dir:     # a model fine-tuned on this computer: the released model plus its trained delta
-            set_stage("Applying what it learned from your examples", 0.9)
-            from . import finetunes
-            finetunes.attach(S.adapter, spec)
-        log(f"loaded in {time.time() - t:.1f}s; memory {gpu_memory()}")
-        actual = S.adapter.effective_device()
-        if actual == "cpu" and S.adapter.device != "cpu":
-            S.warning = ("Running on the processor, about ten times slower: the GPU did not have enough free memory when "
-                         "this model loaded. Eject other models (or close other GPU programs) and load it again.")
+        try:
+            bring_up(spec, cls, options)
+            fell_back = None
+        except Exception as e:  # noqa: BLE001
+            device = S.adapter.device if S.adapter is not None else options.get("device")
+            if not cpu_fallback(spec, device, e):
+                raise
+            fell_back = (device, friendly(e))
+            log(f"could not run on {device}; loading on the processor instead. The failure:\n" + traceback.format_exc())
+        if fell_back:
+            device, why = fell_back
+            S.adapter = None
+            release_gpu()
+            S.status, S.warning = "loading", None
+            set_stage("This GPU could not run the model; loading it on the processor instead", 0.1)
+            bring_up(spec, cls, {**options, "device": "cpu"})
+            from .config import LABEL
+            S.warning = (f"Running on the processor, which is slower: this model could not run on this computer's "
+                         f"{LABEL.get(device, device)} ({why[:200]}).")
             log("warning: " + S.warning)
-        S.status = "warming"
-        set_stage("Warming up (first run compiles GPU kernels)", 0.95)
-        S.adapter.warmup()
         S.status, S.ready_at = "ready", time.time()
         set_stage("Ready", 1.0)
     except BaseException as e:  # noqa: BLE001 — report everything, including import errors

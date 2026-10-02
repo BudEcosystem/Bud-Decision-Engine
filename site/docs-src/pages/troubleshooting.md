@@ -102,6 +102,8 @@ Most load failures are memory. The studio runs each model in its own process and
 | *A Python package this model needs is not installed (name). Run ./install.sh again.* | The model's library is missing. From source, run `./install.sh`; in the app, **System**, then **Run setup again** |
 | *The model process stopped unexpectedly (exit code N). Open 'Details' to see its log.* | Anything else. The model's log has the full error |
 | *Needs a GPU. This computer runs models on the CPU.* | Jev-Omni runs only on a GPU. Choose another model, or install for the GPU on a computer that has one |
+| *Needs an NVIDIA GPU. This computer runs models on (your GPU), which this model's own code does not support.* | Jev-Omni's own loader runs on NVIDIA GPUs only. Choose another model |
+| *(model) failed to load: RuntimeError: expected scalar type BFloat16 but found Float* | Version 0.3.0 or older on a computer with an Intel GPU (Core Ultra, Arc): the three Laya models could not load there. Update the app. Until then, open the model on the Models page, and on its **Load** tab set **Run on** to **CPU** |
 | *Needs about N GB of memory; your device has M GB.* | The Models page's estimate says the model does not fit your device's memory. Choose a smaller model |
 
 ### Answers are slow, and the answer says it ran on the processor
@@ -109,6 +111,10 @@ Most load failures are memory. The studio runs each model in its own process and
 *Running on the processor, about ten times slower: the GPU did not have enough free memory when this model loaded. Eject other models (or close other GPU programs) and load it again.*
 
 The model asked for the GPU, but the GPU was full when it loaded, and its library fell back to the processor. The answers are the same, only slower. Free GPU memory, then eject the model and load it again. Until it is reloaded, the note appears with every answer from that model: in the Playground, in the studio API's `notes`, and in the wire formats' `notes` when you send `X-Basal-Extensions: 1`.
+
+*Running on the processor, which is slower: this model could not run on this computer's Intel GPU (reason).*
+
+On an Intel or Apple GPU, a model that fails to load there is loaded on the processor instead of failing, and the note carries the reason. The answers are right, only slower. The reason is worth reporting, with the model's log from **Details**: it names an operation that GPU's software does not handle yet. Lev always runs on the processor on these computers, and says so under **Run on**.
 
 ### A call says no model is loaded
 

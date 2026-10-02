@@ -121,6 +121,8 @@ class Engine:
         # Room to grow to twice the estimate (or 8 GB more), never into the last few GB the computer needs
         self.memory_cap = devmod.limit_memory(dev, max(need + 2, min(have - 4, max(2 * need, need + 8))))
         self.stage("load", f"Loading {spec.name}", 0.04)
+        from ..adapters.base import plain_attention
+        plain_attention(dev.kind)     # Intel GPUs: evaluation under mixed precision must not take the native fast path
         devmod.reclaim(dev, need + 2)
 
         def _load():

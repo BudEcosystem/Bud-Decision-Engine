@@ -31,6 +31,30 @@ class DecideOutput:
     extras: dict[str, dict] = field(default_factory=dict)  # per-question model-specific signals, keyed by question id
 
 
+def plain_attention(device: str | None) -> bool:
+    """On a GPU other than NVIDIA's, make PyTorch run attention layers through their ordinary code instead of its
+    native "fast path". -> True when it was switched off.
+
+    `nn.TransformerEncoderLayer` and `nn.MultiheadAttention` (the decision heads of Laya and Julia, layers in GLiNER
+    and Lev) have a second, native implementation they use for inference. It must be skipped under mixed
+    precision, and the check for that, `torch.is_autocast_enabled()`, only reports NVIDIA's (CUDA) mixed precision.
+    On an Intel GPU ("xpu", which PyTorch 2.11 added to the fast path's devices) the fast path therefore runs inside
+    bf16 mixed precision and stops with "expected scalar type BFloat16 but found Float": its kernel reads the layer's
+    32-bit bias as bf16. Laya failed to load on Windows Core Ultra machines this way, and the trainer would have
+    failed the same way on Laya and Julia. The ordinary code computes the same numbers (it is what runs on NVIDIA
+    under mixed precision, and what trains), so nothing changes on machines where the fast path worked.
+
+    One process holds one model (a worker or a training job), so a process-wide switch is the model's own."""
+    if device in (None, "cpu", "cuda"):
+        return False
+    try:
+        import torch
+        torch.backends.mha.set_fastpath_enabled(False)
+        return True
+    except Exception:  # noqa: BLE001 — no PyTorch (the test model), or a build without the switch
+        return False
+
+
 class Adapter:
     """Base class. `stage` reports human-readable loading progress to the UI."""
 
@@ -40,6 +64,7 @@ class Adapter:
         self.stage = stage
         from ..config import default_device
         self.device = options.get("device") or default_device()
+        plain_attention(self.device)
 
     # -- lifecycle ----------------------------------------------------------------------------------------------------
     def load(self) -> None:
